@@ -116,6 +116,9 @@ function createMatrix(gridElement, rows, cols) {
                         nextInput.focus();
                         nextInput.select();
                     }
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    compute();
                 }
             });
 
@@ -482,7 +485,7 @@ function compute() {
                 displayResult(result);
             } 
             else if (currentOperation === 'solve') {
-                if (matrixAValues.length !== matrixAValues[0].length) {
+                if (meter) {
                     throw new Error(translations[currentLang].matrixCalc.errors.square);
                 }
                 let solution;
@@ -583,7 +586,7 @@ function applyResize() {
     const rowsAValue = parseInt(resizeRowsA.value);
     const colsAValue = parseInt(resizeColsA.value);
     const rowsBValue = parseInt(resizeRowsB.value);
-    const colsBValue = parseInt(resizeColsB.value);
+    const colsBValue = parseInt(colsB.value);
 
     // Walidacja
     if (isNaN(rowsAValue) || isNaN(colsAValue) || rowsAValue < 1 || colsAValue < 1 || 
@@ -720,10 +723,26 @@ function initializeMatrixCalculator() {
         }
     });
 
+    // Globalna obsługa Entera na poziomie całego dokumentu
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            // Sprawdź, czy fokus jest na polach rozmiaru lub dialogu zmiany rozmiaru
+            const isSizeInput = e.target === rowsA || e.target === colsA || 
+                               e.target === rowsB || e.target === colsB ||
+                               e.target === resizeRowsA || e.target === resizeColsA ||
+                               e.target === resizeRowsB || e.target === resizeColsB;
+            if (!isSizeInput) {
+                e.preventDefault();
+                compute();
+            }
+        }
+    });
+
     if (computeBtn) {
+        // Kliknięcie myszką
         computeBtn.addEventListener('click', compute);
         
-        // Obsługa Entera dla przycisku Oblicz
+        // Naciśnięcie Enter gdy przycisk ma focus
         computeBtn.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
@@ -786,30 +805,30 @@ function initializeMatrixCalculator() {
     }
 
     if (acceptB) {
-    acceptB.addEventListener('click', () => {
-        const rows = parseInt(rowsB.value);
-        let cols = parseInt(colsB.value);
-        
-        if (isNaN(rows) || isNaN(cols) || rows < 1 || cols < 1 || rows > 10 || cols > 10) {
-            alert(translations[currentLang].matrixCalc.errors.size_invalid);
-            return;
-        }
-        
-        // Uwzględnij operację solve
-        if (currentOperation === 'solve') {
-            cols = 1;
-            colsB.value = 1;
-            colsB.disabled = true;
-        } else {
-            colsB.disabled = false;
-        }
-        
-        createMatrix(matrixBGrid, rows, cols);
-        sizeMenuB.style.display = 'none';
-        sizeMenuB.classList.remove('open');
-        
-        // Wywołaj adjustMatrixB aby zsynchronizować macierze
-        adjustMatrixB();
-    });
-}
+        acceptB.addEventListener('click', () => {
+            const rows = parseInt(rowsB.value);
+            let cols = parseInt(colsB.value);
+            
+            if (isNaN(rows) || isNaN(cols) || rows < 1 || cols < 1 || rows > 10 || cols > 10) {
+                alert(translations[currentLang].matrixCalc.errors.size_invalid);
+                return;
+            }
+            
+            // Uwzględnij operację solve
+            if (currentOperation === 'solve') {
+                cols = 1;
+                colsB.value = 1;
+                colsB.disabled = true;
+            } else {
+                colsB.disabled = false;
+            }
+            
+            createMatrix(matrixBGrid, rows, cols);
+            sizeMenuB.style.display = 'none';
+            sizeMenuB.classList.remove('open');
+            
+            // Wywołaj adjustMatrixB aby zsynchronizować macierze
+            adjustMatrixB();
+        });
+    }
 }

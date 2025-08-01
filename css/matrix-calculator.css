@@ -19,6 +19,15 @@
     z-index: 1001;
 }
 
+#computeBtn {
+    cursor: pointer;
+    /* pozostałe style */
+}
+
+#computeBtn:focus {
+    outline: 2px solid #4CAF50;
+}
+
 .matrix-frame::before {
     content: '';
     position: absolute;
