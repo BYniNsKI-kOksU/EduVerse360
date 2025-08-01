@@ -1,0 +1,86 @@
+/* Welcome screen */
+.welcome-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 20px;
+    align-items: center;
+    background-color: transparent;
+    z-index: 1000;
+    transition: opacity 0.5s ease;
+}
+
+.welcome-screen ~ #menuBtn {
+    display: none !important;
+}
+
+.welcome-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.welcome-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    color: black;
+    text-align: center;
+    opacity: 0;
+    transform: scale(0.8);
+    animation: fadeInScale 1s ease-out forwards 0.5s;
+}
+
+.welcome-title span {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid var(--clr-btn-bg);
+    animation: typing 1.5s steps(30, end) forwards 0.5s,
+               blink-caret 0.75s step-end infinite;
+}
+
+.welcome-subtitle {
+    font-size: 1.2rem;
+    color: #555;
+    margin: 1rem 0 2rem 0;
+    text-align: center;
+    max-width: 80%;
+    line-height: 1.5;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease-out forwards 1s;
+}
+
+.welcome-subtitle span {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid var(--clr-btn-bg);
+    animation: typing 2s steps(40, end) forwards 1s,
+               blink-caret 0.75s step-end infinite;
+}
+
+.start-btn {
+    background-color: var(--clr-btn-bg);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    opacity: 0;
+    transform: scale(0.9);
+    animation: fadeInScale 0.8s ease-out forwards 1.5s;
+}
+
+.start-btn:hover {
+    background-color: var(--clr-btn-hover);
+    color: black;
+}

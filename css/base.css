@@ -1,0 +1,65 @@
+:root {
+    /* Colors */
+    --clr-bg: #317873;
+    --clr-bg-darker: #2a6a66;
+    --clr-fg: #F0F0F0;
+    --clr-fg-en: #E07A5F;
+    --clr-fg-his: #F0EFEF;
+    --clr-anim: #FF0000;
+    --clr-accent: #7289da;
+    --clr-btn-bg: #E07A5F;
+    --clr-btn-hover: #F2E8CF;
+    --clr-lang: #4BB5A8;
+    --clr-prz: #E07A5F;
+    --clr-menu-bg: #2a6a66;
+    --clr-matrix-bg: #f8f9fa;
+    --clr-matrix-border: #dee2e6;
+    --clr-tile-bg: #E07A5F;
+    --clr-glass-edge: rgba(224, 122, 95, 0.7);
+    --clr-glass-center: rgba(224, 122, 95, 0.1);
+    --glass-edge-size: 6px;
+    --glass-glow-intensity: 1.8;
+
+    /* Global liquid glass effect */
+    --liquid-glass-bg: rgba(255, 255, 255, 0.15);
+    --liquid-glass-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.15),
+        inset 0 0 15px rgba(224, 122, 95, 0.2);
+    --liquid-glass-blur: blur(12px);
+}
+
+/* Reset styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styles */
+body {
+    font-family: Arial, sans-serif;
+    color: var(--clr-fg);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-color: #222;
+}
+
+/* Canvas styles */
+canvas {
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+}
+
+/* Math background */
+#mathBg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    background: transparent;
+    background-color: red !important;
+    z-index: -1;
+}
