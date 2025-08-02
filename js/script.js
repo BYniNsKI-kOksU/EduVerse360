@@ -146,6 +146,7 @@ const translations = {
 // Global variables
 let currentLang = "pl";
 let currentScreen = "welcome";
+let menuInitialized = false;
 
 // Function to dynamically load CSS files
 function loadCSS(filename) {
@@ -181,6 +182,7 @@ async function loadAllCSS() {
 document.addEventListener('DOMContentLoaded', async () => {
     await loadAllCSS();
     updateWelcomeScreen();
+    initMenu();
     initializeUI();
     initializeLeapYear();
     initializeMatrixCalculator();
@@ -188,6 +190,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Obsługa przycisku języka na ekranie startowym
     const welcomeLangBtn = document.querySelector('.welcome-lang-btn .lang-btn');
     const welcomeLangMenu = document.querySelector('.welcome-lang-btn .lang-menu');
+
+    const menuBtn = document.getElementById('menuBtn');
+    const globalSideMenu = document.getElementById('globalSideMenu');
+    const appMenuItem = document.getElementById('appMenuItem');
+    const appSubmenu = document.getElementById('appSubmenu');
+    const helpMenuItem = document.getElementById('helpMenuItem');
+    const helpSubmenu = document.getElementById('helpSubmenu');
+    const backBtns = document.querySelectorAll('.back-btn');
     
     if (welcomeLangBtn && welcomeLangMenu) {
         welcomeLangBtn.addEventListener('click', (e) => {
@@ -242,4 +252,73 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.log('User button clicked');
         });
     }
+
+    if (menuBtn && globalSideMenu) {
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            globalSideMenu.classList.toggle('open');
+            menuBtn.style.display = globalSideMenu.classList.contains('open') ? 'none' : 'block';
+        });
+    }
+
+    if (appMenuItem && appSubmenu) {
+        appMenuItem.addEventListener('click', (e) => {
+            e.stopPropagation();
+            appSubmenu.classList.toggle('open');
+            helpSubmenu.classList.remove('open');
+        });
+    }
+
+    if (helpMenuItem && helpSubmenu) {
+        helpMenuItem.addEventListener('click', (e) => {
+            e.stopPropagation();
+            helpSubmenu.classList.toggle('open');
+            appSubmenu.classList.remove('open');
+        });
+    }
+
+    backBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const submenu = btn.closest('.submenu');
+            if (submenu) submenu.classList.remove('open');
+        });
+    });
+
+    // Obsługa wyboru aplikacji z menu bocznego
+    document.querySelectorAll('.submenu-item[data-app]').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const app = this.dataset.app;
+            if (app) {
+                currentScreen = "app";
+                document.querySelector('.welcome-screen').style.display = 'none';
+                document.querySelector('.home-screen').style.display = 'none';
+                document.querySelector('.app-container').style.display = 'block';
+                
+                document.querySelectorAll('.app-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                const appElement = document.getElementById(app + 'App');
+                if (appElement) {
+                    appElement.classList.add('active');
+                }
+                
+                if (globalSideMenu) {
+                    globalSideMenu.classList.remove('open');
+                }
+                
+                if (menuBtn) menuBtn.style.display = 'block';
+                updateUI();
+            }
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('#globalSideMenu') && !e.target.closest('#menuBtn')) {
+            if (globalSideMenu) globalSideMenu.classList.remove('open');
+            if (menuBtn) menuBtn.style.display = 'block';
+        }
+    });
 });

@@ -19,6 +19,7 @@ function getVerb(year, lang) {
 
 function checkLeapYear() {
     const lang = translations[currentLang].leapYear;
+    if (!yearInput) return;
     try {
         const year = parseInt(yearInput.value);
         if (isNaN(year) || year < 1) {
@@ -137,8 +138,25 @@ function updateHistoryBox() {
 }
 
 function initializeLeapYear() {
-    if (checkBtn) checkBtn.addEventListener('click', checkLeapYear);
-    if (yearInput) yearInput.addEventListener('keypress', e => {
-        if (e.key === 'Enter') checkLeapYear();
-    });
+    if (checkBtn) {
+        checkBtn.addEventListener('click', checkLeapYear);
+    }
+    
+    if (yearInput) {
+        yearInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                checkLeapYear();
+                
+                if (checkBtn) {
+                    checkBtn.classList.add('active');
+                    setTimeout(() => checkBtn.classList.remove('active'), 200);
+                }
+            }
+        });
+        
+        yearInput.addEventListener('focus', function() {
+            this.select();
+        });
+    }
 }

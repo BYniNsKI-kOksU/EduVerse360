@@ -38,6 +38,11 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
+.year-input:focus {
+    outline: 2px solid var(--clr-anim);
+    border-color: transparent;
+}
+
 .check-btn {
     background-color: var(--clr-prz);
     color: white;
@@ -49,6 +54,11 @@
     cursor: pointer;
     transition: background-color 0.3s;
     margin-bottom: 20px;
+}
+
+.check-btn.active {
+    transform: scale(0.95);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .check-btn:hover {

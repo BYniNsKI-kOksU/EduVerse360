@@ -574,6 +574,11 @@ function toggleResizeDialog() {
     resizeColsB.value = colsB.value;
     
     resizeDialog.classList.toggle('open');
+
+    if (resizeDialog.classList.contains('open')) {
+        resizeRowsA.focus();
+        resizeRowsA.select();
+    }
 }
 
 document.addEventListener('click', function(e) {
@@ -586,7 +591,7 @@ function applyResize() {
     const rowsAValue = parseInt(resizeRowsA.value);
     const colsAValue = parseInt(resizeColsA.value);
     const rowsBValue = parseInt(resizeRowsB.value);
-    const colsBValue = parseInt(colsB.value);
+    const colsBValue = parseInt(resizeColsB.value);
 
     // Walidacja
     if (isNaN(rowsAValue) || isNaN(colsAValue) || rowsAValue < 1 || colsAValue < 1 || 
@@ -607,6 +612,7 @@ function applyResize() {
     adjustMatrixB();
     
     resizeDialog.classList.remove('open');
+    if (resizeBtn) resizeBtn.focus();
 }
 
 function initializeMatrixCalculator() {
@@ -758,7 +764,26 @@ function initializeMatrixCalculator() {
             toggleResizeDialog();
         });
     }
-    if (acceptResize) acceptResize.addEventListener('click', applyResize);
+
+    if (acceptResize) {
+        acceptResize.addEventListener('click', applyResize);
+        
+        acceptResize.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                applyResize();
+            }
+        });
+    }
+
+    if (resizeDialog) {
+        resizeDialog.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                applyResize();
+            }
+        });
+    }
 
     if (matrixA) {
         matrixA.addEventListener('click', (e) => {
