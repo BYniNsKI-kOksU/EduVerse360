@@ -562,12 +562,14 @@ document.addEventListener('click', e => {
         globalSideMenu.classList.remove('open');
         menuBtn.style.display = 'block';
     }
-    if (!langMenuWelcome.contains(e.target) && e.target !== langBtnWelcome &&
-        !langMenuHome.contains(e.target) && e.target !== langBtnHome &&
-        !langMenuApp.contains(e.target) && e.target !== langBtnApp) {
-        [langMenuWelcome, langMenuHome, langMenuApp].forEach(menu => {
-            if (menu) menu.style.display = 'none';
-        });
+    const welcomeLangMenu = document.querySelector('.welcome-lang-btn .lang-menu');
+    const navLangMenu = document.querySelector('.nav-bar .lang-menu');
+    const welcomeLangBtn = document.querySelector('.welcome-lang-btn .lang-btn');
+    const navLangBtn = document.querySelector('.nav-bar .lang-btn');
+    if (!welcomeLangMenu.contains(e.target) && e.target !== welcomeLangBtn &&
+        !navLangMenu.contains(e.target) && e.target !== navLangBtn) {
+        welcomeLangMenu.style.display = 'none';
+        navLangMenu.style.display = 'none';
     }
 });
 
@@ -577,9 +579,9 @@ document.querySelectorAll('#appSubmenu .submenu-item').forEach(item => {
         e.stopPropagation();
         const app = this.dataset.app;
         if (app) {
-            currentScreen = "app"; // Dodaj tę linię
-            document.querySelector('.home-screen').style.display = 'none'; // Dodaj tę linię
-            document.querySelector('.app-container').style.display = 'block'; // Dodaj tę linię
+            currentScreen = "app";
+            document.querySelector('.home-screen').style.display = 'none';
+            document.querySelector('.app-container').style.display = 'block';
             document.querySelectorAll('.app-content').forEach(content => content.classList.remove('active'));
             const appElement = document.getElementById(app + 'App');
             if (appElement) {
@@ -631,7 +633,6 @@ document.querySelectorAll('#homeAppSubmenu .submenu-item').forEach(item => {
         });
     }
 });
-
 
 function initializeUI() {
     const globalSideMenu = document.getElementById('globalSideMenu');

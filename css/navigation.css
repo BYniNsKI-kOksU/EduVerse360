@@ -7,43 +7,117 @@
     gap: 10px;
     padding: 8px 15px;
     border-radius: 50px;
-    background: var(--liquid-glass-bg);
-    backdrop-filter: var(--liquid-glass-blur);
-    -webkit-backdrop-filter: var(--liquid-glass-blur);
-    box-shadow: var(--liquid-glass-shadow);
+    background: linear-gradient(135deg, 
+        rgba(173, 216, 230, 0.15) 0%, 
+        rgba(224, 255, 255, 0.2) 50%, 
+        rgba(173, 216, 230, 0.15) 100%);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     z-index: 1000;
     transform: translateX(50px);
     opacity: 0;
     transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    animation: waterSurface 8s ease infinite;
+    background-size: 200% 200%;
+    box-shadow:
+        0 4px 30px rgba(0, 0, 0, 0.1),
+        inset 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.nav-bar::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 55px;
+    background: radial-gradient(circle at 50% 50%, 
+        rgba(255, 255, 255, 0.8) 0%, 
+        rgba(255, 255, 255, 0) 70%);
+    z-index: -1;
+    opacity: 0.3;
+    animation: waterDrop 3s ease-out infinite;
 }
 
 .nav-btn {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    border: none;
-    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(173, 216, 230, 0.15);
     color: white;
     font-size: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s cubic-bezier(0.65, 0, 0.35, 1);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+        0 2px 10px rgba(0, 0, 0, 0.1),
+        inset 0 0 5px rgba(255, 255, 255, 0.3);
 }
 
 .nav-btn:hover {
-    background: rgba(224, 122, 95, 0.4);
+    background: rgba(224, 122, 95, 0.3);
     transform: scale(1.1);
+    box-shadow: 
+    0 0 15px rgba(224, 122, 95, 0.5),
+    inset 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+.nav-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, 
+        rgba(255, 255, 255, 0.8) 0%, 
+        rgba(255, 255, 255, 0) 70%);
+    animation: waterDrop 2s ease-out infinite;
+    opacity: 0.5;
+}
+
+.nav-btn:hover::before {
+  background: radial-gradient(circle, 
+    rgba(224, 122, 95, 0.4) 0%, 
+    rgba(224, 122, 95, 0) 70%);
+}
+
+.nav-btn:active {
+  animation: buttonClick 0.3s ease forwards;
+  transform: scale(0.95) translateY(2px);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.2),
+    inset 0 3px 5px rgba(0, 0, 0, 0.1);
 }
 
 .lang-btn-container {
     position: relative;
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+
+.lang-btn {
+    font-size: 20px;
+    color: var(--clr-prz);
+}
+
+.user-btn {
+    font-size: 18px;
 }
 
 .lang-menu {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 5px);
     right: 0;
     border-radius: 12px;
     font-size: 14px;
@@ -60,6 +134,9 @@
 }
 
 .lang-menu div {
+    position: relative;
+    overflow: visible;
+    z-index: 1;
     padding: 10px 15px;
     color: var(--clr-fg);
     font-weight: bold;
@@ -68,29 +145,103 @@
     text-align: center;
 }
 
-.lang-menu div:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--clr-fg-en);
-    transform: translateX(5px);
+.lang-menu div::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -5px;
+    width: 5px;
+    height: 100%;
+    background: rgba(224, 122, 95, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
-/* Welcome screen language button */
+.lang-menu div::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.lang-menu div:hover {
+    background-color: transparent;
+    color: var(--clr-fg-en);
+    padding-left: 8px;
+}
+
+.lang-menu div:active::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    right: 15px;
+    height: 2px;
+    background: rgba(224, 122, 95, 0.6);
+    animation: activeUnderline 0.3s ease-out;
+}
+
+.lang-menu div:hover::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        rgba(224, 122, 95, 0.1) 0%, 
+        rgba(255, 255, 255, 0.1) 100%);
+    z-index: -1;
+    opacity: 1;
+}
+
+.lang-menu div:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lang-menu div:active {
+    transform: translateX(8px);
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    padding-left: 8px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lang-menu div:active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -12px;
+    width: 12px;
+    height: 100%;
+    background: rgba(224, 122, 95, 0.6);
+    opacity: 1;
+    transition: all 0.15s ease;
+}
+
 .welcome-lang-btn {
     position: fixed;
     top: 20px;
     right: 20px;
     z-index: 1000;
-    animation: fadeIn 1s ease-out forwards;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.3s;
 }
 
 .welcome-lang-btn .lang-btn {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: none;
+    background: rgba(173, 216, 230, 0.2);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     color: white;
     font-size: 18px;
     display: flex;
@@ -98,17 +249,36 @@
     justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
+    box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.1),
+        inset 0 0 10px rgba(255, 255, 255, 0.3);
+    animation: waterSurface 6s ease infinite;
 }
 
 .welcome-lang-btn .lang-btn:hover {
     background: rgba(224, 122, 95, 0.4);
     transform: scale(1.1);
+    box-shadow: 
+    0 0 20px rgba(224, 122, 95, 0.6),
+    inset 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.welcome-lang-btn .lang-btn:active {
+  animation: buttonClick 0.3s ease;
+  transform: scale(0.95) translateY(2px);
+  box-shadow: 
+    0 1px 4px rgba(0, 0, 0, 0.3),
+    inset 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.welcome-lang-btn .lang-btn:hover::before {
+  background: radial-gradient(circle, 
+    rgba(224, 122, 95, 0.5) 0%, 
+    rgba(224, 122, 95, 0) 70%);
 }
 
 .welcome-screen .nav-bar {
     display: none !important;
-    transform: translateX(0);
-    opacity: 1;
 }
 
 .welcome-screen .welcome-lang-btn {
@@ -119,11 +289,8 @@
 
 .welcome-screen .nav-btn:not(.lang-btn) {
     display: none;
-    width: 0;
-    opacity: 0;
 }
 
-/* Po wyjściu z ekranu startowego pokazujemy pełny pasek */
 .home-screen .nav-bar,
 .app-container .nav-bar {
     display: flex;
@@ -133,15 +300,23 @@
 
 .home-screen .nav-btn:nth-child(1),
 .app-container .nav-btn:nth-child(1) {
-    animation-delay: 0.1s;
+    animation: fadeInUp 0.3s ease-out forwards 0.1s;
 }
 
 .home-screen .nav-btn:nth-child(2),
 .app-container .nav-btn:nth-child(2) {
-    animation-delay: 0.2s;
+    animation: fadeInUp 0.3s ease-out forwards 0.2s;
 }
 
 .home-screen .nav-btn:nth-child(3),
 .app-container .nav-btn:nth-child(3) {
-    animation-delay: 0.3s;
+    animation: fadeInUp 0.3s ease-out forwards 0.3s;
+}
+
+.nav-bar > * + * {
+    margin-left: 8px;
+}
+
+.welcome-screen .nav-bar .lang-btn {
+    display: none;
 }

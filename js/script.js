@@ -205,12 +205,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             welcomeLangMenu.style.display = welcomeLangMenu.style.display === 'block' ? 'none' : 'block';
         });
 
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.welcome-lang-btn') && welcomeLangMenu) {
-                welcomeLangMenu.style.display = 'none';
-            }
-        });
-
         welcomeLangMenu.addEventListener('click', (e) => {
             if (e.target.dataset.lang) {
                 switchLanguage(e.target.dataset.lang);
@@ -231,12 +225,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             langMenu.style.display = langMenu.style.display === 'block' ? 'none' : 'block';
         });
     }
-
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.lang-btn-container') && langMenu) {
-            langMenu.style.display = 'none';
-        }
-    });
 
     if (langMenu) {
         langMenu.addEventListener('click', (e) => {
