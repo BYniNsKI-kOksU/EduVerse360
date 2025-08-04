@@ -610,9 +610,6 @@ function applyResize() {
     createMatrix(matrixAGrid, rowsAValue, colsAValue);
     createMatrix(matrixBGrid, rowsBValue, colsBValue);
     adjustMatrixB();
-    
-    resizeDialog.classList.remove('open');
-    if (resizeBtn) resizeBtn.focus();
 }
 
 function initializeMatrixCalculator() {
@@ -761,13 +758,6 @@ function initializeMatrixCalculator() {
     }
     if (clearBtn) clearBtn.addEventListener('click', clearMatrices);
 
-    if (resizeBtn) {
-        resizeBtn.addEventListener('click', () => {
-            console.log('Kliknięto Zmień rozmiar');
-            toggleResizeDialog();
-        });
-    }
-
     if (acceptResize) {
         acceptResize.addEventListener('click', applyResize);
         
@@ -847,7 +837,7 @@ function initializeMatrixCalculator() {
     document.getElementById('sizeMenuB').style.display = 'none';
     });
 }
-
+resizeBtn
 function toggleSizeMenu(matrixId) {
     const menu = document.getElementById(`sizeMenu${matrixId}`);
     if (!menu) return;

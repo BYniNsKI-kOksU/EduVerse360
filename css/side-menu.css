@@ -8,7 +8,7 @@
     background: rgba(0, 0, 0, 0.85);
     backdrop-filter: var(--liquid-glass-blur);
     -webkit-backdrop-filter: var(--liquid-glass-blur);
-    z-index: 1000;
+    z-index: 1100;
     overflow-y: auto;
     border-right: var(--liquid-glass-border);
     transform: translateX(-100%);
