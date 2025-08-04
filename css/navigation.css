@@ -14,7 +14,7 @@
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     border: 1px solid rgba(255, 255, 255, 0.3);
-    z-index: 1000;
+    z-index: 1101;
     transform: translateX(50px);
     opacity: 0;
     transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
@@ -52,6 +52,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    pointer-events: auto !important;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.65, 0, 0.35, 1);
     backdrop-filter: blur(4px);
@@ -109,6 +110,8 @@
 .lang-btn {
     font-size: 20px;
     color: var(--clr-prz);
+    pointer-events: auto !important;
+    cursor: pointer;
 }
 
 .user-btn {
@@ -131,6 +134,11 @@
     border: var(--liquid-glass-border);
     box-shadow: var(--liquid-glass-shadow);
     transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.lang-menu.closing {
+    opacity: 0;
+    transform: translateY(-10px);
 }
 
 .lang-menu div {
@@ -176,17 +184,6 @@
     padding-left: 8px;
 }
 
-.lang-menu div:active::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 15px;
-    right: 15px;
-    height: 2px;
-    background: rgba(224, 122, 95, 0.6);
-    animation: activeUnderline 0.3s ease-out;
-}
-
 .lang-menu div:hover::after {
     content: '';
     position: absolute;
@@ -210,18 +207,6 @@
     background-color: rgba(255, 255, 255, 0.2) !important;
     padding-left: 8px;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.lang-menu div:active::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -12px;
-    width: 12px;
-    height: 100%;
-    background: rgba(224, 122, 95, 0.6);
-    opacity: 1;
-    transition: all 0.15s ease;
 }
 
 .welcome-lang-btn {

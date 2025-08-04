@@ -105,11 +105,6 @@
         gap: 8px;
     }
     
-    #resizeBtn {
-        width: 100%;
-        max-width: 200px;
-    }
-    
     .matrix-grid {
         justify-content: center;
     }

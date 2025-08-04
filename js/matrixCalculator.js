@@ -620,6 +620,9 @@ function initializeMatrixCalculator() {
     createMatrix(matrixBGrid, 2, 2);
     centerMatrices();
 
+    const acceptA = document.getElementById('acceptA');
+    const acceptB = document.getElementById('acceptB');
+
     const inputsA = matrixAGrid.querySelectorAll('.matrix-input');
     const inputsB = matrixBGrid.querySelectorAll('.matrix-input');
     console.log(`Utworzono ${inputsA.length} inputów w macierzy A`);
@@ -815,45 +818,54 @@ function initializeMatrixCalculator() {
         });
     }
 
-    if (acceptA) {
-        acceptA.addEventListener('click', () => {
-            const rows = Math.max(1, Math.min(10, parseInt(rowsA.value) || 2));
-            const cols = Math.max(1, Math.min(10, parseInt(colsA.value) || 2));
-        
-            rowsA.value = rows;
-            colsA.value = cols;
-        
-            createMatrix(matrixAGrid, rows, cols);
-            adjustMatrixB();
-            sizeMenuA.style.display = 'none';
-        });
-    }
+    acceptA?.addEventListener('click', () => {
+        const rows = parseInt(rowsA.value) || 2;
+        const cols = parseInt(colsA.value) || 2;
+        createMatrix(matrixAGrid, rows, cols);
+        document.getElementById('sizeMenuA').style.display = 'none';
+    });
+    
+    // Obsługa przycisku OK dla macierzy B
+    acceptB?.addEventListener('click', () => {
+        const rows = parseInt(rowsB.value) || 2;
+        const cols = parseInt(colsB.value) || 2;
+        createMatrix(matrixBGrid, rows, cols);
+        document.getElementById('sizeMenuB').style.display = 'none';
+    });
 
-    if (acceptB) {
-        acceptB.addEventListener('click', () => {
-            const rows = parseInt(rowsB.value);
-            let cols = parseInt(colsB.value);
-            
-            if (isNaN(rows) || isNaN(cols) || rows < 1 || cols < 1 || rows > 10 || cols > 10) {
-                alert(translations[currentLang].matrixCalc.errors.size_invalid);
-                return;
-            }
-            
-            // Uwzględnij operację solve
-            if (currentOperation === 'solve') {
-                cols = 1;
-                colsB.value = 1;
-                colsB.disabled = true;
-            } else {
-                colsB.disabled = false;
-            }
-            
-            createMatrix(matrixBGrid, rows, cols);
-            sizeMenuB.style.display = 'none';
-            sizeMenuB.classList.remove('open');
-            
-            // Wywołaj adjustMatrixB aby zsynchronizować macierze
-            adjustMatrixB();
-        });
+    document.getElementById('acceptA')?.addEventListener('click', () => {
+    const rows = parseInt(document.getElementById('rowsA').value) || 2;
+    const cols = parseInt(document.getElementById('colsA').value) || 2;
+    createMatrix(matrixAGrid, rows, cols);
+    document.getElementById('sizeMenuA').style.display = 'none';
+    });
+
+    document.getElementById('acceptB')?.addEventListener('click', () => {
+    const rows = parseInt(document.getElementById('rowsB').value) || 2;
+    const cols = parseInt(document.getElementById('colsB').value) || 2;
+    createMatrix(matrixBGrid, rows, cols);
+    document.getElementById('sizeMenuB').style.display = 'none';
+    });
+}
+
+function toggleSizeMenu(matrixId) {
+    const menu = document.getElementById(`sizeMenu${matrixId}`);
+    if (!menu) return;
+    
+    // Zamknij wszystkie inne menu
+    document.querySelectorAll('.size-menu').forEach(m => {
+        if (m !== menu) m.style.display = 'none';
+    });
+    
+    // Przełącz widoczność bieżącego menu
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    
+    // Ustaw focus na pierwsze pole input
+    if (menu.style.display === 'block') {
+        const firstInput = menu.querySelector('input');
+        if (firstInput) {
+            firstInput.focus();
+            firstInput.select();
+        }
     }
 }

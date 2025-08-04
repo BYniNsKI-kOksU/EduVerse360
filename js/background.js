@@ -446,27 +446,65 @@ const homeHelpMenuItem = document.getElementById('homeHelpMenuItem');
 const homeHelpSubmenu = document.getElementById('homeHelpSubmenu');
 const homeBackBtn1 = document.getElementById('homeBackBtn1');
 const homeBackBtn2 = document.getElementById('homeBackBtn2');
+const menuBtn = document.getElementById('menuBtn');
+const sideMenu = document.getElementById('globalSideMenu');
 
 function initMenu() {
     if (menuInitialized) return;
     menuInitialized = true;
 
     const menuBtn = document.getElementById('menuBtn');
-    const globalSideMenu = document.getElementById('globalSideMenu');
+    const sideMenu = document.getElementById('globalSideMenu');
     const appMenuItem = document.getElementById('appMenuItem');
     const appSubmenu = document.getElementById('appSubmenu');
     const helpMenuItem = document.getElementById('helpMenuItem');
     const helpSubmenu = document.getElementById('helpSubmenu');
     const backBtns = document.querySelectorAll('.back-btn');
 
-    if (menuBtn && globalSideMenu) {
-        menuBtn.addEventListener('click', (e) => {
+    if (sideMenu) {
+        sideMenu.style.pointerEvents = 'auto';
+        sideMenu.style.zIndex = '1200';
+        sideMenu.style.display = 'block'; // Dodaj to
+    }
+
+    // Prosta obsługa kliknięcia menu
+    if (menuBtn && sideMenu) {
+        menuBtn.addEventListener('click', function(e) {
             e.stopPropagation();
-            globalSideMenu.classList.toggle('open');
-            menuBtn.style.display = globalSideMenu.classList.contains('open') ? 'none' : 'block';
+            sideMenu.classList.toggle('open');
+            menuBtn.style.display = sideMenu.classList.contains('open') ? 'none' : 'block';
         });
     }
 
+    // Nowa obsługa kliknięć
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('#globalSideMenu') && !e.target.closest('#menuBtn')) {
+            if (sideMenu) sideMenu.classList.remove('open');
+            if (menuBtn) menuBtn.style.display = 'block';
+        }
+    });
+
+    const initSubmenu = (menuItem, submenu) => {
+        if (menuItem && submenu) {
+            menuItem.addEventListener('click', function(e) {
+                e.stopPropagation();
+                submenu.classList.toggle('open');
+            });
+        }
+    };
+
+    initSubmenu(document.getElementById('appMenuItem'), document.getElementById('appSubmenu'));
+    initSubmenu(document.getElementById('helpMenuItem'), document.getElementById('helpSubmenu'));
+
+    document.querySelectorAll('.menu-item, .submenu-item').forEach(item => {
+        item.style.pointerEvents = 'auto';
+        item.addEventListener('click', function(e) {
+            e.stopPropagation();
+            console.log('Menu item clicked:', this.textContent);
+            // Tutaj dodaj swoją logikę nawigacji
+        });
+    });
+    
     if (appMenuItem && appSubmenu) {
         appMenuItem.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -526,6 +564,25 @@ function initMenu() {
             if (menuBtn) menuBtn.style.display = 'block';
         }
     });
+
+    document.querySelectorAll('.lang-menu div').forEach(langItem => {
+        langItem.addEventListener('click', function(e) {
+            const langMenu = this.closest('.lang-menu');
+            if (langMenu) {
+                langMenu.style.display = 'none';
+            }
+            
+            const globalSideMenu = document.getElementById('globalSideMenu');
+            if (globalSideMenu) {
+                globalSideMenu.classList.remove('open');
+            }
+            
+            const menuBtn = document.getElementById('menuBtn');
+            if (menuBtn) {
+                menuBtn.style.display = 'block';
+            }
+        });
+    });
 }
 
 menuBtn.addEventListener('click', (e) => {
@@ -534,6 +591,38 @@ menuBtn.addEventListener('click', (e) => {
     menuBtn.style.display = globalSideMenu.classList.contains('open') ? 'none' : 'block';
     if (homeSideMenu) homeSideMenu.classList.remove('open');
 });
+
+if (menuBtn && sideMenu) {
+    menuBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        sideMenu.classList.toggle('hidden');
+    });
+}
+
+document.addEventListener('click', function(e) {
+        if (sideMenu && !sideMenu.classList.contains('hidden')) {
+            if (!e.target.closest('.side-menu') && e.target !== menuBtn) {
+                sideMenu.classList.add('hidden');
+            }
+        }
+    });
+
+navButtons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (btn.classList.contains('user-btn')) {
+                console.log('User button clicked');
+            } else if (btn.classList.contains('lang-btn')) {
+                console.log('Language button clicked');
+            }
+        });
+    });
+document.querySelectorAll('.menu-item, .submenu-item').forEach(item => {
+        item.addEventListener('click', function() {
+            console.log('Menu item clicked:', this.textContent);
+            // Your menu item logic
+        });
+    });
 
 if (appMenuItem) appMenuItem.addEventListener('click', () => {
     appSubmenu.classList.toggle('open');
@@ -612,6 +701,14 @@ document.querySelectorAll('#homeAppSubmenu .submenu-item').forEach(item => {
             if (menuBtn) menuBtn.style.display = 'block';
             updateUI();
         }
+    });
+});
+
+document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        // Add your navigation button functionality here
+        console.log('Navigation button clicked:', this.className);
     });
 });
 

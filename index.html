@@ -129,13 +129,25 @@
 
                 <div id="matricesContainer" class="matrices-container">
                     <div id="matrixA" class="matrix-frame">
-                        <div id="matrixATitle"class="matrix-title">Macierz A</div>
-                        <div id="matrixAGrid" class="matrix-grid"></div>
-                    </div>
-                    <div id="matrixB" class="matrix-frame">
-                        <div id="matrixBTitle"class="matrix-title">Macierz B</div>
-                        <div id="matrixBGrid" class="matrix-grid"></div>
-                    </div>
+    <button class="resize-icon" onclick="toggleSizeMenu('A')">+</button>
+    <div id="matrixATitle" class="matrix-title">Macierz A</div>
+    <div id="matrixAGrid" class="matrix-grid"></div>
+    <div id="sizeMenuA" class="size-menu" style="display: none;">
+        <input id="rowsA" type="number" min="1" max="10" value="2">
+        <input id="colsA" type="number" min="1" max="10" value="2">
+        <button id="acceptA">OK</button>
+    </div>
+</div>
+<div id="matrixB" class="matrix-frame">
+    <button class="resize-icon" onclick="toggleSizeMenu('B')">+</button>
+    <div id="matrixBTitle" class="matrix-title">Macierz B</div>
+    <div id="matrixBGrid" class="matrix-grid"></div>
+    <div id="sizeMenuB" class="size-menu" style="display: none;">
+        <input id="rowsB" type="number" min="1" max="10" value="2">
+        <input id="colsB" type="number" min="1" max="10" value="2">
+        <button id="acceptB">OK</button>
+    </div>
+</div>
                 </div>
 
                 <div class="action-buttons">
@@ -147,43 +159,6 @@
                 <div id="solutionBox" class="solution-container"></div>
             </div>
         </div>
-    </div>
-
-    <!-- Okno dialogowe do zmiany rozmiarów -->
-    <div id="resizeDialog" class="resize-dialog">
-        <div class="resize-column">
-            <h3>Macierz A</h3>
-            <div class="size-control">
-                <span class="size-label">Wiersze:</span>
-                <input id="resizeRowsA" class="size-input" type="number" min="1" max="10" value="2">
-            </div>
-            <div class="size-control">
-                <span class="size-label">Kolumny:</span>
-                <input id="resizeColsA" class="size-input" type="number" min="1" max="10" value="2">
-            </div>
-            <div id="sizeMenuA" class="size-menu" style="display: none;">
-            <input id="rowsA" type="number" min="1" max="10" value="2">
-            <input id="colsA" type="number" min="1" max="10" value="2">
-            <button id="acceptA">OK</button>
-        </div>
-        </div>
-        <div class="resize-column">
-            <h3>Macierz B</h3>
-            <div class="size-control">
-                <span class="size-label">Wiersze:</span>
-                <input id="resizeRowsB" class="size-input" type="number" min="1" max="10" value="2">
-            </div>
-            <div class="size-control">
-                <span class="size-label">Kolumny:</span>
-                <input id="resizeColsB" class="size-input" type="number" min="1" max="10" value="2">
-            </div>
-            <div id="sizeMenuB" class="size-menu" style="display: none;">
-            <input id="rowsB" type="number" min="1" max="10" value="2">
-            <input id="colsB" type="number" min="1" max="10" value="2">
-            <button id="acceptB">OK</button>
-        </div>
-        </div>
-        <button id="acceptResize" class="accept-btn">Akceptuj</button>
     </div>
 
     <script src="js/script.js"></script>
