@@ -50,9 +50,8 @@ document.addEventListener('click', e => {
 document.addEventListener('DOMContentLoaded', () => {
     const langBtn = document.querySelector('.welcome-lang-btn');
     if (langBtn) {
-        // Wymuszamy reset animacji
         langBtn.style.animation = 'none';
-        void langBtn.offsetWidth; // Trigger reflow
+        void langBtn.offsetWidth;
         langBtn.style.animation = 'fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.3s';
     }
 });
@@ -149,103 +148,33 @@ document.addEventListener('mousemove', e => {
     });
 });
 
-// Initialize side menu
-
-// Welcome screen
-document.querySelector('.start-btn').addEventListener('click', function(e) {
+// Welcome screen navigation
+document.querySelector('.start-btn').addEventListener('click', (e) => {
     e.stopPropagation();
-    document.querySelector('.welcome-screen').classList.add('hidden');
-    currentScreen = "home";
-    document.querySelector('.home-screen').style.display = 'flex';
-    document.getElementById('globalSideMenu').classList.remove('hidden');
-    document.getElementById('globalSideMenu').classList.remove('open');
-
-    initializeUI();
-    
-    // Ukryj przycisk języka z ekranu startowego
-    document.querySelector('.welcome-lang-btn').style.display = 'none';
-    
-    // Animacja paska nawigacyjnego
-    const navBar = document.querySelector('.nav-bar');
-    if (navBar) {
-        navBar.style.display = 'flex';
-        
-        // Resetujemy animację
-        navBar.style.animation = 'none';
-        navBar.offsetHeight; // Trigger reflow
-        navBar.style.animation = 'slideInRight 0.5s ease-out forwards';
-        
-        // Pokazujemy wszystkie przyciski z opóźnieniem
-        const navButtons = navBar.querySelectorAll('.nav-btn');
-        navButtons.forEach((btn, index) => {
-            btn.style.display = 'flex';
-            btn.style.animation = 'none';
-            btn.offsetHeight; // Trigger reflow
-            btn.style.animation = `slideInButtons 0.3s ease-out forwards ${index * 0.1}s`;
-        });
+    const welcomeScreen = document.querySelector('.welcome-screen');
+    if (welcomeScreen) {
+        welcomeScreen.classList.add('hidden');
+        setTimeout(() => {
+            welcomeScreen.style.display = 'none';
+        }, 500); // Match original delay
     }
-    
-    if (menuBtn) {
-        menuBtn.style.display = 'block';
-        menuBtn.style.opacity = '1';
-        menuBtn.style.pointerEvents = 'auto';
-    }
-    setTimeout(() => {
-        document.querySelector('.welcome-screen').style.display = 'none';
-    }, 500);
+    navigateTo('home');
 });
 
 // Navigation functions
 function backToHome() {
-    currentScreen = "home";
-    document.querySelector('.home-screen').style.display = 'flex';
-    document.querySelector('.app-container').style.display = 'none';
-    document.getElementById('globalSideMenu').classList.remove('hidden');
-    document.querySelectorAll('.app-content').forEach(content => {
-        content.classList.remove('active');
-    });
-    const globalSideMenu = document.getElementById('globalSideMenu');
-    if (globalSideMenu) {
-        globalSideMenu.classList.remove('hidden');
-        globalSideMenu.classList.remove('open');
-    }
-    
-    document.querySelectorAll('.app-content').forEach(content => {
-        content.classList.remove('active');
-    });
-    
-    if (menuBtn) menuBtn.style.display = 'block';
-    updateHomeUI();
-    initializeUI();
+    navigateTo('home');
 }
- 
-document.querySelectorAll('.tile').forEach(tile => {
-    tile.addEventListener('click', function() {
-        const app = this.dataset.app;
-        currentScreen = "app";
-        document.querySelector('.home-screen').style.display = 'none';
-        document.querySelector('.app-container').style.display = 'block';
-        document.getElementById('globalSideMenu').classList.remove('hidden');
-        
-        document.querySelectorAll('.app-content').forEach(content => {
-            content.classList.remove('active');
-        });
-        
-        document.getElementById(app + 'App').classList.add('active');
 
-        const globalSideMenu = document.getElementById('globalSideMenu');
-        if (globalSideMenu) {
-            globalSideMenu.classList.remove('hidden');
-            globalSideMenu.classList.remove('open'); // Dodaj tę linię
-        }
-        
-        if (menuBtn) menuBtn.style.display = 'block';
-        updateUI();
-        initializeUI();
+// Tile navigation
+document.querySelectorAll('.tile').forEach(tile => {
+    tile.addEventListener('click', () => {
+        const app = tile.dataset.app;
+        navigateTo('app', app);
     });
 });
 
-// Language switch
+// Language switch and UI updates
 function switchLanguage(code) {
     currentLang = code;
     document.title = translations[code].title;
@@ -258,6 +187,7 @@ function updateWelcomeScreen() {
     const welcomeTitle = document.querySelector('.welcome-title');
     const welcomeSubtitle = document.querySelector('.welcome-subtitle');
     const startBtn = document.querySelector('.start-btn');
+    const langContainer = document.querySelector('.welcome-screen .lang-btn-container');
 
     if (welcomeTitle) {
         welcomeTitle.innerHTML = `<span>${translations[currentLang].welcome.title}</span>`;
@@ -280,7 +210,6 @@ function updateWelcomeScreen() {
         startBtn.style.animation = 'fadeInScale 0.8s ease-out forwards 1.5s';
     }
     
-    const langContainer = document.querySelector('.welcome-screen .lang-btn-container');
     if (langContainer) {
         langContainer.style.animation = 'none';
         langContainer.offsetHeight;
@@ -291,6 +220,9 @@ function updateWelcomeScreen() {
 function updateUI() {
     const title = document.getElementById('title');
     if (title) title.textContent = translations[currentLang].title;
+
+    const homeMenuItem = document.getElementById('homeMenuItem');
+    if (homeMenuItem) homeMenuItem.textContent = translations[currentLang].home;
     
     const leapYearTitle = document.getElementById('leapYearTitle');
     const yearLabel = document.getElementById('yearLabel');
@@ -405,10 +337,13 @@ function updateUI() {
 }
 
 function updateHomeUI() {
+    const homeMenuItem = document.getElementById('homeMenuItem');
+    if (homeMenuItem) homeMenuItem.textContent = translations[currentLang].home;
+
     const homeTitle = document.querySelector('.home-title');
     const tileLabels = document.querySelectorAll('.tile-label');
     
-    if (homeTitle) homeTitle.textContent = translations[currentLang].title;
+    if (homeTitle) homeTitle.textContent = translations[currentLang].choose_app;
     
     tileLabels.forEach((label, index) => {
         if (index === 0) label.textContent = translations[currentLang].leapYear.title;
@@ -433,328 +368,18 @@ function updateHomeUI() {
     });
 }
 
-// Side menu
-const appMenuItem = document.getElementById('appMenuItem');
-const appSubmenu = document.getElementById('appSubmenu');
-const helpMenuItem = document.getElementById('helpMenuItem');
-const helpSubmenu = document.getElementById('helpSubmenu');
-const backBtn1 = document.getElementById('backBtn1');
-const backBtn2 = document.getElementById('backBtn2');
-const homeAppMenuItem = document.getElementById('homeAppMenuItem');
-const homeAppSubmenu = document.getElementById('homeAppSubmenu');
-const homeHelpMenuItem = document.getElementById('homeHelpMenuItem');
-const homeHelpSubmenu = document.getElementById('homeHelpSubmenu');
-const homeBackBtn1 = document.getElementById('homeBackBtn1');
-const homeBackBtn2 = document.getElementById('homeBackBtn2');
-const menuBtn = document.getElementById('menuBtn');
-const sideMenu = document.getElementById('globalSideMenu');
-
-function initMenu() {
-    if (menuInitialized) return;
-    menuInitialized = true;
-
-    const menuBtn = document.getElementById('menuBtn');
-    const sideMenu = document.getElementById('globalSideMenu');
-    const appMenuItem = document.getElementById('appMenuItem');
-    const appSubmenu = document.getElementById('appSubmenu');
-    const helpMenuItem = document.getElementById('helpMenuItem');
-    const helpSubmenu = document.getElementById('helpSubmenu');
-    const backBtns = document.querySelectorAll('.back-btn');
-
-    if (sideMenu) {
-        sideMenu.style.pointerEvents = 'auto';
-        sideMenu.style.zIndex = '1200';
-        sideMenu.style.display = 'block'; // Dodaj to
+document.addEventListener('click', (e) => {
+    const langMenu = document.querySelector('.lang-menu');
+    const langBtn = document.querySelector('.welcome-lang-btn');
+    if (langMenu && !langMenu.contains(e.target) && langBtn && !langBtn.contains(e.target)) {
+        langMenu.style.display = 'none';
     }
+});
 
-    // Prosta obsługa kliknięcia menu
-    if (menuBtn && sideMenu) {
-        menuBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            sideMenu.classList.toggle('open');
-            menuBtn.style.display = sideMenu.classList.contains('open') ? 'none' : 'block';
-        });
-    }
-
-    // Nowa obsługa kliknięć
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('#globalSideMenu') && !e.target.closest('#menuBtn')) {
-            if (sideMenu) sideMenu.classList.remove('open');
-            if (menuBtn) menuBtn.style.display = 'block';
-        }
-    });
-
-    const initSubmenu = (menuItem, submenu) => {
-        if (menuItem && submenu) {
-            menuItem.addEventListener('click', function(e) {
-                e.stopPropagation();
-                submenu.classList.toggle('open');
-            });
-        }
-    };
-
-    initSubmenu(document.getElementById('appMenuItem'), document.getElementById('appSubmenu'));
-    initSubmenu(document.getElementById('helpMenuItem'), document.getElementById('helpSubmenu'));
-
-    document.querySelectorAll('.menu-item, .submenu-item').forEach(item => {
-        item.style.pointerEvents = 'auto';
-        item.addEventListener('click', function(e) {
-            e.stopPropagation();
-            console.log('Menu item clicked:', this.textContent);
-            // Tutaj dodaj swoją logikę nawigacji
-        });
-    });
-    
-    if (appMenuItem && appSubmenu) {
-        appMenuItem.addEventListener('click', (e) => {
-            e.stopPropagation();
-            appSubmenu.classList.toggle('open');
-            helpSubmenu.classList.remove('open');
-        });
-    }
-
-    if (helpMenuItem && helpSubmenu) {
-        helpMenuItem.addEventListener('click', (e) => {
-            e.stopPropagation();
-            helpSubmenu.classList.toggle('open');
-            appSubmenu.classList.remove('open');
-        });
-    }
-
-    backBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const submenu = btn.closest('.submenu');
-            if (submenu) submenu.classList.remove('open');
-        });
-    });
-
-    document.querySelectorAll('.submenu-item[data-app]').forEach(item => {
-        item.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const app = this.dataset.app;
-            if (app) {
-                currentScreen = "app";
-                document.querySelector('.welcome-screen').style.display = 'none';
-                document.querySelector('.home-screen').style.display = 'none';
-                document.querySelector('.app-container').style.display = 'block';
-                
-                document.querySelectorAll('.app-content').forEach(content => {
-                    content.classList.remove('active');
-                });
-                
-                const appElement = document.getElementById(app + 'App');
-                if (appElement) {
-                    appElement.classList.add('active');
-                }
-                
-                if (globalSideMenu) {
-                    globalSideMenu.classList.remove('open');
-                }
-                
-                if (menuBtn) menuBtn.style.display = 'block';
-                updateUI();
-            }
-        });
-    });
-
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('#globalSideMenu') && !e.target.closest('#menuBtn')) {
-            if (globalSideMenu) globalSideMenu.classList.remove('open');
-            if (menuBtn) menuBtn.style.display = 'block';
-        }
-    });
-
-    document.querySelectorAll('.lang-menu div').forEach(langItem => {
-        langItem.addEventListener('click', function(e) {
-            const langMenu = this.closest('.lang-menu');
-            if (langMenu) {
-                langMenu.style.display = 'none';
-            }
-            
-            const globalSideMenu = document.getElementById('globalSideMenu');
-            if (globalSideMenu) {
-                globalSideMenu.classList.remove('open');
-            }
-            
-            const menuBtn = document.getElementById('menuBtn');
-            if (menuBtn) {
-                menuBtn.style.display = 'block';
-            }
-        });
-    });
-}
-
-menuBtn.addEventListener('click', (e) => {
+document.querySelector('.lang-menu').addEventListener('click', (e) => {
     e.stopPropagation();
-    globalSideMenu.classList.toggle('open');
-    menuBtn.style.display = globalSideMenu.classList.contains('open') ? 'none' : 'block';
-    if (homeSideMenu) homeSideMenu.classList.remove('open');
-});
-
-if (menuBtn && sideMenu) {
-    menuBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        sideMenu.classList.toggle('hidden');
-    });
-}
-
-document.addEventListener('click', function(e) {
-        if (sideMenu && !sideMenu.classList.contains('hidden')) {
-            if (!e.target.closest('.side-menu') && e.target !== menuBtn) {
-                sideMenu.classList.add('hidden');
-            }
-        }
-    });
-
-navButtons.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            if (btn.classList.contains('user-btn')) {
-                console.log('User button clicked');
-            } else if (btn.classList.contains('lang-btn')) {
-                console.log('Language button clicked');
-            }
-        });
-    });
-document.querySelectorAll('.menu-item, .submenu-item').forEach(item => {
-        item.addEventListener('click', function() {
-            console.log('Menu item clicked:', this.textContent);
-            // Your menu item logic
-        });
-    });
-
-if (appMenuItem) appMenuItem.addEventListener('click', () => {
-    appSubmenu.classList.toggle('open');
-    helpSubmenu.classList.remove('open');
-});
-if (helpMenuItem) helpMenuItem.addEventListener('click', () => {
-    helpSubmenu.classList.toggle('open');
-    appSubmenu.classList.remove('open');
-});
-if (backBtn1) backBtn1.addEventListener('click', () => appSubmenu.classList.remove('open'));
-if (backBtn2) backBtn2.addEventListener('click', () => helpSubmenu.classList.remove('open'));
-
-if (homeAppMenuItem) homeAppMenuItem.addEventListener('click', () => {
-    homeAppSubmenu.classList.toggle('open');
-    homeHelpSubmenu.classList.remove('open');
-});
-if (homeHelpMenuItem) homeHelpMenuItem.addEventListener('click', () => {
-    homeHelpSubmenu.classList.toggle('open');
-    homeAppSubmenu.classList.remove('open');
-});
-if (homeBackBtn1) homeBackBtn1.addEventListener('click', () => homeAppSubmenu.classList.remove('open'));
-if (homeBackBtn2) homeBackBtn2.addEventListener('click', () => homeHelpSubmenu.classList.remove('open'));
-
-document.addEventListener('click', e => {
-    if (!e.target.closest('#globalSideMenu') && !e.target.closest('#menuBtn')) {
-        globalSideMenu.classList.remove('open');
-        menuBtn.style.display = 'block';
-    }
-    const welcomeLangMenu = document.querySelector('.welcome-lang-btn .lang-menu');
-    const navLangMenu = document.querySelector('.nav-bar .lang-menu');
-    const welcomeLangBtn = document.querySelector('.welcome-lang-btn .lang-btn');
-    const navLangBtn = document.querySelector('.nav-bar .lang-btn');
-    if (!welcomeLangMenu.contains(e.target) && e.target !== welcomeLangBtn &&
-        !navLangMenu.contains(e.target) && e.target !== navLangBtn) {
-        welcomeLangMenu.style.display = 'none';
-        navLangMenu.style.display = 'none';
-    }
-});
-
-// Aktualizacja obsługi kliknięć w elementy menu głównego
-document.querySelectorAll('#appSubmenu .submenu-item').forEach(item => {
-    item.addEventListener('click', function(e) {
-        e.stopPropagation();
-        const app = this.dataset.app;
-        if (app) {
-            currentScreen = "app";
-            document.querySelector('.home-screen').style.display = 'none';
-            document.querySelector('.app-container').style.display = 'block';
-            document.querySelectorAll('.app-content').forEach(content => content.classList.remove('active'));
-            const appElement = document.getElementById(app + 'App');
-            if (appElement) {
-                appElement.classList.add('active');
-            }
-            if (globalSideMenu) globalSideMenu.classList.remove('open');
-            if (menuBtn) menuBtn.style.display = 'block';
-            updateUI();
-        }
-    });
-});
-
-// Aktualizacja obsługi kliknięć w elementy menu domowego
-document.querySelectorAll('#homeAppSubmenu .submenu-item').forEach(item => {
-    item.addEventListener('click', function(e) {
-        e.stopPropagation();
-        const app = this.dataset.app;
-        if (app) {
-            currentScreen = "app";
-            document.querySelector('.home-screen').style.display = 'none';
-            document.querySelector('.app-container').style.display = 'block';
-            document.querySelectorAll('.app-content').forEach(content => content.classList.remove('active'));
-            const appElement = document.getElementById(app + 'App');
-            if (appElement) {
-                appElement.classList.add('active');
-            }
-            if (homeSideMenu) homeSideMenu.classList.remove('open');
-            if (menuBtn) menuBtn.style.display = 'block';
-            updateUI();
-        }
-    });
-});
-
-document.querySelectorAll('.nav-btn').forEach(btn => {
-    btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        // Add your navigation button functionality here
-        console.log('Navigation button clicked:', this.className);
-    });
-});
-
-[homeMenuBtn, menuBtn].forEach(btn => {
-    if (btn) {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (currentScreen === 'home' && btn === homeMenuBtn) {
-                homeSideMenu.classList.toggle('open');
-                sideMenu.classList.remove('open');
-                homeMenuBtn.style.display = homeSideMenu.classList.contains('open') ? 'none' : 'block';
-                if (menuBtn) menuBtn.style.display = 'none';
-            } else if (currentScreen === 'app' && btn === menuBtn) {
-                sideMenu.classList.toggle('open');
-                homeSideMenu.classList.remove('open');
-                menuBtn.style.display = sideMenu.classList.contains('open') ? 'none' : 'block';
-                if (homeMenuBtn) homeMenuBtn.style.display = 'none';
-            }
-        });
-    }
 });
 
 function initializeUI() {
-    const globalSideMenu = document.getElementById('globalSideMenu');
-    const menuBtn = document.getElementById('menuBtn');
-
-    // Ukryj menu i przycisk na ekranie startowym
-    if (currentScreen === "welcome") {
-        if (menuBtn) {
-            menuBtn.style.display = 'none';
-            menuBtn.style.opacity = '0';
-            menuBtn.style.pointerEvents = 'none';
-        }
-        if (globalSideMenu) {
-            globalSideMenu.classList.add('hidden');
-            globalSideMenu.classList.remove('open');
-        }
-    } else {
-        if (menuBtn) {
-            menuBtn.style.display = 'block';
-            menuBtn.style.opacity = '1';
-            menuBtn.style.pointerEvents = 'auto';
-        }
-        if (globalSideMenu) {
-            globalSideMenu.classList.remove('hidden');
-            globalSideMenu.classList.remove('open'); // Zawsze domyślnie zamknięte
-        }
-    }
+    // No longer needed here as handled by navigateTo
 }

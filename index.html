@@ -31,17 +31,18 @@
     <!-- Global Side menu -->
     <button id="menuBtn" class="menu-btn" style="display: none;">☰</button>
     <div id="globalSideMenu" class="side-menu hidden">
+        <div id="homeMenuItem" class="menu-item" style="--menu-item-index: 0;">Strona główna</div>
         <div id="appMenuItem" class="menu-item" style="--menu-item-index: 1;">Aplikacje</div>
         <div id="appSubmenu" class="submenu">
-            <div id="backBtn1" class="back-btn" style="--menu-item-index: 3;">←</div>
-            <div class="submenu-item" data-app="leapYear" style="--submenu-item-index: 1;">Badacz roku przestępnego</div>
-            <div class="submenu-item" data-app="matrixCalc" style="--submenu-item-index: 2;">Kalkulator macierzy</div>
+            <div class="back-btn">←</div>
+            <div class="submenu-item" data-app="leapYear">Badacz roku przestępnego</div>
+            <div class="submenu-item" data-app="matrixCalc">Kalkulator macierzy</div>
         </div>
         <div id="helpMenuItem" class="menu-item" style="--menu-item-index: 2;">Pomoc</div>
         <div id="helpSubmenu" class="submenu">
-            <div id="backBtn2" class="back-btn" style="--menu-item-index: 3;">←</div>
-            <div class="submenu-item" style="--submenu-item-index: 1;">O aplikacji</div>
-            <div class="submenu-item" style="--submenu-item-index: 2;">Instrukcja</div>
+            <div class="back-btn">←</div>
+            <div class="submenu-item">O aplikacji</div>
+            <div class="submenu-item">Instrukcja</div>
         </div>
     </div>
 
@@ -61,7 +62,7 @@
 
     <!-- Home Screen -->
     <div class="home-screen" style="display: none;">
-        <h1 class="home-title">Wybierz aplikacje</h1>
+        <h1 class="home-title" data-translate-key="choose_app">Wybierz aplikacje</h1>
         <div class="tiles">
             <div class="tile" data-app="leapYear">
                 <span class="tile-icon">📆</span>

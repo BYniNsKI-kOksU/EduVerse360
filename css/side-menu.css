@@ -58,6 +58,15 @@
     max-height: 500px;
 }
 
+.homeMenuItem {
+    background-color: rgba(255, 255, 255, 0.05);
+    font-weight: bold;
+}
+
+.homeMenuItem:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
 .submenu-item {
     padding: 12px 20px 12px 30px;
     cursor: pointer;

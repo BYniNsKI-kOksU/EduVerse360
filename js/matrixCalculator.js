@@ -582,8 +582,15 @@ function toggleResizeDialog() {
 }
 
 document.addEventListener('click', function(e) {
-    if (!resizeDialog.contains(e.target) && e.target !== resizeBtn) {
-        resizeDialog.classList.remove('open');
+    const resizeDialog = document.querySelector('.resize-dialog');
+    const resizeBtn = document.getElementById('resizeBtn');
+    
+    if (resizeDialog && resizeBtn) {
+        if (!resizeDialog.contains(e.target) && e.target !== resizeBtn) {
+            resizeDialog.classList.remove('open');
+        }
+    } else {
+        console.error('Elements not found:', { resizeDialog, resizeBtn });
     }
 });
 
