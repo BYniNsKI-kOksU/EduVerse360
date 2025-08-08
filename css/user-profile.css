@@ -1,0 +1,325 @@
+/* User Profile Page Styles */
+body.user-profile-active {
+    position: relative;
+    overflow: hidden;
+}
+
+body.user-profile-active::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg,
+        rgba(173, 216, 230, 0.15) 0%,
+        rgba(224, 255, 255, 0.2) 50%,
+        rgba(173, 216, 230, 0.15) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    z-index: 0;
+    background-size: 200% 200%;
+    animation: waterSurface 8s ease infinite;
+}
+
+body.user-profile-active::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 50%,
+        rgba(255, 255, 255, 0.8) 0%,
+        rgba(255, 255, 255, 0) 70%);
+    z-index: 0;
+    opacity: 0.3;
+    animation: waterDrop 3s ease-out infinite;
+}
+
+.user-profile-container {
+    display: grid;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    min-height: 100vh;
+    background: transparent;
+    position: relative;
+    overflow-y: auto;
+    box-sizing: border-box;
+    gap: 30px;
+    grid-template-columns: 1fr 2fr;
+    grid-template-areas: 
+        "avatar header"
+        "stats actions"
+        "stats activity";
+    max-width: 1200px;
+    margin: 0 auto;
+    z-index: 1;
+}
+
+.user-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    will-change: transform;
+    grid-area: avatar;
+    align-self: center;
+    justify-self: center;
+}
+
+.user-avatar::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle,
+        rgba(255, 255, 255, 0.8) 0%,
+        rgba(255, 255, 255, 0) 70%);
+    opacity: 0.5;
+    will-change: transform, opacity;
+}
+
+.profile-stats-section {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.user-stats {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    justify-content: center;
+    grid-area: stats;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border-radius: 15px;
+    padding: 20px;
+    height: fit-content;
+}
+
+.stat-item {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    min-width: 0; /* Zapobiega przepełnieniu */
+}
+
+
+.user-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.user-email {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 30px;
+}
+
+.user-name, .user-email {
+    grid-area: header;
+    text-align: left;
+    align-self: end;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.action-btn {
+    background: rgba(224, 122, 95, 0.7);
+    border: none;
+    border-radius: 50px;
+    padding: 15px 25px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.action-btn:hover {
+    background: rgba(224, 122, 95, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(224, 122, 95, 0.4);
+}
+
+.action-btn:active {
+    transform: translateY(0);
+}
+
+.action-btn i {
+    font-size: 20px;
+}
+
+.recent-activity {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 15px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    grid-area: activity;
+}
+
+.activity-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(224, 122, 95, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.activity-details {
+    flex-grow: 1;
+}
+
+.activity-description {
+    font-size: 14px;
+    color: white;
+    margin-bottom: 3px;
+}
+
+.activity-time {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.user-profile-container.in-view::before {
+    animation: waterSurface 8s ease infinite;
+}
+
+.user-profile-container.in-view::after,
+.user-avatar.in-view::before {
+    animation: waterDrop 3s ease-out infinite;
+}
+
+/* Scroll-snap dla lepszego dopasowania */
+html {
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+}
+
+.user-profile-container {
+    scroll-snap-align: start;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+/* Sekcja akcji */
+.profile-actions-section {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.user-actions {
+    gap: 15px;
+    grid-area: actions;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.action-btn {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 15px 25px;
+}
+
+/* Sekcja aktywności */
+.profile-activity-section {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 10px;
+}
+
+.water-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.water-drop {
+    position: absolute;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+    border-radius: 50%;
+    transform: scale(0);
+    opacity: 0;
+    animation: dropAnimation 4s infinite;
+}

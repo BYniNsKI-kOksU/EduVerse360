@@ -146,6 +146,41 @@
     .tiles {
         padding: 10px;
     }
+    
+    .user-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .action-btn {
+        padding: 12px 20px;
+    }
+
+    .user-profile-container {
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "avatar"
+            "header"
+            "stats"
+            "actions"
+            "activity";
+    }
+    
+    .user-name, .user-email {
+        text-align: center;
+    }
+    
+    .activity-details {
+        text-align: center;
+    }
+    
+    .activity-icon {
+        margin-left: 0;
+        margin-right: 15px;
+    }
+    
+    .activity-title {
+        justify-content: center;
+    }
 }
 
 /* Very small screens */
@@ -178,6 +213,29 @@
         top: calc(100% + 8px);
         left: 50%;
         transform: translateX(-50%);
+    }
+    
+    .user-profile-container {
+        padding: 25px 10px;
+        gap: 20px;
+    }
+    
+    .user-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .profile-header {
+        gap: 10px;
+    }
+    
+    .user-avatar {
+        width: 100px;
+        height: 100px;
+        font-size: 40px;
+    }
+    
+    .user-name {
+        font-size: 20px;
     }
 }
 

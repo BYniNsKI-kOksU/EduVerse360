@@ -21,7 +21,6 @@
 
 #computeBtn {
     cursor: pointer;
-    /* pozostałe style */
 }
 
 #computeBtn:focus {
@@ -49,15 +48,15 @@
 
 .matrices-container > .matrix-a-container,
 .matrices-container > .matrix-b-container {
-    margin: 0 40px; /* dodaje odstęp poziomy po bokach */
+    margin: 0 40px;
 }
 
 /* Matrix Calculator */
 .matrices-container {
     display: flex;
     justify-content: center;
-    gap: 100px; /* zwiększ odstęp między macierzami */
-    flex-wrap: wrap; /* opcjonalnie – lepsze rozmieszczenie na małych ekranach */
+    gap: 100px;
+    flex-wrap: wrap;
     margin-top: 20px;
 }
 
@@ -71,7 +70,6 @@
     grid-column: 1;
     position: relative;
     z-index: 902 !important;
-    pointer-events: auto !important;
 }
 
 .matrix-a-container, .matrix-b-container {
@@ -195,20 +193,22 @@
 }
 
 .action-btn {
-    background-color: var(--clr-btn-bg);
+    background-color: #E07A5F;
     color: white;
     border: none;
-    border-radius: 15px;
-    padding: 10px 20px;
+    border-radius: 25px;
+    padding: 12px 24px;
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s;
     z-index: 1001;
+    min-width: 120px;
+    text-align: center;
 }
 
 .action-btn:hover {
-    background-color: var(--clr-btn-hover);
+    background-color: #D95F45;
 }
 
 .matrices-container {
@@ -286,10 +286,6 @@
     z-index: 2;
 }
 
-.matrix-frame {
-    position: relative; /* żeby pozycjonowanie przycisku działało */
-}
-
 .resizeBtn {
     background-color: var(--clr-accent);
     color: white;
@@ -345,57 +341,58 @@
 }
 
 .size-input {
-  width: 60px;
-  padding: 6px 8px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-  background-color: rgba(255, 255, 255, 0.9);
-  text-align: center;
-  font-size: 13px;
+    width: 60px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background-color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    font-size: 13px;
 }
 
 .size-input:focus {
-  outline: none;
-  border-color: var(--clr-accent);
-  box-shadow: 0 0 0 2px rgba(224, 122, 95, 0.2);
+    outline: none;
+    border-color: var(--clr-accent);
+    box-shadow: 0 0 0 2px rgba(224, 122, 95, 0.2);
 }
 
 .accept-btn {
-  background-color: var(--clr-accent);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 8px 16px;
-  font-size: 13px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 10px;
-  width: auto;
-  min-width: 120px;
+    background-color: var(--clr-accent);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    width: auto;
+    min-width: 120px;
 }
+
 .matrix-frame.accept-btn:hover {
-  background-color: var(--clr-btn-hover);
-  transition: background-color 0.3s;
-  color: black;
+    background-color: var(--clr-btn-hover);
+    transition: background-color 0.3s;
+    color: black;
 }
 
 .cancel-btn {
-  background-color: #f5f5f5;
-  color: #555;
-  border: none;
-  border-radius: 12px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s;
-  width: 100%;
-  margin-top: 10px;
-  border: 1px solid #ddd;
+    background-color: #f5f5f5;
+    color: #555;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+    margin-top: 10px;
+    border: 1px solid #ddd;
 }
 
 .cancel-btn:hover {
-  background-color: #e0e0e0;
+    background-color: #e0e0e0;
 }
 
 .result-container-matrix, .solution-container {
