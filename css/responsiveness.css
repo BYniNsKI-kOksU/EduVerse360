@@ -13,10 +13,17 @@
 @media (max-width: 1199px) and (min-width: 768px) {
     .matrices-container {
         gap: 20px;
+        flex-wrap: wrap;
+        flex-direction: row;
     }
     
     .matrix-frame {
         transform: scale(0.85);
+        margin: 0 auto;
+    }
+
+    .matrix-a-container::after {
+        right: -15px;
     }
 }
 
@@ -180,6 +187,26 @@
     
     .activity-title {
         justify-content: center;
+    }
+
+    #resizeDialog {
+        padding: 20px;
+    }
+    
+    .resize-matrix-controls {
+        flex-direction: column;
+    }
+    
+    .matrix-a-container::after {
+        bottom: -15px;
+    }
+
+    .menu-btn {
+        top: 15px;
+        left: 15px;
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
     }
 }
 

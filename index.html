@@ -6,6 +6,7 @@
     <title>Aplikacje Matematyczne</title>
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/btn.css"> 
     <link rel="stylesheet" href="css/app-structure.css">
     <link rel="stylesheet" href="css/responsiveness.css">
     <link rel="stylesheet" href="css/side-menu.css">
@@ -20,7 +21,7 @@
     <div class="nav-bar">
         <button class="nav-btn user-btn" onclick="showUserProfile()">👤</button>
         <div class="lang-btn-container">
-            <button class="nav-btn lang-btn">🔤</button>
+            <button class="btn nav-btn lang-btn">🔤</button>
             <div class="lang-menu">
                 <div data-lang="pl">Polski PL</div>
                 <div data-lang="en">English GB</div>
@@ -50,7 +51,7 @@
     <div class="welcome-screen">
         <h1 class="welcome-title"><span>Witaj w Aplikacjach Matematycznych</span></h1>
         <p class="welcome-subtitle"><span>Odkryj narzędzia do obliczeń matematycznych</span></p>
-        <button class="start-btn">Rozpocznij</button>
+        <button class="btn start-btn">Rozpocznij</button>
         <div class="lang-btn-container welcome-lang-btn">
             <button class="lang-btn">🔤</button>
             <div class="lang-menu">
@@ -88,7 +89,7 @@
                     <label id="yearLabel" class="input-label">Podaj rok:</label>
                     <input type="number" id="yearInput" class="year-input" inputmode="numeric">
                 </div>
-                <button id="checkBtn" class="check-btn">Oblicz</button>
+                <button id="checkBtn" class="btn">Oblicz</button>
                 <div id="resultContainer" class="result-container"></div>
                 <div class="history-container">
                     <div id="historyLabel" class="history-title">Historia:</div>
@@ -104,7 +105,7 @@
                 <div class="controls">
                     <div class="operation-selector">
                         <div id="operationLabel" class="operation-label">Operacja:</div>
-                        <button id="operationBtn" class="operation-btn">Dodawanie</button>
+                        <button id="operationBtn" class="btn btn-operation">Dodawanie</button>
                         <div id="operationMenu" class="operation-menu">
                             <div class="operation-menu-item" data-op="add">Dodawanie</div>
                             <div class="operation-menu-item" data-op="sub">Odejmowanie</div>
@@ -124,8 +125,8 @@
                 </div>
 
                 <div class="action-buttons">
-                    <button id="computeBtn" class="action-btn" tabindex="0">Oblicz</button>
-                    <button id="clearBtn" class="action-btn">Wyczyść</button>
+                    <button id="computeBtn" class="btn" tabindex="0">Oblicz</button>
+                    <button id="clearBtn" class="btn">Wyczyść</button>
                 </div>
 
                 <div id="matricesContainer" class="matrices-container">
@@ -133,20 +134,35 @@
                         <button class="resize-icon" onclick="toggleSizeMenu('A')">+</button>
                         <div id="matrixATitle" class="matrix-title">Macierz A</div>
                         <div id="matrixAGrid" class="matrix-grid"></div>
-                            <div id="sizeMenuA" class="size-menu" style="display: none;">
-                            <input id="rowsA" type="number" min="1" max="10" value="2">
-                            <input id="colsA" type="number" min="1" max="10" value="2">
-                            <button id="acceptA">OK</button>
+                        <div id="sizeMenuA" class="size-menu">
+                            <div class="resize-input-group">
+                                <label for="rowsA">Wiersze:</label>
+                                <input id="rowsA" type="number" min="1" max="10" value="2" class="size-input">
+                            </div>
+                            <div class="resize-input-group">
+                                <label for="colsA">Kolumny:</label>
+                                <input id="colsA" type="number" min="1" max="10" value="2" class="size-input">
+                            </div>
+                            <button id="acceptA" class="accept-btn">OK</button>
                         </div>
                     </div>
+                    
+                    <div class="matrix-operator">+</div>
+                    
                     <div id="matrixB" class="matrix-frame">
                         <button class="resize-icon" onclick="toggleSizeMenu('B')">+</button>
                         <div id="matrixBTitle" class="matrix-title">Macierz B</div>
                         <div id="matrixBGrid" class="matrix-grid"></div>
-                        <div id="sizeMenuB" class="size-menu" style="display: none;">
-                            <input id="rowsB" type="number" min="1" max="10" value="2">
-                            <input id="colsB" type="number" min="1" max="10" value="2">
-                            <button id="acceptB">OK</button>
+                        <div id="sizeMenuB" class="size-menu">
+                            <div class="resize-input-group">
+                                <label for="rowsB">Wiersze:</label>
+                                <input id="rowsB" type="number" min="1" max="10" value="2" class="size-input">
+                            </div>
+                            <div class="resize-input-group">
+                                <label for="colsB">Kolumny:</label>
+                                <input id="colsB" type="number" min="1" max="10" value="2" class="size-input">
+                            </div>
+                            <button id="acceptB" class="accept-btn">OK</button>
                         </div>
                     </div>
                 </div>

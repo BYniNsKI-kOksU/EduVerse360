@@ -40,11 +40,6 @@
     50% { border-color: var(--clr-btn-bg) }
 }
 
-@keyframes liquidEffect {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
 @keyframes waterDistortion {
     0%, 100% {
         border-radius: 50%;
@@ -95,9 +90,15 @@
 }
 
 @keyframes waterSurface {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 @keyframes dropAnimation {
@@ -227,4 +228,28 @@
 @keyframes activeUnderline {
     from { width: 0; left: 50%; right: 50%; }
     to { left: 15px; right: 15px; }
+}
+
+@keyframes shine {
+    0% { left: -100%; }
+    20% { left: 100%; }
+    100% { left: 100%; }
+}
+
+@keyframes liquidEffect {
+    0% {
+        transform: rotate(0deg) translate(0, 0);
+    }
+    25% {
+        transform: rotate(5deg) translate(-10px, 5px);
+    }
+    50% {
+        transform: rotate(0deg) translate(5px, 10px);
+    }
+    75% {
+        transform: rotate(-5deg) translate(10px, -5px);
+    }
+    100% {
+        transform: rotate(0deg) translate(0, 0);
+    }
 }

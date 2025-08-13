@@ -526,6 +526,8 @@ function initializeUI() {
     const menuBtn = document.getElementById('menuBtn');
 
     if (currentScreen === "welcome") {
+        // Dodaj klasę do body, aby zablokować menuBtn
+        document.body.classList.add('welcome-screen-active');
         if (menuBtn) {
             menuBtn.style.display = 'none';
             menuBtn.style.opacity = '0';
@@ -536,6 +538,8 @@ function initializeUI() {
             globalSideMenu.classList.remove('open');
         }
     } else {
+        // Usuń klasę z body, aby przywrócić menuBtn
+        document.body.classList.remove('welcome-screen-active');
         if (menuBtn) {
             menuBtn.style.display = 'block';
             menuBtn.style.opacity = '1';

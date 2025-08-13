@@ -187,6 +187,25 @@ function updateMethodButtons() {
     });
 }
 
+function updateMatrixOperator() {
+    const operator = document.querySelector('.matrix-operator');
+    if (operator) {
+        if (window.innerWidth >= 992) {
+            operator.style.top = '-15px';
+            operator.style.left = '-15px';
+            operator.style.right = 'auto';
+            operator.style.bottom = 'auto';
+            operator.style.transform = 'none';
+        } else {
+            operator.style.top = '-10px';
+            operator.style.left = '50%';
+            operator.style.right = 'auto';
+            operator.style.bottom = 'auto';
+            operator.style.transform = 'translateX(-50%)';
+        }
+    }
+}
+
 function changeOperation(operation) {
     currentOperation = operation;
     if (operationBtn) operationBtn.textContent = translations[currentLang].matrixCalc.operations[operation];
@@ -223,12 +242,6 @@ function centerMatrices() {
         frame.style.transform = `scale(${scale})`;
         frame.style.margin = screenWidth >= 1200 ? '0 -15px' : '0 auto';
     });
-    
-    if (['add', 'sub', 'mul', 'solve'].includes(currentOperation)) {
-        matricesContainer.style.justifyContent = 'center';
-    } else {
-        matricesContainer.style.justifyContent = 'center';
-    }
 }
 
 function adjustMatrixB() {
@@ -251,9 +264,18 @@ function adjustMatrixB() {
         createMatrix(matrixBGrid, currentRowsB, currentColsB);
         colsB.disabled = false;
         matrixB.style.display = 'block';
+        
+        // Ensure matrices are side by side on desktop
+        if (window.innerWidth >= 992) {
+            matricesContainer.style.flexDirection = 'row';
+            matricesContainer.style.alignItems = 'flex-start';
+        }
     } else {
         matrixB.style.display = 'none';
     }
+    
+    // Update operator position
+    updateMatrixOperator();
 }
 
 function displayResult(result) {
@@ -261,19 +283,16 @@ function displayResult(result) {
     resultBox.innerHTML = '';
     
     if (Array.isArray(result)) {
-        const colWidth = 7;
-        const lines = result.map(row => {
-            if (Array.isArray(row)) {
-                return row.map(val => Math.floor(val).toString().padStart(colWidth)).join(' ');
-            }
-            return Math.floor(row).toString().padStart(colWidth);
-        });
         const pre = document.createElement('pre');
-        pre.textContent = lines.join('\n');
+        // Convert the result matrix to a string representation
+        const matrixString = result.map(row => 
+            row.map(val => Number.isInteger(val) ? val.toString() : val.toFixed(2)).join('\t')
+        ).join('\n');
+        pre.textContent = matrixString;
         resultBox.appendChild(pre);
     } else {
         const span = document.createElement('span');
-        span.textContent = Math.floor(result).toString();
+        span.textContent = result.toString();
         resultBox.appendChild(span);
     }
 }
@@ -497,6 +516,20 @@ function initializeMatrixCalculator() {
         adjustMatrixB();
     });
 
+    document.addEventListener('click', (e) => {
+        const isSizeMenuAClick = e.target.closest('#sizeMenuA');
+        const isSizeMenuBClick = e.target.closest('#sizeMenuB');
+        const isResizeIconClick = e.target.classList.contains('resize-icon');
+        
+        if (!isSizeMenuAClick && !isSizeMenuBClick && !isResizeIconClick) {
+            sizeMenuA.style.display = 'none';
+            sizeMenuB.style.display = 'none';
+            document.querySelectorAll('.size-menu').forEach(menu => {
+                menu.classList.remove('open');
+            });
+        }
+    });
+
     if (resizeRowsA) resizeRowsA.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') applyResize();
     });
@@ -588,34 +621,6 @@ function initializeMatrixCalculator() {
         });
     }
 
-    if (matrixA) {
-        matrixA.addEventListener('click', (e) => {
-            if (e.target.classList.contains('matrix-title')) {
-                sizeMenuA.style.display = sizeMenuA.style.display === 'block' ? 'none' : 'block';
-                e.stopPropagation();
-            }
-        });
-    }
-
-    if (matrixB) {
-        matrixB.addEventListener('click', (e) => {
-            if (e.target.classList.contains('matrix-title') && 
-                getComputedStyle(matrixB).display !== 'none') {
-                sizeMenuA.style.display = 'none';
-                sizeMenuA.classList.remove('open');
-            
-                if (sizeMenuB.style.display === 'block') {
-                    sizeMenuB.style.display = 'none';
-                    sizeMenuB.classList.remove('open');
-                } else {
-                    sizeMenuB.style.display = 'block';
-                    sizeMenuB.classList.add('open');
-                }
-                e.stopPropagation();
-            }
-        });
-    }
-
     acceptA?.addEventListener('click', () => {
         const rows = parseInt(rowsA.value) || 2;
         const cols = parseInt(colsA.value) || 2;
@@ -629,19 +634,47 @@ function initializeMatrixCalculator() {
         createMatrix(matrixBGrid, rows, cols);
         document.getElementById('sizeMenuB').style.display = 'none';
     });
+
+    window.addEventListener('resize', updateMatrixOperator);
 }
+
+// Nasłuchiwacz do zamykania menu przy kliknięciu poza nim
+document.addEventListener('click', function(event) {
+    // Sprawdź czy kliknięto poza menu i przyciskiem resize
+    if (!event.target.closest('.size-menu') && !event.target.classList.contains('resize-icon')) {
+        document.querySelectorAll('.size-menu').forEach(menu => {
+            menu.classList.remove('open');
+            menu.style.display = 'none';
+        });
+    }
+});
+
+// Dodatkowo zamykaj menu przy nacisnięciu Escape
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        document.querySelectorAll('.size-menu').forEach(menu => {
+            menu.classList.remove('open');
+            menu.style.display = 'none';
+        });
+    }
+});
 
 function toggleSizeMenu(matrixId) {
     const menu = document.getElementById(`sizeMenu${matrixId}`);
     if (!menu) return;
     
     document.querySelectorAll('.size-menu').forEach(m => {
-        if (m !== menu) m.style.display = 'none';
+        if (m !== menu) {
+            m.style.display = 'none';
+            m.classList.remove('open');
+        }
     });
     
-    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    const isOpen = menu.style.display === 'block';
+    menu.style.display = isOpen ? 'none' : 'block';
+    menu.classList.toggle('open', !isOpen);
     
-    if (menu.style.display === 'block') {
+    if (!isOpen) {
         const firstInput = menu.querySelector('input');
         if (firstInput) {
             firstInput.focus();

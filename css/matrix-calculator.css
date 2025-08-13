@@ -11,20 +11,14 @@
     border: var(--liquid-glass-border);
     box-shadow: var(--liquid-glass-shadow);
     z-index: 900;
+    margin: 0 auto;
+    transition: all 0.3s ease;
 }
 
-.operation-btn, .method-btn, .action-btn, .resizeBtn, .accept-btn {
+.operation-btn, .method-btn, .resizeBtn, .accept-btn {
     pointer-events: auto;
     position: relative;
     z-index: 1001;
-}
-
-#computeBtn {
-    cursor: pointer;
-}
-
-#computeBtn:focus {
-    outline: 2px solid #4CAF50;
 }
 
 .matrix-frame::before {
@@ -46,18 +40,77 @@
     pointer-events: none;
 }
 
+.matrix-frame::after {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    width: 40px;
+    height: 40px;
+    background: var(--liquid-glass-bg);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    border: var(--liquid-glass-border);
+    box-shadow: var(--liquid-glass-shadow);
+    border-radius: 50%;
+    z-index: -1;
+    display: none;
+}
+
 .matrices-container > .matrix-a-container,
 .matrices-container > .matrix-b-container {
     margin: 0 40px;
+}
+
+.resize-icon::before,
+.matrix-operator::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(114, 137, 218, 0.03) 50%,
+        rgba(75, 181, 168, 0.03) 100%
+    );
+    animation: liquidEffect 25s linear infinite;
+    z-index: -1;
+    opacity: 0.6;
+    pointer-events: none;
+    border-radius: 50%;
+}
+
+/* Hover effects */
+.resize-icon:hover,
+.matrix-operator:hover {
+    background-color: rgba(224, 122, 95, 0.2);
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Remove clip-path as we don't need it anymore */
+.matrix-frame {
+    clip-path: none;
+}
+
+/* Adjust matrix containers to account for the bulge */
+.matrix-a-container, .matrix-b-container {
+    padding-top: 10px;
+    padding-left: 10px;
 }
 
 /* Matrix Calculator */
 .matrices-container {
     display: flex;
     justify-content: center;
-    gap: 100px;
-    flex-wrap: wrap;
-    margin-top: 20px;
+    align-items: flex-start;
+    gap: 30px;
+    flex-wrap: nowrap;
+    margin: 20px auto;
+    max-width: 1200px;
 }
 
 .matrix-a-container .matrix-grid {
@@ -75,6 +128,8 @@
 .matrix-a-container, .matrix-b-container {
     position: relative;
     z-index: 900;
+    margin: 0 auto;
+    justify-content: center;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -132,8 +187,14 @@
     top: 100%;
     left: 0;
     background-color: white;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.9);
+    border-right: 1px solid rgba(224, 122, 95, 0.3);
+    box-shadow: 
+        0 0 20px rgba(224, 122, 95, 0.2),
+        inset 0 0 15px rgba(224, 122, 95, 0.1);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
     z-index: 1004;
     display: none;
     width: 100%;
@@ -141,17 +202,22 @@
 
 .operation-menu-item {
     padding: 8px 10px;
-    color: black;
+    color: white;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 .operation-menu.open {
     z-index: 1005 !important;
+    transform: translateX(0);
+    box-shadow: 
+        0 4px 30px rgba(0, 0, 0, 0.2),
+        inset 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
 .operation-menu-item:hover {
-    background-color: var(--clr-btn-hover);
+    background-color: rgba(224, 122, 95, 0.5);
+    border-radius: 20px;
 }
 
 .method-selector {
@@ -179,36 +245,6 @@
 .method-btn.active {
     background-color: var(--clr-accent);
     color: white;
-}
-
-.action-buttons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 10px auto;
-    width: 100%;
-    max-width: 300px;
-    gap: 10px;
-    z-index: 1001;
-}
-
-.action-btn {
-    background-color: #E07A5F;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    padding: 12px 24px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    z-index: 1001;
-    min-width: 120px;
-    text-align: center;
-}
-
-.action-btn:hover {
-    background-color: #D95F45;
 }
 
 .matrices-container {
@@ -271,54 +307,109 @@
     align-items: center;
 }
 
+.matrix-a-container::after {
+    display: none !important;
+}
+
 .resize-icon {
     position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: #333;
-    color: white;
-    border: none;
+    top: -20px;
+    left: -20px;
+    width: 35px;
+    height: 35px;
+    background: var(--liquid-glass-bg);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
     border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    font-size: 16px;
-    cursor: pointer;
-    z-index: 2;
-}
-
-.resizeBtn {
-    background-color: var(--clr-accent);
-    color: white;
-    border: none;
-    border-radius: 15px;
-    padding: 10px 20px;
-    font-size: 14px;
+    color: var(--clr-accent);
+    font-size: 20px;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s;
-    margin: 10px auto;
-    display: block;
-    z-index: 1001;
+    z-index: 901;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: var(--liquid-glass-border);
+    box-shadow: var(--liquid-glass-shadow);
+    transition: all 0.3s ease;
 }
 
-.resizeBtn:hover {
-    background-color: var(--clr-btn-hover);
+.resize-icon::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(114, 137, 218, 0.03) 50%,
+        rgba(75, 181, 168, 0.03) 100%
+    );
+    animation: liquidEffect 25s linear infinite;
+    z-index: -1;
+    opacity: 0.6;
+    pointer-events: none;
+    border-radius: 50%;
+}
+
+.resize-icon:hover {
+    background-color: rgba(224, 122, 95, 0.2);
+    color: white;
+    border-color: var(--clr-accent);
+    transform: scale(1.1);
+}
+
+@keyframes liquidEffecter {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
 }
 
 .size-menu {
     position: absolute;
     top: 40px;
     right: 10px;
-    background: var(--liquid-glass-bg);
-    backdrop-filter: var(--liquid-glass-blur);
-    border: var(--liquid-glass-border);
-    border-radius: 10px;
+    border-radius: 15px;
     padding: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     z-index: 1000;
-    display: flex;
+    display: none;
     flex-direction: column;
     gap: 5px;
+
+    background: var(--liquid-glass-bg);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    border: var(--liquid-glass-border);
+    box-shadow: var(--liquid-glass-shadow);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.size-menu::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(114, 137, 218, 0.03) 50%,
+        rgba(75, 181, 168, 0.03) 100%
+    );
+    animation: liquidEffect 25s linear infinite;
+    z-index: -1;
+    opacity: 0.6;
+    pointer-events: none;
 }
 
 .size-menu[style*="display: block"] {
@@ -453,4 +544,147 @@
     border-color: #d32f2f;
     background-color: #fde7e7;
     animation: shake 0.5s;
+}
+
+/* Resize dialog - updated styles */
+#resizeDialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--liquid-glass-bg);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    border-radius: 20px;
+    padding: 30px;
+    border: var(--liquid-glass-border);
+    box-shadow: var(--liquid-glass-shadow);
+    z-index: 1100;
+    width: 450px;
+    max-width: 90%;
+    text-align: center;
+    overflow: hidden;
+}
+
+#resizeDialog::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(114, 137, 218, 0.03) 50%,
+        rgba(75, 181, 168, 0.03) 100%
+    );
+    animation: liquidEffect 25s linear infinite;
+    z-index: -1;
+    opacity: 0.6;
+    pointer-events: none;
+    border-radius: 20px;
+}
+
+.resize-dialog-content {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    position: relative;
+    z-index: 2;
+}
+
+.resize-matrix-controls {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.resize-matrix-group {
+    flex: 1;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    border: 1px solid rgba(224, 122, 95, 0.2);
+}
+
+.resize-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.resize-input-group label {
+    font-weight: bold;
+    color: var(--clr-text);
+    font-size: 16px;
+}
+
+.resize-input-group input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(224, 122, 95, 0.3);
+    background-color: rgba(255, 255, 255, 0.85);
+    text-align: center;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+
+.resize-input-group input:focus {
+    outline: none;
+    border-color: var(--clr-accent);
+    box-shadow: 0 0 0 2px rgba(224, 122, 95, 0.2);
+}
+
+#acceptResize {
+    background-color: var(--clr-accent);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 15px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+#acceptResize:hover {
+    background-color: var(--clr-btn-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+#acceptResize::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.05) 50%,
+        transparent 100%
+    );
+    transform: rotate(30deg);
+    transition: all 0.5s ease;
+    opacity: 0;
+}
+
+#acceptResize:hover::before {
+    opacity: 1;
+    animation: shine 1.5s infinite;
+}
+
+/* Hide operator when matrix B is hidden */
+.matrix-b[style*="display: none"] + .matrix-operator,
+.matrix-b[style*="display: none"] ~ .matrix-a-container::after {
+    display: none;
 }

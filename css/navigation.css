@@ -8,12 +8,12 @@
     padding: 8px 15px;
     border-radius: 50px;
     background: linear-gradient(135deg, 
-        rgba(173, 216, 230, 0.15) 0%, 
-        rgba(224, 255, 255, 0.2) 50%, 
-        rgba(173, 216, 230, 0.15) 100%);
+        rgba(224, 122, 95, 0.25) 0%,
+        rgba(224, 122, 95, 0.35) 50%, 
+        rgba(224, 122, 95, 0.25) 100%);
+    border: 1px solid rgba(224, 122, 95, 0.05);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
     z-index: 1101;
     transform: translateX(50px);
     opacity: 0;
@@ -45,8 +45,8 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    background: rgba(173, 216, 230, 0.15);
+    background: rgba(224, 122, 95, 0.25); /* Mocniejsze tło */
+    border: 1px solid rgba(224, 122, 95, 0);
     color: white;
     font-size: 18px;
     display: flex;
@@ -65,11 +65,9 @@
 }
 
 .nav-btn:hover {
-    background: rgba(224, 122, 95, 0.3);
     transform: scale(1.1);
-    box-shadow: 
-    0 0 15px rgba(224, 122, 95, 0.5),
-    inset 0 0 10px rgba(255, 255, 255, 0.4);
+    background: rgba(224, 122, 95, 0.4);
+    box-shadow: 0 0 20px rgba(224, 122, 95, 0.7);
 }
 
 .nav-btn::before {
@@ -112,10 +110,12 @@
     color: var(--clr-prz);
     pointer-events: auto !important;
     cursor: pointer;
+    border: none;
 }
 
 .user-btn {
     font-size: 18px;
+    border: none;
 }
 
 .lang-menu {
