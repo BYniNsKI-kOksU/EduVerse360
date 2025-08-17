@@ -116,6 +116,12 @@
 .user-btn {
     font-size: 18px;
     border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.user-btn:active {
+    transform: scale(0.9);
 }
 
 .lang-menu {

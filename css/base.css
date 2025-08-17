@@ -21,12 +21,13 @@
     --glass-glow-intensity: 1.8;
 
     /* Global liquid glass effect */
-    --liquid-glass-bg: rgba(255, 255, 255, 0.15);
+    --liquid-glass-bg: rgba(255, 255, 255, 0.1);
+    --liquid-glass-blur: blur(10px);
+    --liquid-glass-border: 1px solid rgba(255, 255, 255, 0.2);
     --liquid-glass-shadow: 
         0 4px 20px rgba(0, 0, 0, 0.15),
         inset 0 0 15px rgba(224, 122, 95, 0.2);
-    --liquid-glass-blur: blur(10px);
-    --liquid-glass-border: 1px solid rgba(255, 255, 255, 0.2);
+    
 }
 
 /* Reset styles */
@@ -77,6 +78,5 @@ canvas {
     height: 100vh;
     pointer-events: none;
     background: transparent;
-    background-color: red !important;
     z-index: -1;
 }

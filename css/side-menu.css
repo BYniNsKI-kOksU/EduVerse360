@@ -5,8 +5,8 @@
     left: 0;
     width: 250px;
     height: 100%;
-    background: rgba(0, 0, 0, 0.9); /* Ciemniejsze tło dla lepszego kontrastu */
-    border-right: 1px solid rgba(224, 122, 95, 0.3); /* Pomarańczowy akcent */
+    background: rgba(0, 0, 0, 0.85);
+    border-right: 1px solid rgba(224, 122, 95, 0.3);
     box-shadow: 
         0 0 20px rgba(224, 122, 95, 0.2),
         inset 0 0 15px rgba(224, 122, 95, 0.1);
@@ -24,7 +24,7 @@
     transform: translateX(0);
     box-shadow: 
         0 4px 30px rgba(0, 0, 0, 0.2),
-        inset 0 0 15px rgba(255, 255, 255, 0.3); /* Wzmocniony shadow przy otwarciu */
+        inset 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
 .menu-btn {

@@ -13,6 +13,7 @@
     background-color: transparent;
     z-index: 1000;
     transition: opacity 0.5s ease;
+    cursor: pointer; /* Dodajemy kursor wskazujący, że można kliknąć */
 }
 
 .welcome-screen ~ #menuBtn {
@@ -65,22 +66,27 @@
                blink-caret 0.75s step-end infinite;
 }
 
-.start-btn {
-    background-color: var(--clr-btn-bg);
-    color: white;
-    border: none;
-    border-radius: 15px;
-    padding: 15px 30px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.start-hint {
+    font-size: 1rem;
+    color: #666;
+    margin-top: 2rem;
+    text-align: center;
     opacity: 0;
-    transform: scale(0.9);
-    animation: fadeInScale 0.8s ease-out forwards 1.5s;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease-out forwards 2s;
+    font-style: italic;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 8px 16px;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.start-btn:hover {
-    background-color: var(--clr-btn-hover);
-    color: black;
+.start-hint:hover {
+    color: #333;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }

@@ -50,9 +50,8 @@ document.addEventListener('click', e => {
 document.addEventListener('DOMContentLoaded', () => {
     const langBtn = document.querySelector('.welcome-lang-btn');
     if (langBtn) {
-        // Wymuszamy reset animacji
         langBtn.style.animation = 'none';
-        void langBtn.offsetWidth; // Trigger reflow
+        void langBtn.offsetWidth;
         langBtn.style.animation = 'fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.3s';
     }
 });
@@ -134,24 +133,19 @@ function animate(now = performance.now()) {
 
 requestAnimationFrame(animate);
 
-// Global cursor tracking for result-wrapper
-document.addEventListener('mousemove', e => {
-    const wrappers = document.querySelectorAll('.result-wrapper');
-    if (wrappers.length === 0) return;
-
-    const winWidth = window.innerWidth;
-    const winHeight = window.innerHeight;
-    const x = (e.clientX / winWidth) * 100;
-    const y = (e.clientY / winHeight) * 100;
-
-    wrappers.forEach(wrapper => {
-        wrapper.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(255, 0, 0, 0.15) 0%, transparent 60%)`;
-    });
+document.querySelector('.welcome-screen').addEventListener('click', function(e) {
+    if (!e.target.closest('.welcome-lang-btn')) {
+        startApplication();
+    }
 });
 
-// Welcome screen
-document.querySelector('.start-btn').addEventListener('click', function(e) {
-    e.stopPropagation();
+document.addEventListener('keydown', function(e) {
+    if (document.querySelector('.welcome-screen') && !document.querySelector('.welcome-screen').classList.contains('hidden')) {
+        startApplication();
+    }
+});
+
+function startApplication() {
     document.querySelector('.welcome-screen').classList.add('hidden');
     currentScreen = "home";
     document.querySelector('.home-screen').style.display = 'flex';
@@ -179,17 +173,17 @@ document.querySelector('.start-btn').addEventListener('click', function(e) {
         });
     }
     
+    // Upewnij się, że przycisk menu jest widoczny po starcie aplikacji
+    const menuBtn = document.getElementById('menuBtn');
     if (menuBtn) {
         menuBtn.style.display = 'block';
-        menuBtn.style.opacity = '1';
-        menuBtn.style.pointerEvents = 'auto';
     }
+    
     setTimeout(() => {
         document.querySelector('.welcome-screen').style.display = 'none';
     }, 500);
-});
+}
 
-// Navigation functions
 function backToHome() {
     currentScreen = "home";
     document.body.classList.remove('user-profile-active');
@@ -216,7 +210,6 @@ document.querySelectorAll('.tile').forEach(tile => {
         currentScreen = "app";
         document.querySelector('.home-screen').style.display = 'none';
         document.querySelector('.app-container').style.display = 'block';
-        document.getElementById('globalSideMenu').classList.remove('hidden');
         
         document.querySelectorAll('.app-content').forEach(content => {
             content.classList.remove('active');
@@ -224,15 +217,21 @@ document.querySelectorAll('.tile').forEach(tile => {
         
         document.getElementById(app + 'App').classList.add('active');
 
-        document.body.classList.remove('user-profile-active');
-
+        // Zresetuj stan menu i przycisku
         const globalSideMenu = document.getElementById('globalSideMenu');
+        const menuBtn = document.getElementById('menuBtn');
+        
         if (globalSideMenu) {
-            globalSideMenu.classList.remove('hidden');
             globalSideMenu.classList.remove('open');
+            globalSideMenu.classList.remove('hidden');
         }
         
-        if (menuBtn) menuBtn.style.display = 'block';
+        if (menuBtn) {
+            menuBtn.style.display = 'block';
+            menuBtn.style.opacity = '1';
+            menuBtn.style.pointerEvents = 'auto';
+        }
+        
         updateUI();
         initializeUI();
     });
@@ -240,7 +239,6 @@ document.querySelectorAll('.tile').forEach(tile => {
 
 function showUserProfile() {
     currentScreen = "app";
-    document.body.classList.add('user-profile-active');
     document.querySelector('.welcome-screen').style.display = 'none';
     document.querySelector('.home-screen').style.display = 'none';
     document.querySelector('.app-container').style.display = 'block';
@@ -248,11 +246,17 @@ function showUserProfile() {
         content.classList.remove('active');
     });
     document.getElementById('userProfileApp').classList.add('active');
+    
     const globalSideMenu = document.getElementById('globalSideMenu');
     if (globalSideMenu) {
         globalSideMenu.classList.remove('open');
     }
-    if (menuBtn) menuBtn.style.display = 'block';
+    
+    const menuBtn = document.getElementById('menuBtn');
+    if (menuBtn) {
+        menuBtn.style.display = 'block';
+    }
+    
     updateUI();
 }
 
@@ -260,7 +264,6 @@ function optimizeProfilePage() {
     const profileContainer = document.querySelector('.user-profile-container');
     if (!profileContainer) return;
 
-    // Ustawienie pozycji strony profilu
     profileContainer.style.position = 'fixed';
     profileContainer.style.top = '0';
     profileContainer.style.left = '0';
@@ -268,7 +271,6 @@ function optimizeProfilePage() {
     profileContainer.style.height = '100%';
     profileContainer.style.overflowY = 'auto';
     
-    // Obserwator Intersection dla lepszej wydajności animacji
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -279,7 +281,6 @@ function optimizeProfilePage() {
         });
     }, { threshold: 0.1 });
 
-    // Obserwuj elementy, które mają animacje
     observer.observe(profileContainer);
     observer.observe(document.querySelector('.user-avatar'));
 }
@@ -288,28 +289,25 @@ function createWaterDrops() {
     const container = document.querySelector('.user-profile-container');
     if (!container) return;
     
-    // Utwórz kontener dla efektów wody
     const waterEffect = document.createElement('div');
     waterEffect.className = 'water-effect';
     container.appendChild(waterEffect);
     
-    // Utwórz krople wody
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 8; i++) {
         const drop = document.createElement('div');
         drop.className = 'water-drop';
         
-        // Losowa pozycja i opóźnienie
         drop.style.left = `${Math.random() * 100}%`;
         drop.style.top = `${Math.random() * 100}%`;
-        drop.style.width = `${100 + Math.random() * 200}px`;
+        drop.style.width = `${150 + Math.random() * 300}px`;
         drop.style.height = drop.style.width;
-        drop.style.animationDelay = `${Math.random() * 3}s`;
+        drop.style.animationDelay = `${Math.random() * 5}s`;
+        drop.style.animationDuration = `${3 + Math.random() * 7}s`;
         
         waterEffect.appendChild(drop);
     }
 }
 
-// Language switch
 function switchLanguage(code) {
     currentLang = code;
     document.title = translations[code].title;
@@ -503,18 +501,15 @@ function updateHomeUI() {
     });
 }
 
-// Zamknięcie menu językowego po kliknięciu poza nim
 document.addEventListener('click', function(e) {
-    const langMenu = document.querySelector('.lang-menu'); // Dostosuj selektor do swojego menu
+    const langMenu = document.querySelector('.lang-menu');
     const langBtn = document.querySelector('.welcome-lang-btn');
     
-    // Sprawdź, czy kliknięto poza menu i przycisk
     if (langMenu && !langMenu.contains(e.target) && !langBtn.contains(e.target)) {
         langMenu.style.display = 'none';
     }
 });
 
-// Zapobieganie zamykaniu menu przy kliknięciu w jego wnętrzu
 document.querySelector('.lang-menu').addEventListener('click', function(e) {
     e.stopPropagation();
 });
@@ -526,8 +521,6 @@ function initializeUI() {
     const menuBtn = document.getElementById('menuBtn');
 
     if (currentScreen === "welcome") {
-        // Dodaj klasę do body, aby zablokować menuBtn
-        document.body.classList.add('welcome-screen-active');
         if (menuBtn) {
             menuBtn.style.display = 'none';
             menuBtn.style.opacity = '0';
@@ -538,8 +531,6 @@ function initializeUI() {
             globalSideMenu.classList.remove('open');
         }
     } else {
-        // Usuń klasę z body, aby przywrócić menuBtn
-        document.body.classList.remove('welcome-screen-active');
         if (menuBtn) {
             menuBtn.style.display = 'block';
             menuBtn.style.opacity = '1';

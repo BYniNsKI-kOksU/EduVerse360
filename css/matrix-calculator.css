@@ -10,9 +10,10 @@
     overflow: visible;
     border: var(--liquid-glass-border);
     box-shadow: var(--liquid-glass-shadow);
-    z-index: 900;
+    z-index: 0;
     margin: 0 auto;
     transition: all 0.3s ease;
+    transform: translateZ(0);
 }
 
 .operation-btn, .method-btn, .resizeBtn, .accept-btn {
@@ -57,12 +58,6 @@
     display: none;
 }
 
-.matrices-container > .matrix-a-container,
-.matrices-container > .matrix-b-container {
-    margin: 0 40px;
-}
-
-.resize-icon::before,
 .matrix-operator::before {
     content: '';
     position: absolute;
@@ -84,7 +79,6 @@
 }
 
 /* Hover effects */
-.resize-icon:hover,
 .matrix-operator:hover {
     background-color: rgba(224, 122, 95, 0.2);
     color: white;
@@ -111,6 +105,12 @@
     flex-wrap: nowrap;
     margin: 20px auto;
     max-width: 1200px;
+    z-index: 900;
+}
+
+.matrices-container > .matrix-a-container,
+.matrices-container > .matrix-b-container {
+    margin: 0 40px;
 }
 
 .matrix-a-container .matrix-grid {
@@ -247,14 +247,18 @@
     color: white;
 }
 
-.matrices-container {
+.action-buttons {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-    margin: 20px auto;
-    max-width: 90%;
-    z-index: 900;
+    margin: 20px 0;
+    width: 100%;
+}
+
+.btn.matrix-btn {
+    min-width: 120px;
+    padding: 12px 24px;
+    margin: 0;
 }
 
 .matrix-title {
@@ -317,45 +321,47 @@
     left: -20px;
     width: 35px;
     height: 35px;
-    background: var(--liquid-glass-bg);
-    backdrop-filter: var(--liquid-glass-blur);
-    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    background: rgba(224, 122, 95, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border-radius: 50%;
     color: var(--clr-accent);
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
-    z-index: 901;
+    z-index: 1100;
     display: flex;
     justify-content: center;
     align-items: center;
     border: var(--liquid-glass-border);
     box-shadow: var(--liquid-glass-shadow);
     transition: all 0.3s ease;
+    will-change: backdrop-filter;
 }
 
 .resize-icon::before {
     content: '';
     position: absolute;
-    top: -100%;
-    left: -100%;
-    width: 300%;
-    height: 300%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: linear-gradient(
         to bottom right,
         rgba(255, 255, 255, 0.05) 0%,
         rgba(114, 137, 218, 0.03) 50%,
         rgba(75, 181, 168, 0.03) 100%
     );
-    animation: liquidEffect 25s linear infinite;
+    border-radius: 50%;
     z-index: -1;
     opacity: 0.6;
     pointer-events: none;
-    border-radius: 50%;
 }
 
 .resize-icon:hover {
-    background-color: rgba(224, 122, 95, 0.2);
+    background: rgba(224, 122, 95, 0.25);
+    backdrop-filter: blur(12px) brightness(1.3);
+    -webkit-backdrop-filter: blur(12px) brightness(1.3);
     color: white;
     border-color: var(--clr-accent);
     transform: scale(1.1);
@@ -363,82 +369,73 @@
 
 @keyframes liquidEffecter {
     0% {
-        background-position: 0% 0%;
+        transform: rotate(0deg) translate(0, 0);
+    }
+    25% {
+        transform: rotate(5deg) translate(-10px, 5px);
     }
     50% {
-        background-position: 100% 100%;
+        transform: rotate(0deg) translate(5px, 10px);
+    }
+    75% {
+        transform: rotate(-5deg) translate(10px, -5px);
     }
     100% {
-        background-position: 0% 0%;
+        transform: rotate(0deg) translate(0, 0);
     }
 }
 
 .size-menu {
-    position: absolute;
-    top: 40px;
-    right: 10px;
+    position: fixed;
+    min-width: 170px;
+    max-width: 90vw;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-radius: 15px;
-    padding: 10px;
-    z-index: 1000;
+    padding: 15px;
+    z-index: 2000;
     display: none;
     flex-direction: column;
-    gap: 5px;
-
-    background: var(--liquid-glass-bg);
-    backdrop-filter: var(--liquid-glass-blur);
-    -webkit-backdrop-filter: var(--liquid-glass-blur);
-    border: var(--liquid-glass-border);
-    box-shadow: var(--liquid-glass-shadow);
-    border-radius: 15px;
-    overflow: hidden;
+    gap: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transform-origin: top center;
+    animation: menuAppear 0.3s ease forwards;
 }
 
-.size-menu::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-        to bottom right,
-        rgba(255, 255, 255, 0.05) 0%,
-        rgba(114, 137, 218, 0.03) 50%,
-        rgba(75, 181, 168, 0.03) 100%
-    );
-    animation: liquidEffect 25s linear infinite;
-    z-index: -1;
-    opacity: 0.6;
-    pointer-events: none;
+@keyframes menuAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .size-menu[style*="display: block"] {
     pointer-events: auto;
 }
 
-.size-menu input {
-    width: 50px;
-    padding: 5px;
-    text-align: center;
-}
-
-.size-menu button {
-    background: var(--clr-accent);
-    color: white;
-    border: none;
-    padding: 5px;
-    border-radius: 5px;
-    cursor: pointer;
+.size-menu-inner {
+    position: relative;
+    z-index: 2;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
 }
 
 .size-input {
-    width: 60px;
-    padding: 6px 8px;
-    border-radius: 6px;
-    border: 1px solid #ddd;
-    background-color: rgba(255, 255, 255, 0.9);
-    text-align: center;
-    font-size: 13px;
+    width: 45px !important;
+    height: 28px !important;
+    padding: 2px 4px !important;
+    font-size: 16px !important;
+    text-align: center !important;
+    border-radius: 6px !important;
+    margin: 2px 0 !important;
 }
 
 .size-input:focus {
@@ -447,43 +444,10 @@
     box-shadow: 0 0 0 2px rgba(224, 122, 95, 0.2);
 }
 
-.accept-btn {
-    background-color: var(--clr-accent);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 8px 16px;
-    font-size: 13px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px;
-    width: auto;
-    min-width: 120px;
-}
-
 .matrix-frame.accept-btn:hover {
     background-color: var(--clr-btn-hover);
     transition: background-color 0.3s;
     color: black;
-}
-
-.cancel-btn {
-    background-color: #f5f5f5;
-    color: #555;
-    border: none;
-    border-radius: 12px;
-    padding: 10px 20px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-    width: 100%;
-    margin-top: 10px;
-    border: 1px solid #ddd;
-}
-
-.cancel-btn:hover {
-    background-color: #e0e0e0;
 }
 
 .result-container-matrix, .solution-container {
@@ -579,7 +543,7 @@
         rgba(114, 137, 218, 0.03) 50%,
         rgba(75, 181, 168, 0.03) 100%
     );
-    animation: liquidEffect 25s linear infinite;
+    animation: liquidEffecter 25s linear infinite;
     z-index: -1;
     opacity: 0.6;
     pointer-events: none;
@@ -610,15 +574,15 @@
 
 .resize-input-group {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 15px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
 }
 
 .resize-input-group label {
-    font-weight: bold;
-    color: var(--clr-text);
+    color: white;
     font-size: 16px;
+    min-width: 60px;
 }
 
 .resize-input-group input {
@@ -687,4 +651,146 @@
 .matrix-b[style*="display: none"] + .matrix-operator,
 .matrix-b[style*="display: none"] ~ .matrix-a-container::after {
     display: none;
+}
+
+/* Przyciski Oblicz i Wyczyść - style */
+#computeBtn, #clearBtn {
+    background: var(--liquid-glass-bg);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    border: var(--liquid-glass-border);
+    box-shadow: var(--liquid-glass-shadow);
+    
+    color: black;
+    border-radius: 25px;
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    min-width: 120px;
+    text-align: center;
+}
+
+#computeBtn::before, #clearBtn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(114, 137, 218, 0.03) 50%,
+        rgba(75, 181, 168, 0.03) 100%
+    );
+    animation: liquidEffect 25s linear infinite;
+    z-index: -1;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+#computeBtn:hover, #clearBtn:hover {
+    color: white;
+    background-color: rgba(224, 122, 95, 0.8);
+    transform: translateY(-2px);
+    box-shadow: 
+        0 6px 12px rgba(0, 0, 0, 0.25),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+#computeBtn:active, #clearBtn:active {
+    transform: scale(0.95);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Przyciski Akceptuj i Anuluj - ujednolicone style z Oblicz i Wyczyść */
+.accept-btn, .cancel-btn {
+    background: var(--liquid-glass-bg);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    border: var(--liquid-glass-border);
+    box-shadow: var(--liquid-glass-shadow);
+    
+    color: rgb(224, 123, 95);
+    border-radius: 25px;
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: 5px 0;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    min-width: 120px;
+    text-align: center;
+}
+
+.accept-btn::before, .cancel-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(114, 137, 218, 0.03) 50%,
+        rgba(75, 181, 168, 0.03) 100%
+    );
+    animation: liquidEffect 25s linear infinite;
+    z-index: -1;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.accept-btn:hover {
+    color: white;
+    background-color: rgba(224, 122, 95, 0.8);
+    transform: translateY(-2px);
+    box-shadow: 
+        0 6px 12px rgba(0, 0, 0, 0.25),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.accept-btn:active, .cancel-btn:active {
+    transform: scale(0.95);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.cancel-btn:hover {
+    color: white;
+    background-color: rgba(255, 26, 26, 0.8);
+    transform: translateY(-2px);
+    box-shadow: 
+        0 6px 12px rgba(0, 0, 0, 0.25),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.size-menu-buttons {
+    background: var(--liquid-glass-bg);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    border: 1px solid rgba(224, 122, 95, 0.3);
+    box-shadow: 
+        0 0 20px rgba(224, 122, 95, 0.2),
+        inset 0 0 15px rgba(224, 122, 95, 0.1);
+    
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin-top: 10px;
 }

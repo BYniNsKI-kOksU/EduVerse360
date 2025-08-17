@@ -19,9 +19,9 @@
 
     <!-- Global Navigation Bar -->
     <div class="nav-bar">
-        <button class="nav-btn user-btn" onclick="showUserProfile()">👤</button>
+        <button class="nav-btn user-btn" id="showUserProfileBtn">👤</button>
         <div class="lang-btn-container">
-            <button class="btn nav-btn lang-btn">🔤</button>
+            <button class="nav-btn lang-btn">🔤</button>
             <div class="lang-menu">
                 <div data-lang="pl">Polski PL</div>
                 <div data-lang="en">English GB</div>
@@ -30,7 +30,7 @@
     </div>
 
     <!-- Global Side menu -->
-    <button id="menuBtn" class="menu-btn" style="display: none;">☰</button>
+    <button id="menuBtn" class="menu-btn" >☰</button>
     <div id="globalSideMenu" class="side-menu hidden">
         <div id="homeMenuItem" class="menu-item" style="--menu-item-index: 0;">Strona główna</div>
         <div id="appMenuItem" class="menu-item" style="--menu-item-index: 1;">Aplikacje</div>
@@ -49,9 +49,9 @@
 
     <!-- Welcome Screen -->
     <div class="welcome-screen">
-        <h1 class="welcome-title"><span>Witaj w Aplikacjach Matematycznych</span></h1>
+        <h1 class="welcome-title"><span>Witaj w EduVerse 360</span></h1>
         <p class="welcome-subtitle"><span>Odkryj narzędzia do obliczeń matematycznych</span></p>
-        <button class="btn start-btn">Rozpocznij</button>
+        <p class="start-hint">(kliknij dowolny klawisz lub kliknij myszką aby kontynuować)</p>
         <div class="lang-btn-container welcome-lang-btn">
             <button class="lang-btn">🔤</button>
             <div class="lang-menu">
@@ -89,7 +89,7 @@
                     <label id="yearLabel" class="input-label">Podaj rok:</label>
                     <input type="number" id="yearInput" class="year-input" inputmode="numeric">
                 </div>
-                <button id="checkBtn" class="btn">Oblicz</button>
+                <button id="checkBtn" class="check-btn">Oblicz</button>
                 <div id="resultContainer" class="result-container"></div>
                 <div class="history-container">
                     <div id="historyLabel" class="history-title">Historia:</div>
@@ -105,7 +105,7 @@
                 <div class="controls">
                     <div class="operation-selector">
                         <div id="operationLabel" class="operation-label">Operacja:</div>
-                        <button id="operationBtn" class="btn btn-operation">Dodawanie</button>
+                        <button id="operationBtn" class="operation-btn">Dodawanie</button>
                         <div id="operationMenu" class="operation-menu">
                             <div class="operation-menu-item" data-op="add">Dodawanie</div>
                             <div class="operation-menu-item" data-op="sub">Odejmowanie</div>
@@ -143,11 +143,12 @@
                                 <label for="colsA">Kolumny:</label>
                                 <input id="colsA" type="number" min="1" max="10" value="2" class="size-input">
                             </div>
-                            <button id="acceptA" class="accept-btn">OK</button>
+                            <div class="size-menu-buttons">
+                            <button id="acceptA" class="accept-btn">Akceptuj</button>
+                            <button id="cancelA" class="cancel-btn">Anuluj</button>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="matrix-operator">+</div>
                     
                     <div id="matrixB" class="matrix-frame">
                         <button class="resize-icon" onclick="toggleSizeMenu('B')">+</button>
@@ -162,7 +163,10 @@
                                 <label for="colsB">Kolumny:</label>
                                 <input id="colsB" type="number" min="1" max="10" value="2" class="size-input">
                             </div>
-                            <button id="acceptB" class="accept-btn">OK</button>
+                            <div class="size-menu-buttons">
+                            <button id="acceptB" class="accept-btn">Akceptuj</button>
+                            <button id="cancelB" class="cancel-btn">Anuluj</button>
+                            </div>
                         </div>
                     </div>
                 </div>

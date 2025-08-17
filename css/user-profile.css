@@ -1,9 +1,20 @@
 /* User Profile Page Styles */
-body.user-profile-active {
-    position: relative;
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
     overflow: hidden;
 }
 
+body.user-profile-active {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.3); /* Lekkie białe tło */
+}
+
+/* Efekt szkła - podstawowe tło */
 body.user-profile-active::before {
     content: '';
     position: fixed;
@@ -11,18 +22,13 @@ body.user-profile-active::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg,
-        rgba(173, 216, 230, 0.15) 0%,
-        rgba(224, 255, 255, 0.2) 50%,
-        rgba(173, 216, 230, 0.15) 100%);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    z-index: 0;
-    background-size: 200% 200%;
-    animation: waterSurface 8s ease infinite;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: -1;
 }
 
+/* Efekt subtelnych fal */
 body.user-profile-active::after {
     content: '';
     position: fixed;
@@ -30,43 +36,49 @@ body.user-profile-active::after {
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at 50% 50%,
-        rgba(255, 255, 255, 0.8) 0%,
-        rgba(255, 255, 255, 0) 70%);
-    z-index: 0;
-    opacity: 0.3;
-    animation: waterDrop 3s ease-out infinite;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.8) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.5) 0%, transparent 40%);
+    z-index: -1;
+    opacity: 0.5;
+    animation: waterSurface 15s ease infinite alternate;
 }
 
+/* Full-width profile container */
 .user-profile-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: grid;
-    flex-direction: column;
-    align-items: center;
-    padding: 40px;
-    min-height: 100vh;
-    background: transparent;
-    position: relative;
-    overflow-y: auto;
-    box-sizing: border-box;
-    gap: 30px;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: minmax(250px, 1fr) 2fr;
     grid-template-areas: 
         "avatar header"
         "stats actions"
         "stats activity";
-    max-width: 1200px;
-    margin: 0 auto;
+    gap: 30px;
+    padding: 40px;
+    margin: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     z-index: 1;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    width: 100%;
 }
 
 .user-avatar {
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
-    border: 2px solid rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -95,49 +107,44 @@ body.user-profile-active::after {
     will-change: transform, opacity;
 }
 
-.profile-stats-section {
-    width: 100%;
-    max-width: 600px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
 .user-stats {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    justify-content: center;
     grid-area: stats;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-radius: 15px;
     padding: 20px;
     height: fit-content;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
 .stat-item {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-radius: 12px;
     padding: 15px;
     text-align: center;
-    min-width: 0; /* Zapobiega przepełnieniu */
+    min-width: 0;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
-
 
 .user-name {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 10px;
-    color: white;
+    color: #333;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .user-email {
     font-size: 16px;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(51, 51, 51, 0.8);
     margin-bottom: 30px;
 }
 
@@ -150,13 +157,20 @@ body.user-profile-active::after {
 .stat-value {
     font-size: 24px;
     font-weight: bold;
-    color: white;
+    color: #333;
     margin-bottom: 5px;
 }
 
 .stat-label {
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(51, 51, 51, 0.8);
+}
+
+.user-actions {
+    grid-area: actions;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
 }
 
 .action-btn {
@@ -173,16 +187,16 @@ body.user-profile-active::after {
     gap: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    width: 100%;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .action-btn:hover {
     background: rgba(224, 122, 95, 0.9);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(224, 122, 95, 0.4);
+    box-shadow: 0 6px 20px rgba(224, 122, 95, 0.3);
 }
 
 .action-btn:active {
@@ -194,22 +208,20 @@ body.user-profile-active::after {
 }
 
 .recent-activity {
-    width: 100%;
-    max-width: 600px;
-    margin-top: 30px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+    grid-area: activity;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-radius: 15px;
     padding: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    grid-area: activity;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
 .activity-title {
     font-size: 18px;
     font-weight: bold;
-    color: white;
+    color: #333;
     margin-bottom: 15px;
     display: flex;
     align-items: center;
@@ -237,6 +249,8 @@ body.user-profile-active::after {
     justify-content: center;
     margin-right: 15px;
     flex-shrink: 0;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
 }
 
 .activity-details {
@@ -245,81 +259,64 @@ body.user-profile-active::after {
 
 .activity-description {
     font-size: 14px;
-    color: white;
+    color: #333;
     margin-bottom: 3px;
 }
 
 .activity-time {
     font-size: 12px;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(51, 51, 51, 0.8);
 }
 
-.user-profile-container.in-view::before {
-    animation: waterSurface 8s ease infinite;
+/* Animacja fal */
+@keyframes waterSurface {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
 }
 
-.user-profile-container.in-view::after,
-.user-avatar.in-view::before {
-    animation: waterDrop 3s ease-out infinite;
+/* Responsywność */
+@media (max-width: 1200px) {
+    .user-profile-container {
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "avatar"
+            "header"
+            "stats"
+            "actions"
+            "activity";
+        padding: 20px;
+        backdrop-filter: blur(25px);
+    }
+    
+    .user-avatar {
+        width: 100px;
+        height: 100px;
+        font-size: 36px;
+        justify-self: center;
+    }
+    
+    .user-name, .user-email {
+        text-align: center;
+    }
+    
+    .user-actions {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
 }
 
-/* Scroll-snap dla lepszego dopasowania */
-html {
-    scroll-snap-type: y mandatory;
-    overflow-y: scroll;
-}
-
-.user-profile-container {
-    scroll-snap-align: start;
-    height: 100vh;
-    overflow-y: auto;
-}
-
-/* Sekcja akcji */
-.profile-actions-section {
-    width: 100%;
-    max-width: 600px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.user-actions {
-    gap: 15px;
-    grid-area: actions;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-}
-
-.action-btn {
-    width: 100%;
-    justify-content: flex-start;
-    padding: 15px 25px;
-}
-
-/* Sekcja aktywności */
-.profile-activity-section {
-    width: 100%;
-    max-width: 600px;
-    margin-top: 10px;
-}
-
-.water-effect {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
-    z-index: -1;
-    overflow: hidden;
-}
-
-.water-drop {
-    position: absolute;
-    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
-    border-radius: 50%;
-    transform: scale(0);
-    opacity: 0;
-    animation: dropAnimation 4s infinite;
+@media (max-width: 768px) {
+    .user-profile-container {
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "avatar"
+            "header"
+            "stats"
+            "actions"
+            "activity";
+        padding: 20px;
+    }
+    
+    .user-actions {
+        grid-template-columns: 1fr;
+    }
 }

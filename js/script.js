@@ -1,10 +1,10 @@
 const translations = {
     "pl": {
-        "title": "Aplikacje Matematyczne",
+        "title": "EduVerse 360",
         "choose_app": "Wybierz aplikacje",
         "home": "Strona główna",
         "welcome": {
-            "title": "Witaj w Aplikacjach Matematycznych",
+            "title": "Witaj w EduVerse 360",
             "subtitle": "Odkryj narzędzia do obliczeń matematycznych"
         },
         "leapYear": {
@@ -12,6 +12,7 @@ const translations = {
             "prompt": "Podaj rok:",
             "button": "Oblicz",
             "history": "Historia:",
+            "emptyHistory": "Brak historii",
             "error": "Wprowadź poprawny rok (liczbę całkowitą).",
             "yes": "To {verb} rok przestępny",
             "no": "To nie {verb} rok przestępny",
@@ -84,11 +85,11 @@ const translations = {
         }
     },
     "en": {
-        "title": "Math Applications",
+        "title": "EduVerse 360",
         "choose_app": "Choose application",
         "home": "Home",
         "welcome": {
-            "title": "Welcome to Math Applications",
+            "title": "Welcome to EduVerse 360",
             "subtitle": "Discover tools for mathematical calculations"
         },
         "leapYear": {
@@ -96,6 +97,7 @@ const translations = {
             "prompt": "Enter year:",
             "button": "Check",
             "history": "History:",
+            "emptyHistory": "No history",
             "error": "Enter a valid integer year.",
             "yes": "It {verb} a leap year",
             "no": "It is not {verb} a leap year",
@@ -172,6 +174,7 @@ const translations = {
 // Global variables
 let currentLang = "pl";
 let currentScreen = "welcome";
+let isUserProfileVisible = false;
 
 // Function to dynamically load CSS files
 function loadCSS(filename) {
@@ -216,6 +219,7 @@ function setupMenu() {
             backToHome();
             if (sideMenu) {
                 sideMenu.classList.remove('open');
+                menuBtn.style.display = 'block'; // Pokaż przycisk po zamknięciu menu
             }
         });
     }
@@ -229,16 +233,22 @@ function setupMenu() {
     newMenuBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         sideMenu.classList.toggle('open');
-        newMenuBtn.style.display = sideMenu.classList.contains('open') ? 'none' : 'block';
+        // Ukryj przycisk, gdy menu jest otwarte
+        if (sideMenu.classList.contains('open')) {
+            newMenuBtn.style.display = 'none';
+        } else {
+            newMenuBtn.style.display = 'block';
+        }
     });
 
     document.addEventListener('click', function(e) {
         if (!e.target.closest('#globalSideMenu') && e.target !== newMenuBtn) {
             sideMenu.classList.remove('open');
-            newMenuBtn.style.display = 'block';
+            newMenuBtn.style.display = 'block'; // Pokaż przycisk po kliknięciu gdzie indziej
         }
     });
 
+    // Reszta kodu pozostaje bez zmian...
     // Submenu handling
     const setupSubmenu = (trigger, submenu) => {
         if (!trigger || !submenu) return;
@@ -263,36 +273,78 @@ function setupMenu() {
 
     // Fix for application selection
     document.querySelectorAll('.submenu-item[data-app]').forEach(item => {
-    item.addEventListener('click', function(e) {
-        e.stopPropagation();
-        const app = this.dataset.app;
-        if (app) {
-            currentScreen = "app";
-            document.querySelector('.welcome-screen').style.display = 'none';
-            document.querySelector('.home-screen').style.display = 'none';
-            document.querySelector('.app-container').style.display = 'block';
-            
-            document.querySelectorAll('.app-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            const appElement = document.getElementById(app + 'App');
-            if (appElement) {
-                appElement.classList.add('active');
+        item.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const app = this.dataset.app;
+            if (app) {
+                currentScreen = "app";
+                document.querySelector('.welcome-screen').style.display = 'none';
+                document.querySelector('.home-screen').style.display = 'none';
+                document.querySelector('.app-container').style.display = 'block';
+                
+                document.querySelectorAll('.app-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                const appElement = document.getElementById(app + 'App');
+                if (appElement) {
+                    appElement.classList.add('active');
+                }
+                
+                // Zawsze pokazuj przycisk menu po zmianie aplikacji
+                const menuBtn = document.getElementById('menuBtn');
+                if (menuBtn) {
+                    menuBtn.style.display = 'block';
+                    menuBtn.style.opacity = '1';
+                    menuBtn.style.pointerEvents = 'auto';
+                }
+                
+                // Zamknij menu boczne
+                if (sideMenu) {
+                    sideMenu.classList.remove('open');
+                }
+                
+                updateUI();
             }
-            
-            // Dodaj tę linię, aby zamknąć profil użytkownika
-            document.body.classList.remove('user-profile-active');
-            
-            if (sideMenu) {
-                sideMenu.classList.remove('open');
-            }
-            
+        });
+    });
+
+    const userBtn = document.querySelector('.user-btn');
+    if (userBtn) {
+        userBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            showUserProfile();
+        });
+    }
+
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('#globalSideMenu') && e.target !== menuBtn) {
+            if (sideMenu) sideMenu.classList.remove('open');
             if (menuBtn) menuBtn.style.display = 'block';
-            updateUI();
+            
+            if (isUserProfileVisible && !e.target.closest('.user-profile-container') && e.target !== userBtn) {
+                document.getElementById('userProfileApp').classList.remove('active');
+                isUserProfileVisible = false;
+                backToHome();
+            }
         }
     });
-});
+}
+
+function resetMenuState() {
+    const menuBtn = document.getElementById('menuBtn');
+    const sideMenu = document.getElementById('globalSideMenu');
+    
+    if (menuBtn) {
+        menuBtn.style.display = 'block';
+        menuBtn.style.opacity = '1';
+        menuBtn.style.pointerEvents = 'auto';
+    }
+    
+    if (sideMenu) {
+        sideMenu.classList.remove('open');
+        sideMenu.classList.remove('hidden');
+    }
 }
 
 // Initialize the application
@@ -484,7 +536,6 @@ function switchLanguage(lang) {
 
 function backToHome() {
     currentScreen = "home";
-    document.body.classList.remove('user-profile-active');
     document.querySelector('.home-screen').style.display = 'flex';
     document.querySelector('.app-container').style.display = 'none';
     document.getElementById('globalSideMenu').classList.remove('hidden');
@@ -497,25 +548,30 @@ function backToHome() {
         globalSideMenu.classList.remove('open');
     }
     
-    if (menuBtn) menuBtn.style.display = 'block';
+    // Upewnij się, że przycisk menu jest widoczny
+    const menuBtn = document.getElementById('menuBtn');
+    if (menuBtn) {
+        menuBtn.style.display = 'block';
+    }
     updateHomeUI();
     initializeUI();
 }
 
 function showUserProfile() {
     currentScreen = "app";
+    document.body.classList.add('user-profile-active');
     document.querySelector('.welcome-screen').style.display = 'none';
     document.querySelector('.home-screen').style.display = 'none';
     document.querySelector('.app-container').style.display = 'block';
+    
     document.querySelectorAll('.app-content').forEach(content => {
         content.classList.remove('active');
     });
+    
     document.getElementById('userProfileApp').classList.add('active');
-    const globalSideMenu = document.getElementById('globalSideMenu');
-    if (globalSideMenu) {
-        globalSideMenu.classList.remove('open');
-    }
-    if (menuBtn) menuBtn.style.display = 'block';
+    
+    createWaterDrops();
+    resetMenuState();
     updateUI();
 }
 
@@ -556,28 +612,22 @@ function createWaterDrops() {
 function initializeUI() {
     optimizeProfilePage();
     createWaterDrops();
-    const globalSideMenu = document.getElementById('globalSideMenu');
-    const menuBtn = document.getElementById('menuBtn');
-
+    
     if (currentScreen === "welcome") {
+        const menuBtn = document.getElementById('menuBtn');
+        const globalSideMenu = document.getElementById('globalSideMenu');
+        
         if (menuBtn) {
             menuBtn.style.display = 'none';
             menuBtn.style.opacity = '0';
             menuBtn.style.pointerEvents = 'none';
         }
+        
         if (globalSideMenu) {
             globalSideMenu.classList.add('hidden');
             globalSideMenu.classList.remove('open');
         }
     } else {
-        if (menuBtn) {
-            menuBtn.style.display = 'block';
-            menuBtn.style.opacity = '1';
-            menuBtn.style.pointerEvents = 'auto';
-        }
-        if (globalSideMenu) {
-            globalSideMenu.classList.remove('hidden');
-            globalSideMenu.classList.remove('open');
-        }
+        resetMenuState();
     }
 }

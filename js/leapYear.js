@@ -1,5 +1,6 @@
 let previousResult = "";
 let history = [];
+let isHistoryExpanded = false;
 const MAX_HISTORY = 10;
 
 const yearInput = document.getElementById('yearInput');
@@ -47,24 +48,13 @@ function animateTextChange(newText, oldText) {
     const centerContainer = document.createElement('div');
     centerContainer.classList.add('result-wrapper');
 
-    centerContainer.addEventListener('mousemove', e => {
-        const rect = centerContainer.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width) * 100;
-        const y = ((e.clientY - rect.top) / rect.height) * 100;
-        centerContainer.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(255, 0, 0, 0.25) 0%, transparent 60%)`;
-    });
-
-    centerContainer.addEventListener('mouseleave', () => {
-        centerContainer.style.background = `radial-gradient(circle at 50% 50%, rgba(255, 0, 0, 0.1) 0%, transparent 60%)`;
-    });
-
     const diffIndices = [];
     for (let i = 0; i < newWords.length; i++) {
         if (i >= oldWords.length || newWords[i] !== oldWords[i]) {
             diffIndices.push(i);
         }
     }
-
+    
     newWords.forEach((word, i) => {
         const wordSpan = document.createElement('span');
         wordSpan.className = 'result-word';
@@ -111,6 +101,67 @@ function updateHistory(year, result) {
     updateHistoryBox();
 }
 
+function updateHistoryBox() {
+    const historyBox = document.getElementById('historyBox');
+    historyBox.innerHTML = '';
+    
+    if (history.length === 0) {
+        const emptyMsg = document.createElement('div');
+        emptyMsg.className = 'history-entry';
+        emptyMsg.textContent = translations[currentLang].leapYear.emptyHistory || 'Brak historii';
+        historyBox.appendChild(emptyMsg);
+    } else {
+        history.forEach(item => {
+            const entryDiv = document.createElement('div');
+            entryDiv.className = 'history-entry';
+            entryDiv.textContent = item;
+            historyBox.appendChild(entryDiv);
+        });
+    }
+    
+    if (isHistoryExpanded) {
+        historyBox.classList.add('expanded');
+        document.querySelector('.history-title').classList.add('expanded');
+        historyBox.style.maxHeight = '200px';
+        historyBox.style.padding = '15px';
+        historyBox.style.opacity = '1';
+        historyBox.style.visibility = 'visible';
+    }
+}
+
+function toggleHistory() {
+    const historyBox = document.querySelector('.history-box');
+    const historyTitle = document.querySelector('.history-title');
+
+    if (historyBox.classList.contains('expanded')) {
+        // Rozpocznij animację zamykania
+        historyBox.classList.remove('expanded');
+        historyBox.classList.add('collapsing');
+        historyTitle.classList.remove('expanded');
+
+        // Po zakończeniu animacji ukryj element i zresetuj style
+        historyBox.addEventListener('animationend', function handler() {
+            historyBox.classList.remove('collapsing');
+            historyBox.style.visibility = 'hidden';
+            historyBox.style.maxHeight = '0';
+            historyBox.style.padding = '0';
+            historyBox.style.opacity = '0';
+            historyBox.removeEventListener('animationend', handler);
+        }, { once: true });
+    } else {
+        // Pokazanie historii
+        historyBox.style.visibility = 'visible';
+        historyBox.style.maxHeight = '200px';
+        historyBox.style.padding = '20px 15px';
+        historyBox.style.opacity = '1';
+        historyBox.classList.add('expanded');
+        historyTitle.classList.add('expanded');
+    }
+}
+
+const btn = document.querySelector('.history-title');
+btn.addEventListener('click', toggleHistory);
+
 function translateHistory() {
     if (history.length === 0) return;
     const newHistory = history.map(entry => {
@@ -125,16 +176,6 @@ function translateHistory() {
     });
     history = newHistory;
     updateHistoryBox();
-}
-
-function updateHistoryBox() {
-    historyBox.innerHTML = '';
-    history.forEach(item => {
-        const entryDiv = document.createElement('div');
-        entryDiv.className = 'history-entry';
-        entryDiv.textContent = item;
-        historyBox.appendChild(entryDiv);
-    });
 }
 
 function initializeLeapYear() {
@@ -159,4 +200,19 @@ function initializeLeapYear() {
             this.select();
         });
     }
+
+    const historyTitle = document.querySelector('.history-title');
+    if (historyTitle) {
+        historyTitle.addEventListener('click', toggleHistory);
+        
+        const historyBox = document.querySelector('.history-box');
+        historyBox.style.display = 'block';
+        historyBox.style.maxHeight = '0';
+        historyBox.style.padding = '0';
+        historyBox.style.opacity = '0';
+        historyBox.style.visibility = 'hidden';
+    }
+
+    // Initialize history box to show "Brak historii" on start
+    updateHistoryBox();
 }

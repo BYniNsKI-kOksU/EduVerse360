@@ -663,6 +663,7 @@ function toggleSizeMenu(matrixId) {
     const menu = document.getElementById(`sizeMenu${matrixId}`);
     if (!menu) return;
     
+    // Zamknij wszystkie inne menu
     document.querySelectorAll('.size-menu').forEach(m => {
         if (m !== menu) {
             m.style.display = 'none';
@@ -670,15 +671,20 @@ function toggleSizeMenu(matrixId) {
         }
     });
     
+    // Toggle obecnego menu
     const isOpen = menu.style.display === 'block';
     menu.style.display = isOpen ? 'none' : 'block';
     menu.classList.toggle('open', !isOpen);
     
+    // Ustaw wysoki z-index tylko dla otwartego menu
     if (!isOpen) {
+        menu.style.zIndex = '1100';
         const firstInput = menu.querySelector('input');
         if (firstInput) {
             firstInput.focus();
             firstInput.select();
         }
+    } else {
+        menu.style.zIndex = '';
     }
 }
