@@ -22,6 +22,7 @@
 
     /* Global liquid glass effect */
     --liquid-glass-bg: rgba(255, 255, 255, 0.1);
+    --liquid-glass-bg-black: rgba(0, 0, 0, 0.50);
     --liquid-glass-blur: blur(10px);
     --liquid-glass-border: 1px solid rgba(255, 255, 255, 0.2);
     --liquid-glass-shadow: 

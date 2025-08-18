@@ -242,9 +242,12 @@ function setupMenu() {
     });
 
     document.addEventListener('click', function(e) {
-        if (!e.target.closest('#globalSideMenu') && e.target !== newMenuBtn) {
-            sideMenu.classList.remove('open');
-            newMenuBtn.style.display = 'block'; // Pokaż przycisk po kliknięciu gdzie indziej
+        if (!e.target.closest('#globalSideMenu') 
+        && !e.target.closest('.lang-container') 
+        && e.target !== menuBtn) {
+        
+        if (sideMenu) sideMenu.classList.remove('open');
+        if (menuBtn) menuBtn.style.display = 'block';
         }
     });
 
@@ -363,38 +366,63 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (welcomeLangBtn && welcomeLangMenu) {
         welcomeLangBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            welcomeLangMenu.style.display = welcomeLangMenu.style.display === 'block' ? 'none' : 'block';
+            if (welcomeLangMenu.classList.contains('open')) {
+                welcomeLangMenu.classList.remove('open');
+                welcomeLangMenu.classList.add('closing');
+                welcomeLangMenu.addEventListener('animationend', () => {
+                    welcomeLangMenu.classList.remove('closing');
+                }, { once: true });
+            } else {
+                welcomeLangMenu.classList.add('open');
+            }
         });
 
         welcomeLangMenu.addEventListener('click', (e) => {
             if (e.target.dataset.lang) {
                 switchLanguage(e.target.dataset.lang);
-                welcomeLangMenu.style.display = 'none';
+                welcomeLangMenu.classList.remove('open');
+                welcomeLangMenu.classList.add('closing');
+                welcomeLangMenu.addEventListener('animationend', () => {
+                    welcomeLangMenu.classList.remove('closing');
+                }, { once: true });
             }
             e.stopPropagation();
         });
-    }
+    } 
 
     // Language button handling in nav-bar
     const langBtn = document.querySelector('.nav-bar .lang-btn');
     const langMenu = document.querySelector('.nav-bar .lang-menu');
     const userBtn = document.querySelector('.nav-bar .user-btn');
 
-    if (langBtn && langMenu) {
-        langBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            langMenu.style.display = langMenu.style.display === 'block' ? 'none' : 'block';
-        });
-    }
+if (langBtn && langMenu) {
+    langBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (langMenu.classList.contains('open')) {
+            langMenu.classList.remove('open');
+            langMenu.classList.add('closing');
+            langMenu.addEventListener('animationend', () => {
+                langMenu.classList.remove('closing');
+            }, { once: true });
+        } else {
+            langMenu.classList.add('open');
+        }
+    });
+}
 
-    if (langMenu) {
-        langMenu.addEventListener('click', (e) => {
-            if (e.target.dataset.lang) {
-                switchLanguage(e.target.dataset.lang);
-            }
-            e.stopPropagation();
-        });
-    }
+if (langMenu) {
+    langMenu.addEventListener('click', (e) => {
+        if (e.target.dataset.lang) {
+            switchLanguage(e.target.dataset.lang);
+            langMenu.classList.remove('open');
+            langMenu.classList.add('closing');
+            langMenu.addEventListener('animationend', () => {
+                langMenu.classList.remove('closing');
+            }, { once: true });
+        }
+        e.stopPropagation();
+    });
+}
 
     if (userBtn) {
         userBtn.addEventListener('click', () => {

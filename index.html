@@ -20,7 +20,7 @@
     <!-- Global Navigation Bar -->
     <div class="nav-bar">
         <button class="nav-btn user-btn" id="showUserProfileBtn">👤</button>
-        <div class="lang-btn-container">
+        <div class="lang-container">
             <button class="nav-btn lang-btn">🔤</button>
             <div class="lang-menu">
                 <div data-lang="pl">Polski PL</div>
@@ -118,9 +118,9 @@
                     </div>
                     <div id="methodSelector" class="method-selector">
                         <button class="method-btn active" data-method="cramer">Cramer</button>
-                        <button class="method-btn" data-method="gauss">Eliminacja Gaussa</button>
-                        <button class="method-btn" data-method="gauss_jordan">Gauss-Jordan</button>
-                        <button class="method-btn" data-method="inverse">Macierz odwrotna</button>
+                        <button class="method-btn active" data-method="gauss">Eliminacja Gaussa</button>
+                        <button class="method-btn active" data-method="gauss_jordan">Gauss-Jordan</button>
+                        <button class="method-btn active" data-method="inverse">Macierz odwrotna</button>
                     </div>
                 </div>
 
@@ -171,7 +171,9 @@
                     </div>
                 </div>
                 <div id="errorMessage" class="error-message"></div>
-                <div id="resultBox" class="result-container-matrix">Wynik</div>
+                <div id="resultBox" class="result-container-matrix">
+                    <div class="default-result-text">Wynik</div>
+                </div>
                 <div id="solutionBox" class="solution-container"></div>
             </div>
         </div>

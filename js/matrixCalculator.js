@@ -123,6 +123,11 @@ function createMatrix(gridElement, rows, cols) {
             gridElement.appendChild(input);
         }
     }
+
+    // Ustaw zmienną --i dla elementów operation-menu-item
+    document.querySelectorAll('.operation-menu-item').forEach((item, index) => {
+        item.style.setProperty('--i', index);
+    });
 }
 
 function setupSizeInputBehavior(inputElement, acceptFunction) {
@@ -214,6 +219,11 @@ function changeOperation(operation) {
         solutionBox.classList.toggle('visible', operation === 'solve');
     }
 
+    if (operation !== 'solve') {
+        currentMethod = 'cramer';
+        updateMethodButtons();
+    }
+
     adjustMatrixB();
     updateUI();
     centerMatrices();
@@ -259,9 +269,12 @@ function adjustMatrixB() {
         colsB.disabled = true;
         matrixB.style.display = 'block';
     } else if (['add', 'sub', 'mul'].includes(currentOperation)) {
-        const currentRowsB = parseInt(rowsB.value) || 2;
-        const currentColsB = parseInt(colsB.value) || 2;
-        createMatrix(matrixBGrid, currentRowsB, currentColsB);
+        // Przywróć domyślny rozmiar 2x2 jeśli wcześniej była operacja solve
+        if (colsB.disabled) {
+            createMatrix(matrixBGrid, 2, 2);
+            rowsB.value = 2;
+            colsB.value = 2;
+        }
         colsB.disabled = false;
         matrixB.style.display = 'block';
         
@@ -279,21 +292,64 @@ function adjustMatrixB() {
 }
 
 function displayResult(result) {
-    if (!resultBox) return;
+    if (!resultBox || !solutionBox) return;
+    
+    // Clear previous results but keep the default text
+    const defaultText = resultBox.querySelector('.default-result-text');
     resultBox.innerHTML = '';
+    if (defaultText) {
+        resultBox.appendChild(defaultText.cloneNode(true));
+    } else {
+        const defaultText = document.createElement('div');
+        defaultText.className = 'default-result-text';
+        defaultText.textContent = 'Wynik';
+        resultBox.appendChild(defaultText);
+    }
+    solutionBox.innerHTML = '';
     
     if (Array.isArray(result)) {
+        // Remove default text when showing actual results
+        resultBox.innerHTML = '';
+        
+        // Display matrix form in result box
         const pre = document.createElement('pre');
-        // Convert the result matrix to a string representation
         const matrixString = result.map(row => 
-            row.map(val => Number.isInteger(val) ? val.toString() : val.toFixed(2)).join('\t')
+            row.map(val => Number.isInteger(val) ? val.toString() : val.toFixed(4)).join('\t')
         ).join('\n');
         pre.textContent = matrixString;
         resultBox.appendChild(pre);
+
+        // Display equation form in solution box if solving system
+        if (currentOperation === 'solve') {
+            solutionBox.classList.add('visible');
+            result.forEach(([value], index) => {
+                const row = document.createElement('div');
+                row.className = 'solution-row';
+                
+                const variable = document.createElement('span');
+                variable.className = 'solution-variable';
+                variable.textContent = `x${index + 1} =`;
+                
+                const val = document.createElement('span');
+                val.className = 'solution-value';
+                val.textContent = Number.isInteger(value) ? value.toString() : value.toFixed(4);
+                
+                row.appendChild(variable);
+                row.appendChild(val);
+                solutionBox.appendChild(row);
+            });
+        } else {
+            solutionBox.classList.remove('visible');
+        }
     } else {
+        // Remove default text when showing actual results
+        resultBox.innerHTML = '';
+        
+        // Single value result (like determinant)
         const span = document.createElement('span');
         span.textContent = result.toString();
         resultBox.appendChild(span);
+        solutionBox.classList.remove('visible');
     }
 }
 
@@ -395,21 +451,138 @@ function inverse(matrix) {
 }
 
 function solveSystem(A, B) {
-    if (currentMethod === 'cramer') {
-        const detA = determinant(A);
-        if (Math.abs(detA) < 1e-10) {
+    switch (currentMethod) {
+        case 'cramer':
+            return solveWithCramer(A, B);
+        case 'gauss':
+            return solveWithGauss(A, B);
+        case 'gauss_jordan':
+            return solveWithGaussJordan(A, B);
+        case 'inverse':
+            return solveWithInverse(A, B);
+        default:
+            throw new Error(translations[currentLang].matrixCalc.errors.method_not_implemented);
+    }
+}
+
+function solveWithCramer(A, B) {
+    const detA = determinant(A);
+    if (Math.abs(detA) < 1e-10) {
+        throw new Error(translations[currentLang].matrixCalc.errors.singular);
+    }
+    const result = [];
+    for (let i = 0; i < A.length; i++) {
+        const Ai = A.map((row, j) => row.map((val, k) => k === i ? B[j][0] : val));
+        result.push([determinant(Ai) / detA]);
+    }
+    return result;
+}
+
+function solveWithGauss(A, B) {
+    // Implementacja eliminacji Gaussa
+    const n = A.length;
+    const augmented = A.map((row, i) => [...row, B[i][0]]);
+    
+    // Eliminacja w przód
+    for (let i = 0; i < n; i++) {
+        // Znajdź wiersz z maksymalnym elementem w kolumnie
+        let maxRow = i;
+        for (let j = i + 1; j < n; j++) {
+            if (Math.abs(augmented[j][i]) > Math.abs(augmented[maxRow][i])) {
+                maxRow = j;
+            }
+        }
+        
+        // Zamień wiersze
+        [augmented[i], augmented[maxRow]] = [augmented[maxRow], augmented[i]];
+        
+        // Jeśli główny element jest zerowy, macierz jest osobliwa
+        if (Math.abs(augmented[i][i]) < 1e-10) {
             throw new Error(translations[currentLang].matrixCalc.errors.singular);
         }
-        const result = [];
-        for (let i = 0; i < A.length; i++) {
-            const Ai = A.map((row, j) => row.map((val, k) => k === i ? B[j][0] : val));
-            result.push([determinant(Ai) / detA]);
+        
+        // Eliminacja
+        for (let j = i + 1; j < n; j++) {
+            const factor = augmented[j][i] / augmented[i][i];
+            for (let k = i; k < n + 1; k++) {
+                augmented[j][k] -= factor * augmented[i][k];
+            }
         }
-        return result;
-    } else {
-        // Implement other methods (gauss, gauss_jordan, inverse) if needed
-        throw new Error("Only Cramer's method is implemented");
     }
+    
+    // Podstawienie wsteczne
+    const result = Array(n).fill().map(() => [0]);
+    for (let i = n - 1; i >= 0; i--) {
+        let sum = 0;
+        for (let j = i + 1; j < n; j++) {
+            sum += augmented[i][j] * result[j][0];
+        }
+        result[i][0] = (augmented[i][n] - sum) / augmented[i][i];
+    }
+    
+    return result;
+}
+
+function solveWithGaussJordan(A, B) {
+    // Implementacja eliminacji Gaussa-Jordana
+    const n = A.length;
+    const augmented = A.map((row, i) => [...row, B[i][0]]);
+    
+    for (let i = 0; i < n; i++) {
+        // Znajdź wiersz z maksymalnym elementem w kolumnie
+        let maxRow = i;
+        for (let j = i + 1; j < n; j++) {
+            if (Math.abs(augmented[j][i]) > Math.abs(augmented[maxRow][i])) {
+                maxRow = j;
+            }
+        }
+        
+        // Zamień wiersze
+        [augmented[i], augmented[maxRow]] = [augmented[maxRow], augmented[i]];
+        
+        // Jeśli główny element jest zerowy, macierz jest osobliwa
+        if (Math.abs(augmented[i][i]) < 1e-10) {
+            throw new Error(translations[currentLang].matrixCalc.errors.singular);
+        }
+        
+        // Uczyń element diagonalny równym 1
+        const divisor = augmented[i][i];
+        for (let j = i; j < n + 1; j++) {
+            augmented[i][j] /= divisor;
+        }
+        
+        // Wyzeruj pozostałe elementy w kolumnie
+        for (let j = 0; j < n; j++) {
+            if (j !== i) {
+                const factor = augmented[j][i];
+                for (let k = i; k < n + 1; k++) {
+                    augmented[j][k] -= factor * augmented[i][k];
+                }
+            }
+        }
+    }
+    
+    // Wynik znajduje się w ostatniej kolumnie
+    return augmented.map(row => [row[n]]);
+}
+
+function solveWithInverse(A, B) {
+    // Rozwiązanie poprzez macierz odwrotną
+    const invA = inverse(A);
+    return multiplyMatrices(invA, B);
+}
+
+function multiplyMatrices(A, B) {
+    // Pomocnicza funkcja do mnożenia macierzy
+    const result = Array(A.length).fill().map(() => Array(B[0].length).fill(0));
+    for (let i = 0; i < A.length; i++) {
+        for (let j = 0; j < B[0].length; j++) {
+            for (let k = 0; k < A[0].length; k++) {
+                result[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
+    return result;
 }
 
 function clearMatrices() {
@@ -449,6 +622,9 @@ function initializeMatrixCalculator() {
 
     const acceptA = document.getElementById('acceptA');
     const acceptB = document.getElementById('acceptB');
+
+    const resizeIconA = document.querySelector('.matrix-a-container .resize-icon');
+    const resizeIconB = document.querySelector('.matrix-b-container .resize-icon');
 
     if (rowsA) setupSizeInputBehavior(rowsA, () => {
         const rows = Math.max(1, Math.min(10, parseInt(rowsA.value) || 2));
@@ -544,37 +720,74 @@ function initializeMatrixCalculator() {
     });
 
     if (operationBtn) operationBtn.addEventListener('click', e => {
-        e.stopPropagation();
-        operationMenu.style.display = operationMenu.style.display === 'block' ? 'none' : 'block';
+    e.stopPropagation();
+    const isOpen = operationMenu.classList.contains('open');
+    
+    // Zamknij wszystkie inne otwarte menu
+    document.querySelectorAll('.operation-menu.open').forEach(menu => {
+        if (menu !== operationMenu) {
+            menu.classList.remove('open');
+            menu.classList.add('closing');
+            setTimeout(() => {
+                menu.style.display = 'none';
+                menu.classList.remove('closing');
+            }, 300);
+        }
     });
-
-    if (operationMenu) operationMenu.addEventListener('click', e => {
-        if (e.target.classList.contains('operation-menu-item')) {
-            changeOperation(e.target.dataset.op);
+    
+    if (isOpen) {
+        operationMenu.classList.remove('open');
+        operationMenu.classList.add('closing');
+        setTimeout(() => {
             operationMenu.style.display = 'none';
-        }
-        e.stopPropagation();
-    });
+            operationMenu.classList.remove('closing');
+        }, 300);
+    } else {
+        operationMenu.style.display = 'block';
+        // Krótkie opóźnienie aby umożliwić przejście CSS
+        requestAnimationFrame(() => {
+            operationMenu.classList.add('open');
+        });
+    }
+});
 
-    document.addEventListener('click', (e) => {
-        const isOperationMenuClick = e.target.closest('.operation-menu');
-        const isOperationBtnClick = e.target === operationBtn || e.target.closest('#operationBtn');
-        
-        if (!isOperationMenuClick && !isOperationBtnClick && operationMenu) {
+if (operationMenu) operationMenu.addEventListener('click', e => {
+    if (e.target.classList.contains('operation-menu-item')) {
+        changeOperation(e.target.dataset.op);
+        operationMenu.classList.remove('open');
+        operationMenu.classList.add('closing');
+        setTimeout(() => {
             operationMenu.style.display = 'none';
-        }
-    });
+            operationMenu.classList.remove('closing');
+        }, 300);
+    }
+    e.stopPropagation();
+});
 
-    document.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' && currentScreen === 'app' && document.getElementById('matrixCalcApp').classList.contains('active')) {
-        const isSizeInput = e.target === rowsA || e.target === colsA || 
-                           e.target === rowsB || e.target === colsB ||
-                           e.target === resizeRowsA || e.target === resizeColsA ||
-                           e.target === resizeRowsB || e.target === resizeColsB;
-        if (!isSizeInput) {
-            e.preventDefault();
-            compute();
+document.addEventListener('click', (e) => {
+    const isOperationMenuClick = e.target.closest('.operation-menu');
+    const isOperationBtnClick = e.target === operationBtn || e.target.closest('#operationBtn');
+    
+    if (!isOperationMenuClick && !isOperationBtnClick && operationMenu) {
+        if (operationMenu.classList.contains('open')) {
+            operationMenu.classList.remove('open');
+            operationMenu.classList.add('closing');
+            setTimeout(() => {
+                operationMenu.style.display = 'none';
+                operationMenu.classList.remove('closing');
+            }, 300);
         }
+    }
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && operationMenu.classList.contains('open')) {
+        operationMenu.classList.remove('open');
+        operationMenu.classList.add('closing');
+        setTimeout(() => {
+            operationMenu.style.display = 'none';
+            operationMenu.classList.remove('closing');
+        }, 300);
     }
 });
 
@@ -662,7 +875,7 @@ document.addEventListener('keydown', function(event) {
 function toggleSizeMenu(matrixId) {
     const menu = document.getElementById(`sizeMenu${matrixId}`);
     if (!menu) return;
-    
+
     // Zamknij wszystkie inne menu
     document.querySelectorAll('.size-menu').forEach(m => {
         if (m !== menu) {
@@ -670,15 +883,15 @@ function toggleSizeMenu(matrixId) {
             m.classList.remove('open');
         }
     });
-    
+
     // Toggle obecnego menu
     const isOpen = menu.style.display === 'block';
     menu.style.display = isOpen ? 'none' : 'block';
     menu.classList.toggle('open', !isOpen);
-    
+
     // Ustaw wysoki z-index tylko dla otwartego menu
     if (!isOpen) {
-        menu.style.zIndex = '1100';
+        menu.style.zIndex = '2000';
         const firstInput = menu.querySelector('input');
         if (firstInput) {
             firstInput.focus();

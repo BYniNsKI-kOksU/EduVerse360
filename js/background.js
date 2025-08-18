@@ -502,13 +502,39 @@ function updateHomeUI() {
 }
 
 document.addEventListener('click', function(e) {
-    const langMenu = document.querySelector('.lang-menu');
-    const langBtn = document.querySelector('.welcome-lang-btn');
+    const welcomeLangMenu = document.querySelector('.welcome-lang-btn .lang-menu');
+    const welcomeLangBtn = document.querySelector('.welcome-lang-btn .lang-btn');
     
-    if (langMenu && !langMenu.contains(e.target) && !langBtn.contains(e.target)) {
-        langMenu.style.display = 'none';
+    // Zamknij menu językowe jeśli kliknięto poza nim
+    if (welcomeLangMenu && welcomeLangBtn && 
+        !welcomeLangMenu.contains(e.target) && 
+        !welcomeLangBtn.contains(e.target)) {
+        welcomeLangMenu.classList.remove('open');
+        welcomeLangMenu.classList.add('closing');
+        welcomeLangMenu.addEventListener('animationend', () => {
+            welcomeLangMenu.classList.remove('closing');
+        }, { once: true });
     }
 });
+
+// Dodaj obsługę kliknięcia w przycisk językowy na ekranie powitalnym
+const welcomeLangBtn = document.querySelector('.welcome-lang-btn .lang-btn');
+const welcomeLangMenu = document.querySelector('.welcome-lang-btn .lang-menu');
+
+if (welcomeLangBtn && welcomeLangMenu) {
+    welcomeLangBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (welcomeLangMenu.classList.contains('open')) {
+            welcomeLangMenu.classList.remove('open');
+            welcomeLangMenu.classList.add('closing');
+            welcomeLangMenu.addEventListener('animationend', () => {
+                welcomeLangMenu.classList.remove('closing');
+            }, { once: true });
+        } else {
+            welcomeLangMenu.classList.add('open');
+        }
+    });
+}
 
 document.querySelector('.lang-menu').addEventListener('click', function(e) {
     e.stopPropagation();
