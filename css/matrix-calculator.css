@@ -90,24 +90,55 @@
     clip-path: none;
 }
 
-/* Adjust matrix containers to account for the bulge */
 .matrix-a-container, .matrix-b-container {
     position: relative;
-    padding-top: 10px;
-    padding-left: 10px;
+    z-index: 900;
+    margin: 0 auto;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: visible;
 }
 
 /* Matrix Calculator */
 .matrices-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: flex-start;
-    gap: 30px;
+    gap: 120px;
     flex-wrap: nowrap;
     margin: 20px auto;
-    max-width: 1200px;
+    max-width: 1400px;
     z-index: 900;
-    padding: 0 40px;
+    padding: 0 60px;
+}
+
+.matrix-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.matrix-operator {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--clr-accent);
+    align-self: center; /* Wyśrodkowanie pionowe */
+    padding: 0 20px;
+    transition: opacity 0.3s ease;
+}
+
+.single-matrix .matrix-b-container,
+.single-matrix .matrix-operator {
+    display: none; /* Ukryj macierz B i operator */
+}
+
+.single-matrix .matrix-a-container {
+    max-width: 100%; /* Pełna szerokość dla pojedynczej macierzy */
+    margin: 0 auto; /* Wyśrodkowanie */
 }
 
 .matrices-container > .matrix-a-container,
@@ -159,6 +190,8 @@
     text-align: center;
     position: relative;
     z-index: 1003;
+    width: 180px;
+    flex-shrink: 0;
 }
 
 .operation-label {
@@ -536,10 +569,11 @@
     transform-origin: top center;
     animation: menuAppear 0.3s ease forwards;
     
-    top: calc(100% + 10px);
-    left: 0;
-    transform: translateX(-50%);
-    margin-top: 0;
+    top: 100%;
+    left: 50%;
+    transform: translateY(-50%);
+    margin-top: 10px;
+    margin-left: 10px;
     width: auto;
 }
 
@@ -977,7 +1011,6 @@
     box-shadow: 
         0 0 20px rgba(224, 122, 95, 0.2),
         inset 0 0 15px rgba(224, 122, 95, 0.1);
-    
     color: white;
     padding: 5px;
     border-radius: 5px;

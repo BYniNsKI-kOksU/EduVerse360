@@ -297,14 +297,11 @@ function displayResult(result) {
     // Clear previous results but keep the default text
     const defaultText = resultBox.querySelector('.default-result-text');
     resultBox.innerHTML = '';
-    if (defaultText) {
-        resultBox.appendChild(defaultText.cloneNode(true));
-    } else {
-        const defaultText = document.createElement('div');
-        defaultText.className = 'default-result-text';
-        defaultText.textContent = 'Wynik';
-        resultBox.appendChild(defaultText);
-    }
+    const newDefaultText = document.createElement('div');
+    newDefaultText.className = 'default-result-text';
+    newDefaultText.textContent = translations[currentLang].matrixCalc.result_label;
+    resultBox.appendChild(newDefaultText);
+    
     solutionBox.innerHTML = '';
     
     if (Array.isArray(result)) {
@@ -901,3 +898,42 @@ function toggleSizeMenu(matrixId) {
         menu.style.zIndex = '';
     }
 }
+
+function positionSizeMenu(menu) {
+    const container = menu.closest('.matrix-a-container, .matrix-b-container');
+    const matrixGrid = container.querySelector('.matrix-grid');
+    
+    if (matrixGrid) {
+        const gridRect = matrixGrid.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+        
+        // Oblicz środek siatki macierzy
+        const gridCenterX = gridRect.left + gridRect.width / 2;
+        
+        // Oblicz pozycję względem kontenera
+        const relativeX = gridCenterX - containerRect.left;
+        
+        // Ustaw pozycję menu
+        menu.style.left = `${relativeX}px`;
+        menu.style.transform = 'translateX(-50%) scaleY(0)';
+    }
+}
+
+// Wywołaj przy otwieraniu menu
+function openSizeMenu(menu) {
+    positionSizeMenu(menu);
+    menu.style.display = 'flex';
+    setTimeout(() => {
+        menu.classList.add('open');
+        menu.classList.remove('closing');
+    }, 10);
+}
+
+// Dodaj nasłuchiwanie na zmianę rozmiaru okna
+window.addEventListener('resize', () => {
+    document.querySelectorAll('.size-menu').forEach(menu => {
+        if (menu.style.display === 'flex') {
+            positionSizeMenu(menu);
+        }
+    });
+});

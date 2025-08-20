@@ -109,12 +109,15 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     transition: all 0.2s ease-out;
     will-change: transform, background-color;
+    opacity: 0;
+    transform: translateX(-15px);
 }
 
-.home-side-menu.open .menu-item, .side-menu.open .menu-item {
-    animation: none;
+.side-menu.open .menu-item,
+.home-side-menu.open .menu-item {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
+    transition: all 0.3s ease;
 }
 
 .menu-item:hover, .menu-item.active {
@@ -123,15 +126,24 @@
     transform: translateX(5px);
 }
 
+/* === SUBMENU animacje === */
 .submenu {
     background-color: rgba(0, 0, 0, 0.15);
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: top center;
+    transform: scaleY(0.6) rotateX(-15deg);
+    opacity: 0;
+    transition: 
+        max-height 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),
+        opacity 0.6s ease;
 }
 
 .submenu.open, .menu-item.active + .submenu {
     max-height: 500px;
+    transform: scaleY(1) rotateX(0deg);
+    opacity: 1;
 }
 
 .homeMenuItem {
@@ -149,14 +161,15 @@
     text-align: center;
     color: var(--clr-fg-his);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    transition: all 0.2s ease-out;
-    will-change: transform, background-color;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(10px);
 }
 
-.home-side-menu.open .submenu-item, .side-menu.open .submenu-item {
-    animation: none;
+.submenu.open .submenu-item {
     opacity: 1;
     transform: translateY(0);
+    transition-delay: calc(var(--i, 0) * 0.08s);
 }
 
 .submenu-item:hover {
@@ -173,4 +186,18 @@
     font-weight: bold;
     color: var(--clr-fg-en);
     transition: all 0.2s ease-out;
+}
+
+/* === Keyframes dla efektu dżina z przycisku === */
+@keyframes expand-from-btn {
+    0%   { transform: scale(0.1) translate(-50%,-50%); opacity: 0; }
+    60%  { transform: scale(1.05) translate(0,0); opacity: 1; }
+    80%  { transform: scale(0.97) translate(0,0); }
+    100% { transform: scale(1) translate(0,0); }
+}
+
+@keyframes collapse-to-btn {
+    0%   { transform: scale(1) translate(0,0); opacity: 1; }
+    20%  { transform: scale(1.05) translate(0,0); }
+    100% { transform: scale(0.1) translate(-50%,-50%); opacity: 0; }
 }

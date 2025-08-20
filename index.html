@@ -21,10 +21,11 @@
     <div class="nav-bar">
         <button class="nav-btn user-btn" id="showUserProfileBtn">👤</button>
         <div class="lang-container">
-            <button class="nav-btn lang-btn">🔤</button>
+            <div class="lang-btn"></div>
             <div class="lang-menu">
-                <div data-lang="pl">Polski PL</div>
-                <div data-lang="en">English GB</div>
+                <div data-lang="pl">Polski</div>
+                <div data-lang="en">English</div>
+                <div data-lang="de">Deutsch</div>
             </div>
         </div>
     </div>
@@ -52,11 +53,14 @@
         <h1 class="welcome-title"><span>Witaj w EduVerse 360</span></h1>
         <p class="welcome-subtitle"><span>Odkryj narzędzia do obliczeń matematycznych</span></p>
         <p class="start-hint">(kliknij dowolny klawisz lub kliknij myszką aby kontynuować)</p>
-        <div class="lang-btn-container welcome-lang-btn">
-            <button class="lang-btn">🔤</button>
-            <div class="lang-menu">
-                <div data-lang="pl">Polski PL</div>
-                <div data-lang="en">English GB</div>
+        <div class="welcome-lang-btn">
+            <div class="lang-btn-container">
+                <div class="lang-btn"></div>
+                <div class="lang-menu">
+                    <div data-lang="pl">Polski</div>
+                    <div data-lang="en">English</div>
+                    <div data-lang="de">Deutsch</div>
+                </div>
             </div>
         </div>
     </div>
@@ -246,6 +250,7 @@
     </div>
 </div>
 
+    <script src="js/translations.js"></script>
     <script src="js/script.js"></script>
     <script src="js/background.js"></script>
     <script src="js/leapYear.js"></script>

@@ -56,6 +56,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+function ensureTranslationsLoaded() {
+    if (typeof translations === 'undefined') {
+        console.error('Translations not loaded!');
+        return false;
+    }
+    return true;
+}
+
 function adjustParticlesDensity() {
     const maxParticles = 550;
     const particlesPerPixel = maxParticles / 1920;
@@ -173,11 +181,18 @@ function startApplication() {
         });
     }
     
-    // Upewnij się, że przycisk menu jest widoczny po starcie aplikacji
     const menuBtn = document.getElementById('menuBtn');
     if (menuBtn) {
         menuBtn.style.display = 'block';
     }
+
+    const langMenu = document.querySelector('.nav-bar .lang-menu');
+    langMenu?.addEventListener('click', (e) => {
+        if (e.target.dataset.lang) {
+            if (!ensureTranslationsLoaded()) return;
+            switchLanguage(e.target.dataset.lang);
+        }
+    });
     
     setTimeout(() => {
         document.querySelector('.welcome-screen').style.display = 'none';
@@ -308,15 +323,9 @@ function createWaterDrops() {
     }
 }
 
-function switchLanguage(code) {
-    currentLang = code;
-    document.title = translations[code].title;
-    updateWelcomeScreen();
-    updateUI();
-    updateHomeUI();
-}
-
 function updateWelcomeScreen() {
+    if (!ensureTranslationsLoaded()) return;
+
     const welcomeTitle = document.querySelector('.welcome-title');
     const welcomeSubtitle = document.querySelector('.welcome-subtitle');
     const startBtn = document.querySelector('.start-btn');
@@ -350,191 +359,14 @@ function updateWelcomeScreen() {
     }
 }
 
-function updateUI() {
-    const title = document.getElementById('title');
-    if (title) title.textContent = translations[currentLang].title;
-
-    const homeMenuItem = document.getElementById('homeMenuItem');
-    if (homeMenuItem) homeMenuItem.textContent = translations[currentLang].home;
-    
-    const leapYearTitle = document.getElementById('leapYearTitle');
-    const yearLabel = document.getElementById('yearLabel');
-    const checkBtn = document.getElementById('checkBtn');
-    const historyLabel = document.getElementById('historyLabel');
-    if (leapYearTitle) leapYearTitle.textContent = translations[currentLang].leapYear.title;
-    if (yearLabel) yearLabel.textContent = translations[currentLang].leapYear.prompt;
-    if (checkBtn) checkBtn.textContent = translations[currentLang].leapYear.button;
-    if (historyLabel) historyLabel.textContent = translations[currentLang].leapYear.history;
-    translateHistory();
-
-    const matrixCalcTitle = document.getElementById('matrixCalcTitle');
-    const operationLabel = document.getElementById('operationLabel');
-    const operationBtn = document.getElementById('operationBtn');
-    const computeBtn = document.getElementById('computeBtn');
-    const clearBtn = document.getElementById('clearBtn');
-    const matrixATitle = document.getElementById('matrixATitle');
-    const matrixBTitle = document.getElementById('matrixBTitle');
-    const rowsALabel = document.getElementById('rowsALabel');
-    const colsALabel = document.getElementById('colsALabel');
-    const rowsBLabel = document.getElementById('rowsBLabel');
-    const colsBLabel = document.getElementById('colsBLabel');
-    const acceptA = document.getElementById('acceptA');
-    const acceptB = document.getElementById('acceptB');
-    
-    if (matrixCalcTitle) matrixCalcTitle.textContent = translations[currentLang].matrixCalc.title;
-    if (operationLabel) operationLabel.textContent = translations[currentLang].matrixCalc.operation;
-    if (operationBtn) operationBtn.textContent = translations[currentLang].matrixCalc.operations[currentOperation];
-    if (computeBtn) computeBtn.textContent = translations[currentLang].matrixCalc.compute;
-    if (clearBtn) clearBtn.textContent = translations[currentLang].matrixCalc.clear;
-    if (matrixATitle) matrixATitle.textContent = translations[currentLang].matrixCalc.matrix_a;
-    if (matrixBTitle) matrixBTitle.textContent = translations[currentLang].matrixCalc.matrix_b;
-    if (rowsALabel) rowsALabel.textContent = translations[currentLang].matrixCalc.rows;
-    if (colsALabel) colsALabel.textContent = translations[currentLang].matrixCalc.cols;
-    if (rowsBLabel) rowsBLabel.textContent = translations[currentLang].matrixCalc.rows;
-    if (colsBLabel) colsBLabel.textContent = translations[currentLang].matrixCalc.cols;
-    if (acceptA) acceptA.textContent = translations[currentLang].matrixCalc.accept;
-    if (acceptB) acceptB.textContent = translations[currentLang].matrixCalc.accept;
-    if (resizeBtn) resizeBtn.textContent = translations[currentLang].matrixCalc.buttons.resize;
-
-    const appMenuItem = document.getElementById('appMenuItem');
-    const appSubmenuItems = document.querySelectorAll('#appSubmenu .submenu-item');
-    if (appMenuItem) appMenuItem.textContent = currentLang === 'pl' ? 'Aplikacje' : 'Applications';
-    appSubmenuItems.forEach((item, index) => {
-        if (index === 0) item.textContent = translations[currentLang].leapYear.title;
-        if (index === 1) item.textContent = translations[currentLang].matrixCalc.title;
-    });
-    
-    const helpMenuItem = document.getElementById('helpMenuItem');
-    const helpSubmenuItems = document.querySelectorAll('#helpSubmenu .submenu-item');
-    if (helpMenuItem) helpMenuItem.textContent = currentLang === 'pl' ? 'Pomoc' : 'Help';
-    helpSubmenuItems.forEach((item, index) => {
-        if (index === 0) item.textContent = currentLang === 'pl' ? 'O aplikacji' : 'About';
-        if (index === 1) item.textContent = currentLang === 'pl' ? 'Instrukcja' : 'Instructions';
-    });
-    
-    const operationMenu = document.getElementById('operationMenu');
-    if (operationMenu) {
-        operationMenu.innerHTML = '';
-        for (const [key, value] of Object.entries(translations[currentLang].matrixCalc.operations)) {
-            const item = document.createElement('div');
-            item.className = 'operation-menu-item';
-            item.textContent = value;
-            item.dataset.op = key;
-            operationMenu.appendChild(item);
-        }
-    }
-    
-    const methodSelector = document.getElementById('methodSelector');
-    if (methodSelector) {
-        methodSelector.innerHTML = '';
-        if (currentOperation === 'solve') {
-            for (const [key, value] of Object.entries(translations[currentLang].matrixCalc.methods)) {
-                const btn = document.createElement('button');
-                btn.className = `method-btn ${key === currentMethod ? 'active' : ''}`;
-                btn.textContent = value;
-                btn.dataset.method = key;
-                btn.addEventListener('click', () => {
-                    currentMethod = key;
-                    updateMethodButtons();
-                });
-                methodSelector.appendChild(btn);
-            }
-            methodSelector.style.display = 'flex';
-        } else {
-            methodSelector.style.display = 'none';
-        }
-    }
-
-    const resizeTitle = document.querySelector('.resize-dialog h2');
-    if (resizeTitle) resizeTitle.textContent = translations[currentLang].matrixCalc.resize_dialog.title;
-    
-    const matrixALabel = document.querySelector('.resize-column:nth-child(1) h3');
-    if (matrixALabel) matrixALabel.textContent = translations[currentLang].matrixCalc.resize_dialog.matrix_a;
-    
-    const matrixBLabel = document.querySelector('.resize-column:nth-child(2) h3');
-    if (matrixBLabel) matrixBLabel.textContent = translations[currentLang].matrixCalc.resize_dialog.matrix_b;
-    
-    const rowsLabels = document.querySelectorAll('.size-label');
-    rowsLabels.forEach(label => {
-        if (label.textContent.includes('Wiersze') || label.textContent.includes('Rows')) {
-            label.textContent = translations[currentLang].matrixCalc.resize_dialog.rows;
-        } else {
-            label.textContent = translations[currentLang].matrixCalc.resize_dialog.cols;
-        }
-    });
-    
-    if (acceptResize) acceptResize.textContent = translations[currentLang].matrixCalc.resize_dialog.accept;
-    
-    if (acceptA) acceptA.textContent = translations[currentLang].matrixCalc.resize_dialog.accept;
-    if (acceptB) acceptB.textContent = translations[currentLang].matrixCalc.resize_dialog.accept;
-}
-
-function updateHomeUI() {
-    const homeMenuItem = document.getElementById('homeMenuItem');
-    if (homeMenuItem) homeMenuItem.textContent = translations[currentLang].home;
-
-    const homeTitle = document.querySelector('.home-title');
-    const tileLabels = document.querySelectorAll('.tile-label');
-    
-    if (homeTitle) homeTitle.textContent = translations[currentLang].choose_app;
-    
-    tileLabels.forEach((label, index) => {
-        if (index === 0) label.textContent = translations[currentLang].leapYear.title;
-        if (index === 1) label.textContent = translations[currentLang].matrixCalc.title;
-    });
-
-    const homeAppMenuItem = document.getElementById('homeAppMenuItem');
-    const homeAppSubmenuItems = document.querySelectorAll('#homeAppSubmenu .submenu-item');
-    const homeHelpMenuItem = document.getElementById('homeHelpMenuItem');
-    const homeHelpSubmenuItems = document.querySelectorAll('#homeHelpSubmenu .submenu-item');
-
-    if (homeAppMenuItem) homeAppMenuItem.textContent = currentLang === 'pl' ? 'Aplikacje' : 'Applications';
-    homeAppSubmenuItems.forEach((item, index) => {
-        if (index === 0) item.textContent = translations[currentLang].leapYear.title;
-        if (index === 1) item.textContent = translations[currentLang].matrixCalc.title;
-    });
-    
-    if (homeHelpMenuItem) homeHelpMenuItem.textContent = currentLang === 'pl' ? 'Pomoc' : 'Help';
-    homeHelpSubmenuItems.forEach((item, index) => {
-        if (index === 0) item.textContent = currentLang === 'pl' ? 'O aplikacji' : 'About';
-        if (index === 1) item.textContent = currentLang === 'pl' ? 'Instrukcja' : 'Instructions';
-    });
-}
-
 document.addEventListener('click', function(e) {
-    const welcomeLangMenu = document.querySelector('.welcome-lang-btn .lang-menu');
-    const welcomeLangBtn = document.querySelector('.welcome-lang-btn .lang-btn');
+    const langMenu = document.querySelector('.lang-menu');
+    const langBtn = document.querySelector('.welcome-lang-btn');
     
-    // Zamknij menu językowe jeśli kliknięto poza nim
-    if (welcomeLangMenu && welcomeLangBtn && 
-        !welcomeLangMenu.contains(e.target) && 
-        !welcomeLangBtn.contains(e.target)) {
-        welcomeLangMenu.classList.remove('open');
-        welcomeLangMenu.classList.add('closing');
-        welcomeLangMenu.addEventListener('animationend', () => {
-            welcomeLangMenu.classList.remove('closing');
-        }, { once: true });
+    if (langMenu && !langMenu.contains(e.target) && !langBtn.contains(e.target)) {
+        langMenu.style.display = 'none';
     }
 });
-
-// Dodaj obsługę kliknięcia w przycisk językowy na ekranie powitalnym
-const welcomeLangBtn = document.querySelector('.welcome-lang-btn .lang-btn');
-const welcomeLangMenu = document.querySelector('.welcome-lang-btn .lang-menu');
-
-if (welcomeLangBtn && welcomeLangMenu) {
-    welcomeLangBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (welcomeLangMenu.classList.contains('open')) {
-            welcomeLangMenu.classList.remove('open');
-            welcomeLangMenu.classList.add('closing');
-            welcomeLangMenu.addEventListener('animationend', () => {
-                welcomeLangMenu.classList.remove('closing');
-            }, { once: true });
-        } else {
-            welcomeLangMenu.classList.add('open');
-        }
-    });
-}
 
 document.querySelector('.lang-menu').addEventListener('click', function(e) {
     e.stopPropagation();
