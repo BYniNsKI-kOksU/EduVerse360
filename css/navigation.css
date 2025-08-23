@@ -144,16 +144,16 @@
     z-index: 1001;
     min-width: 140px;
     border-radius: 20px;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: var(--liquid-glass-blur);
-    -webkit-backdrop-filter: var(--liquid-glass-blur);
-    border: var(--liquid-glass-border);
-    box-shadow: var(--liquid-glass-shadow);
+    background: var(--liquid-glass-bg-black) !important;
+    backdrop-filter: var(--liquid-glass-blur) !important;
+    -webkit-backdrop-filter: var(--liquid-glass-blur) !important;
+    border: var(--liquid-glass-border) !important;
+    box-shadow: var(--liquid-glass-shadow) !important;
     opacity: 0;
     visibility: hidden;
     transform-origin: top center;
     transform: scaleY(0);
-    transition:
+    transition: 
         opacity 0.3s ease,
         transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
         visibility 0.3s ease;
@@ -228,6 +228,7 @@
     20%  { transform: scaleY(1.1); }
     100% { transform: scaleY(0); opacity: 0; }
 }
+
 
 .welcome-lang-btn {
     position: fixed;

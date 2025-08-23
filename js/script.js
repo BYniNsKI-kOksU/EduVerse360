@@ -373,7 +373,12 @@ function updateUI() {
             operationMenu.appendChild(item);
         }
     }
-    
+
+    const methodBtn = document.getElementById('methodBtn');
+    if (methodBtn) {
+        methodBtn.textContent = translations[currentLang].matrixCalc.methods[currentMethod];
+    }
+
     const methodSelector = document.getElementById('methodSelector');
     if (methodSelector) {
         methodSelector.innerHTML = '';
@@ -421,6 +426,13 @@ function updateUI() {
     const navBarLangBtn = document.querySelector('.nav-bar .lang-btn');
     if (navBarLangBtn && (currentScreen === 'home' || currentScreen === 'app')) {
         navBarLangBtn.style.display = 'inline-block';
+    }
+
+    if (typeof centerMatrices === 'function') {
+        const matricesContainer = document.getElementById('matricesContainer');
+        if (matricesContainer) {
+            matricesContainer.style.gap = window.innerWidth >= 768 ? '60px' : '30px';
+        }
     }
 }
 

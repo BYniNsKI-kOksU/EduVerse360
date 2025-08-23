@@ -120,11 +120,15 @@
                             <div class="operation-menu-item" data-op="solve">Układ równań</div>
                         </div>
                     </div>
-                    <div id="methodSelector" class="method-selector">
-                        <button class="method-btn active" data-method="cramer">Cramer</button>
-                        <button class="method-btn active" data-method="gauss">Eliminacja Gaussa</button>
-                        <button class="method-btn active" data-method="gauss_jordan">Gauss-Jordan</button>
-                        <button class="method-btn active" data-method="inverse">Macierz odwrotna</button>
+                    <div class="method-selector-wrapper" style="display: none;">
+                        <div class="method-label">Metoda:</div>
+                        <button id="methodBtn" class="method-btn-main">Cramer</button>
+                        <div id="methodSelector" class="method-selector">
+                            <button class="method-btn active" data-method="cramer">Cramer</button>
+                            <button class="method-btn" data-method="gauss">Eliminacja Gaussa</button>
+                            <button class="method-btn" data-method="gauss_jordan">Gauss-Jordan</button>
+                            <button class="method-btn" data-method="inverse">Macierz odwrotna</button>
+                        </div>
                     </div>
                 </div>
 
