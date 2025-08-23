@@ -19,6 +19,8 @@ const colsB = document.getElementById('colsB');
 const resultBox = document.getElementById('resultBox');
 const solutionBox = document.getElementById('solutionBox');
 const matricesContainer = document.getElementById('matricesContainer');
+const methodBtn = document.getElementById('methodBtn');
+const methodSelectorWrapper = document.querySelector('.method-selector-wrapper');
 
 const resizeBtn = document.getElementById('resizeBtn');
 const resizeDialog = document.getElementById('resizeDialog');
@@ -219,6 +221,21 @@ function changeOperation(operation) {
         solutionBox.classList.toggle('visible', operation === 'solve');
     }
 
+    if (operation === 'solve') {
+        methodSelectorWrapper.style.display = 'block';
+        if (methodBtn) methodBtn.textContent = translations[currentLang].matrixCalc.methods[currentMethod];
+    } else {
+        methodSelectorWrapper.style.display = 'none';
+        if (methodSelector.classList.contains('open')) {
+            methodSelector.classList.remove('open');
+            methodSelector.classList.add('closing');
+            setTimeout(() => {
+                methodSelector.style.display = 'none';
+                methodSelector.classList.remove('closing');
+            }, 300);
+        }
+    }
+
     if (operation !== 'solve') {
         currentMethod = 'cramer';
         updateMethodButtons();
@@ -226,32 +243,27 @@ function changeOperation(operation) {
 
     adjustMatrixB();
     updateUI();
-    centerMatrices();
 }
 
 function centerMatrices() {
     if (!matricesContainer) return;
     
     const screenWidth = window.innerWidth;
-    let gap, scale;
     
-    if (screenWidth >= 1200) {
-        gap = 30;
-        scale = 0.9;
-    } else if (screenWidth >= 768) {
-        gap = 20;
-        scale = 0.85;
-    } else {
-        gap = 15;
-        scale = 0.8;
-    }
-    
-    matricesContainer.style.gap = `${gap}px`;
-    
+    // Usuń skalowanie, które powoduje problemy z pozycjonowaniem
     document.querySelectorAll('.matrix-frame').forEach(frame => {
-        frame.style.transform = `scale(${scale})`;
-        frame.style.margin = screenWidth >= 1200 ? '0 -15px' : '0 auto';
+        frame.style.transform = 'none'; // Usuń skalowanie
+        frame.style.margin = '0 auto';
     });
+    
+    // Zachowaj tylko odstępy dla responsywności
+    if (screenWidth >= 1200) {
+        matricesContainer.style.gap = '60px';
+    } else if (screenWidth >= 768) {
+        matricesContainer.style.gap = '40px';
+    } else {
+        matricesContainer.style.gap = '20px';
+    }
 }
 
 function adjustMatrixB() {
@@ -615,6 +627,7 @@ function applyResize() {
 function initializeMatrixCalculator() {
     createMatrix(matrixAGrid, 2, 2);
     createMatrix(matrixBGrid, 2, 2);
+    updateUI();
     centerMatrices();
 
     const acceptA = document.getElementById('acceptA');
@@ -788,6 +801,88 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
+    // Dodaj obsługę przycisku metod
+if (methodBtn) {
+    methodBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        methodBtn.textContent = translations[currentLang].matrixCalc.methods[currentMethod];
+        const isOpen = methodSelector.classList.contains('open');
+        
+        // Zamknij menu operacji jeśli jest otwarte
+        if (operationMenu.classList.contains('open')) {
+            operationMenu.classList.remove('open');
+            operationMenu.classList.add('closing');
+            setTimeout(() => {
+                operationMenu.style.display = 'none';
+                operationMenu.classList.remove('closing');
+            }, 300);
+        }
+        
+        if (isOpen) {
+            methodSelector.classList.remove('open');
+            methodSelector.classList.add('closing');
+            setTimeout(() => {
+                methodSelector.style.display = 'none';
+                methodSelector.classList.remove('closing');
+            }, 300);
+        } else {
+            methodSelector.style.display = 'flex';
+            requestAnimationFrame(() => {
+                methodSelector.classList.add('open');
+            });
+        }
+    });
+}
+
+// Dodaj obsługę kliknięcia w elementy menu metod
+if (methodSelector) {
+    methodSelector.addEventListener('click', e => {
+        if (e.target.classList.contains('method-btn')) {
+            currentMethod = e.target.dataset.method;
+            updateMethodButtons();
+            methodBtn.textContent = translations[currentLang].matrixCalc.methods[currentMethod];
+            methodSelector.classList.remove('open');
+            methodSelector.classList.add('closing');
+            setTimeout(() => {
+                methodSelector.style.display = 'none';
+                methodSelector.classList.remove('closing');
+            }, 300);
+        }
+        e.stopPropagation();
+    });
+}
+
+// Dodaj zamykanie menu metod przy kliknięciu poza
+document.addEventListener('click', (e) => {
+    const isMethodMenuClick = e.target.closest('.method-selector');
+    const isMethodBtnClick = e.target === methodBtn || e.target.closest('#methodBtn');
+    
+    if (!isMethodMenuClick && !isMethodBtnClick && methodSelector) {
+        if (methodSelector.classList.contains('open')) {
+            methodSelector.classList.remove('open');
+            methodSelector.classList.add('closing');
+            setTimeout(() => {
+                methodSelector.style.display = 'none';
+                methodSelector.classList.remove('closing');
+            }, 300);
+        }
+    }
+});
+
+// Dodaj obsługę klawisza Escape
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        if (methodSelector.classList.contains('open')) {
+            methodSelector.classList.remove('open');
+            methodSelector.classList.add('closing');
+            setTimeout(() => {
+                methodSelector.style.display = 'none';
+                methodSelector.classList.remove('closing');
+            }, 300);
+        }
+    }
+});
+
     if (computeBtn) {
         computeBtn.replaceWith(computeBtn.cloneNode(true)); // Remove existing listeners
         const newComputeBtn = document.getElementById('computeBtn');
@@ -845,7 +940,7 @@ document.addEventListener('keydown', function(e) {
         document.getElementById('sizeMenuB').style.display = 'none';
     });
 
-    window.addEventListener('resize', updateMatrixOperator);
+    window.addEventListener('resize', updateUI);
 }
 
 // Nasłuchiwacz do zamykania menu przy kliknięciu poza nim
@@ -888,7 +983,6 @@ function toggleSizeMenu(matrixId) {
 
     // Ustaw wysoki z-index tylko dla otwartego menu
     if (!isOpen) {
-        menu.style.zIndex = '2000';
         const firstInput = menu.querySelector('input');
         if (firstInput) {
             firstInput.focus();

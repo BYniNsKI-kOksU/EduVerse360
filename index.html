@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikacje Matematyczne</title>
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/btn.css"> 
+    <link rel="stylesheet" href="css/app-structure.css">
+    <link rel="stylesheet" href="css/responsiveness.css">
+    <link rel="stylesheet" href="css/side-menu.css">
+    <link rel="stylesheet" href="css/welcome-screen.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/user-profile.css">
+</head>
+<body>
+    <canvas id="mathBg"></canvas>
+
+    <!-- Global Navigation Bar -->
+    <div class="nav-bar">
+        <button class="nav-btn user-btn" id="showUserProfileBtn">👤</button>
+        <div class="lang-container">
+            <div class="lang-btn"></div>
+            <div class="lang-menu">
+                <div data-lang="pl">Polski</div>
+                <div data-lang="en">English</div>
+                <div data-lang="de">Deutsch</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Global Side menu -->
+    <button id="menuBtn" class="menu-btn" >☰</button>
+    <div id="globalSideMenu" class="side-menu hidden">
+        <div id="homeMenuItem" class="menu-item" style="--menu-item-index: 0;">Strona główna</div>
+        <div id="appMenuItem" class="menu-item" style="--menu-item-index: 1;">Aplikacje</div>
+        <div id="appSubmenu" class="submenu">
+            <div class="back-btn">←</div>
+            <div class="submenu-item" data-app="leapYear">Badacz roku przestępnego</div>
+            <div class="submenu-item" data-app="matrixCalc">Kalkulator macierzy</div>
+        </div>
+        <div id="helpMenuItem" class="menu-item" style="--menu-item-index: 2;">Pomoc</div>
+        <div id="helpSubmenu" class="submenu">
+            <div class="back-btn">←</div>
+            <div class="submenu-item">O aplikacji</div>
+            <div class="submenu-item">Instrukcja</div>
+        </div>
+    </div>
+
+    <!-- Welcome Screen -->
+    <div class="welcome-screen">
+        <h1 class="welcome-title"><span>Witaj w EduVerse 360</span></h1>
+        <p class="welcome-subtitle"><span>Odkryj narzędzia do obliczeń matematycznych</span></p>
+        <p class="start-hint">(kliknij dowolny klawisz lub kliknij myszką aby kontynuować)</p>
+        <div class="welcome-lang-btn">
+            <div class="lang-btn-container">
+                <div class="lang-btn"></div>
+                <div class="lang-menu">
+                    <div data-lang="pl">Polski</div>
+                    <div data-lang="en">English</div>
+                    <div data-lang="de">Deutsch</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Home Screen -->
+    <div class="home-screen" style="display: none;">
+        <h1 class="home-title" data-translate-key="choose_app">Wybierz aplikacje</h1>
+        <div class="tiles">
+            <div class="tile" data-app="leapYear">
+                <span class="tile-icon">📆</span>
+                <span class="tile-label">Badacz roku przestępnego</span>
+            </div>
+            <div class="tile" data-app="matrixCalc">
+                <span class="tile-icon">🧮</span>
+                <span class="tile-label">Kalkulator macierzy</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- App Container -->
+    <div class="app-container">
+        <div class="header">
+        </div>
+
+        <!-- Leap Year App -->
+        <div id="leapYearApp" class="app-content">
+            <div class="leap-year-container">
+                <h2 id="leapYearTitle" class="leap-year-title">Badacz roku przestępnego</h2>
+                <div class="input-container">
+                    <label id="yearLabel" class="input-label">Podaj rok:</label>
+                    <input type="number" id="yearInput" class="year-input" inputmode="numeric">
+                </div>
+                <button id="checkBtn" class="check-btn">Oblicz</button>
+                <div id="resultContainer" class="result-container"></div>
+                <div class="history-container">
+                    <div id="historyLabel" class="history-title">Historia:</div>
+                    <div id="historyBox" class="history-box"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Matrix Calculator App -->
+        <div id="matrixCalcApp" class="app-content">
+            <div class="matrix-container">
+                <h2 id="matrixCalcTitle" class="matrix-Calc-title">Kalkulator Macierzy</h2>
+                <div class="controls">
+                    <div class="operation-selector">
+                        <div id="operationLabel" class="operation-label">Operacja:</div>
+                        <button id="operationBtn" class="operation-btn">Dodawanie</button>
+                        <div id="operationMenu" class="operation-menu">
+                            <div class="operation-menu-item" data-op="add">Dodawanie</div>
+                            <div class="operation-menu-item" data-op="sub">Odejmowanie</div>
+                            <div class="operation-menu-item" data-op="mul">Mnożenie</div>
+                            <div class="operation-menu-item" data-op="det">Wyznacznik</div>
+                            <div class="operation-menu-item" data-op="inv">Macierz odwrotna</div>
+                            <div class="operation-menu-item" data-op="trans">Transpozycja</div>
+                            <div class="operation-menu-item" data-op="solve">Układ równań</div>
+                        </div>
+                    </div>
+                    <div class="method-selector-wrapper" style="display: none;">
+                        <div class="method-label">Metoda:</div>
+                        <button id="methodBtn" class="method-btn-main">Cramer</button>
+                        <div id="methodSelector" class="method-selector">
+                            <button class="method-btn active" data-method="cramer">Cramer</button>
+                            <button class="method-btn" data-method="gauss">Eliminacja Gaussa</button>
+                            <button class="method-btn" data-method="gauss_jordan">Gauss-Jordan</button>
+                            <button class="method-btn" data-method="inverse">Macierz odwrotna</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="computeBtn" class="btn" tabindex="0">Oblicz</button>
+                    <button id="clearBtn" class="btn">Wyczyść</button>
+                </div>
+
+                <div id="matricesContainer" class="matrices-container">
+                    <div id="matrixA" class="matrix-frame">
+                        <button class="resize-icon" onclick="toggleSizeMenu('A')">+</button>
+                        <div id="matrixATitle" class="matrix-title">Macierz A</div>
+                        <div id="matrixAGrid" class="matrix-grid"></div>
+                        <div id="sizeMenuA" class="size-menu">
+                            <div class="resize-input-group">
+                                <label for="rowsA">Wiersze:</label>
+                                <input id="rowsA" type="number" min="1" max="10" value="2" class="size-input">
+                            </div>
+                            <div class="resize-input-group">
+                                <label for="colsA">Kolumny:</label>
+                                <input id="colsA" type="number" min="1" max="10" value="2" class="size-input">
+                            </div>
+                            <div class="size-menu-buttons">
+                            <button id="acceptA" class="accept-btn">Akceptuj</button>
+                            <button id="cancelA" class="cancel-btn">Anuluj</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="matrixB" class="matrix-frame">
+                        <button class="resize-icon" onclick="toggleSizeMenu('B')">+</button>
+                        <div id="matrixBTitle" class="matrix-title">Macierz B</div>
+                        <div id="matrixBGrid" class="matrix-grid"></div>
+                        <div id="sizeMenuB" class="size-menu">
+                            <div class="resize-input-group">
+                                <label for="rowsB">Wiersze:</label>
+                                <input id="rowsB" type="number" min="1" max="10" value="2" class="size-input">
+                            </div>
+                            <div class="resize-input-group">
+                                <label for="colsB">Kolumny:</label>
+                                <input id="colsB" type="number" min="1" max="10" value="2" class="size-input">
+                            </div>
+                            <div class="size-menu-buttons">
+                            <button id="acceptB" class="accept-btn">Akceptuj</button>
+                            <button id="cancelB" class="cancel-btn">Anuluj</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="errorMessage" class="error-message"></div>
+                <div id="resultBox" class="result-container-matrix">
+                    <div class="default-result-text">Wynik</div>
+                </div>
+                <div id="solutionBox" class="solution-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="userProfileApp" class="app-content">
+    <div class="user-profile-container">
+        <div class="user-avatar">👤</div>
+        <div>
+            <h2 class="user-name">Jan Kowalski</h2>
+            <p class="user-email">jan.kowalski@example.com</p>
+        </div>
+        
+        <div class="user-stats">
+            <div class="stat-item">
+                <div class="stat-value">24</div>
+                <div class="stat-label">Obliczenia</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">5</div>
+                <div class="stat-label">Zapisane</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">3</div>
+                <div class="stat-label">Ulubione</div>
+            </div>
+        </div>
+        
+        <div class="user-actions">
+            <button class="action-btn">
+                <span>✏️</span> Edytuj profil
+            </button>
+            <button class="action-btn">
+                <span>⭐</span> Ulubione obliczenia
+            </button>
+            <button class="action-btn">
+                <span>⚙️</span> Ustawienia
+            </button>
+            <button class="action-btn">
+                <span>🔒</span> Zmień hasło
+            </button>
+        </div>
+        
+        <div class="recent-activity">
+            <h3 class="activity-title">
+                <span>📝</span> Ostatnia aktywność
+            </h3>
+            <div class="activity-item">
+                <div class="activity-icon">🧮</div>
+                <div class="activity-details">
+                    <div class="activity-description">Obliczono wyznacznik macierzy 3x3</div>
+                    <div class="activity-time">2 godziny temu</div>
+                </div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-icon">📆</div>
+                <div class="activity-details">
+                    <div class="activity-description">Sprawdzono rok przestępny: 2024</div>
+                    <div class="activity-time">Wczoraj, 14:30</div>
+                </div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-icon">🧮</div>
+                <div class="activity-details">
+                    <div class="activity-description">Dodano nową macierz do ulubionych</div>
+                    <div class="activity-time">3 dni temu</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="js/translations.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/background.js"></script>
+    <script src="js/leapYear.js"></script>
+    <script src="js/matrixCalculator.js"></script>
+</body>
+</html>
