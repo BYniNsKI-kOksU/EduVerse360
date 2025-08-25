@@ -37,6 +37,29 @@
     transform: scale(1.1);
 }
 
+<<<<<<< HEAD
+=======
+/* Remove clip-path as we don't need it anymore */
+.matrix-frame {
+    clip-path: none;
+}
+
+.matrix-a-container, .matrix-b-container {
+    position: relative;
+    z-index: 900;
+    margin: 0;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: visible;
+
+    flex: 1;
+    max-width: 45%;
+    min-width: 150px;
+}
+
+>>>>>>> 4f8a70187693663a5e7067a00ff2f78d413ecd10
 /* Matrix Calculator */
 .matrices-container {
     display: flex;
@@ -48,6 +71,7 @@
     max-width: 1400px;
     z-index: 900;
     padding: 0 20px;
+<<<<<<< HEAD
 }
 
 .matrix-a-container, .matrix-b-container {
@@ -62,6 +86,8 @@
     flex: 1;
     max-width: 45%;
     min-width: 150px;
+=======
+>>>>>>> 4f8a70187693663a5e7067a00ff2f78d413ecd10
 }
 
 .matrix-wrapper {
@@ -101,6 +127,7 @@
     z-index: 850;
 }
 
+<<<<<<< HEAD
 .matrix-grid {
     position: relative;
     z-index: 15;
@@ -109,6 +136,8 @@
     overflow: visible;
 }
 
+=======
+>>>>>>> 4f8a70187693663a5e7067a00ff2f78d413ecd10
 .matrix-Calc-title {
     font-size: 2rem;
     margin-bottom: 20px;
@@ -129,7 +158,11 @@
     margin-bottom: 15px;
     text-align: center;
     position: relative;
+<<<<<<< HEAD
     z-index: 900;
+=======
+    z-index: 1010;
+>>>>>>> 4f8a70187693663a5e7067a00ff2f78d413ecd10
     width: 180px;
     flex-shrink: 0;
 }
@@ -282,6 +315,7 @@
 }
 
 .method-btn:hover {
+<<<<<<< HEAD
     background-color: rgba(255, 124, 87, 0.50);
     color: black;
     border-radius: 20px;
@@ -289,11 +323,17 @@
     box-shadow: 
         6px 6px 12px rgba(0, 0, 0, 0.25),
         inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+=======
+    transform: translateY(-2px);
+>>>>>>> 4f8a70187693663a5e7067a00ff2f78d413ecd10
 }
 
 .method-btn:active {
     transform: scale(0.95);
+<<<<<<< HEAD
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+=======
+>>>>>>> 4f8a70187693663a5e7067a00ff2f78d413ecd10
 }
 
 /* ==== przycisk Metody ====*/
@@ -301,7 +341,11 @@
     margin-bottom: 15px;
     text-align: center;
     position: relative;
+<<<<<<< HEAD
     z-index: 900;
+=======
+    z-index: 1000;
+>>>>>>> 4f8a70187693663a5e7067a00ff2f78d413ecd10
     width: 200px;
     flex-shrink: 0;
     margin: 0 auto;
@@ -339,6 +383,28 @@
     display: inline-block;
 }
 
+<<<<<<< HEAD
+=======
+.method-btn-main::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(114, 137, 218, 0.03) 50%,
+        rgba(75, 181, 168, 0.03) 100%
+    );
+    animation: liquidEffect 25s linear infinite;
+    z-index: -1;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+>>>>>>> 4f8a70187693663a5e7067a00ff2f78d413ecd10
 .method-btn-main:hover {
     color: white;
     background-color: rgba(224, 122, 95, 0.8);
@@ -354,14 +420,31 @@
 }
 
 .method-selector {
+<<<<<<< HEAD
     position: absolute;
     top: 100%;
     left: 0;
     background: var(--liquid-glass-bg-black);
+=======
+    display: flex;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin: 0;
+    transform: scaleY(0);
+    margin-top: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    z-index: 1000;
+    background: var(--liquid-glass-bg);
+>>>>>>> 4f8a70187693663a5e7067a00ff2f78d413ecd10
     backdrop-filter: var(--liquid-glass-blur);
     -webkit-backdrop-filter: var(--liquid-glass-blur);
     border: var(--liquid-glass-border);
     box-shadow: var(--liquid-glass-shadow);
+<<<<<<< HEAD
     border-radius: 20px;
     z-index: 1050;
     width: 100%;
@@ -371,10 +454,21 @@
     visibility: hidden;
     transform-origin: top center;
     transform: scaleY(0);
+=======
+    border-radius: 15px;
+    padding: 10px;
+    width: auto;
+    min-width: 200px;
+    max-width: 90vw;
+    opacity: 0;
+    visibility: hidden;
+    transform-origin: top center;
+>>>>>>> 4f8a70187693663a5e7067a00ff2f78d413ecd10
     transition: 
         opacity 0.3s ease,
         transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
         visibility 0.3s ease;
+<<<<<<< HEAD
     display: block;
     flex-wrap: nowrap;
     flex-direction: column;
@@ -383,6 +477,12 @@
 
 .method-selector.open {
     display: block;
+=======
+}
+
+.method-selector.open {
+    display: flex;
+>>>>>>> 4f8a70187693663a5e7067a00ff2f78d413ecd10
     opacity: 1;
     visibility: visible;
     transform: scaleY(1);
@@ -398,6 +498,7 @@
     pointer-events: none;
 }
 
+<<<<<<< HEAD
 /* Method menu items - nowe style */
 .method-menu-item {
     padding: 10px 15px;
@@ -454,6 +555,35 @@
         transform 0.2s ease;
     transition-delay: calc(var(--i) * 0.05s);
 }
+=======
+/* Method buttons inside selector */
+.method-selector .method-btn {
+    background-color: #F4BFA9;
+    color: black;
+    border: none;
+    border-radius: 15px;
+    padding: 8px 15px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: 2px;
+}
+
+.method-selector .method-btn.active {
+    background-color: var(--clr-accent);
+    color: white;
+}
+
+.method-selector .method-btn:hover {
+    transform: translateY(-2px);
+}
+
+.method-selector .method-btn:active {
+    transform: scale(0.95);
+}
+
+>>>>>>> 4f8a70187693663a5e7067a00ff2f78d413ecd10
 
 /* ====  ====*/
 .action-buttons {
@@ -553,8 +683,9 @@
 .single-matrix .matrix-b-container .resize-icon {
     display: none;
 }
-
+ 
 .size-menu {
+<<<<<<< HEAD
     position: fixed;
     gap: 12px;
     min-width: 170px;
@@ -686,6 +817,38 @@
     padding: 8px 16px;
     font-size: 0.9rem;
     margin: 0;
+=======
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 170px;
+    max-width: 90vw;
+    align-items: center;
+    background: var(--liquid-glass-bg-black);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    border-radius: 15px;
+    padding: 15px;
+    z-index: 2000;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    margin-top: 10px;
+}
+ 
+@keyframes menuAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+>>>>>>> 4f8a70187693663a5e7067a00ff2f78d413ecd10
 }
 
 .size-menu[style*="display: block"] {
