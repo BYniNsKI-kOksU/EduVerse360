@@ -1,7 +1,6 @@
 /* buttons.css */
 /* Global button styles */
 .btn {
-    /* Nowy kolor podstawowy - taki jak poprzedni hover */
     background-color: rgba(224, 122, 95, 0.8);
     backdrop-filter: var(--liquid-glass-blur);
     -webkit-backdrop-filter: var(--liquid-glass-blur);
@@ -21,26 +20,6 @@
     min-width: 120px;
     text-align: center;
     margin: 5px;
-}
-
-/* Efekt kropli wody - bardziej widoczny */
-.btn::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-        to bottom right,
-        rgba(255, 255, 255, 0.2) 0%,
-        rgba(114, 137, 218, 0.15) 50%,
-        rgba(75, 181, 168, 0.15) 100%
-    );
-    animation: liquidEffect 25s linear infinite;
-    z-index: -1;
-    opacity: 0.8; /* Zwiększona widoczność */
-    pointer-events: none;
 }
 
 /* Hover - mniej przezroczysty */
@@ -98,23 +77,4 @@
 /* Button focus state */
 .btn:focus {
     outline: 2px solid rgba(76, 175, 80, 0.8);
-}
-
-/* Animacja efektu wody - można dostosować */
-@keyframes liquidEffect {
-    0% {
-        transform: rotate(0deg) translate(0, 0);
-    }
-    25% {
-        transform: rotate(5deg) translate(-10px, 5px);
-    }
-    50% {
-        transform: rotate(0deg) translate(5px, 10px);
-    }
-    75% {
-        transform: rotate(-5deg) translate(10px, -5px);
-    }
-    100% {
-        transform: rotate(0deg) translate(0, 0);
-    }
 }

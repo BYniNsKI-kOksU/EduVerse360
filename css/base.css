@@ -28,6 +28,14 @@
     --liquid-glass-shadow: 
         0 4px 20px rgba(0, 0, 0, 0.15),
         inset 0 0 15px rgba(224, 122, 95, 0.2);
+
+    /* SPecial effects for btn */
+    --lg-bg-nav-: rgba(224, 123, 95, 0.15);
+    --lg-border-nav-: 1px solid rgba(224, 122, 95, 0.05);
+
+    /* SPecial effects for btn */
+    --lg-bg-navbtn-: rgba(224, 123, 95, 0.25);
+    --lg-border-navbtn-: 2px solid rgba(224, 122, 95, 0.05);
     
 }
 

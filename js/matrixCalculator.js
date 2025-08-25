@@ -633,9 +633,6 @@ function initializeMatrixCalculator() {
     const acceptA = document.getElementById('acceptA');
     const acceptB = document.getElementById('acceptB');
 
-    const resizeIconA = document.querySelector('.matrix-a-container .resize-icon');
-    const resizeIconB = document.querySelector('.matrix-b-container .resize-icon');
-
     if (rowsA) setupSizeInputBehavior(rowsA, () => {
         const rows = Math.max(1, Math.min(10, parseInt(rowsA.value) || 2));
         const cols = Math.max(1, Math.min(10, parseInt(colsA.value) || 2));
@@ -759,9 +756,9 @@ function initializeMatrixCalculator() {
             operationMenu.classList.add('open');
         });
     }
-});
+    });
 
-if (operationMenu) operationMenu.addEventListener('click', e => {
+    if (operationMenu) operationMenu.addEventListener('click', e => {
     if (e.target.classList.contains('operation-menu-item')) {
         changeOperation(e.target.dataset.op);
         operationMenu.classList.remove('open');
@@ -772,9 +769,9 @@ if (operationMenu) operationMenu.addEventListener('click', e => {
         }, 300);
     }
     e.stopPropagation();
-});
+    });
 
-document.addEventListener('click', (e) => {
+    document.addEventListener('click', (e) => {
     const isOperationMenuClick = e.target.closest('.operation-menu');
     const isOperationBtnClick = e.target === operationBtn || e.target.closest('#operationBtn');
     
@@ -788,9 +785,9 @@ document.addEventListener('click', (e) => {
             }, 300);
         }
     }
-});
+        });
 
-document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape' && operationMenu.classList.contains('open')) {
         operationMenu.classList.remove('open');
         operationMenu.classList.add('closing');
@@ -799,10 +796,10 @@ document.addEventListener('keydown', function(e) {
             operationMenu.classList.remove('closing');
         }, 300);
     }
-});
+    });
 
     // Dodaj obsługę przycisku metod
-if (methodBtn) {
+    if (methodBtn) {
     methodBtn.addEventListener('click', e => {
         e.stopPropagation();
         methodBtn.textContent = translations[currentLang].matrixCalc.methods[currentMethod];
@@ -832,10 +829,10 @@ if (methodBtn) {
             });
         }
     });
-}
+    }
 
-// Dodaj obsługę kliknięcia w elementy menu metod
-if (methodSelector) {
+    // Dodaj obsługę kliknięcia w elementy menu metod
+    if (methodSelector) {
     methodSelector.addEventListener('click', e => {
         if (e.target.classList.contains('method-btn')) {
             currentMethod = e.target.dataset.method;
@@ -850,10 +847,10 @@ if (methodSelector) {
         }
         e.stopPropagation();
     });
-}
+    }
 
-// Dodaj zamykanie menu metod przy kliknięciu poza
-document.addEventListener('click', (e) => {
+    // Dodaj zamykanie menu metod przy kliknięciu poza
+    document.addEventListener('click', (e) => {
     const isMethodMenuClick = e.target.closest('.method-selector');
     const isMethodBtnClick = e.target === methodBtn || e.target.closest('#methodBtn');
     
@@ -867,10 +864,10 @@ document.addEventListener('click', (e) => {
             }, 300);
         }
     }
-});
+    });
 
-// Dodaj obsługę klawisza Escape
-document.addEventListener('keydown', function(e) {
+    // Dodaj obsługę klawisza Escape
+    document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
         if (methodSelector.classList.contains('open')) {
             methodSelector.classList.remove('open');
@@ -881,7 +878,7 @@ document.addEventListener('keydown', function(e) {
             }, 300);
         }
     }
-});
+    });
 
     if (computeBtn) {
         computeBtn.replaceWith(computeBtn.cloneNode(true)); // Remove existing listeners
@@ -940,6 +937,34 @@ document.addEventListener('keydown', function(e) {
         document.getElementById('sizeMenuB').style.display = 'none';
     });
 
+    document.querySelectorAll('.size-menu').forEach(menu => {
+        menu.style.display = 'none';
+    });
+    
+    document.getElementById('cancelA')?.addEventListener('click', () => {
+    const menu = document.getElementById('sizeMenuA');
+    if (menu.classList.contains('open')) {
+        menu.classList.remove('open');
+        menu.classList.add('closing');
+        setTimeout(() => {
+            menu.style.display = 'none';
+            menu.classList.remove('closing');
+        }, 300);
+    }
+    });
+
+    document.getElementById('cancelB')?.addEventListener('click', () => {
+    const menu = document.getElementById('sizeMenuB');
+    if (menu.classList.contains('open')) {
+        menu.classList.remove('open');
+        menu.classList.add('closing');
+        setTimeout(() => {
+            menu.style.display = 'none';
+            menu.classList.remove('closing');
+        }, 300);
+    }
+    });
+
     window.addEventListener('resize', updateUI);
 }
 
@@ -966,61 +991,81 @@ document.addEventListener('keydown', function(event) {
 
 function toggleSizeMenu(matrixId) {
     const menu = document.getElementById(`sizeMenu${matrixId}`);
-    if (!menu) return;
+    const matrixFrame = document.getElementById(`matrix${matrixId}`);
+    const resizeIcon = matrixFrame.querySelector('.resize-icon');
+    
+    if (!menu || !matrixFrame || !resizeIcon) return;
 
     // Zamknij wszystkie inne menu
     document.querySelectorAll('.size-menu').forEach(m => {
-        if (m !== menu) {
-            m.style.display = 'none';
+        if (m !== menu && m.classList.contains('open')) {
             m.classList.remove('open');
+            m.classList.add('closing');
+            setTimeout(() => {
+                m.style.display = 'none';
+                m.classList.remove('closing');
+            }, 300);
         }
     });
 
     // Toggle obecnego menu
-    const isOpen = menu.style.display === 'block';
-    menu.style.display = isOpen ? 'none' : 'block';
-    menu.classList.toggle('open', !isOpen);
-
-    // Ustaw wysoki z-index tylko dla otwartego menu
-    if (!isOpen) {
+    const isOpen = menu.classList.contains('open');
+    
+    if (isOpen) {
+        menu.classList.remove('open');
+        menu.classList.add('closing');
+        setTimeout(() => {
+            menu.style.display = 'none';
+            menu.classList.remove('closing');
+        }, 300);
+    } else {
+        // Pozycjonowanie menu względem przycisku resize
+        const iconRect = resizeIcon.getBoundingClientRect();
+        menu.style.position = 'fixed';
+        menu.style.top = `${iconRect.bottom + window.scrollY + 5}px`; // 5px poniżej przycisku
+        menu.style.left = `${iconRect.left + window.scrollX}px`;
+        
+        // Sprawdź, czy menu wychodzi poza prawą krawędź ekranu
+        const menuRect = menu.getBoundingClientRect();
+        const viewportWidth = window.innerWidth;
+        
+        if (menuRect.right > viewportWidth) {
+            menu.style.left = `${viewportWidth - menuRect.width - 10}px`;
+        }
+        
+        // Sprawdź, czy menu wychodzi poza dolną krawędź ekranu
+        const viewportHeight = window.innerHeight;
+        
+        if (menuRect.bottom > viewportHeight) {
+            menu.style.top = `${iconRect.top + window.scrollY - menuRect.height - 5}px`; // 5px powyżej przycisku
+        }
+        
+        // Ustaw zmienne --i dla opóźnień animacji
+        const inputs = menu.querySelectorAll('.resize-input-group');
+        const buttons = menu.querySelectorAll('.size-menu-buttons');
+        
+        inputs.forEach((input, index) => {
+            input.style.setProperty('--i', index);
+        });
+        
+        buttons.forEach((button, index) => {
+            button.style.setProperty('--i', index + inputs.length);
+        });
+        
+        menu.style.display = 'flex';
+        // Krótkie opóźnienie aby umożliwić przejście CSS
+        requestAnimationFrame(() => {
+            menu.classList.add('open');
+        });
+        
         const firstInput = menu.querySelector('input');
         if (firstInput) {
-            firstInput.focus();
-            firstInput.select();
+            setTimeout(() => {
+                firstInput.focus();
+                firstInput.select();
+            }, 100); // Małe opóźnienie dla lepszego UX
         }
-    } else {
-        menu.style.zIndex = '';
     }
-}
-
-function positionSizeMenu(menu) {
-    const container = menu.closest('.matrix-a-container, .matrix-b-container');
-    const matrixGrid = container.querySelector('.matrix-grid');
-    
-    if (matrixGrid) {
-        const gridRect = matrixGrid.getBoundingClientRect();
-        const containerRect = container.getBoundingClientRect();
-        
-        // Oblicz środek siatki macierzy
-        const gridCenterX = gridRect.left + gridRect.width / 2;
-        
-        // Oblicz pozycję względem kontenera
-        const relativeX = gridCenterX - containerRect.left;
-        
-        // Ustaw pozycję menu
-        menu.style.left = `${relativeX}px`;
-        menu.style.transform = 'translateX(-50%) scaleY(0)';
-    }
-}
-
-// Wywołaj przy otwieraniu menu
-function openSizeMenu(menu) {
-    positionSizeMenu(menu);
-    menu.style.display = 'flex';
-    setTimeout(() => {
-        menu.classList.add('open');
-        menu.classList.remove('closing');
-    }, 10);
 }
 
 // Dodaj nasłuchiwanie na zmianę rozmiaru okna

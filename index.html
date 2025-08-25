@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikacje Matematyczne</title>
+    <title>EduVerse 360</title>
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/btn.css"> 
@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="css/side-menu.css">
     <link rel="stylesheet" href="css/welcome-screen.css">
     <link rel="stylesheet" href="css/navigation.css">
-    <link rel="stylesheet" href="css/user-profile.css">
 </head>
 <body>
     <canvas id="mathBg"></canvas>
@@ -22,16 +21,56 @@
         <button class="nav-btn user-btn" id="showUserProfileBtn">👤</button>
         <div class="lang-container">
             <div class="lang-btn"></div>
-            <div class="lang-menu">
-                <div data-lang="pl">Polski</div>
-                <div data-lang="en">English</div>
-                <div data-lang="de">Deutsch</div>
-            </div>
+        </div>
+    </div>
+
+    <!-- Lang menus moved to body level -->
+    <div class="lang-menu nav-lang-menu">
+        <div data-lang="pl">Polski</div>
+        <div data-lang="en">English</div>
+        <div data-lang="de">Deutsch</div>
+    </div>
+
+    <div class="lang-menu welcome-lang-menu">
+        <div data-lang="pl">Polski</div>
+        <div data-lang="en">English</div>
+        <div data-lang="de">Deutsch</div>
+    </div>
+
+
+    <!-- Size menus moved to body level -->
+    <div id="sizeMenuA" class="size-menu">
+        <div class="resize-input-group">
+            <label for="rowsA">Wiersze:</label>
+            <input id="rowsA" type="number" min="1" max="10" value="2" class="size-input">
+        </div>
+        <div class="resize-input-group">
+            <label for="colsA">Kolumny:</label>
+            <input id="colsA" type="number" min="1" max="10" value="2" class="size-input">
+        </div>
+        <div class="size-menu-buttons">
+            <button id="acceptA" class="accept-btn">Akceptuj</button>
+            <button id="cancelA" class="cancel-btn">Anuluj</button>
+        </div>
+    </div>
+    
+    <div id="sizeMenuB" class="size-menu">
+        <div class="resize-input-group">
+            <label for="rowsB">Wiersze:</label>
+            <input id="rowsB" type="number" min="1" max="10" value="2" class="size-input">
+        </div>
+        <div class="resize-input-group">
+            <label for="colsB">Kolumny:</label>
+            <input id="colsB" type="number" min="1" max="10" value="2" class="size-input">
+        </div>
+        <div class="size-menu-buttons">
+            <button id="acceptB" class="accept-btn">Akceptuj</button>
+            <button id="cancelB" class="cancel-btn">Anuluj</button>
         </div>
     </div>
 
     <!-- Global Side menu -->
-    <button id="menuBtn" class="menu-btn" >☰</button>
+    <button id="menuBtn" class="menu-btn">☰</button>
     <div id="globalSideMenu" class="side-menu hidden">
         <div id="homeMenuItem" class="menu-item" style="--menu-item-index: 0;">Strona główna</div>
         <div id="appMenuItem" class="menu-item" style="--menu-item-index: 1;">Aplikacje</div>
@@ -56,11 +95,6 @@
         <div class="welcome-lang-btn">
             <div class="lang-btn-container">
                 <div class="lang-btn"></div>
-                <div class="lang-menu">
-                    <div data-lang="pl">Polski</div>
-                    <div data-lang="en">English</div>
-                    <div data-lang="de">Deutsch</div>
-                </div>
             </div>
         </div>
     </div>
@@ -97,7 +131,9 @@
                 <div id="resultContainer" class="result-container"></div>
                 <div class="history-container">
                     <div id="historyLabel" class="history-title">Historia:</div>
-                    <div id="historyBox" class="history-box"></div>
+                    <div id="historyBox" class="history-box">
+                        <div class="empty-history">Brak historii</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -124,10 +160,10 @@
                         <div class="method-label">Metoda:</div>
                         <button id="methodBtn" class="method-btn-main">Cramer</button>
                         <div id="methodSelector" class="method-selector">
-                            <button class="method-btn active" data-method="cramer">Cramer</button>
-                            <button class="method-btn" data-method="gauss">Eliminacja Gaussa</button>
-                            <button class="method-btn" data-method="gauss_jordan">Gauss-Jordan</button>
-                            <button class="method-btn" data-method="inverse">Macierz odwrotna</button>
+                            <div class="method-menu-item" data-value="value1">Cramer</div>
+                            <div class="method-menu-item" data-value="value2">Eliminacja Gaussa</div>
+                            <div class="method-menu-item" data-value="value3">Gauss-Jordan</div>
+                            <div class="method-menu-item" data-value="value4">Macierz odwrotna</div>
                         </div>
                     </div>
                 </div>
@@ -142,40 +178,12 @@
                         <button class="resize-icon" onclick="toggleSizeMenu('A')">+</button>
                         <div id="matrixATitle" class="matrix-title">Macierz A</div>
                         <div id="matrixAGrid" class="matrix-grid"></div>
-                        <div id="sizeMenuA" class="size-menu">
-                            <div class="resize-input-group">
-                                <label for="rowsA">Wiersze:</label>
-                                <input id="rowsA" type="number" min="1" max="10" value="2" class="size-input">
-                            </div>
-                            <div class="resize-input-group">
-                                <label for="colsA">Kolumny:</label>
-                                <input id="colsA" type="number" min="1" max="10" value="2" class="size-input">
-                            </div>
-                            <div class="size-menu-buttons">
-                            <button id="acceptA" class="accept-btn">Akceptuj</button>
-                            <button id="cancelA" class="cancel-btn">Anuluj</button>
-                            </div>
-                        </div>
                     </div>
                     
                     <div id="matrixB" class="matrix-frame">
                         <button class="resize-icon" onclick="toggleSizeMenu('B')">+</button>
                         <div id="matrixBTitle" class="matrix-title">Macierz B</div>
                         <div id="matrixBGrid" class="matrix-grid"></div>
-                        <div id="sizeMenuB" class="size-menu">
-                            <div class="resize-input-group">
-                                <label for="rowsB">Wiersze:</label>
-                                <input id="rowsB" type="number" min="1" max="10" value="2" class="size-input">
-                            </div>
-                            <div class="resize-input-group">
-                                <label for="colsB">Kolumny:</label>
-                                <input id="colsB" type="number" min="1" max="10" value="2" class="size-input">
-                            </div>
-                            <div class="size-menu-buttons">
-                            <button id="acceptB" class="accept-btn">Akceptuj</button>
-                            <button id="cancelB" class="cancel-btn">Anuluj</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div id="errorMessage" class="error-message"></div>
@@ -253,10 +261,13 @@
         </div>
     </div>
 </div>
+
     <script src="js/translations.js"></script>
     <script src="js/script.js"></script>
     <script src="js/background.js"></script>
     <script src="js/leapYear.js"></script>
     <script src="js/matrixCalculator.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/utils.js"></script>
 </body>
 </html>

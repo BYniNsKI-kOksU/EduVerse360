@@ -11,7 +11,7 @@
     padding: 0 20px;
     align-items: center;
     background-color: transparent;
-    z-index: 1000;
+    z-index: 900;
     transition: opacity 0.5s ease;
     cursor: pointer; /* Dodajemy kursor wskazujący, że można kliknąć */
 }

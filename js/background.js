@@ -164,6 +164,17 @@ function startApplication() {
     
     document.querySelector('.welcome-lang-btn').style.display = 'none';
     
+    // Hide welcome lang menu if open
+    const welcomeLangMenu = document.querySelector('.welcome-lang-menu');
+    if (welcomeLangMenu.classList.contains('open')) {
+        welcomeLangMenu.classList.remove('open');
+        welcomeLangMenu.classList.add('closing');
+        welcomeLangMenu.addEventListener('animationend', () => {
+            welcomeLangMenu.style.display = 'none';
+            welcomeLangMenu.classList.remove('closing');
+        }, { once: true });
+    }
+    
     const navBar = document.querySelector('.nav-bar');
     if (navBar) {
         navBar.style.display = 'flex';
@@ -185,14 +196,6 @@ function startApplication() {
     if (menuBtn) {
         menuBtn.style.display = 'block';
     }
-
-    const langMenu = document.querySelector('.nav-bar .lang-menu');
-    langMenu?.addEventListener('click', (e) => {
-        if (e.target.dataset.lang) {
-            if (!ensureTranslationsLoaded()) return;
-            switchLanguage(e.target.dataset.lang);
-        }
-    });
     
     setTimeout(() => {
         document.querySelector('.welcome-screen').style.display = 'none';
@@ -360,11 +363,35 @@ function updateWelcomeScreen() {
 }
 
 document.addEventListener('click', function(e) {
-    const langMenu = document.querySelector('.lang-menu');
-    const langBtn = document.querySelector('.welcome-lang-btn');
+    const welcomeLangMenu = document.querySelector('.welcome-lang-menu');
+    const welcomeLangBtn = document.querySelector('.welcome-lang-btn .lang-btn');
+    const navLangMenu = document.querySelector('.nav-lang-menu');
+    const navLangBtn = document.querySelector('.nav-bar .lang-btn');
     
-    if (langMenu && !langMenu.contains(e.target) && !langBtn.contains(e.target)) {
-        langMenu.style.display = 'none';
+    // Zamknij welcome lang menu
+    if (welcomeLangMenu && !welcomeLangMenu.contains(e.target) && 
+        (!welcomeLangBtn || !welcomeLangBtn.contains(e.target))) {
+        if (welcomeLangMenu.classList.contains('open')) {
+            welcomeLangMenu.classList.remove('open');
+            welcomeLangMenu.classList.add('closing');
+            welcomeLangMenu.addEventListener('animationend', () => {
+                welcomeLangMenu.style.display = 'none';
+                welcomeLangMenu.classList.remove('closing');
+            }, { once: true });
+        }
+    }
+    
+    // Zamknij nav lang menu
+    if (navLangMenu && !navLangMenu.contains(e.target) && 
+        (!navLangBtn || !navLangBtn.contains(e.target))) {
+        if (navLangMenu.classList.contains('open')) {
+            navLangMenu.classList.remove('open');
+            navLangMenu.classList.add('closing');
+            navLangMenu.addEventListener('animationend', () => {
+                navLangMenu.style.display = 'none';
+                navLangMenu.classList.remove('closing');
+            }, { once: true });
+        }
     }
 });
 

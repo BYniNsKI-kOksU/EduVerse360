@@ -34,8 +34,9 @@ const translations = {
             "clear": "Wyczyść",
             "matrix_a": "Macierz A",
             "matrix_b": "Macierz B",
-            "result_label": "Wynik",
             "solve": "Układ równań",
+            "default_result": "Wynik pojawi się tutaj",
+            "method_label": "Metoda:",
             "operations": {
                 "add": "Dodawanie",
                 "sub": "Odejmowanie",
@@ -125,6 +126,8 @@ const translations = {
             "matrix_b": "Matrix B",
             "result_label": "Result",
             "solve": "Solve",
+            "default_result": "Result will appear here",
+            "method_label": "Method:",
             "operations": {
                 "add": "Addition",
                 "sub": "Subtraction",
@@ -169,7 +172,7 @@ const translations = {
             "title": "User Profile",
             "edit": "Edit Profile",
             "favorites": "Favorite Calculations",
-            "settings": "Settings",
+            "settings knives": "Settings",
             "password": "Change Password",
             "activity": "Recent Activity",
             "calculations": "Calculations",
@@ -214,6 +217,8 @@ const translations = {
             "matrix_b": "Matrix B",
             "result_label": "Ergebnis",
             "solve": "Lösen",
+            "default_result": "Ergebnis wird hier erscheinen",
+            "method_label": "methode:",
             "operations": {
                 "add": "Addition",
                 "sub": "Subtraktion",
