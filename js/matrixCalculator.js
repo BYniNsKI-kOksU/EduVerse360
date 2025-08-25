@@ -880,88 +880,6 @@ function initializeMatrixCalculator() {
     }
     });
 
-    // Dodaj obsługę przycisku metod
-if (methodBtn) {
-    methodBtn.addEventListener('click', e => {
-        e.stopPropagation();
-        methodBtn.textContent = translations[currentLang].matrixCalc.methods[currentMethod];
-        const isOpen = methodSelector.classList.contains('open');
-        
-        // Zamknij menu operacji jeśli jest otwarte
-        if (operationMenu.classList.contains('open')) {
-            operationMenu.classList.remove('open');
-            operationMenu.classList.add('closing');
-            setTimeout(() => {
-                operationMenu.style.display = 'none';
-                operationMenu.classList.remove('closing');
-            }, 300);
-        }
-        
-        if (isOpen) {
-            methodSelector.classList.remove('open');
-            methodSelector.classList.add('closing');
-            setTimeout(() => {
-                methodSelector.style.display = 'none';
-                methodSelector.classList.remove('closing');
-            }, 300);
-        } else {
-            methodSelector.style.display = 'flex';
-            requestAnimationFrame(() => {
-                methodSelector.classList.add('open');
-            });
-        }
-    });
-}
-
-// Dodaj obsługę kliknięcia w elementy menu metod
-if (methodSelector) {
-    methodSelector.addEventListener('click', e => {
-        if (e.target.classList.contains('method-btn')) {
-            currentMethod = e.target.dataset.method;
-            updateMethodButtons();
-            methodBtn.textContent = translations[currentLang].matrixCalc.methods[currentMethod];
-            methodSelector.classList.remove('open');
-            methodSelector.classList.add('closing');
-            setTimeout(() => {
-                methodSelector.style.display = 'none';
-                methodSelector.classList.remove('closing');
-            }, 300);
-        }
-        e.stopPropagation();
-    });
-}
-
-// Dodaj zamykanie menu metod przy kliknięciu poza
-document.addEventListener('click', (e) => {
-    const isMethodMenuClick = e.target.closest('.method-selector');
-    const isMethodBtnClick = e.target === methodBtn || e.target.closest('#methodBtn');
-    
-    if (!isMethodMenuClick && !isMethodBtnClick && methodSelector) {
-        if (methodSelector.classList.contains('open')) {
-            methodSelector.classList.remove('open');
-            methodSelector.classList.add('closing');
-            setTimeout(() => {
-                methodSelector.style.display = 'none';
-                methodSelector.classList.remove('closing');
-            }, 300);
-        }
-    }
-});
-
-// Dodaj obsługę klawisza Escape
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        if (methodSelector.classList.contains('open')) {
-            methodSelector.classList.remove('open');
-            methodSelector.classList.add('closing');
-            setTimeout(() => {
-                methodSelector.style.display = 'none';
-                methodSelector.classList.remove('closing');
-            }, 300);
-        }
-    }
-});
-
     if (computeBtn) {
         computeBtn.replaceWith(computeBtn.cloneNode(true)); // Remove existing listeners
         const newComputeBtn = document.getElementById('computeBtn');
@@ -1019,7 +937,6 @@ document.addEventListener('keydown', function(e) {
         document.getElementById('sizeMenuB').style.display = 'none';
     });
 
-<<<<<<< HEAD
     document.querySelectorAll('.size-menu').forEach(menu => {
         menu.style.display = 'none';
     });
@@ -1048,8 +965,6 @@ document.addEventListener('keydown', function(e) {
     }
     });
 
-=======
->>>>>>> 4f8a70187693663a5e7067a00ff2f78d413ecd10
     window.addEventListener('resize', updateUI);
 }
 
@@ -1094,7 +1009,6 @@ function toggleSizeMenu(matrixId) {
     });
 
     // Toggle obecnego menu
-<<<<<<< HEAD
     const isOpen = menu.classList.contains('open');
     
     if (isOpen) {
@@ -1144,14 +1058,6 @@ function toggleSizeMenu(matrixId) {
             menu.classList.add('open');
         });
         
-=======
-    const isOpen = menu.style.display === 'block';
-    menu.style.display = isOpen ? 'none' : 'block';
-    menu.classList.toggle('open', !isOpen);
-
-    // Ustaw wysoki z-index tylko dla otwartego menu
-    if (!isOpen) {
->>>>>>> 4f8a70187693663a5e7067a00ff2f78d413ecd10
         const firstInput = menu.querySelector('input');
         if (firstInput) {
             setTimeout(() => {
