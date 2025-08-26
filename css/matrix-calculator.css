@@ -556,6 +556,7 @@
 
 .size-menu {
     position: fixed;
+    display: none;
     gap: 12px;
     min-width: 170px;
     max-width: 90vw;
@@ -565,7 +566,6 @@
     opacity: 0;
     visibility: hidden;
     transform-origin: top center;
-    display: flex;
     flex-direction: column;
     background: var(--liquid-glass-bg-black);
     backdrop-filter: var(--liquid-glass-blur);

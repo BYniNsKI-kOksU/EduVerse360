@@ -625,6 +625,11 @@ function applyResize() {
 }
 
 function initializeMatrixCalculator() {
+    document.querySelectorAll('.size-menu').forEach(menu => {
+        menu.style.display = 'none';
+        menu.classList.remove('open');
+    });
+
     createMatrix(matrixAGrid, 2, 2);
     createMatrix(matrixBGrid, 2, 2);
     updateUI();
@@ -932,10 +937,6 @@ function initializeMatrixCalculator() {
         createMatrix(matrixBGrid, rows, cols);
         document.getElementById('sizeMenuB').style.display = 'none';
     });
-
-    document.querySelectorAll('.size-menu').forEach(menu => {
-        menu.style.display = 'none';
-    });
     
     document.getElementById('cancelA')?.addEventListener('click', () => {
     const menu = document.getElementById('sizeMenuA');
@@ -986,10 +987,12 @@ document.addEventListener('keydown', function(event) {
 });
 
 function toggleSizeMenu(matrixId) {
+    if (currentScreen === "welcome") return;
+
     const menu = document.getElementById(`sizeMenu${matrixId}`);
     const matrixFrame = document.getElementById(`matrix${matrixId}`);
-    const resizeIcon = matrixFrame.querySelector('.resize-icon');
-    
+    const resizeIcon = matrixFrame?.querySelector('.resize-icon');
+
     if (!menu || !matrixFrame || !resizeIcon) return;
 
     // Zamknij wszystkie inne menu
@@ -997,72 +1000,52 @@ function toggleSizeMenu(matrixId) {
         if (m !== menu && m.classList.contains('open')) {
             m.classList.remove('open');
             m.classList.add('closing');
-            setTimeout(() => {
-                m.style.display = 'none';
-                m.classList.remove('closing');
-            }, 300);
+            setTimeout(() => m.classList.remove('closing'), 300);
         }
     });
 
     // Toggle obecnego menu
-    const isOpen = menu.classList.contains('open');
-    
-    if (isOpen) {
+    if (menu.classList.contains('open')) {
         menu.classList.remove('open');
         menu.classList.add('closing');
-        setTimeout(() => {
-            menu.style.display = 'none';
-            menu.classList.remove('closing');
-        }, 300);
+        setTimeout(() => menu.classList.remove('closing'), 300);
     } else {
+        // Najpierw pokaż menu, żeby getBoundingClientRect działało poprawnie
+        menu.style.display = 'flex';
+
         // Pozycjonowanie menu względem przycisku resize
         const iconRect = resizeIcon.getBoundingClientRect();
         menu.style.position = 'fixed';
-        menu.style.top = `${iconRect.bottom + window.scrollY + 5}px`; // 5px poniżej przycisku
+        menu.style.top = `${iconRect.bottom + window.scrollY + 5}px`;
         menu.style.left = `${iconRect.left + window.scrollX}px`;
-        
-        // Sprawdź, czy menu wychodzi poza prawą krawędź ekranu
+
         const menuRect = menu.getBoundingClientRect();
         const viewportWidth = window.innerWidth;
-        
+        const viewportHeight = window.innerHeight;
+
         if (menuRect.right > viewportWidth) {
             menu.style.left = `${viewportWidth - menuRect.width - 10}px`;
         }
-        
-        // Sprawdź, czy menu wychodzi poza dolną krawędź ekranu
-        const viewportHeight = window.innerHeight;
-        
+
         if (menuRect.bottom > viewportHeight) {
-            menu.style.top = `${iconRect.top + window.scrollY - menuRect.height - 5}px`; // 5px powyżej przycisku
+            menu.style.top = `${iconRect.top + window.scrollY - menuRect.height - 5}px`;
         }
-        
-        // Ustaw zmienne --i dla opóźnień animacji
+
+        // Animacja kolejnych elementów
         const inputs = menu.querySelectorAll('.resize-input-group');
         const buttons = menu.querySelectorAll('.size-menu-buttons');
-        
-        inputs.forEach((input, index) => {
-            input.style.setProperty('--i', index);
-        });
-        
-        buttons.forEach((button, index) => {
-            button.style.setProperty('--i', index + inputs.length);
-        });
-        
-        menu.style.display = 'flex';
-        // Krótkie opóźnienie aby umożliwić przejście CSS
-        requestAnimationFrame(() => {
-            menu.classList.add('open');
-        });
-        
+        inputs.forEach((input, index) => input.style.setProperty('--i', index));
+        buttons.forEach((button, index) => button.style.setProperty('--i', index + inputs.length));
+
+        // Dodaj klasę open po pozycji
+        requestAnimationFrame(() => menu.classList.add('open'));
+
+        // Focus na pierwszym polu
         const firstInput = menu.querySelector('input');
-        if (firstInput) {
-            setTimeout(() => {
-                firstInput.focus();
-                firstInput.select();
-            }, 100); // Małe opóźnienie dla lepszego UX
-        }
+        if (firstInput) setTimeout(() => { firstInput.focus(); firstInput.select(); }, 100);
     }
 }
+
 
 // Dodaj nasłuchiwanie na zmianę rozmiaru okna
 window.addEventListener('resize', () => {
