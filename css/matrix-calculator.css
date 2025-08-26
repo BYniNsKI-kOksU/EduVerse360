@@ -866,6 +866,14 @@
     z-index: 15;
 }
 
+.resize-dialog {
+    display: none !important;
+}
+
+.resize-dialog.open {
+    display: flex !important;
+}
+
 .resize-matrix-controls {
     display: flex;
     justify-content: space-between;

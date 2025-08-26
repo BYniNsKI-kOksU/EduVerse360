@@ -914,13 +914,9 @@ function initializeMatrixCalculator() {
         });
     }
 
+    const resizeDialog = document.getElementById('resizeDialog');
     if (resizeDialog) {
-        resizeDialog.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                applyResize();
-            }
-        });
+        resizeDialog.style.display = 'none';
     }
 
     acceptA?.addEventListener('click', () => {

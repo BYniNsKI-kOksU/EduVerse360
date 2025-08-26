@@ -192,9 +192,12 @@ function startApplication() {
         });
     }
     
+    // Upewnij się, że przycisk menu jest widoczny
     const menuBtn = document.getElementById('menuBtn');
     if (menuBtn) {
         menuBtn.style.display = 'block';
+        menuBtn.style.opacity = '1';
+        menuBtn.style.pointerEvents = 'auto';
     }
     
     setTimeout(() => {

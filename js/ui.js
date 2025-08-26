@@ -245,10 +245,10 @@ function initializeUI() {
     optimizeProfilePage();
     createWaterDrops();
     
+    const menuBtn = document.getElementById('menuBtn');
+    const globalSideMenu = document.getElementById('globalSideMenu');
+
     if (currentScreen === "welcome") {
-        const menuBtn = document.getElementById('menuBtn');
-        const globalSideMenu = document.getElementById('globalSideMenu');
-        
         if (menuBtn) {
             menuBtn.style.display = 'none';
             menuBtn.style.opacity = '0';
@@ -260,6 +260,11 @@ function initializeUI() {
             globalSideMenu.classList.remove('open');
         }
     } else {
+        if (menuBtn) {
+            menuBtn.style.display = 'flex';
+            menuBtn.style.opacity = '1';
+            menuBtn.style.pointerEvents = 'auto';
+        }
         resetMenuState();
     }
 }

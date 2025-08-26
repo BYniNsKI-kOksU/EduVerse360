@@ -1,6 +1,6 @@
 // Side menu handling
-const menuBtn = document.getElementById('menuBtn');
-const sideMenu = document.getElementById('globalSideMenu');
+let menuBtn = document.getElementById('menuBtn');
+let sideMenu = document.getElementById('globalSideMenu');
 
 function setupMenu() {
     const homeMenuItem = document.getElementById('homeMenuItem');
@@ -9,59 +9,61 @@ function setupMenu() {
             e.stopPropagation();
             backToHome();
             if (sideMenu) {
-                sideMenu.classList.remove('open');
-                if (menuBtn) {
-                    menuBtn.style.display = 'block';
-                    menuBtn.style.opacity = '1';
-                    menuBtn.style.pointerEvents = 'auto';
-                }
+                closeMenuWithAnimation();
             }
         });
     }
 
     if (!menuBtn || !sideMenu) return;
 
-    menuBtn.replaceWith(menuBtn.cloneNode(true));
-    const newMenuBtn = document.getElementById('menuBtn');
+    // Resetuj event listenery
+    const newMenuBtn = menuBtn.cloneNode(true);
+    menuBtn.parentNode.replaceChild(newMenuBtn, menuBtn);
+    menuBtn = document.getElementById('menuBtn');
     
-    newMenuBtn.addEventListener('click', function(e) {
+    menuBtn.addEventListener('click', function(e) {
         e.stopPropagation();
+        sideMenu.classList.remove('hidden');
         sideMenu.classList.toggle('open');
+        
         if (sideMenu.classList.contains('open')) {
-            newMenuBtn.style.display = 'none';
+            menuBtn.style.display = 'none';
         } else {
-            newMenuBtn.style.display = 'block';
-            newMenuBtn.style.opacity = '1';
-            newMenuBtn.style.pointerEvents = 'auto';
+            resetMenuBtnState();
         }
     });
 
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('#globalSideMenu') && e.target !== newMenuBtn) {
-        if (sideMenu && sideMenu.classList.contains('open')) {
-            // Dodajemy klasę closing i usuwamy open po zakończeniu animacji
-            sideMenu.classList.add('closing');
-            sideMenu.classList.remove('open');
-            
-            // Obsługa zakończenia animacji
-            sideMenu.addEventListener('animationend', function handler() {
-                sideMenu.classList.remove('closing');
-                sideMenu.removeEventListener('animationend', handler);
-            });
-            
-            if (newMenuBtn) {
-                newMenuBtn.style.display = 'block';
-                newMenuBtn.style.opacity = '1';
-                newMenuBtn.style.pointerEvents = 'auto';
-            }
-            }
+    // Funkcja do zamykania menu z animacją
+    const closeMenuWithAnimation = function() {
+        // Od razu pokaż przycisk menu
+        resetMenuBtnState();
+
+        // Rozpocznij animację zamykania
+        sideMenu.classList.add('closing');
+        sideMenu.classList.remove('open');
         
-            // POPRAWIONE: Dokładniejsze sprawdzanie czy profil jest widoczny
-            if (isUserProfileVisible && !e.target.closest('.user-profile-container') && 
-                !e.target.closest('.user-btn') && e.target !== userBtn) {
-                document.getElementById('userProfileApp').classList.remove('active');
-                isUserProfileVisible = false;
-                backToHome();
+        // Po zakończeniu animacji ukryj menu
+        const animationEndHandler = function() {
+            sideMenu.classList.remove('closing');
+            sideMenu.classList.add('hidden');
+            sideMenu.removeEventListener('animationend', animationEndHandler);
+        };
+        sideMenu.addEventListener('animationend', animationEndHandler);
+    };
+
+    // Obsługa przycisku zamykania
+    const closeSideMenuBtn = document.getElementById("closeSideMenuBtn");
+    if (closeSideMenuBtn) {
+        closeSideMenuBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            closeMenuWithAnimation();
+        });
+    }
+
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('#globalSideMenu') && e.target !== menuBtn) {
+            if (sideMenu && sideMenu.classList.contains('open')) {
+                closeMenuWithAnimation();
             }
         }
     });
@@ -86,11 +88,15 @@ function setupMenu() {
         });
     });
 
+    // ZMIANA: Zamykaj menu tylko po wyborze konkretnej aplikacji, nie przy rozwijaniu submenu
     document.querySelectorAll('.submenu-item[data-app]').forEach(item => {
         item.addEventListener('click', function(e) {
             e.stopPropagation();
             const app = this.dataset.app;
             if (app) {
+                // Zamknij menu po wyborze aplikacji
+                closeMenuWithAnimation();
+                
                 currentScreen = "app";
                 document.querySelector('.welcome-screen').style.display = 'none';
                 document.querySelector('.home-screen').style.display = 'none';
@@ -112,10 +118,6 @@ function setupMenu() {
                     menuBtn.style.pointerEvents = 'auto';
                 }
                 
-                if (sideMenu) {
-                    sideMenu.classList.remove('open');
-                }
-                
                 updateUI();
             }
         });
@@ -123,12 +125,14 @@ function setupMenu() {
 
     const userBtn = document.querySelector('.user-btn');
     if (userBtn) {
-        userBtn.removeEventListener('click', showUserProfile); // Remove any existing listener to prevent duplicates
+        userBtn.removeEventListener('click', showUserProfile);
         userBtn.addEventListener('click', function(e) {
             e.stopPropagation();
             showUserProfile();
-            userBtn.style.animation = 'none'; // Reset animation after click to prevent looping
-            void userBtn.offsetWidth; // Trigger reflow
+            // Zamknij menu po kliknięciu profilu użytkownika
+            closeMenuWithAnimation();
+            userBtn.style.animation = 'none';
+            void userBtn.offsetWidth;
         });
     }
 }
@@ -142,6 +146,23 @@ function resetMenuState() {
         menuBtn.style.opacity = '1';
         menuBtn.style.pointerEvents = 'auto';
     }
+    
+    if (sideMenu) {
+        sideMenu.classList.remove('open');
+        sideMenu.classList.remove('hidden');
+    }
+}
+
+function resetMenuBtnState() {
+    if (menuBtn) {
+        menuBtn.style.display = 'block';
+        menuBtn.style.opacity = '1';
+        menuBtn.style.pointerEvents = 'auto';
+    }
+}
+
+function resetMenuState() {
+    resetMenuBtnState();
     
     if (sideMenu) {
         sideMenu.classList.remove('open');
