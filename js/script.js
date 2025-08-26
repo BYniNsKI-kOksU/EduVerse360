@@ -2,6 +2,7 @@
 let currentLang = "pl";
 let currentScreen = "welcome";
 let isUserProfileVisible = false;
+let darkMode = false;
 
 // Function to dynamically load CSS files
 function loadCSS(filename) {
@@ -22,7 +23,8 @@ async function loadAllCSS() {
             'css/leap-year.css',
             'css/matrix-calculator.css',
             'css/home-screen.css',
-            'css/user-profile.css'
+            'css/user-profile.css',
+            'css/dark-mode.css' // Poprawiono literówkę z 'dakr-mode.css'
         ];
 
         for (const file of cssFiles) {
@@ -54,14 +56,48 @@ function switchLanguage(lang) {
     });
 }
 
+function toggleDarkMode() {
+    darkMode = !darkMode;
+    document.body.classList.toggle('dark-mode', darkMode);
+    
+    // Zapisz preferencję użytkownika
+    localStorage.setItem('darkMode', darkMode);
+    
+    // Zmień ikonę przycisku
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    if (themeToggleBtn) {
+        themeToggleBtn.textContent = darkMode ? '☀️' : '🌙';
+    }
+}
+
+function initializeTheme() {
+    const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+    if (savedDarkMode) {
+        darkMode = true;
+        document.body.classList.add('dark-mode');
+        
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        if (themeToggleBtn) {
+            themeToggleBtn.textContent = '☀️';
+        }
+    }
+}
+
 // Initialize the application
 document.addEventListener('DOMContentLoaded', async () => {
     await loadAllCSS();
-    updateWelcomeScreen();
+
     setupMenu();
     initializeUI();
+    initializeTheme();
     initializeLeapYear();
+    updateWelcomeScreen();
     initializeMatrixCalculator();
+
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', toggleDarkMode);
+    }
 
     // === WELCOME SCREEN LANG MENU ===
     const welcomeLangBtn = document.querySelector('.welcome-lang-btn .lang-btn');

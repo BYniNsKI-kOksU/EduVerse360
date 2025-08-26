@@ -321,3 +321,24 @@
         padding: 18px 20px;
     }
 }
+
+/* W pliku responsiveness.css */
+@media (max-width: 768px) {
+    .theme-toggle-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .theme-toggle-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+    
+    .nav-bar {
+        gap: 5px;
+    }
+}

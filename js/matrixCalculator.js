@@ -1046,7 +1046,6 @@ function toggleSizeMenu(matrixId) {
     }
 }
 
-
 // Dodaj nasłuchiwanie na zmianę rozmiaru okna
 window.addEventListener('resize', () => {
     document.querySelectorAll('.size-menu').forEach(menu => {

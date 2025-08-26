@@ -89,7 +89,11 @@ function adjustParticlesDensity() {
 
 function animate(now = performance.now()) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#f2f2f2';
+    if (document.body.classList.contains('dark-mode')) {
+        ctx.fillStyle = '#1a1a1a';
+    } else {
+        ctx.fillStyle = '#f2f2f2';
+    }
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     waves = waves.filter(wave => now - wave.startTime < waveDuration);
@@ -130,6 +134,17 @@ function animate(now = performance.now()) {
         const effect = Math.max(effectMouse, effectWave);
         p.size = p.baseSize + effect * p.baseSize * maxSizeMultiplier;
         p.color = effectWave > effectMouse ? '#E07A5F' : `rgb(${Math.floor(100 + (1 - effect) * 100)},${Math.floor(100 + (1 - effect) * 100)},${Math.floor(100 + (1 - effect) * 100)})`;
+
+        ctx.fillStyle = p.color;
+        ctx.font = `${p.size}px sans-serif`;
+        ctx.fillText(p.symbol, Math.round(p.x), Math.round(p.y));
+
+
+        if (document.body.classList.contains('dark-mode')) {
+            p.color = effectWave > effectMouse ? '#E07A5F' : `rgb(${Math.floor(60 + (1 - effect) * 60)},${Math.floor(60 + (1 - effect) * 60)},${Math.floor(60 + (1 - effect) * 60)})`;
+        } else {
+            p.color = effectWave > effectMouse ? '#E07A5F' : `rgb(${Math.floor(100 + (1 - effect) * 100)},${Math.floor(100 + (1 - effect) * 100)},${Math.floor(100 + (1 - effect) * 100)})`;
+        }
 
         ctx.fillStyle = p.color;
         ctx.font = `${p.size}px sans-serif`;

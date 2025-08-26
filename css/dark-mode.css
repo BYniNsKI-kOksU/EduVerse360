@@ -1,0 +1,195 @@
+/* W pliku base.css - zmienne dla trybu ciemnego */
+:root {
+    --clr-dark-bg: #1a1a1a;
+    --clr-dark-fg: #e0e0e0;
+    --clr-dark-accent: #E07A5F;
+    --clr-dark-card: #2d2d2d;
+    --clr-dark-border: #404040;
+    --clr-dark-text: #ffffff; /* Biały dla maksymalnej czytelności */
+    --clr-dark-muted: #d0d0d0; /* Jaśniejszy szary dla tekstu pomocniczego */
+}
+
+/* Styl dla trybu ciemnego */
+body.dark-mode {
+    --clr-bg: var(--clr-dark-bg);
+    --clr-fg: var(--clr-dark-fg);
+    --clr-accent: var(--clr-dark-accent);
+    --liquid-glass-bg: rgba(0, 0, 0, 0.1);
+    --liquid-glass-bg-black: rgba(0, 0, 0, 0.6);
+    --liquid-glass-border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: var(--clr-dark-bg);
+    color: var(--clr-dark-text) !important;
+}
+
+/* Catch-all dla wszystkich elementów tekstowych w trybie ciemnym */
+body.dark-mode *,
+body.dark-mode *::before,
+body.dark-mode *::after {
+    color: var(--clr-dark-text) !important;
+}
+
+/* Styl dla konkretnych elementów w trybie ciemnym */
+body.dark-mode .welcome-title,
+body.dark-mode .welcome-subtitle,
+body.dark-mode .home-title,
+body.dark-mode .leap-year-title,
+body.dark-mode .matrix-Calc-title,
+body.dark-mode .input-label,
+body.dark-mode .history-title,
+body.dark-mode .operation-label,
+body.dark-mode .method-label,
+body.dark-mode .matrix-title,
+body.dark-mode .start-btn,
+body.dark-mode .lang-btn,
+body.dark-mode .nav-btn,
+body.dark-mode .calculate-btn,
+body.dark-mode .clear-btn,
+body.dark-mode .menu-btn,
+body.dark-mode .close-side-menu-btn,
+body.dark-mode .back-btn,
+body.dark-mode .user-name,
+body.dark-mode .user-email,
+body.dark-mode .profile-stats div,
+body.dark-mode .profile-actions button,
+body.dark-mode .activity-item,
+body.dark-mode .lang-menu div,
+body.dark-mode .size-menu div,
+body.dark-mode .operation-menu div,
+body.dark-mode .method-selector div,
+body.dark-mode .side-menu,
+body.dark-mode .home-side-menu {
+    color: var(--clr-dark-text) !important; /* Biały kolor tekstu */
+}
+
+body.dark-mode .year-input {
+    background-color: var(--clr-dark-card);
+    color: #ffffff !important; /* Biały kolor tekstu dla inputu w badaczu roku przestępnego */
+    border-color: var(--clr-dark-border);
+}
+
+body.dark-mode .matrix-input {
+    background-color: var(--clr-dark-card);
+    color: #000000 !important; /* Czarny kolor tekstu dla inputów macierzowych */
+    border-color: var(--clr-dark-border);
+}
+
+body.dark-mode .size-menu input {
+    background-color: #000000 !important; /* Czarne tło dla inputów w size-menu */
+    color: #ffffff !important; /* Biały kolor tekstu dla inputów w size-menu */
+    border-color: var(--clr-dark-border);
+}
+
+body.dark-mode .result-container,
+body.dark-mode .history-box,
+body.dark-mode .matrix-frame,
+body.dark-mode .operation-menu,
+body.dark-mode .method-selector,
+body.dark-mode .size-menu {
+    background: var(--liquid-glass-bg);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    border: var(--liquid-glass-border);
+    color: var(--clr-dark-text) !important;
+}
+
+body.dark-mode .result-word {
+    color: var(--clr-dark-text) !important;
+}
+
+body.dark-mode .default-result-text {
+    color: #666 !important;
+}
+
+body.dark-mode .tile {
+    background-color: var(--clr-dark-card);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .nav-bar {
+    background: linear-gradient(135deg, 
+        rgba(224, 122, 95, 0.2) 0%,
+        rgba(224, 122, 95, 0.3) 50%, 
+        rgba(224, 122, 95, 0.2) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode #mathBg {
+    background: #1a1a1a;
+}
+
+body.dark-mode .particle {
+    color: #666;
+}
+
+body.dark-mode .side-menu,
+body.dark-mode .home-side-menu,
+body.dark-mode .lang-menu {
+    background: rgba(255, 255, 255, 0.45) !important; /* Białe tło dla side-menu i lang-menu */
+    border: var(--liquid-glass-border); /* Zachowana ramka */
+    backdrop-filter: var(--liquid-glass-blur); /* Zachowany efekt rozmycia */
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+}
+
+body.dark-mode .calculate-btn,
+body.dark-mode .clear-btn {
+    background: rgba(255, 255, 255, 0.45) !important; /* Białe tło jak dla side-menu */
+    border: var(--liquid-glass-border); /* Zachowana ramka */
+    backdrop-filter: var(--liquid-glass-blur); /* Zachowany efekt rozmycia */
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    color: var(--clr-dark-text) !important; /* Biały kolor tekstu */
+}
+
+/* Styl dla przycisku przełączania trybu */
+.theme-toggle-btn {
+    transition: all 0.3s ease;
+    color: var(--clr-dark-text) !important;
+}
+
+body.dark-mode .theme-toggle-btn {
+    transform: rotate(180deg);
+    content: "☀️";
+    color: var(--clr-dark-text) !important;
+}
+
+/* Override dark mode for matrix results to match light mode */
+body.dark-mode .result-container-matrix,
+body.dark-mode .solution-container {
+    background-color: #ffffff !important; /* White background from light mode */
+    color: #000000 !important; /* Black text */
+    border: 1px solid #E07A5F !important; /* Accent border from --clr-accent */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1), inset 0 0 0 1px rgba(0,0,0,0.05) !important; /* Preserve light mode shadow */
+    backdrop-filter: none !important; /* Remove glass effect */
+    -webkit-backdrop-filter: none !important;
+}
+
+/* Ensure all child elements in results match light mode text colors */
+body.dark-mode .result-container-matrix *,
+body.dark-mode .solution-container * {
+    color: #000000 !important; /* Black text for general content */
+}
+
+/* Preserve specific light mode colors for sub-elements */
+body.dark-mode .default-result-text {
+    color: #666 !important; /* Gray for default text, as in light mode */
+}
+
+body.dark-mode .solution-variable {
+    color: #E07A5F !important; /* Accent color for variables */
+}
+
+body.dark-mode .solution-value {
+    background: rgba(224, 122, 95, 0.1) !important; /* Light accent background */
+    color: #000000 !important;
+}
+
+/* Error states to match light mode */
+body.dark-mode .result-container-matrix.error {
+    background-color: #fde7e7 !important;
+    border: 1px solid #d32f2f !important;
+}
+
+body.dark-mode .error-message {
+    color: #d32f2f !important;
+    background-color: #fde7e7 !important;
+    border-left: 4px solid #d32f2f !important;
+}
