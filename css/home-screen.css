@@ -38,7 +38,9 @@
 }
 
 .tile {
-    background-color: var(--clr-tile-bg);
+    background-color: rgba(239, 115, 80, 0.65);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
     border-radius: 15px;
     padding: 20px;
     width: calc(50% - 20px);

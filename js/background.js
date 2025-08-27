@@ -350,6 +350,7 @@ function updateWelcomeScreen() {
     const welcomeTitle = document.querySelector('.welcome-title');
     const welcomeSubtitle = document.querySelector('.welcome-subtitle');
     const startBtn = document.querySelector('.start-btn');
+    const welcomeLangBtn = document.querySelector('.welcome-lang-btn'); // Dodaj tę linię
 
     if (welcomeTitle) {
         welcomeTitle.innerHTML = `<span>${translations[currentLang].welcome.title}</span>`;
@@ -372,11 +373,11 @@ function updateWelcomeScreen() {
         startBtn.style.animation = 'fadeInScale 0.8s ease-out forwards 1.5s';
     }
     
-    const langContainer = document.querySelector('.welcome-screen .lang-btn-container');
-    if (langContainer) {
-        langContainer.style.animation = 'none';
-        langContainer.offsetHeight;
-        langContainer.style.animation = 'fadeIn 0.8s ease-out forwards 2s';
+    // Dodaj animację dla przycisku języka
+    if (welcomeLangBtn) {
+        setTimeout(() => {
+            welcomeLangBtn.classList.add('show');
+        }, 2000); 
     }
 }
 

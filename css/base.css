@@ -1,26 +1,10 @@
 :root {
     /* Colors */
     --clr-bg: #317873;
-    --clr-bg-darker: #2a6a66;
     --clr-fg: #F0F0F0;
-    --clr-fg-en: #E07A5F;
-    --clr-fg-his: #F0EFEF;
-    --clr-anim: #FF0000;
-    --clr-accent: #E07A5F;
+    --clr-accent: #e07a5f;
     --clr-btn-bg: #7289DA;
     --clr-btn-hover: #677BC4;
-    --clr-lang: #4BB5A8;
-    --clr-prz: #E07A5F;
-    --clr-menu-bg: #2a6a66;
-    --clr-matrix-bg: #f8f9fa;
-    --clr-matrix-border: #dee2e6;
-    --clr-tile-bg: #E07A5F;
-    --clr-glass-edge: rgba(224, 122, 95, 0.7);
-    --clr-glass-center: rgba(224, 122, 95, 0.1);
-    --glass-edge-size: 6px;
-    --glass-glow-intensity: 1.8;
-
-    /* Global liquid glass effect */
     --liquid-glass-bg: rgba(255, 255, 255, 0.1);
     --liquid-glass-bg-black: rgba(0, 0, 0, 0.50);
     --liquid-glass-blur: blur(7px);
@@ -62,7 +46,7 @@ body {
     padding: 0;
     min-height: 100vh;
     overflow-x: hidden;
-    background-color: #222;
+    background-color: var(--clr-bg);
     position: fixed;
     top: 0;
     left: 0;

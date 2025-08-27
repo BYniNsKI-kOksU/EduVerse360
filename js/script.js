@@ -24,7 +24,7 @@ async function loadAllCSS() {
             'css/matrix-calculator.css',
             'css/home-screen.css',
             'css/user-profile.css',
-            'css/dark-mode.css' // Poprawiono literówkę z 'dakr-mode.css'
+            'css/dark-mode.css'
         ];
 
         for (const file of cssFiles) {
@@ -63,10 +63,18 @@ function toggleDarkMode() {
     // Zapisz preferencję użytkownika
     localStorage.setItem('darkMode', darkMode);
     
-    // Zmień ikonę przycisku
+    // Animacja przejścia między ikonami
     const themeToggleBtn = document.getElementById('themeToggleBtn');
     if (themeToggleBtn) {
-        themeToggleBtn.textContent = darkMode ? '☀️' : '🌙';
+        // Usuń istniejące klasy animacji
+        themeToggleBtn.classList.remove('light', 'dark');
+        
+        // Dodaj odpowiednią klasę w zależności od trybu
+        if (darkMode) {
+            themeToggleBtn.classList.add('dark');
+        } else {
+            themeToggleBtn.classList.add('light');
+        }
     }
 }
 
@@ -78,7 +86,14 @@ function initializeTheme() {
         
         const themeToggleBtn = document.getElementById('themeToggleBtn');
         if (themeToggleBtn) {
-            themeToggleBtn.textContent = '☀️';
+            themeToggleBtn.classList.remove('light');
+            themeToggleBtn.classList.add('dark');
+        }
+    } else {
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        if (themeToggleBtn) {
+            themeToggleBtn.classList.remove('dark');
+            themeToggleBtn.classList.add('light');
         }
     }
 }
@@ -206,5 +221,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Initialize all lang-btn elements with the default flag
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.style.backgroundImage = `url(${flags[defaultLang]})`;
+        btn.classList.add('show'); // Dodaj animację pojawiania się
     });
 });

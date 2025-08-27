@@ -61,6 +61,14 @@ body.dark-mode .home-side-menu {
     color: var(--clr-dark-text) !important; /* Biały kolor tekstu */
 }
 
+body.dark-mode .tile {
+    background-color: rgba(224, 122, 95, 0.35);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+    border: 1px solid #ffad96;
+}
+
 body.dark-mode .year-input {
     background-color: var(--clr-dark-card);
     color: #ffffff !important; /* Biały kolor tekstu dla inputu w badaczu roku przestępnego */
@@ -100,11 +108,6 @@ body.dark-mode .default-result-text {
     color: #666 !important;
 }
 
-body.dark-mode .tile {
-    background-color: var(--clr-dark-card);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-}
-
 body.dark-mode .nav-bar {
     background: linear-gradient(135deg, 
         rgba(224, 122, 95, 0.2) 0%,
@@ -139,16 +142,77 @@ body.dark-mode .clear-btn {
     color: var(--clr-dark-text) !important; /* Biały kolor tekstu */
 }
 
-/* Styl dla przycisku przełączania trybu */
-.theme-toggle-btn {
-    transition: all 0.3s ease;
+body.dark-mode .menu-btn {
+    background: linear-gradient(135deg, 
+        rgba(224, 122, 95, 0.2) 0%,
+        rgba(224, 122, 95, 0.3) 50%, 
+        rgba(224, 122, 95, 0.2) 100%) !important;
+    border: var(--liquid-glass-border);
+    color: var(--clr-dark-text) !important;
+}
+
+body.dark-mode .menu-btn:hover {
+    background: rgba(224, 122, 95, 0.4) !important;
+    box-shadow: 0 0 20px rgba(224, 122, 95, 0.7);
+    transform: scale(1.1);
     color: var(--clr-dark-text) !important;
 }
 
 body.dark-mode .theme-toggle-btn {
     transform: rotate(180deg);
-    content: "☀️";
     color: var(--clr-dark-text) !important;
+}
+
+/* Animacja ikon słońca i księżyca w przycisku przełączania motywu */
+.theme-toggle-btn {
+    position: relative;
+    color: var(--clr-dark-text) !important;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle-btn .icon-sun,
+.theme-toggle-btn .icon-moon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    transition: all 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+    z-index: 1;
+}
+
+.theme-toggle-btn.light .icon-sun {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.theme-toggle-btn.light .icon-moon {
+    opacity: 0;
+    transform: translate(-50%, 100%) scale(0.5);
+}
+
+/* Stan dla trybu ciemnego */
+.theme-toggle-btn.dark .icon-sun {
+    opacity: 0;
+    transform: translate(-50%, -100%) scale(0.5);
+}
+
+.theme-toggle-btn.dark .icon-moon {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+body.dark-mode .theme-toggle-btn {
+    transform: rotate(180deg);
 }
 
 /* Override dark mode for matrix results to match light mode */
@@ -192,4 +256,15 @@ body.dark-mode .error-message {
     color: #d32f2f !important;
     background-color: #fde7e7 !important;
     border-left: 4px solid #d32f2f !important;
+}
+
+body.dark-mode .start-hint {
+    color: #000 !important;
+}
+
+body.dark-mode .start-hint:hover {
+    background: rgba(255,255,255,0.9);
+    box-shadow: 0 2px 8px rgba(255,255,255,0.7);
+    border-radius: 20px;
+    transform: scale(1.08);
 }

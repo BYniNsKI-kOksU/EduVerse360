@@ -211,7 +211,6 @@
         opacity 0.3s ease,
         transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
         visibility 0.3s ease;
-    animation: expand-genie 0.6s ease forwards;
 }
 
 .operation-menu.closing {
@@ -390,7 +389,6 @@
         opacity 0.3s ease,
         transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
         visibility 0.3s ease;
-    animation: expand-genie 0.6s ease forwards;
 }
 
 .method-selector.closing {
@@ -588,7 +586,6 @@
         opacity 0.3s ease,
         transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
         visibility 0.3s ease;
-    animation: expand-genie 0.6s ease forwards;
 }
 
 .size-menu.closing {

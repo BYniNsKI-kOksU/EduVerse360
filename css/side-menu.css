@@ -259,17 +259,3 @@
         6px 6px 12px rgba(0, 0, 0, 0.25),
         inset 0 0 0 1px rgba(255, 255, 255, 0.2);
 }
-
-/* Keyframes for genie effect */
-@keyframes expand-genie {
-    0%   { transform: scaleY(0) translateY(-50%); opacity: 0; }
-    60%  { transform: scaleY(1.05) translateY(0); opacity: 1; }
-    80%  { transform: scaleY(0.97) translateY(0); }
-    100% { transform: scaleY(1) translateY(0); }
-}
-
-@keyframes collapse-genie {
-    0%   { transform: scaleY(1) translateY(0); opacity: 1; }
-    20%  { transform: scaleY(1.05) translateY(0); }
-    100% { transform: scaleY(0) translateY(-50%); opacity: 0; }
-}
