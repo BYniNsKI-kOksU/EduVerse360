@@ -177,7 +177,7 @@
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Operation Menu - nowe efekty pojawiania się */
+/* Operation Menu - poprawione style hover jak w lang-menu */
 .operation-menu {
     position: absolute;
     top: 100%;
@@ -222,20 +222,28 @@
     padding: 10px 15px;
     color: white;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     text-align: center;
     opacity: 0;
     transform: translateY(10px);
+    position: relative;
+    z-index: 1;
+    margin: 2px 8px;
+    border-radius: 20px;
+    border: 1px solid transparent;
 }
 
+/* Zaktualizowany efekt hover - taki sam jak w lang-menu */
 .operation-menu-item:hover {
-    background-color: rgba(255, 124, 87, 0.50);
-    color: black;
-    border-radius: 20px;
-    transform: translateY(-2px);
+    background-color: rgba(255, 124, 87, 0.5) !important;
+    color: white !important;
+    font-weight: bold;
+    border-radius: 20px !important;
+    transform: translateY(-5px) !important;
     box-shadow: 
-        6px 6px 12px rgba(0, 0, 0, 0.25),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+        0 0 12px rgba(255, 124, 87, 0.5),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
 .operation-menu.open .operation-menu-item {
@@ -256,6 +264,18 @@
     transition-delay: calc(var(--i) * 0.05s);
 }
 
+.operation-menu-item div:hover {
+    all: unset !important;
+}
+
+.operation-menu-item div:hover {
+    background-color: transparent !important;
+    color: inherit !important;
+    border-radius: inherit !important;
+    transform: inherit !important;
+    box-shadow: none !important;
+}
+
 .operation-selector {
     margin-bottom: 15px;
     text-align: center;
@@ -265,29 +285,41 @@
     gap: 5px;
 }
 
+/* Zastąp stare style .method-btn nowymi */
 .method-btn {
     padding: 10px 15px;
     color: white;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     text-align: center;
     opacity: 0;
     transform: translateY(10px);
+    position: relative;
+    z-index: 1;
+    margin: 2px 8px;
+    border-radius: 20px;
+    border: 1px solid transparent;
     background: none;
     border: none;
     font-size: inherit;
-    width: 100%;
+    width: calc(100% - 16px); /* Zmiana z 100% na calc(100% - 16px) */
     display: block;
+    box-sizing: border-box; /* Dodaj to */
 }
 
+/* Zaktualizuj również hover efekt */
 .method-btn:hover {
-    background-color: rgba(255, 124, 87, 0.50);
-    color: black;
-    border-radius: 20px;
-    transform: translateY(-2px);
+    background-color: rgba(255, 124, 87, 0.5) !important;
+    color: white !important;
+    font-weight: bold;
+    border-radius: 20px !important;
+    transform: translateY(-5px) !important;
     box-shadow: 
-        6px 6px 12px rgba(0, 0, 0, 0.25),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+        0 0 12px rgba(255, 124, 87, 0.5),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    margin: 2px 8px; /* Dodaj to */
+    width: calc(100% - 16px); /* Dodaj to */
 }
 
 .method-btn:active {
@@ -419,20 +451,27 @@
     padding: 10px 15px;
     color: white;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     text-align: center;
     opacity: 0;
     transform: translateY(10px);
+    position: relative;
+    z-index: 1;
+    margin: 2px 8px;
+    border-radius: 20px;
+    border: 1px solid transparent;
 }
 
 .method-menu-item:hover {
-    background-color: rgba(255, 124, 87, 0.50);
-    color: black;
-    border-radius: 20px;
-    transform: translateY(-2px);
+    background-color: rgba(255, 124, 87, 0.5) !important;
+    color: white !important;
+    font-weight: bold;
+    border-radius: 20px !important;
+    transform: translateY(-5px) !important;
     box-shadow: 
-        6px 6px 12px rgba(0, 0, 0, 0.25),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+        0 0 12px rgba(255, 124, 87, 0.5),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
 .method-selector.open .method-menu-item {
@@ -451,6 +490,18 @@
         opacity 0.2s ease,
         transform 0.2s ease;
     transition-delay: calc(var(--i) * 0.05s);
+}
+
+.method-menu-item div:hover {
+    all: unset !important;
+}
+
+.method-menu-item div:hover {
+    background-color: transparent !important;
+    color: inherit !important;
+    border-radius: inherit !important;
+    transform: inherit !important;
+    box-shadow: none !important;
 }
 
 /* ====  ====*/
@@ -537,7 +588,7 @@
     background: rgba(224, 122, 95, 0.25);
     backdrop-filter: blur(12px) brightness(1.3);
     -webkit-backdrop-filter: blur(12px) brightness(1.3);
-    color: white;
+    color: rgb(255, 0, 0);
     border-color: var(--clr-accent);
     transform: scale(1.1);
 }
@@ -967,12 +1018,11 @@
 }
 
 .accept-btn:hover {
-    color: white;
-    background-color: rgba(224, 122, 95, 0.8);
+    color: #000000;
+    background-color: rgba(0, 255, 0, 1);
+    border-color: rgb(0, 255, 0) !important;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.8) !important;
     transform: translateY(-2px);
-    box-shadow: 
-        0 6px 12px rgba(0, 0, 0, 0.25),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 .accept-btn:active, .cancel-btn:active {
@@ -982,9 +1032,28 @@
 
 .cancel-btn:hover {
     color: white;
-    background-color: var(--clr-anim);
+    background-color: rgb(255, 0, 0);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.8) !important;
     transform: translateY(-2px);
-    box-shadow: 
-        0 6px 12px rgba(0, 0, 0, 0.25),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+
+.animated-result-light {
+    color: #d32f2f !important;
+    animation: pulse-red 1.5s infinite;
+}
+
+@keyframes pulse-red {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }

@@ -50,7 +50,7 @@
 
 .home-side-menu.closing.open, .side-menu.closing.open {
     animation: collapse-genie 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    transform: none; /* Usuwamy transform z klasy open */
+    transform: none;
     opacity: 1;
     visibility: visible;
     pointer-events: none;
@@ -107,9 +107,7 @@
     color: white;
     background-color: rgba(224, 122, 95, 0.8);
     transform: translateY(-2px);
-    box-shadow: 
-        0 6px 12px rgba(0, 0, 0, 0.25),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(224, 123, 95, 1);
 }
 
 .menu-btn:active {
@@ -121,15 +119,20 @@
     display: none !important;
 }
 
+/* ZMIENIONE STYLE - takie same jak operation-menu-item i method-btn */
 .menu-item {
     padding: 10px 15px;
-    margin: 0;
     color: white;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     text-align: center;
     opacity: 0;
     transform: translateY(10px);
+    position: relative;
+    z-index: 1;
+    margin: 2px 8px;
+    border-radius: 20px;
+    border: 1px solid transparent;
 }
 
 .side-menu.open .menu-item,
@@ -142,14 +145,18 @@
     transition-delay: calc(var(--i) * 0.1s);
 }
 
+/* ZMIENIONE STYLE HOVER - takie same jak operation-menu-item i method-btn */
 .menu-item:hover, .menu-item.active {
-    background-color: rgba(255, 124, 87, 0.50);
-    color: black;
-    border-radius: 20px;
-    transform: translateY(-2px);
+    background-color: rgba(255, 124, 87, 0.5) !important;
+    color: white !important;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 20px !important;
+    transform: translateY(-3px) !important;
     box-shadow: 
-        6px 6px 12px rgba(0, 0, 0, 0.25),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+        0 0 12px rgba(255, 124, 87, 0.5),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
 .submenu {
@@ -198,23 +205,33 @@
     border-radius: 20px;
 }
 
+/* ZMIENIONE STYLE HOVER - takie same jak operation-menu-item i method-btn */
 .homeMenuItem:hover {
-    background-color: rgba(255, 124, 87, 0.50);
-    color: black;
-    transform: translateY(-2px);
+    background-color: rgba(255, 124, 87, 0.5) !important;
+    color: white !important;
+    font-weight: bold;
+    border-radius: 20px !important;
+    transform: translateY(-5px) !important;
     box-shadow: 
-        6px 6px 12px rgba(0, 0, 0, 0.25),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+        0 0 12px rgba(255, 124, 87, 0.5),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
+/* ZMIENIONE STYLE - takie same jak operation-menu-item i method-btn */
 .submenu-item {
     padding: 10px 15px;
     color: white;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     text-align: center;
     opacity: 0;
     transform: translateY(10px);
+    position: relative;
+    z-index: 1;
+    margin: 2px 8px;
+    border-radius: 20px;
+    border: 1px solid transparent;
 }
 
 .submenu.open .submenu-item {
@@ -226,21 +243,25 @@
     transition-delay: calc(var(--i) * 0.1s);
 }
 
+/* ZMIENIONE STYLE HOVER - takie same jak operation-menu-item i method-btn */
 .submenu-item:hover {
-    background-color: rgba(255, 124, 87, 0.50);
-    color: black;
-    border-radius: 20px;
-    transform: translateY(-2px);
+    background-color: rgba(255, 124, 87, 0.5) !important;
+    color: white !important;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 20px !important;
+    transform: translateY(-3px) !important;
     box-shadow: 
-        6px 6px 12px rgba(0, 0, 0, 0.25),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+        0 0 12px rgba(255, 124, 87, 0.5),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
 .back-btn {
     padding: 10px 15px;
     color: white;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     text-align: center;
     background: var(--liquid-glass-bg);
     backdrop-filter: var(--liquid-glass-blur);
@@ -249,13 +270,19 @@
     box-shadow: var(--liquid-glass-shadow);
     border-radius: 20px;
     font-weight: bold;
+    margin: 2px 8px;
+    border: 1px solid transparent;
 }
 
+/* ZMIENIONE STYLE HOVER - takie same jak operation-menu-item i method-btn */
 .back-btn:hover {
-    background-color: rgba(255, 124, 87, 0.50);
-    color: black;
-    transform: translateY(-2px);
+    background-color: rgba(255, 124, 87, 0.5) !important;
+    color: white !important;
+    font-weight: bold;
+    border-radius: 20px !important;
+    transform: translateY(-5px) !important;
     box-shadow: 
-        6px 6px 12px rgba(0, 0, 0, 0.25),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+        0 0 12px rgba(255, 124, 87, 0.5),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
 }

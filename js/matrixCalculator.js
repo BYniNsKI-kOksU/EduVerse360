@@ -326,6 +326,12 @@ function displayResult(result) {
             row.map(val => Number.isInteger(val) ? val.toString() : val.toFixed(4)).join('\t')
         ).join('\n');
         pre.textContent = matrixString;
+        
+        // Dodanie klasy dla animowanego wyniku w trybie light-mode
+        if (!document.body.classList.contains('dark-mode')) {
+            pre.classList.add('animated-result-light');
+        }
+        
         resultBox.appendChild(pre);
 
         // Display equation form in solution box if solving system
@@ -343,6 +349,11 @@ function displayResult(result) {
                 val.className = 'solution-value';
                 val.textContent = Number.isInteger(value) ? value.toString() : value.toFixed(4);
                 
+                // Dodanie klasy dla animowanego wyniku w trybie light-mode
+                if (!document.body.classList.contains('dark-mode')) {
+                    val.classList.add('animated-result-light');
+                }
+                
                 row.appendChild(variable);
                 row.appendChild(val);
                 solutionBox.appendChild(row);
@@ -357,6 +368,12 @@ function displayResult(result) {
         // Single value result (like determinant)
         const span = document.createElement('span');
         span.textContent = result.toString();
+        
+        // Dodanie klasy dla animowanego wyniku w trybie light-mode
+        if (!document.body.classList.contains('dark-mode')) {
+            span.classList.add('animated-result-light');
+        }
+        
         resultBox.appendChild(span);
         solutionBox.classList.remove('visible');
     }

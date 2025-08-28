@@ -39,26 +39,52 @@ body.dark-mode .history-title,
 body.dark-mode .operation-label,
 body.dark-mode .method-label,
 body.dark-mode .matrix-title,
-body.dark-mode .start-btn,
-body.dark-mode .lang-btn,
-body.dark-mode .nav-btn,
-body.dark-mode .calculate-btn,
-body.dark-mode .clear-btn,
-body.dark-mode .menu-btn,
-body.dark-mode .close-side-menu-btn,
-body.dark-mode .back-btn,
 body.dark-mode .user-name,
 body.dark-mode .user-email,
 body.dark-mode .profile-stats div,
 body.dark-mode .profile-actions button,
 body.dark-mode .activity-item,
 body.dark-mode .lang-menu div,
-body.dark-mode .size-menu div,
 body.dark-mode .operation-menu div,
 body.dark-mode .method-selector div,
 body.dark-mode .side-menu,
 body.dark-mode .home-side-menu {
     color: var(--clr-dark-text) !important; /* Biały kolor tekstu */
+}
+
+body.dark-mode .operation-btn,
+body.dark-mode .method-btn-main,
+body.dark-mode #computeBtn,
+body.dark-mode #clearBtn,
+body.dark-mode .resizeBtn,
+body.dark-mode .calculate-btn,
+body.dark-mode .clear-btn,
+body.dark-mode .check-btn {
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+
+body.dark-mode .operation-btn:hover,
+body.dark-mode .method-btn-main:hover,
+body.dark-mode #computeBtn:hover,
+body.dark-mode #clearBtn:hover,
+body.dark-mode .resizeBtn:hover,
+body.dark-mode .calculate-btn:hover,
+body.dark-mode .clear-btn:hover,
+body.dark-mode .check-btn:hover {
+    color: black !important;
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
+}
+
+body.dark-mode .cancel-btn:hover {
+    background-color: rgb(255, 0, 0);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.8) !important;
+}
+
+body.dark-mode .accept-btn:hover{
+    border-color: rgb(0, 255, 0) !important;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.8) !important;
 }
 
 body.dark-mode .tile {
@@ -88,16 +114,27 @@ body.dark-mode .size-menu input {
 }
 
 body.dark-mode .result-container,
-body.dark-mode .history-box,
-body.dark-mode .matrix-frame,
-body.dark-mode .operation-menu,
-body.dark-mode .method-selector,
-body.dark-mode .size-menu {
+body.dark-mode .matrix-frame {
     background: var(--liquid-glass-bg);
     backdrop-filter: var(--liquid-glass-blur);
     -webkit-backdrop-filter: var(--liquid-glass-blur);
     border: var(--liquid-glass-border);
     color: var(--clr-dark-text) !important;
+}
+
+body.dark-mode .history-title:hover {
+    color: black !important;
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
+}
+
+body.dark-mode .history-box {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    border: var(--liquid-glass-border);
+    color: var(--clr-dark-text) !important;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
 }
 
 body.dark-mode .result-word {
@@ -125,35 +162,75 @@ body.dark-mode .particle {
 }
 
 body.dark-mode .side-menu,
+body.dark-mode .size-menu,
 body.dark-mode .home-side-menu,
+body.dark-mode .operation-menu,
+body.dark-mode .method-selector,
 body.dark-mode .lang-menu {
-    background: rgba(255, 255, 255, 0.45) !important; /* Białe tło dla side-menu i lang-menu */
-    border: var(--liquid-glass-border); /* Zachowana ramka */
-    backdrop-filter: var(--liquid-glass-blur); /* Zachowany efekt rozmycia */
+    background: rgba(255, 255, 255, 0.45) !important;
+    border: var(--liquid-glass-border);
+    backdrop-filter: var(--liquid-glass-blur);
     -webkit-backdrop-filter: var(--liquid-glass-blur);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
+}
+
+.dark-mode .resize-input-group label {
+    color: black !important; /* Czarny kolor tekstu dla etykiet */
+    font-weight: bold;
+}
+
+body.dark-mode .resize-icon:hover{
+    color: black !important;
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
+}
+
+.dark-mode .size-menu-buttons .accept-btn,
+.dark-mode .size-menu-buttons .cancel-btn {
+    color: black !important; /* Czarny kolor tekstu dla przycisków */
+}
+
+.dark-mode .size-menu-buttons .accept-btn:hover {
+    color: white !important;
+    background-color: rgba(0, 255, 0, 0.8);
+}
+
+.dark-mode .size-menu-buttons .cancel-btn:hover {
+    color: white !important;
+    background-color: rgba(255, 0, 0, 0.8);
+}
+
+.dark-mode .resize-input-group input {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: black;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .resize-input-group input:focus {
+    border-color: var(--clr-accent);
+    box-shadow: 0 0 0 2px rgba(224, 122, 95, 0.4);
 }
 
 body.dark-mode .calculate-btn,
 body.dark-mode .clear-btn {
-    background: rgba(255, 255, 255, 0.45) !important; /* Białe tło jak dla side-menu */
-    border: var(--liquid-glass-border); /* Zachowana ramka */
-    backdrop-filter: var(--liquid-glass-blur); /* Zachowany efekt rozmycia */
+    background: rgba(255, 255, 255, 0.45) !important;
+    border: var(--liquid-glass-border);
+    backdrop-filter: var(--liquid-glass-blur);
     -webkit-backdrop-filter: var(--liquid-glass-blur);
-    color: var(--clr-dark-text) !important; /* Biały kolor tekstu */
+    color: var(--clr-dark-text) !important;
 }
 
 body.dark-mode .menu-btn {
-    background: linear-gradient(135deg, 
-        rgba(224, 122, 95, 0.2) 0%,
-        rgba(224, 122, 95, 0.3) 50%, 
-        rgba(224, 122, 95, 0.2) 100%) !important;
+    background: rgba(224, 122, 95, 0.4) !important;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     border: var(--liquid-glass-border);
     color: var(--clr-dark-text) !important;
 }
 
 body.dark-mode .menu-btn:hover {
-    background: rgba(224, 122, 95, 0.4) !important;
-    box-shadow: 0 0 20px rgba(224, 122, 95, 0.7);
+    background: rgba(224, 123, 95, 0.55) !important;
+    box-shadow: 0 0 20px rgba(224, 123, 95, 0.8);
     transform: scale(1.1);
     color: var(--clr-dark-text) !important;
 }
@@ -218,23 +295,23 @@ body.dark-mode .theme-toggle-btn {
 /* Override dark mode for matrix results to match light mode */
 body.dark-mode .result-container-matrix,
 body.dark-mode .solution-container {
-    background-color: #ffffff !important; /* White background from light mode */
-    color: #000000 !important; /* Black text */
-    border: 1px solid #E07A5F !important; /* Accent border from --clr-accent */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1), inset 0 0 0 1px rgba(0,0,0,0.05) !important; /* Preserve light mode shadow */
-    backdrop-filter: none !important; /* Remove glass effect */
-    -webkit-backdrop-filter: none !important;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    border: var(--liquid-glass-border);
+    color: var(--clr-dark-text) !important;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
 }
 
 /* Ensure all child elements in results match light mode text colors */
 body.dark-mode .result-container-matrix *,
 body.dark-mode .solution-container * {
-    color: #000000 !important; /* Black text for general content */
+    color: #fffefe !important; /* Black text for general content */
 }
 
 /* Preserve specific light mode colors for sub-elements */
 body.dark-mode .default-result-text {
-    color: #666 !important; /* Gray for default text, as in light mode */
+    color: rgb(205, 205, 205) !important; /* Gray for default text, as in light mode */
 }
 
 body.dark-mode .solution-variable {
@@ -267,4 +344,24 @@ body.dark-mode .start-hint:hover {
     box-shadow: 0 2px 8px rgba(255,255,255,0.7);
     border-radius: 20px;
     transform: scale(1.08);
+}
+
+body.dark-mode .animated-result-light {
+    color: var(--clr-dark-text) !important;
+    animation: pulse-dark 1.5s infinite;
+}
+
+@keyframes pulse-dark {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
