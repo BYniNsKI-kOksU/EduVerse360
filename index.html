@@ -16,6 +16,9 @@
 <body>
     <canvas id="mathBg"></canvas>
 
+    <!-- Mobile Navigation Toggle Button -->
+    <button class="nav-toggle">☰</button>
+
     <!-- Global Navigation Bar -->
     <div class="nav-bar">
         <button class="nav-btn user-btn" id="showUserProfileBtn">👤</button>
@@ -175,8 +178,8 @@
                 </div>
 
                 <div class="action-buttons">
-                    <button id="computeBtn" class="btn" tabindex="0">Oblicz</button>
-                    <button id="clearBtn" class="btn">Wyczyść</button>
+                    <button id="computeBtn" class="btn matrix-btn" tabindex="0">Oblicz</button>
+                    <button id="clearBtn" class="btn matrix-btn">Wyczyść</button>
                 </div>
 
                 <div id="matricesContainer" class="matrices-container">
@@ -192,6 +195,7 @@
                         <div id="matrixBGrid" class="matrix-grid"></div>
                     </div>
                 </div>
+                
                 <div id="errorMessage" class="error-message"></div>
                 <div id="resultBox" class="result-container-matrix">
                     <div class="default-result-text"></div>

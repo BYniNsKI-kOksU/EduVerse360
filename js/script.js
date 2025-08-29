@@ -98,11 +98,98 @@ function initializeTheme() {
     }
 }
 
+// Mobile navigation toggle functionality
+function setupMobileNav() {
+    const navToggle = document.querySelector('.nav-toggle');
+    const navBar = document.querySelector('.nav-bar');
+    const sideMenu = document.getElementById('globalSideMenu');
+    const menuBtn = document.getElementById('menuBtn');
+    
+    if (!navToggle || !navBar) return;
+    
+    let isNavExpanded = false;
+    
+    navToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        
+        if (isNavExpanded) {
+            // Collapse nav-bar
+            navBar.classList.remove('mobile-expanded');
+            navBar.classList.add('mobile-collapsing');
+            
+            setTimeout(() => {
+                navBar.classList.remove('mobile-collapsing');
+                isNavExpanded = false;
+            }, 300);
+            
+        } else {
+            // Close side-menu if open
+            if (sideMenu && sideMenu.classList.contains('open')) {
+                sideMenu.classList.remove('open');
+                sideMenu.classList.add('closing');
+                
+                if (menuBtn) {
+                    menuBtn.style.display = 'block';
+                    menuBtn.style.opacity = '1';
+                    menuBtn.style.pointerEvents = 'auto';
+                }
+                
+                setTimeout(() => {
+                    sideMenu.classList.remove('closing');
+                    sideMenu.classList.add('hidden');
+                }, 300);
+            }
+            
+            // Expand nav-bar
+            navBar.classList.add('mobile-expanded');
+            isNavExpanded = true;
+        }
+    });
+    
+    // Close nav-bar when clicking outside
+    document.addEventListener('click', function(e) {
+        if (isNavExpanded && 
+            !navBar.contains(e.target) && 
+            !navToggle.contains(e.target)) {
+            
+            navBar.classList.remove('mobile-expanded');
+            navBar.classList.add('mobile-collapsing');
+            
+            setTimeout(() => {
+                navBar.classList.remove('mobile-collapsing');
+                isNavExpanded = false;
+            }, 300);
+        }
+    });
+    
+    // Close nav-bar on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && isNavExpanded) {
+            navBar.classList.remove('mobile-expanded');
+            navBar.classList.add('mobile-collapsing');
+            
+            setTimeout(() => {
+                navBar.classList.remove('mobile-collapsing');
+                isNavExpanded = false;
+            }, 300);
+        }
+    });
+    
+    // Ensure nav-bar is hidden on window resize to desktop
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768 && isNavExpanded) {
+            navBar.classList.remove('mobile-expanded', 'mobile-collapsing');
+            isNavExpanded = false;
+        }
+    });
+}
+
 // Initialize the application
 document.addEventListener('DOMContentLoaded', async () => {
     await loadAllCSS();
 
     setupMenu();
+    setupMobileNav(); // Add mobile nav setup
     initializeUI();
     initializeTheme();
     initializeLeapYear();

@@ -842,3 +842,487 @@
         color: black !important;
     }
 }
+
+/* ==== MOBILE PORTRAIT (320px - 480px) ==== */
+@media (max-width: 480px) {
+    #mathBg {
+        filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.2));
+    }
+    
+    .particle {
+        font-size: 70%;
+    }
+
+    .nav-bar {
+        top: 10px;
+        right: 10px;
+        padding: 6px 12px;
+        gap: 6px;
+    }
+    
+    .nav-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+    
+    .theme-toggle-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+    
+    .lang-btn {
+        width: 32px;
+        height: 32px;
+    }
+
+    .welcome-screen {
+        padding: 0 15px;
+    }
+    
+    .welcome-title {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+    
+    .welcome-subtitle {
+        font-size: 0.9rem;
+        max-width: 95%;
+        line-height: 1.4;
+    }
+    
+    .start-hint {
+        font-size: 0.8rem;
+        padding: 5px 10px;
+        top: 70%;
+        max-width: 90%;
+        text-align: center;
+    }
+    
+    .welcome-lang-btn {
+        top: 10px;
+        right: 10px;
+    }
+
+    .home-side-menu, .side-menu {
+        width: 200px;
+        margin: 5px;
+        transform: translate(15px, 15px) scale(0.1);
+        clip-path: circle(0% at 15px 15px);
+    }
+    
+    .home-side-menu.open, .side-menu.open {
+        transform: translate(0, 0) scale(1);
+        clip-path: circle(150% at 15px 15px);
+    }
+    
+    .menu-item {
+        padding: 14px 15px;
+        font-size: 14px;
+    }
+    
+    .submenu-item {
+        padding: 12px 15px 12px 20px;
+        font-size: 13px;
+    }
+    
+    .lang-menu {
+        min-width: 100px;
+        font-size: 12px;
+        top: 70px;
+        right: 10px;
+    }
+    
+    .lang-menu div {
+        padding: 8px 12px;
+    }
+
+    .home-title {
+        font-size: 1.5rem;
+        margin-top: 60px;
+        padding: 0 10px;
+    }
+    
+    .tiles {
+        padding: 10px;
+        gap: 12px;
+        width: 100%;
+    }
+    
+    .tile {
+        width: 100%;
+        max-width: none;
+        height: 110px;
+        padding: 10px;
+    }
+    
+    .tile-icon {
+        font-size: 2rem;
+        margin-bottom: 8px;
+    }
+    
+    .tile-label {
+        font-size: 1rem;
+    }
+
+    .matrices-container {
+        flex-direction: column;
+        gap: 20px;
+        padding: 0 5px;
+    }
+    
+    .matrix-frame {
+        transform: scale(0.75);
+        width: 100%;
+        padding: 10px;
+    }
+    
+    .matrix-input {
+        width: 30px;
+        height: 22px;
+        font-size: 0.8rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+        padding: 0 10px;
+    }
+    
+    .btn {
+        width: 100%;
+        min-width: unset;
+        padding: 14px 20px;
+        font-size: 1rem;
+    }
+    
+    .matrix-grid {
+        justify-content: center;
+    }
+    
+    .operation-selector, .method-selector-wrapper {
+        width: 200px;
+    }
+    
+    .operation-btn, .method-btn-main {
+        min-width: 180px;
+        font-size: 1rem;
+    }
+    
+    .size-menu {
+        width: calc(100% - 20px);
+        max-width: 280px;
+        padding: 12px;
+        top: calc(100% + 8px);
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .resize-input-group input {
+        width: 50px;
+        height: 30px;
+    }
+
+    .result-container {
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        padding: 15px;
+        margin: 15px 5px;
+        font-size: 14px;
+    }
+    
+    .result-container-matrix {
+        margin: 15px 5px;
+        padding: 12px;
+        font-size: 13px;
+        max-height: 150px;
+    }
+
+    .year-input {
+        width: 180px;
+        height: 45px;
+        font-size: 1.1rem;
+    }
+    
+    .input-label {
+        font-size: 1.1rem;
+    }
+    
+    .leap-year-title, .matrix-Calc-title {
+        font-size: 1.6rem;
+        margin-bottom: 15px;
+    }
+    
+    .history-container {
+        max-width: 95%;
+        margin: 15px auto;
+    }
+
+    .user-profile-container {
+        padding: 15px 10px;
+        gap: 15px;
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "avatar"
+            "header"
+            "stats"  
+            "actions"
+            "activity";
+    }
+    
+    .user-stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .user-avatar {
+        width: 90px;
+        height: 90px;
+        font-size: 36px;
+    }
+    
+    .user-name {
+        font-size: 20px;
+    }
+    
+    .user-email {
+        font-size: 14px;
+    }
+    
+    .action-btn {
+        padding: 12px 18px;
+        font-size: 14px;
+        justify-content: center;
+    }
+    
+    .activity-item {
+        padding: 10px 0;
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+    
+    .activity-icon {
+        margin: 0;
+        align-self: center;
+    }
+
+    .menu-btn {
+        top: 10px;
+        left: 10px;
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+    }
+
+    #resizeDialog {
+        padding: 15px;
+        width: 95%;
+        max-width: 300px;
+    }
+    
+    .resize-matrix-controls {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    /* Kalkulator macierzy - poprawki dla mobile */
+    .matrix-Calc-title {
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+        margin-top: 10px;
+        padding: 0 10px;
+        text-align: center;
+    }
+    
+    .controls {
+        margin-bottom: 15px;
+        min-height: 100px;
+        padding: 0 10px;
+        gap: 10px;
+    }
+    
+    .operation-selector {
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto 10px auto;
+    }
+    
+    .operation-btn {
+        width: 100%;
+        min-width: unset;
+        font-size: 0.9rem;
+        padding: 10px 15px;
+        margin-bottom: 10px;
+    }
+    
+    .method-selector-wrapper {
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto;
+    }
+    
+    .method-btn-main {
+        width: 100%;
+        min-width: unset;
+        font-size: 0.9rem;
+        padding: 10px 15px;
+        margin-bottom: 10px;
+    }
+    
+    .matrices-container {
+        flex-direction: column;
+        gap: 20px;
+        padding: 0 10px;
+        margin-top: 15px;
+    }
+    
+    .matrix-frame {
+        transform: scale(1);
+        width: 100%;
+        max-width: 350px;
+        margin: 0 auto;
+        padding: 15px 10px;
+    }
+    
+    .matrix-grid {
+        justify-content: center;
+        margin: 0 auto;
+    }
+    
+    .matrix-input {
+        width: 32px;
+        height: 24px;
+        font-size: 0.8rem;
+        margin: 1px;
+    }
+    
+    .matrix-title {
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+    
+    .resize-icon {
+        top: -10px;
+        left: -10px;
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+    }
+    
+    .action-buttons {
+        flex-direction: row;
+        gap: 10px;
+        justify-content: center;
+        margin: 15px 10px;
+        flex-wrap: wrap;
+    }
+    
+    .btn.matrix-btn,
+    #computeBtn,
+    #clearBtn {
+        flex: 1;
+        min-width: 120px;
+        max-width: 150px;
+        padding: 12px 15px;
+        font-size: 0.9rem;
+        margin: 0;
+    }
+    
+    .result-container-matrix {
+        margin: 15px 10px;
+        padding: 15px 10px;
+        font-size: 0.85rem;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+    
+    .solution-container {
+        margin: 10px 10px;
+        padding: 15px 10px;
+        font-size: 0.9rem;
+    }
+    
+    .solution-row {
+        flex-direction: row;
+        text-align: left;
+        gap: 10px;
+        margin: 5px 0;
+    }
+    
+    .solution-variable {
+        min-width: 40px;
+    }
+    
+    /* Poprawki dla menu operacji i metod */
+    .operation-menu,
+    .method-selector {
+        width: 100%;
+        max-width: 280px;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 100%;
+        margin-top: 5px;
+    }
+    
+    .operation-menu-item,
+    .method-menu-item {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
+    
+    /* Dostosowanie dla bardzo małych ekranów */
+    @media (max-width: 360px) {
+        .matrix-frame {
+            transform: scale(0.9);
+            max-width: 320px;
+        }
+        
+        .matrix-input {
+            width: 28px;
+            height: 22px;
+            font-size: 0.75rem;
+        }
+        
+        .btn.matrix-btn,
+        #computeBtn,
+        #clearBtn {
+            min-width: 100px;
+            max-width: 130px;
+            padding: 10px 12px;
+            font-size: 0.85rem;
+        }
+    }
+}
+
+/* ==== TABLET LANDSCAPE ADJUSTMENTS ==== */
+@media (max-width: 991px) and (min-width: 768px) and (orientation: landscape) {
+    .matrices-container {
+        flex-direction: row;
+        gap: 20px;
+        justify-content: center;
+        align-items: flex-start;
+    }
+    
+    .matrix-frame {
+        transform: scale(0.8);
+        max-width: 300px;
+    }
+    
+    .controls {
+        flex-direction: row;
+        gap: 20px;
+        justify-content: center;
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+    
+    .operation-selector,
+    .method-selector-wrapper {
+        width: auto;
+        min-width: 180px;
+    }
+}
