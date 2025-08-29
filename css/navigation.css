@@ -138,14 +138,21 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    overflow: hidden;
+    overflow: hidden; /* Zapewnia ucięcie nadmiaru flagi */
     border: 2px solid rgba(255, 255, 255, 0.3);
     background: rgba(224, 122, 95, 0.25);
-    background-size: cover;
-    background-position: center;
+    background-size: cover; /* Flaga wypełnia całe miejsce */
+    background-position: center; /* Wycentrowanie flagi */
     background-repeat: no-repeat;
     cursor: pointer;
     padding: 0;
+    transition: transform 0.2s cubic-bezier(0.65, 0, 0.35, 1), 
+                box-shadow 0.2s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.lang-btn:hover {
+    transform: scale(1.05); /* Zmieniono z 1.1 na 1.05 - lekkie powiększenie */
+    box-shadow: 0 0 15px rgba(224, 122, 95, 0.5); /* Zmniejszono intensywność cienia */
 }
 
 .welcome-lang-btn {
@@ -168,28 +175,25 @@
 }
 
 .welcome-lang-btn .lang-btn {
-    width: 40px; /* Taki sam rozmiar jak przyciski w nav-bar */
-    height: 40px; /* Taki sam rozmiar jak przyciski w nav-bar */
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    background-size: cover;
-    background-position: center;
+    overflow: hidden; /* Zapewnia ucięcie nadmiaru flagi */
+    background-size: cover; /* Flaga wypełnia całe miejsce */
+    background-position: center; /* Wycentrowanie flagi */
+    background-repeat: no-repeat;
     cursor: pointer;
     border: 2px solid rgba(255, 255, 255, 0.3);
     box-shadow: 
         0 2px 10px rgba(0, 0, 0, 0.1),
         inset 0 0 5px rgba(255, 255, 255, 0.3);
     transition: all 0.3s ease;
-    background: rgba(224, 122, 95, 0.25);
-
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
+    background-color: rgba(224, 122, 95, 0.25); /* Fallback color */
 }
 
 .welcome-lang-btn .lang-btn:hover {
-    transform: scale(1.1);
-    background: rgba(224, 122, 95, 0.4);
-    box-shadow: 0 0 20px rgba(224, 122, 95, 0.7);
+    transform: scale(1.05); /* Zmieniono z 1.1 na 1.05 - lekkie powiększenie */
+    box-shadow: 0 0 15px rgba(224, 122, 95, 0.5); /* Zmniejszono intensywność cienia */
 }
 
 .nav-lang-menu,

@@ -3,10 +3,8 @@ let history = [];
 let isHistoryExpanded = false;
 const MAX_HISTORY = 10;
 
-const yearInput = document.getElementById('yearInput');
-const checkBtn = document.getElementById('checkBtn');
-const resultContainer = document.getElementById('resultContainer');
-const historyBox = document.getElementById('historyBox');
+// Zmienione na let — przypisujemy w initializeLeapYear
+let yearInput, checkBtn, resultContainer, historyBox;
 
 function isLeapYear(year) {
     return (year % 400 === 0) || (year % 4 === 0 && year % 100 !== 0);
@@ -48,23 +46,40 @@ function animateTextChange(newText, oldText) {
     const centerContainer = document.createElement('div');
     centerContainer.classList.add('result-wrapper');
 
+    // Znajdź różniące się słowa używając prostego porównania
     const diffIndices = [];
-    for (let i = 0; i < newWords.length; i++) {
-        if (i >= oldWords.length || newWords[i] !== oldWords[i]) {
+    const isFirstCheck = !oldText || oldText === '';
+    
+    if (isFirstCheck) {
+        // Dla pierwszego sprawdzenia - animuj wszystkie słowa na czarno
+        for (let i = 0; i < newWords.length; i++) {
             diffIndices.push(i);
+        }
+    } else {
+        // Dla kolejnych sprawdzeń - animuj tylko różniące się słowa na czerwono
+        for (let i = 0; i < newWords.length; i++) {
+            if (i >= oldWords.length || newWords[i] !== oldWords[i]) {
+                diffIndices.push(i);
+            }
         }
     }
     
+    const spans = [];
     newWords.forEach((word, i) => {
         const wordSpan = document.createElement('span');
         wordSpan.className = 'result-word';
+        wordSpan.style.padding = '0 4px';
         
         if (diffIndices.includes(i)) {
-            wordSpan.style.color = 'var(--clr-anim)';
-            animateWord(wordSpan, word);
+            // Słowo będzie animowane - zaczynamy z pustym tekstem
+            wordSpan.textContent = '';
+            wordSpan.style.color = isFirstCheck ? 'black' : 'red'; // Czarny dla pierwszego, czerwony dla kolejnych
+            spans.push({ span: wordSpan, text: word, animate: true, isFirst: isFirstCheck });
         } else {
+            // Słowo nie zmienione - pokazujemy od razu na czarno
             wordSpan.textContent = word;
             wordSpan.style.color = 'black';
+            spans.push({ span: wordSpan, text: word, animate: false, isFirst: false });
         }
         
         centerContainer.appendChild(wordSpan);
@@ -76,6 +91,33 @@ function animateTextChange(newText, oldText) {
 
     resultContainer.appendChild(centerContainer);
     resultContainer.classList.add('active');
+    
+    // Rozpocznij animację typewriter
+    animateWords(spans);
+}
+
+function animateWords(spans, idx = 0) {
+    // Znajdź następne słowo do animacji
+    while (idx < spans.length && !spans[idx].animate) {
+        idx++;
+    }
+    
+    if (idx >= spans.length) return;
+    
+    const { span, text, isFirst } = spans[idx];
+    
+    function typeChar(pos = 0) {
+        if (pos <= text.length) {
+            span.textContent = text.slice(0, pos);
+            // Ustaw finalny kolor: czarny dla pierwszego sprawdzenia, czerwony dla kolejnych
+            span.style.color = pos === text.length ? (isFirst ? 'black' : 'red') : '';
+            setTimeout(() => typeChar(pos + 1), 40);
+        } else {
+            animateWords(spans, idx + 1); // Przejdź do następnego słowa
+        }
+    }
+    
+    typeChar();
 }
 
 function clearResultContainer() {
@@ -84,13 +126,14 @@ function clearResultContainer() {
 }
 
 function animateWord(element, word, index = 0) {
+    // Ta funkcja jest już zastąpiona przez animateWords, ale zostawiamy dla kompatybilności
     const totalDuration = 400;
     const speed = Math.max(50, totalDuration / word.length);
     if (index <= word.length) {
         element.textContent = word.substring(0, index);
         setTimeout(() => animateWord(element, word, index + 1), speed);
     } else {
-        element.style.color = 'black';
+        element.style.color = 'red';
     }
 }
 
@@ -179,11 +222,18 @@ function translateHistory() {
 }
 
 function initializeLeapYear() {
-    if (checkBtn) {
+    // Pobierz referencje dopiero przy inicjalizacji
+    yearInput = document.getElementById('yearInput');
+    checkBtn = document.getElementById('checkBtn');
+    resultContainer = document.getElementById('resultContainer');
+    historyBox = document.getElementById('historyBox');
+
+    if (checkBtn && !checkBtn.dataset.bound) {
         checkBtn.addEventListener('click', checkLeapYear);
+        checkBtn.dataset.bound = '1';
     }
     
-    if (yearInput) {
+    if (yearInput && !yearInput.dataset.bound) {
         yearInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
@@ -199,18 +249,22 @@ function initializeLeapYear() {
         yearInput.addEventListener('focus', function() {
             this.select();
         });
+        yearInput.dataset.bound = '1';
     }
 
     const historyTitle = document.querySelector('.history-title');
-    if (historyTitle) {
+    if (historyTitle && !historyTitle.dataset.bound) {
         historyTitle.addEventListener('click', toggleHistory);
+        historyTitle.dataset.bound = '1';
         
-        const historyBox = document.querySelector('.history-box');
-        historyBox.style.display = 'block';
-        historyBox.style.maxHeight = '0';
-        historyBox.style.padding = '0';
-        historyBox.style.opacity = '0';
-        historyBox.style.visibility = 'hidden';
+        const hb = document.querySelector('.history-box');
+        if (hb) {
+            hb.style.display = 'block';
+            hb.style.maxHeight = '0';
+            hb.style.padding = '0';
+            hb.style.opacity = '0';
+            hb.style.visibility = 'hidden';
+        }
     }
 
     // Initialize history box to show "Brak historii" on start

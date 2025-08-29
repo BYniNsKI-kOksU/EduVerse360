@@ -1,5 +1,42 @@
-/* Responsiveness */
-@media (min-width: 1200px) {
+/* Responsiveness - Enhanced for all devices */
+
+/* ==== DESKTOP & LARGE SCREENS (1920px+) ==== */
+@media (min-width: 1920px) {
+    .app-container {
+        max-width: 1600px;
+        margin: 0 auto;
+    }
+    
+    .matrices-container {
+        gap: 60px;
+        max-width: 1800px;
+    }
+    
+    .matrix-frame {
+        transform: scale(1.1);
+    }
+    
+    .welcome-title {
+        font-size: 4rem;
+    }
+    
+    .home-title {
+        font-size: 3rem;
+    }
+    
+    .tiles {
+        max-width: 1200px;
+        gap: 30px;
+    }
+    
+    .tile {
+        width: calc(33.33% - 20px);
+        height: 200px;
+    }
+}
+
+/* ==== DESKTOP (1200px - 1919px) ==== */
+@media (min-width: 1200px) and (max-width: 1919px) {
     .matrices-container {
         gap: 30px;
     }
@@ -8,160 +45,136 @@
         transform: scale(0.9);
         margin: 0 -15px;
     }
+    
+    .welcome-title {
+        font-size: 3.5rem;
+    }
+    
+    .tiles {
+        gap: 25px;
+    }
+    
+    .tile {
+        width: calc(50% - 15px);
+        max-width: 300px;
+    }
 }
 
-@media (max-width: 1199px) and (min-width: 768px) {
+/* ==== LAPTOP & SMALL DESKTOP (992px - 1199px) ==== */
+@media (max-width: 1199px) and (min-width: 992px) {
     .matrices-container {
         gap: 20px;
         flex-wrap: wrap;
         flex-direction: row;
+        max-width: 900px;
     }
     
     .matrix-frame {
         transform: scale(0.85);
         margin: 0 auto;
     }
-
-    .matrix-a-container::after {
-        right: -15px;
+    
+    .welcome-title {
+        font-size: 3rem;
+    }
+    
+    .home-title {
+        font-size: 2.2rem;
+    }
+    
+    .tiles {
+        max-width: 700px;
+        gap: 20px;
+    }
+    
+    .tile {
+        width: calc(50% - 10px);
+        height: 140px;
+    }
+    
+    .user-profile-container {
+        grid-template-columns: minmax(200px, 1fr) 2fr;
+        padding: 30px;
+        gap: 25px;
     }
 }
 
-@media (max-width: 767px) {
-    .lang-menu {
-        backdrop-filter: blur(6px);
-        -webkit-backdrop-filter: blur(6px);
-    }
-    
-    .result-container {
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-    }
-}
-
-@media (max-width: 768px) {
-    #mathBg {
-        filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.2));
-    }
-    
-    .particle {
-        font-size: 80%;
-    }
-
+/* ==== TABLETS (768px - 991px) ==== */
+@media (max-width: 991px) and (min-width: 768px) {
     .nav-bar {
         top: 15px;
         right: 15px;
-        padding: 6px 12px;
-    }
-    
-    .nav-btn {
-        width: 36px;
-        height: 36px;
-        font-size: 16px;
-    }
-
-    .home-side-menu, .side-menu {
-        width: 220px;
-        transform: translate(20px, 20px) scale(0.1);
-        clip-path: circle(0% at 20px 20px);
-    }
-    
-    .home-side-menu.open, .side-menu.open {
-        transform: translate(0, 0) scale(1);
-        clip-path: circle(150% at 20px 20px);
-    }
-    
-    .menu-item {
-        padding: 12px 15px;
-    }
-    
-    .submenu-item {
-        padding: 10px 15px 10px 25px;
-    }
-    
-    .lang-menu {
-        min-width: 100px;
-        font-size: 13px;
-    }
-    
-    .lang-menu div {
-        padding: 8px 12px;
-    }
-
-    .result-container {
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        padding: 15px;
-        margin: 15px 0;
-    }
-    
-    .matrix-frame {
-        transform: scale(0.8);
-        width: 95%;
-        margin: 0 auto;
-    }
-    
-    .matrix-input {
-        width: 35px;
-        height: 22px;
-        font-size: 0.8rem;
-    }
-
-    .action-buttons {
-        flex-direction: column;
+        padding: 8px 14px;
         gap: 8px;
     }
     
-    .matrix-grid {
-        justify-content: center;
+    .nav-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
     }
     
-    .method-selector {
-        flex-direction: column;
-        align-items: center;
+    .welcome-title {
+        font-size: 2.8rem;
+        margin-bottom: 1.5rem;
     }
     
-    .method-btn {
-        width: 100%;
-        margin: 2px 0;
+    .welcome-subtitle {
+        font-size: 1.1rem;
+        max-width: 85%;
     }
     
-    .matrix-a-container .size-menu,
-    .matrix-b-container .size-menu {
-        width: calc(100% - 20px);
-        top: calc(100% + 10px);
-        left: 50%;
-        transform: translateX(-50%);
-        margin-top: 0;
+    .home-title {
+        font-size: 2rem;
+        margin-top: 60px;
+    }
+    
+    .tiles {
+        gap: 18px;
+        padding: 15px;
+        max-width: 600px;
+    }
+    
+    .tile {
+        width: calc(50% - 9px);
+        height: 130px;
+        padding: 15px;
+    }
+    
+    .tile-icon {
+        font-size: 2.5rem;
+        margin-bottom: 12px;
+    }
+    
+    .tile-label {
+        font-size: 1.1rem;
     }
     
     .matrices-container {
         flex-direction: column;
-        gap: 40px;
+        gap: 30px;
+        padding: 0 15px;
     }
     
-    .tile {
+    .matrix-frame {
+        transform: scale(0.9);
         width: 100%;
-        max-width: none;
+        max-width: 450px;
+        margin: 0 auto;
     }
     
-    .home-title {
-        font-size: 1.5rem;
-        margin-top: 50px;
+    .matrix-input {
+        width: 38px;
+        height: 26px;
+        font-size: 0.9rem;
     }
     
-    .tiles {
-        padding: 10px;
+    .action-buttons {
+        flex-direction: row;
+        gap: 15px;
+        justify-content: center;
     }
     
-    .user-stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .action-btn {
-        padding: 12px 20px;
-    }
-
     .user-profile-container {
         grid-template-columns: 1fr;
         grid-template-areas: 
@@ -170,51 +183,151 @@
             "stats"
             "actions"
             "activity";
+        padding: 25px;
+        gap: 20px;
+    }
+    
+    .user-avatar {
+        width: 110px;
+        height: 110px;
+        font-size: 42px;
+        justify-self: center;
     }
     
     .user-name, .user-email {
         text-align: center;
     }
     
-    .activity-details {
-        text-align: center;
+    .user-actions {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
     }
     
-    .activity-icon {
-        margin-left: 0;
-        margin-right: 15px;
-    }
-    
-    .activity-title {
-        justify-content: center;
-    }
-
-    #resizeDialog {
-        padding: 20px;
-    }
-    
-    .resize-matrix-controls {
-        flex-direction: column;
-    }
-    
-    .matrix-a-container::after {
-        bottom: -15px;
-    }
-
     .menu-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 22px;
         top: 15px;
         left: 15px;
-        width: 36px;
-        height: 36px;
-        font-size: 20px;
+    }
+    
+    .side-menu, .home-side-menu {
+        width: 240px;
+        margin: 8px;
     }
 }
 
-/* Very small screens */
+/* ==== MOBILE LANDSCAPE & SMALL TABLETS (481px - 767px) ==== */
+@media (max-width: 767px) and (min-width: 481px) {
+    .lang-menu {
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        min-width: 120px;
+    }
+    
+    .result-container {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+    
+    .welcome-title {
+        font-size: 2.5rem;
+        margin-bottom: 1.2rem;
+    }
+    
+    .welcome-subtitle {
+        font-size: 1rem;
+        max-width: 90%;
+    }
+    
+    .start-hint {
+        font-size: 0.9rem;
+        padding: 6px 12px;
+        top: 65%;
+    }
+    
+    .home-title {
+        font-size: 1.8rem;
+        margin-top: 70px;
+    }
+    
+    .tiles {
+        gap: 15px;
+        padding: 12px;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .tile {
+        width: 90%;
+        max-width: 350px;
+        height: 120px;
+        padding: 12px;
+    }
+    
+    .tile-icon {
+        font-size: 2.2rem;
+        margin-bottom: 10px;
+    }
+    
+    .matrices-container {
+        flex-direction: column;
+        gap: 25px;
+        padding: 0 10px;
+    }
+    
+    .matrix-frame {
+        transform: scale(0.85);
+        width: 100%;
+        max-width: 400px;
+    }
+    
+    .matrix-input {
+        width: 36px;
+        height: 24px;
+        font-size: 0.85rem;
+    }
+    
+    .user-profile-container {
+        padding: 20px 15px;
+        gap: 18px;
+    }
+    
+    .user-avatar {
+        width: 100px;
+        height: 100px;
+        font-size: 38px;
+    }
+    
+    .user-name {
+        font-size: 22px;
+    }
+    
+    .user-actions {
+        grid-template-columns: 1fr;
+    }
+    
+    .action-btn {
+        padding: 14px 20px;
+        font-size: 15px;
+    }
+}
+
+/* ==== MOBILE PORTRAIT (320px - 480px) ==== */
 @media (max-width: 480px) {
+    #mathBg {
+        filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.2));
+    }
+    
+    .particle {
+        font-size: 70%;
+    }
+
     .nav-bar {
         top: 10px;
         right: 10px;
+        padding: 6px 12px;
+        gap: 6px;
     }
     
     .nav-btn {
@@ -222,55 +335,333 @@
         height: 32px;
         font-size: 14px;
     }
+    
+    .theme-toggle-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+    
+    .lang-btn {
+        width: 32px;
+        height: 32px;
+    }
 
+    .welcome-screen {
+        padding: 0 15px;
+    }
+    
+    .welcome-title {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+    
+    .welcome-subtitle {
+        font-size: 0.9rem;
+        max-width: 95%;
+        line-height: 1.4;
+    }
+    
+    .start-hint {
+        font-size: 0.8rem;
+        padding: 5px 10px;
+        top: 70%;
+        max-width: 90%;
+        text-align: center;
+    }
+    
+    .welcome-lang-btn {
+        top: 10px;
+        right: 10px;
+    }
+
+    .home-side-menu, .side-menu {
+        width: 200px;
+        margin: 5px;
+        transform: translate(15px, 15px) scale(0.1);
+        clip-path: circle(0% at 15px 15px);
+    }
+    
+    .home-side-menu.open, .side-menu.open {
+        transform: translate(0, 0) scale(1);
+        clip-path: circle(150% at 15px 15px);
+    }
+    
+    .menu-item {
+        padding: 14px 15px;
+        font-size: 14px;
+    }
+    
+    .submenu-item {
+        padding: 12px 15px 12px 20px;
+        font-size: 13px;
+    }
+    
+    .lang-menu {
+        min-width: 100px;
+        font-size: 12px;
+        top: 70px;
+        right: 10px;
+    }
+    
+    .lang-menu div {
+        padding: 8px 12px;
+    }
+
+    .home-title {
+        font-size: 1.5rem;
+        margin-top: 60px;
+        padding: 0 10px;
+    }
+    
+    .tiles {
+        padding: 10px;
+        gap: 12px;
+        width: 100%;
+    }
+    
+    .tile {
+        width: 100%;
+        max-width: none;
+        height: 110px;
+        padding: 10px;
+    }
+    
+    .tile-icon {
+        font-size: 2rem;
+        margin-bottom: 8px;
+    }
+    
+    .tile-label {
+        font-size: 1rem;
+    }
+
+    .matrices-container {
+        flex-direction: column;
+        gap: 20px;
+        padding: 0 5px;
+    }
+    
     .matrix-frame {
-        transform: scale(0.7);
+        transform: scale(0.75);
+        width: 100%;
         padding: 10px;
     }
     
     .matrix-input {
         width: 30px;
-        height: 20px;
+        height: 22px;
+        font-size: 0.8rem;
     }
 
-    .matrix-a-container .size-menu,
-    .matrix-b-container .size-menu {
-        width: calc(100% - 16px);
-        padding: 8px;
+    .action-buttons {
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+        padding: 0 10px;
+    }
+    
+    .btn {
+        width: 100%;
+        min-width: unset;
+        padding: 14px 20px;
+        font-size: 1rem;
+    }
+    
+    .matrix-grid {
+        justify-content: center;
+    }
+    
+    .operation-selector, .method-selector-wrapper {
+        width: 200px;
+    }
+    
+    .operation-btn, .method-btn-main {
+        min-width: 180px;
+        font-size: 1rem;
+    }
+    
+    .size-menu {
+        width: calc(100% - 20px);
+        max-width: 280px;
+        padding: 12px;
         top: calc(100% + 8px);
         left: 50%;
         transform: translateX(-50%);
     }
     
+    .resize-input-group input {
+        width: 50px;
+        height: 30px;
+    }
+
+    .result-container {
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        padding: 15px;
+        margin: 15px 5px;
+        font-size: 14px;
+    }
+    
+    .result-container-matrix {
+        margin: 15px 5px;
+        padding: 12px;
+        font-size: 13px;
+        max-height: 150px;
+    }
+
+    .year-input {
+        width: 180px;
+        height: 45px;
+        font-size: 1.1rem;
+    }
+    
+    .input-label {
+        font-size: 1.1rem;
+    }
+    
+    .leap-year-title, .matrix-Calc-title {
+        font-size: 1.6rem;
+        margin-bottom: 15px;
+    }
+    
+    .history-container {
+        max-width: 95%;
+        margin: 15px auto;
+    }
+
     .user-profile-container {
-        padding: 25px 10px;
-        gap: 20px;
+        padding: 15px 10px;
+        gap: 15px;
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "avatar"
+            "header"
+            "stats"  
+            "actions"
+            "activity";
     }
     
     .user-stats {
         grid-template-columns: 1fr;
-    }
-    
-    .profile-header {
-        gap: 10px;
+        gap: 12px;
     }
     
     .user-avatar {
-        width: 100px;
-        height: 100px;
-        font-size: 40px;
+        width: 90px;
+        height: 90px;
+        font-size: 36px;
     }
     
     .user-name {
         font-size: 20px;
     }
+    
+    .user-email {
+        font-size: 14px;
+    }
+    
+    .action-btn {
+        padding: 12px 18px;
+        font-size: 14px;
+        justify-content: center;
+    }
+    
+    .activity-item {
+        padding: 10px 0;
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+    
+    .activity-icon {
+        margin: 0;
+        align-self: center;
+    }
+
+    .menu-btn {
+        top: 10px;
+        left: 10px;
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+    }
+
+    #resizeDialog {
+        padding: 15px;
+        width: 95%;
+        max-width: 300px;
+    }
+    
+    .resize-matrix-controls {
+        flex-direction: column;
+        gap: 15px;
+    }
 }
 
-/* Touch-specific styles for devices with coarse pointers */
+/* ==== SMALL MOBILE (320px and below) ==== */
+@media (max-width: 320px) {
+    .welcome-title {
+        font-size: 1.8rem;
+    }
+    
+    .welcome-subtitle {
+        font-size: 0.85rem;
+    }
+    
+    .home-title {
+        font-size: 1.3rem;
+    }
+    
+    .tile {
+        height: 100px;
+    }
+    
+    .tile-icon {
+        font-size: 1.8rem;
+    }
+    
+    .tile-label {
+        font-size: 0.9rem;
+    }
+    
+    .matrix-frame {
+        transform: scale(0.7);
+    }
+    
+    .matrix-input {
+        width: 28px;
+        height: 20px;
+        font-size: 0.75rem;
+    }
+    
+    .user-avatar {
+        width: 80px;
+        height: 80px;
+        font-size: 32px;
+    }
+    
+    .nav-btn, .theme-toggle-btn, .lang-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+    
+    .menu-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 16px;
+    }
+}
+
+/* ==== TOUCH DEVICES OPTIMIZATION ==== */
 @media (hover: none) and (pointer: coarse) {
-    .tile, .check-btn, .action-btn, .method-btn, .operation-btn, .lang-btn {
+    .tile, .check-btn, .action-btn, .method-btn, .operation-btn, .lang-btn,
+    .menu-item, .submenu-item, .nav-btn {
         min-height: 48px;
         min-width: 48px;
+        touch-action: manipulation;
     }
 
     .menu-btn {
@@ -279,38 +670,31 @@
         touch-action: manipulation;
     }
     
-    .menu-btn:active {
+    /* Remove hover effects and replace with active states */
+    .menu-btn:active, .nav-btn:active, .tile:active, .check-btn:active, 
+    .action-btn:active, .method-btn:active, .operation-btn:active, 
+    .lang-btn:active, .menu-item:active, .submenu-item:active {
         transform: scale(0.95) !important;
-        opacity: 0.9;
-        background: rgba(224, 122, 95, 0.4);
+        opacity: 0.8;
+        transition: all 0.1s ease !important;
     }
     
     .matrix-input {
-        width: 45px;
-        height: 35px;
-        font-size: 1rem;
+        min-width: 48px;
+        min-height: 40px;
+        font-size: 1.1rem;
+        padding: 8px;
     }
     
     .year-input {
-        width: 220px;
-        height: 50px;
+        min-width: 200px;
+        min-height: 50px;
         font-size: 1.3rem;
-    }
-    
-    .tile:hover, .check-btn:hover, .action-btn:hover, 
-    .method-btn:hover, .operation-btn:hover, 
-    .menu-btn:hover, .lang-btn:hover {
-        transform: none;
-    }
-    
-    .tile:active, .check-btn:active, .action-btn:active, 
-    .method-btn:active, .operation-btn:active, .lang-btn:active {
-        transform: scale(0.95) !important;
-        opacity: 0.9;
+        padding: 10px;
     }
     
     .tiles {
-        gap: 25px;
+        gap: 20px;
     }
     
     .action-buttons {
@@ -318,27 +702,143 @@
     }
     
     .menu-item, .submenu-item {
-        padding: 18px 20px;
-    }
-}
-
-/* W pliku responsiveness.css */
-@media (max-width: 768px) {
-    .theme-toggle-btn {
-        width: 36px;
-        height: 36px;
-        font-size: 16px;
-    }
-}
-
-@media (max-width: 480px) {
-    .theme-toggle-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 14px;
+        padding: 16px 20px;
+        margin: 3px 8px;
     }
     
-    .nav-bar {
-        gap: 5px;
+    /* Disable hover states for touch devices */
+    .tile:hover, .check-btn:hover, .action-btn:hover, 
+    .method-btn:hover, .operation-btn:hover, 
+    .menu-btn:hover, .lang-btn:hover, .nav-btn:hover,
+    .menu-item:hover, .submenu-item:hover {
+        transform: none !important;
+        box-shadow: none !important;
+        background: none !important;
+    }
+}
+
+/* ==== HIGH DPI DISPLAYS ==== */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .matrix-input, .year-input {
+        border-width: 0.5px;
+    }
+    
+    .nav-btn, .menu-btn {
+        border-width: 0.5px;
+    }
+    
+    .tile {
+        border-width: 0.5px;
+    }
+}
+
+/* ==== LANDSCAPE ORIENTATION ==== */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+    .welcome-screen {
+        padding: 10px 20px;
+    }
+    
+    .welcome-title {
+        font-size: 2rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .welcome-subtitle {
+        font-size: 0.9rem;
+        margin: 0.5rem 0 1rem 0;
+    }
+    
+    .start-hint {
+        top: 75%;
+        font-size: 0.8rem;
+    }
+    
+    .home-title {
+        font-size: 1.5rem;
+        margin-top: 20px;
+    }
+    
+    .tiles {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 10px;
+    }
+    
+    .tile {
+        width: calc(50% - 10px);
+        height: 100px;
+        max-width: 200px;
+    }
+    
+    .matrices-container {
+        flex-direction: row;
+        gap: 20px;
+        align-items: flex-start;
+        justify-content: center;
+    }
+    
+    .matrix-frame {
+        transform: scale(0.8);
+    }
+    
+    .user-profile-container {
+        grid-template-columns: 1fr 2fr;
+        grid-template-areas: 
+            "avatar header"
+            "stats actions"
+            "activity activity";
+        padding: 20px;
+        gap: 20px;
+        overflow-y: auto;
+        max-height: 100vh;
+    }
+}
+
+/* ==== ACCESSIBILITY & REDUCED MOTION ==== */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .welcome-title span,
+    .welcome-subtitle span {
+        animation: none !important;
+        border-right: none !important;
+    }
+    
+    .particle {
+        animation: none !important;
+    }
+}
+
+/* ==== PRINT STYLES ==== */
+@media print {
+    .nav-bar, .menu-btn, .side-menu, .home-side-menu,
+    .welcome-screen, #mathBg {
+        display: none !important;
+    }
+    
+    .app-content {
+        display: block !important;
+        padding: 20px;
+    }
+    
+    .result-container, .result-container-matrix {
+        background: white !important;
+        color: black !important;
+        border: 1px solid black !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+    }
+    
+    .matrix-input {
+        border: 1px solid black !important;
+        background: white !important;
+        color: black !important;
     }
 }

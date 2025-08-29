@@ -256,6 +256,13 @@ body.dark-mode .theme-toggle-btn {
     transition: all 0.3s ease;
 }
 
+.theme-toggle-btn:hover {
+    transform: scale(1.05);
+    background: rgba(224, 122, 95, 0.4);
+    box-shadow: 0 0 15px rgba(224, 122, 95, 0.5);
+    border-radius: 50%; /* Dodano border-radius dla kołowego podświetlenia */
+}
+
 .theme-toggle-btn .icon-sun,
 .theme-toggle-btn .icon-moon {
     position: absolute;
@@ -267,9 +274,18 @@ body.dark-mode .theme-toggle-btn {
     z-index: 1;
 }
 
+.theme-toggle-btn:hover .icon-sun,
+.theme-toggle-btn:hover .icon-moon {
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
 .theme-toggle-btn.light .icon-sun {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
+}
+
+.theme-toggle-btn.light:hover .icon-sun {
+    transform: translate(-50%, -50%) scale(1) rotate(90deg);
 }
 
 .theme-toggle-btn.light .icon-moon {
@@ -288,8 +304,17 @@ body.dark-mode .theme-toggle-btn {
     transform: translate(-50%, -50%) scale(1);
 }
 
+.theme-toggle-btn.dark:hover .icon-moon {
+    transform: translate(-50%, -50%) scale(1) rotate(90deg);
+}
+
 body.dark-mode .theme-toggle-btn {
     transform: rotate(180deg);
+}
+
+body.dark-mode .theme-toggle-btn:hover {
+    transform: rotate(180deg) scale(1.05);
+    border-radius: 50%; /* Dodano border-radius dla kołowego podświetlenia */
 }
 
 /* Override dark mode for matrix results to match light mode */

@@ -167,7 +167,7 @@
     font-size: 1.2rem;
     display: inline-block;
     font-weight: bold;
-    color: black;
+    color: red; /* Zmieniono kolor na czerwony */
     background: transparent !important;
     text-shadow: none !important;
     box-shadow: none !important;
