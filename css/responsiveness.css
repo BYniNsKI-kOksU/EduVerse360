@@ -598,551 +598,22 @@
         flex-direction: column;
         gap: 15px;
     }
-}
-
-/* ==== SMALL MOBILE (320px and below) ==== */
-@media (max-width: 320px) {
-    .welcome-title {
-        font-size: 1.8rem;
-    }
-    
-    .welcome-subtitle {
-        font-size: 0.85rem;
-    }
-    
-    .home-title {
-        font-size: 1.3rem;
-    }
-    
-    .tile {
-        height: 100px;
-    }
-    
-    .tile-icon {
-        font-size: 1.8rem;
-    }
-    
-    .tile-label {
-        font-size: 0.9rem;
-    }
-    
-    .matrix-frame {
-        transform: scale(0.7);
-    }
-    
-    .matrix-input {
-        width: 28px;
-        height: 20px;
-        font-size: 0.75rem;
-    }
-    
-    .user-avatar {
-        width: 80px;
-        height: 80px;
-        font-size: 32px;
-    }
-    
-    .nav-btn, .theme-toggle-btn, .lang-btn {
-        width: 28px;
-        height: 28px;
-        font-size: 12px;
-    }
-    
-    .menu-btn {
-        width: 28px;
-        height: 28px;
-        font-size: 16px;
-    }
-}
-
-/* ==== TOUCH DEVICES OPTIMIZATION ==== */
-@media (hover: none) and (pointer: coarse) {
-    .tile, .check-btn, .action-btn, .method-btn, .operation-btn, .lang-btn,
-    .menu-item, .submenu-item, .nav-btn {
-        min-height: 48px;
-        min-width: 48px;
-        touch-action: manipulation;
-    }
-
-    .menu-btn {
-        min-height: 48px;
-        min-width: 48px;
-        touch-action: manipulation;
-    }
-    
-    /* Remove hover effects and replace with active states */
-    .menu-btn:active, .nav-btn:active, .tile:active, .check-btn:active, 
-    .action-btn:active, .method-btn:active, .operation-btn:active, 
-    .lang-btn:active, .menu-item:active, .submenu-item:active {
-        transform: scale(0.95) !important;
-        opacity: 0.8;
-        transition: all 0.1s ease !important;
-    }
-    
-    .matrix-input {
-        min-width: 48px;
-        min-height: 40px;
-        font-size: 1.1rem;
-        padding: 8px;
-    }
-    
-    .year-input {
-        min-width: 200px;
-        min-height: 50px;
-        font-size: 1.3rem;
-        padding: 10px;
-    }
-    
-    .tiles {
-        gap: 20px;
-    }
-    
-    .action-buttons {
-        gap: 15px;
-    }
-    
-    .menu-item, .submenu-item {
-        padding: 16px 20px;
-        margin: 3px 8px;
-    }
-    
-    /* Disable hover states for touch devices */
-    .tile:hover, .check-btn:hover, .action-btn:hover, 
-    .method-btn:hover, .operation-btn:hover, 
-    .menu-btn:hover, .lang-btn:hover, .nav-btn:hover,
-    .menu-item:hover, .submenu-item:hover {
-        transform: none !important;
-        box-shadow: none !important;
-        background: none !important;
-    }
-}
-
-/* ==== HIGH DPI DISPLAYS ==== */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .matrix-input, .year-input {
-        border-width: 0.5px;
-    }
-    
-    .nav-btn, .menu-btn {
-        border-width: 0.5px;
-    }
-    
-    .tile {
-        border-width: 0.5px;
-    }
-}
-
-/* ==== LANDSCAPE ORIENTATION ==== */
-@media screen and (orientation: landscape) and (max-height: 500px) {
-    .welcome-screen {
-        padding: 10px 20px;
-    }
-    
-    .welcome-title {
-        font-size: 2rem;
-        margin-bottom: 0.8rem;
-    }
-    
-    .welcome-subtitle {
-        font-size: 0.9rem;
-        margin: 0.5rem 0 1rem 0;
-    }
-    
-    .start-hint {
-        top: 75%;
-        font-size: 0.8rem;
-    }
-    
-    .home-title {
-        font-size: 1.5rem;
-        margin-top: 20px;
-    }
-    
-    .tiles {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 15px;
-        margin-top: 10px;
-    }
-    
-    .tile {
-        width: calc(50% - 10px);
-        height: 100px;
-        max-width: 200px;
-    }
-    
-    .matrices-container {
-        flex-direction: row;
-        gap: 20px;
-        align-items: flex-start;
-        justify-content: center;
-    }
-    
-    .matrix-frame {
-        transform: scale(0.8);
-    }
-    
-    .user-profile-container {
-        grid-template-columns: 1fr 2fr;
-        grid-template-areas: 
-            "avatar header"
-            "stats actions"
-            "activity activity";
-        padding: 20px;
-        gap: 20px;
-        overflow-y: auto;
-        max-height: 100vh;
-    }
-}
-
-/* ==== ACCESSIBILITY & REDUCED MOTION ==== */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
-    
-    .welcome-title span,
-    .welcome-subtitle span {
-        animation: none !important;
-        border-right: none !important;
-    }
-    
-    .particle {
-        animation: none !important;
-    }
-}
-
-/* ==== PRINT STYLES ==== */
-@media print {
-    .nav-bar, .menu-btn, .side-menu, .home-side-menu,
-    .welcome-screen, #mathBg {
-        display: none !important;
-    }
-    
-    .app-content {
-        display: block !important;
-        padding: 20px;
-    }
-    
-    .result-container, .result-container-matrix {
-        background: white !important;
-        color: black !important;
-        border: 1px solid black !important;
-        box-shadow: none !important;
-        backdrop-filter: none !important;
-    }
-    
-    .matrix-input {
-        border: 1px solid black !important;
-        background: white !important;
-        color: black !important;
-    }
-}
-
-/* ==== MOBILE PORTRAIT (320px - 480px) ==== */
-@media (max-width: 480px) {
-    #mathBg {
-        filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.2));
-    }
-    
-    .particle {
-        font-size: 70%;
-    }
-
-    .nav-bar {
-        top: 10px;
-        right: 10px;
-        padding: 6px 12px;
-        gap: 6px;
-    }
-    
-    .nav-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 14px;
-    }
-    
-    .theme-toggle-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 14px;
-    }
-    
-    .lang-btn {
-        width: 32px;
-        height: 32px;
-    }
-
-    .welcome-screen {
-        padding: 0 15px;
-    }
-    
-    .welcome-title {
-        font-size: 2rem;
-        margin-bottom: 1rem;
-        text-align: center;
-    }
-    
-    .welcome-subtitle {
-        font-size: 0.9rem;
-        max-width: 95%;
-        line-height: 1.4;
-    }
-    
-    .start-hint {
-        font-size: 0.8rem;
-        padding: 5px 10px;
-        top: 70%;
-        max-width: 90%;
-        text-align: center;
-    }
-    
-    .welcome-lang-btn {
-        top: 10px;
-        right: 10px;
-    }
-
-    .home-side-menu, .side-menu {
-        width: 200px;
-        margin: 5px;
-        transform: translate(15px, 15px) scale(0.1);
-        clip-path: circle(0% at 15px 15px);
-    }
-    
-    .home-side-menu.open, .side-menu.open {
-        transform: translate(0, 0) scale(1);
-        clip-path: circle(150% at 15px 15px);
-    }
-    
-    .menu-item {
-        padding: 14px 15px;
-        font-size: 14px;
-    }
-    
-    .submenu-item {
-        padding: 12px 15px 12px 20px;
-        font-size: 13px;
-    }
-    
-    .lang-menu {
-        min-width: 100px;
-        font-size: 12px;
-        top: 70px;
-        right: 10px;
-    }
-    
-    .lang-menu div {
-        padding: 8px 12px;
-    }
-
-    .home-title {
-        font-size: 1.5rem;
-        margin-top: 60px;
-        padding: 0 10px;
-    }
-    
-    .tiles {
-        padding: 10px;
-        gap: 12px;
-        width: 100%;
-    }
-    
-    .tile {
-        width: 100%;
-        max-width: none;
-        height: 110px;
-        padding: 10px;
-    }
-    
-    .tile-icon {
-        font-size: 2rem;
-        margin-bottom: 8px;
-    }
-    
-    .tile-label {
-        font-size: 1rem;
-    }
-
-    .matrices-container {
-        flex-direction: column;
-        gap: 20px;
-        padding: 0 5px;
-    }
-    
-    .matrix-frame {
-        transform: scale(0.75);
-        width: 100%;
-        padding: 10px;
-    }
-    
-    .matrix-input {
-        width: 30px;
-        height: 22px;
-        font-size: 0.8rem;
-    }
-
-    .action-buttons {
-        flex-direction: column;
-        gap: 8px;
-        width: 100%;
-        padding: 0 10px;
-    }
-    
-    .btn {
-        width: 100%;
-        min-width: unset;
-        padding: 14px 20px;
-        font-size: 1rem;
-    }
-    
-    .matrix-grid {
-        justify-content: center;
-    }
-    
-    .operation-selector, .method-selector-wrapper {
-        width: 200px;
-    }
-    
-    .operation-btn, .method-btn-main {
-        min-width: 180px;
-        font-size: 1rem;
-    }
-    
-    .size-menu {
-        width: calc(100% - 20px);
-        max-width: 280px;
-        padding: 12px;
-        top: calc(100% + 8px);
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    
-    .resize-input-group input {
-        width: 50px;
-        height: 30px;
-    }
-
-    .result-container {
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        padding: 15px;
-        margin: 15px 5px;
-        font-size: 14px;
-    }
-    
-    .result-container-matrix {
-        margin: 15px 5px;
-        padding: 12px;
-        font-size: 13px;
-        max-height: 150px;
-    }
-
-    .year-input {
-        width: 180px;
-        height: 45px;
-        font-size: 1.1rem;
-    }
-    
-    .input-label {
-        font-size: 1.1rem;
-    }
-    
-    .leap-year-title, .matrix-Calc-title {
-        font-size: 1.6rem;
-        margin-bottom: 15px;
-    }
-    
-    .history-container {
-        max-width: 95%;
-        margin: 15px auto;
-    }
-
-    .user-profile-container {
-        padding: 15px 10px;
-        gap: 15px;
-        grid-template-columns: 1fr;
-        grid-template-areas: 
-            "avatar"
-            "header"
-            "stats"  
-            "actions"
-            "activity";
-    }
-    
-    .user-stats {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-    
-    .user-avatar {
-        width: 90px;
-        height: 90px;
-        font-size: 36px;
-    }
-    
-    .user-name {
-        font-size: 20px;
-    }
-    
-    .user-email {
-        font-size: 14px;
-    }
-    
-    .action-btn {
-        padding: 12px 18px;
-        font-size: 14px;
-        justify-content: center;
-    }
-    
-    .activity-item {
-        padding: 10px 0;
-        flex-direction: column;
-        text-align: center;
-        gap: 8px;
-    }
-    
-    .activity-icon {
-        margin: 0;
-        align-self: center;
-    }
-
-    .menu-btn {
-        top: 10px;
-        left: 10px;
-        width: 32px;
-        height: 32px;
-        font-size: 18px;
-    }
-
-    #resizeDialog {
-        padding: 15px;
-        width: 95%;
-        max-width: 300px;
-    }
-    
-    .resize-matrix-controls {
-        flex-direction: column;
-        gap: 15px;
-    }
     
     /* Kalkulator macierzy - poprawki dla mobile */
     .matrix-Calc-title {
         font-size: 1.4rem;
         margin-bottom: 20px;
-        margin-top: 10px;
+        margin-top: 20px; /* Zwiększono z 10px na 20px */
         padding: 0 10px;
         text-align: center;
     }
     
     .controls {
         margin-bottom: 15px;
-        min-height: 100px;
+        min-height: 80px; /* Zmniejszono z 100px na 80px */
         padding: 0 10px;
         gap: 10px;
+        /* Usunięto background i inne style tła */
     }
     
     .operation-selector {
@@ -1178,6 +649,7 @@
         gap: 20px;
         padding: 0 10px;
         margin-top: 15px;
+        align-items: center; /* Wycentrowanie na mobile */
     }
     
     .matrix-frame {
@@ -1190,7 +662,10 @@
     
     .matrix-grid {
         justify-content: center;
+        align-content: center;
         margin: 0 auto;
+        display: grid;
+        place-items: center; /* Wycentrowanie wszystkich inputów */
     }
     
     .matrix-input {
@@ -1198,103 +673,45 @@
         height: 24px;
         font-size: 0.8rem;
         margin: 1px;
+        justify-self: center;
+        align-self: center;
     }
     
-    .matrix-title {
-        font-size: 1rem;
-        margin-bottom: 10px;
-    }
-    
-    .resize-icon {
-        top: -10px;
-        left: -10px;
-        width: 30px;
-        height: 30px;
-        font-size: 16px;
-    }
-    
-    .action-buttons {
-        flex-direction: row;
-        gap: 10px;
-        justify-content: center;
-        margin: 15px 10px;
-        flex-wrap: wrap;
-    }
-    
-    .btn.matrix-btn,
-    #computeBtn,
-    #clearBtn {
-        flex: 1;
-        min-width: 120px;
-        max-width: 150px;
-        padding: 12px 15px;
-        font-size: 0.9rem;
-        margin: 0;
-    }
-    
-    .result-container-matrix {
-        margin: 15px 10px;
-        padding: 15px 10px;
-        font-size: 0.85rem;
-        max-height: 200px;
-        overflow-y: auto;
-    }
-    
-    .solution-container {
-        margin: 10px 10px;
-        padding: 15px 10px;
-        font-size: 0.9rem;
-    }
-    
-    .solution-row {
-        flex-direction: row;
-        text-align: left;
-        gap: 10px;
-        margin: 5px 0;
-    }
-    
-    .solution-variable {
-        min-width: 40px;
-    }
-    
-    /* Poprawki dla menu operacji i metod */
+    /* Poprawki dla menu operacji i metod na mobile */
     .operation-menu,
     .method-selector {
+        position: absolute !important;
+        top: calc(100% + 5px) !important; /* Pod przyciskiem z małym odstępem */
+        left: 50% !important;
+        transform: translateX(-50%) scaleY(0) !important;
+        transform-origin: top center !important;
+        width: 90% !important;
+        max-width: 280px !important;
+        z-index: 1300 !important;
+        /* Nie używaj fixed positioning */
+    }
+    
+    .operation-menu.open,
+    .method-selector.open {
+        transform: translateX(-50%) scaleY(1) !important;
+    }
+    
+    .operation-menu.closing,
+    .method-selector.closing {
+        transform: translateX(-50%) scaleY(0) !important;
+    }
+    
+    /* Zapewnij względne pozycjonowanie dla kontenerów przycisków */
+    .controls {
+        position: relative !important;
+    }
+    
+    .operation-selector,
+    .method-selector-wrapper {
+        position: relative !important;
         width: 100%;
         max-width: 280px;
-        left: 50%;
-        transform: translateX(-50%);
-        top: 100%;
-        margin-top: 5px;
-    }
-    
-    .operation-menu-item,
-    .method-menu-item {
-        padding: 12px 15px;
-        font-size: 0.9rem;
-    }
-    
-    /* Dostosowanie dla bardzo małych ekranów */
-    @media (max-width: 360px) {
-        .matrix-frame {
-            transform: scale(0.9);
-            max-width: 320px;
-        }
-        
-        .matrix-input {
-            width: 28px;
-            height: 22px;
-            font-size: 0.75rem;
-        }
-        
-        .btn.matrix-btn,
-        #computeBtn,
-        #clearBtn {
-            min-width: 100px;
-            max-width: 130px;
-            padding: 10px 12px;
-            font-size: 0.85rem;
-        }
+        margin: 0 auto;
     }
 }
 

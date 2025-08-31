@@ -23,18 +23,6 @@ function setupMenu() {
     
     menuBtn.addEventListener('click', function(e) {
         e.stopPropagation();
-        
-        // Close mobile nav-bar if expanded
-        const navBar = document.querySelector('.nav-bar');
-        const navToggle = document.querySelector('.nav-toggle');
-        if (navBar && navBar.classList.contains('mobile-expanded')) {
-            navBar.classList.remove('mobile-expanded');
-            navBar.classList.add('mobile-collapsing');
-            setTimeout(() => {
-                navBar.classList.remove('mobile-collapsing');
-            }, 300);
-        }
-        
         sideMenu.classList.remove('hidden');
         sideMenu.classList.toggle('open');
         
@@ -73,9 +61,7 @@ function setupMenu() {
     }
 
     document.addEventListener('click', function(e) {
-        if (!e.target.closest('#globalSideMenu') && 
-            e.target !== menuBtn &&
-            !e.target.closest('.menu-btn')) { // Dodano sprawdzenie dla klasy menu-btn
+        if (!e.target.closest('#globalSideMenu') && e.target !== menuBtn) {
             if (sideMenu && sideMenu.classList.contains('open')) {
                 closeMenuWithAnimation();
             }
@@ -172,7 +158,6 @@ function resetMenuBtnState() {
         menuBtn.style.display = 'block';
         menuBtn.style.opacity = '1';
         menuBtn.style.pointerEvents = 'auto';
-        menuBtn.style.visibility = 'visible'; // Dodano dla pewności
     }
 }
 
@@ -182,12 +167,6 @@ function resetMenuState() {
     if (sideMenu) {
         sideMenu.classList.remove('open');
         sideMenu.classList.remove('hidden');
-    }
-    
-    // Reset mobile nav-bar state
-    const navBar = document.querySelector('.nav-bar');
-    if (navBar) {
-        navBar.classList.remove('mobile-expanded', 'mobile-collapsing');
     }
 }
 

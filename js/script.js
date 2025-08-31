@@ -100,15 +100,13 @@ function initializeTheme() {
 
 // Mobile navigation toggle functionality
 function setupMobileNav() {
-    const navToggle = document.querySelector('.nav-toggle');
+    const navToggle = document.getElementById('navToggle');
     const navBar = document.querySelector('.nav-bar');
-    const sideMenu = document.getElementById('globalSideMenu');
-    const menuBtn = document.getElementById('menuBtn');
+    let isNavExpanded = false;
     
     if (!navToggle || !navBar) return;
     
-    let isNavExpanded = false;
-    
+    // Nav toggle click handler
     navToggle.addEventListener('click', function(e) {
         e.stopPropagation();
         
@@ -116,33 +114,27 @@ function setupMobileNav() {
             // Collapse nav-bar
             navBar.classList.remove('mobile-expanded');
             navBar.classList.add('mobile-collapsing');
+            isNavExpanded = false;
             
+            // Show nav-toggle after collapse animation
             setTimeout(() => {
                 navBar.classList.remove('mobile-collapsing');
-                isNavExpanded = false;
-            }, 300);
+                navToggle.style.display = 'flex';
+                navToggle.classList.remove('hidden');
+            }, 150);
             
         } else {
-            // Close side-menu if open
-            if (sideMenu && sideMenu.classList.contains('open')) {
-                sideMenu.classList.remove('open');
-                sideMenu.classList.add('closing');
-                
-                if (menuBtn) {
-                    menuBtn.style.display = 'block';
-                    menuBtn.style.opacity = '1';
-                    menuBtn.style.pointerEvents = 'auto';
-                }
-                
-                setTimeout(() => {
-                    sideMenu.classList.remove('closing');
-                    sideMenu.classList.add('hidden');
-                }, 300);
-            }
-            
             // Expand nav-bar
             navBar.classList.add('mobile-expanded');
+            navToggle.classList.add('hidden');
             isNavExpanded = true;
+            
+            // Hide nav-toggle during expansion
+            setTimeout(() => {
+                if (isNavExpanded) {
+                    navToggle.style.display = 'none';
+                }
+            }, 100);
         }
     });
     
@@ -151,37 +143,77 @@ function setupMobileNav() {
         if (isNavExpanded && 
             !navBar.contains(e.target) && 
             !navToggle.contains(e.target)) {
-            
-            navBar.classList.remove('mobile-expanded');
-            navBar.classList.add('mobile-collapsing');
-            
-            setTimeout(() => {
-                navBar.classList.remove('mobile-collapsing');
-                isNavExpanded = false;
-            }, 300);
+            closeNavBar();
         }
+    });
+    
+    // Close nav-bar after using buttons in it
+    const navButtons = navBar.querySelectorAll('.nav-btn');
+    navButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            setTimeout(closeNavBar, 200);
+        });
     });
     
     // Close nav-bar on escape key
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && isNavExpanded) {
-            navBar.classList.remove('mobile-expanded');
-            navBar.classList.add('mobile-collapsing');
-            
-            setTimeout(() => {
-                navBar.classList.remove('mobile-collapsing');
-                isNavExpanded = false;
-            }, 300);
+            closeNavBar();
         }
     });
     
-    // Ensure nav-bar is hidden on window resize to desktop
+    // Handle window resize
     window.addEventListener('resize', function() {
         if (window.innerWidth > 768 && isNavExpanded) {
             navBar.classList.remove('mobile-expanded', 'mobile-collapsing');
+            navToggle.style.display = 'flex';
+            navToggle.classList.remove('hidden');
             isNavExpanded = false;
         }
     });
+    
+    function closeNavBar() {
+        if (isNavExpanded) {
+            navBar.classList.remove('mobile-expanded');
+            navBar.classList.add('mobile-collapsing');
+            navToggle.classList.remove('hidden');
+            isNavExpanded = false;
+            
+            setTimeout(() => {
+                navBar.classList.remove('mobile-collapsing');
+                navToggle.style.display = 'flex';
+            }, 150);
+        }
+    }
+    
+    // Function to check welcome screen state
+    function checkWelcomeScreen() {
+        const welcomeScreen = document.querySelector('.welcome-screen');
+        const body = document.body;
+        
+        if (welcomeScreen && !welcomeScreen.classList.contains('hidden')) {
+            body.classList.add('welcome-active');
+            navToggle.style.display = 'none';
+        } else {
+            body.classList.remove('welcome-active');
+            if (window.innerWidth <= 768) {
+                navToggle.style.display = 'flex';
+            }
+        }
+    }
+    
+    // Check on start
+    checkWelcomeScreen();
+    
+    // Observe welcome screen changes
+    const welcomeScreen = document.querySelector('.welcome-screen');
+    if (welcomeScreen) {
+        const observer = new MutationObserver(checkWelcomeScreen);
+        observer.observe(welcomeScreen, { 
+            attributes: true, 
+            attributeFilter: ['class', 'style'] 
+        });
+    }
 }
 
 // Initialize the application
@@ -189,7 +221,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadAllCSS();
 
     setupMenu();
-    setupMobileNav(); // Add mobile nav setup
+    setupMobileNav(); // Add mobile nav setup here
     initializeUI();
     initializeTheme();
     initializeLeapYear();

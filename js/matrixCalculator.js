@@ -126,9 +126,13 @@ function createMatrix(gridElement, rows, cols) {
         }
     }
 
-    // Ustaw zmienną --i dla elementów operation-menu-item
+    // Ustaw zmienną --i dla elementów operation-menu-item w układzie 2 kolumn
     document.querySelectorAll('.operation-menu-item').forEach((item, index) => {
-        item.style.setProperty('--i', index);
+        // Dla układu 2 kolumn: kolumna 1: indeksy 0,2,4,6 | kolumna 2: indeksy 1,3,5
+        const column = index % 2;
+        const row = Math.floor(index / 2);
+        const adjustedIndex = column * Math.ceil(document.querySelectorAll('.operation-menu-item').length / 2) + row;
+        item.style.setProperty('--i', adjustedIndex);
     });
 }
 
@@ -773,6 +777,10 @@ function initializeMatrixCalculator() {
         }, 300);
     } else {
         operationMenu.style.display = 'block';
+        
+        // Pozycjonuj menu na mobile
+        positionMobileMenu(operationMenu, operationBtn);
+        
         // Krótkie opóźnienie aby umożliwić przejście CSS
         requestAnimationFrame(() => {
             operationMenu.classList.add('open');
@@ -846,6 +854,10 @@ function initializeMatrixCalculator() {
             }, 300);
         } else {
             methodSelector.style.display = 'flex';
+            
+            // Pozycjonuj menu na mobile
+            positionMobileMenu(methodSelector, methodBtn);
+            
             requestAnimationFrame(() => {
                 methodSelector.classList.add('open');
             });
@@ -1063,11 +1075,70 @@ function toggleSizeMenu(matrixId) {
     }
 }
 
-// Dodaj nasłuchiwanie na zmianę rozmiaru okna
-window.addEventListener('resize', () => {
-    document.querySelectorAll('.size-menu').forEach(menu => {
-        if (menu.style.display === 'flex') {
-            positionSizeMenu(menu);
+// Funkcja do pozycjonowania menu na mobile
+function positionMobileMenu(menu, button) {
+    if (window.innerWidth > 768) return; // Tylko dla mobile
+    
+    const buttonRect = button.getBoundingClientRect();
+    const menuRect = menu.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    
+    // Pozycjonuj menu bezpośrednio pod przyciskiem
+    menu.style.position = 'absolute';
+    menu.style.top = 'calc(100% + 5px)';
+    menu.style.left = '50%';
+    menu.style.transform = 'translateX(-50%)';
+    
+    // Sprawdź czy menu zmieści się w viewport
+    const menuTop = buttonRect.bottom + 5;
+    const menuBottom = menuTop + menuRect.height;
+    
+    if (menuBottom > viewportHeight) {
+        // Jeśli menu nie zmieści się na dole, pokaż nad przyciskiem
+        menu.style.top = 'auto';
+        menu.style.bottom = 'calc(100% + 5px)';
+        menu.style.transform = 'translateX(-50%)';
+    }
+    
+    // Sprawdź szerokość
+    if (buttonRect.left + menuRect.width / 2 > viewportWidth) {
+        menu.style.left = 'auto';
+        menu.style.right = '0';
+        menu.style.transform = 'none';
+    } else if (buttonRect.right - menuRect.width / 2 < 0) {
+        menu.style.left = '0';
+        menu.style.right = 'auto';
+        menu.style.transform = 'none';
+    }
+}
+
+// Dodaj nasłuchiwanie na scroll dla repozycionowania menu
+window.addEventListener('scroll', function() {
+    if (window.innerWidth <= 768) {
+        const openMenus = document.querySelectorAll('.operation-menu.open, .method-selector.open');
+        openMenus.forEach(menu => {
+            const button = menu.closest('.operation-selector, .method-selector-wrapper')
+                              ?.querySelector('.operation-btn, .method-btn-main');
+            if (button) {
+                positionMobileMenu(menu, button);
+            }
+        });
+    }
+});
+
+// Dodaj nasłuchiwanie na zmianę orientacji
+window.addEventListener('orientationchange', function() {
+    setTimeout(() => {
+        if (window.innerWidth <= 768) {
+            const openMenus = document.querySelectorAll('.operation-menu.open, .method-selector.open');
+            openMenus.forEach(menu => {
+                const button = menu.closest('.operation-selector, .method-selector-wrapper')
+                                  ?.querySelector('.operation-btn, .method-btn-main');
+                if (button) {
+                    positionMobileMenu(menu, button);
+                }
+            });
         }
-    });
+    }, 500); // Opóźnienie dla stabilizacji orientacji
 });

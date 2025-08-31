@@ -48,19 +48,9 @@ function animateTextChange(newText, oldText) {
 
     // Znajdź różniące się słowa używając prostego porównania
     const diffIndices = [];
-    const isFirstCheck = !oldText || oldText === '';
-    
-    if (isFirstCheck) {
-        // Dla pierwszego sprawdzenia - animuj wszystkie słowa na czarno
-        for (let i = 0; i < newWords.length; i++) {
+    for (let i = 0; i < newWords.length; i++) {
+        if (i >= oldWords.length || newWords[i] !== oldWords[i]) {
             diffIndices.push(i);
-        }
-    } else {
-        // Dla kolejnych sprawdzeń - animuj tylko różniące się słowa na czerwono
-        for (let i = 0; i < newWords.length; i++) {
-            if (i >= oldWords.length || newWords[i] !== oldWords[i]) {
-                diffIndices.push(i);
-            }
         }
     }
     
@@ -73,13 +63,13 @@ function animateTextChange(newText, oldText) {
         if (diffIndices.includes(i)) {
             // Słowo będzie animowane - zaczynamy z pustym tekstem
             wordSpan.textContent = '';
-            wordSpan.style.color = isFirstCheck ? 'black' : 'red'; // Czarny dla pierwszego, czerwony dla kolejnych
-            spans.push({ span: wordSpan, text: word, animate: true, isFirst: isFirstCheck });
+            wordSpan.style.color = 'red'; // Zmieniono z 'black' na 'red'
+            spans.push({ span: wordSpan, text: word, animate: true });
         } else {
-            // Słowo nie zmienione - pokazujemy od razu na czarno
+            // Słowo nie zmienione - pokazujemy od razu
             wordSpan.textContent = word;
             wordSpan.style.color = 'black';
-            spans.push({ span: wordSpan, text: word, animate: false, isFirst: false });
+            spans.push({ span: wordSpan, text: word, animate: false });
         }
         
         centerContainer.appendChild(wordSpan);
@@ -104,14 +94,15 @@ function animateWords(spans, idx = 0) {
     
     if (idx >= spans.length) return;
     
-    const { span, text, isFirst } = spans[idx];
+    const { span, text } = spans[idx];
     
     function typeChar(pos = 0) {
         if (pos <= text.length) {
             span.textContent = text.slice(0, pos);
-            // Ustaw finalny kolor: czarny dla pierwszego sprawdzenia, czerwony dla kolejnych
-            span.style.color = pos === text.length ? (isFirst ? 'black' : 'red') : '';
-            setTimeout(() => typeChar(pos + 1), 40);
+            if (pos === text.length) {
+                span.style.color = 'red'; // Zmieniono z 'black' na 'red'
+            }
+            setTimeout(() => typeChar(pos + 1), 40); // 60ms delay jak w BRP_2.0.html
         } else {
             animateWords(spans, idx + 1); // Przejdź do następnego słowa
         }
