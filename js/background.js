@@ -207,12 +207,18 @@ function startApplication() {
         });
     }
     
-    // Upewnij się, że przycisk menu jest widoczny
+    // Pokaż przycisk menu i dashboard toggle
     const menuBtn = document.getElementById('menuBtn');
     if (menuBtn) {
         menuBtn.style.display = 'block';
         menuBtn.style.opacity = '1';
         menuBtn.style.pointerEvents = 'auto';
+    }
+    
+    const dashboardToggle = document.querySelector('.mobile-dashboard-toggle');
+    if (dashboardToggle && window.innerWidth <= 768) {
+        dashboardToggle.style.display = 'flex';
+        dashboardToggle.style.visibility = 'visible';
     }
     
     setTimeout(() => {

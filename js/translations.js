@@ -87,6 +87,18 @@ const translations = {
             "calculations": "Obliczenia",
             "saved": "Zapisane",
             "favoritesCount": "Ulubione"
+        },
+        "dashboard": {
+            "menu": "Menu",
+            "navigation": "Nawigacja", 
+            "settings": "Ustawienia",
+            "applications": "Aplikacje",
+            "home": "Strona główna",
+            "profile": "Profil",
+            "darkMode": "Tryb ciemny",
+            "lightMode": "Tryb jasny",
+            "language": "Język",
+            "back": "Wstecz"
         }
     },
     "en": {
@@ -178,6 +190,18 @@ const translations = {
             "calculations": "Calculations",
             "saved": "Saved",
             "favoritesCount": "Favorites"
+        },
+        "dashboard": {
+            "menu": "Menu",
+            "navigation": "Navigation",
+            "settings": "Settings", 
+            "applications": "Applications",
+            "home": "Home",
+            "profile": "Profile",
+            "darkMode": "Dark mode",
+            "lightMode": "Light mode",
+            "language": "Language",
+            "back": "Back"
         }
     },
     "de": {
@@ -265,10 +289,22 @@ const translations = {
             "favorites": "Bevorzugte Berechnungen",
             "settings": "Einstellungen",
             "password": "Passwort ändern",
-            "activity": "Letzte Aktivität",
+            "activity": "Letzte aktywność",
             "calculations": "Berechnungen",
             "saved": "Gespeichert",
             "favoritesCount": "Favoriten"
+        },
+        "dashboard": {
+            "menu": "Menü",
+            "navigation": "Navigation",
+            "settings": "Einstellungen",
+            "applications": "Anwendungen", 
+            "home": "Startseite",
+            "profile": "Profil",
+            "darkMode": "Dunkler Modus",
+            "lightMode": "Heller Modus",
+            "language": "Sprache",
+            "back": "Zurück"
         }
     }
 };

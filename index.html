@@ -12,19 +12,68 @@
     <link rel="stylesheet" href="css/side-menu.css">
     <link rel="stylesheet" href="css/welcome-screen.css">
     <link rel="stylesheet" href="css/navigation.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- Poprawiono Font Awesome -->
 </head>
 <body>
     <canvas id="mathBg"></canvas>
 
-    <!-- Mobile Nav Toggle (tylko na mobile) -->
-    <button id="navToggle" class="nav-toggle">☰</button>
+    <!-- Mobile Dashboard -->
+    <div id="mobileDashboard" class="mobile-dashboard hidden">
+        <div class="dashboard-header">
+            <h3>Menu</h3>
+            <button class="dashboard-close-btn">×</button>
+        </div>
+        <div class="dashboard-content">
+            <div class="dashboard-section">
+                <h4>Nawigacja</h4>
+                <button class="dashboard-btn" data-action="home">
+                    <i class="fas fa-home"></i>
+                    <span>Strona główna</span>
+                </button>
+                <button class="dashboard-btn" data-action="profile">
+                    <i class="fas fa-user"></i>
+                    <span>Profil</span>
+                </button>
+            </div>
+            <div class="dashboard-section">
+                <h4>Ustawienia</h4>
+                <button class="dashboard-btn" data-action="theme">
+                    <i class="fas fa-sun"></i>
+                    <span>Tryb ciemny</span>
+                </button>
+                <button class="dashboard-btn" data-action="language-menu">
+                    <i class="fas fa-globe"></i>
+                    <span>Język</span>
+                    <i class="fas fa-chevron-right dashboard-arrow"></i>
+                </button>
+            </div>
+            <div class="dashboard-section">
+                <h4>Aplikacje</h4>
+                <button class="dashboard-btn" data-action="leapYear">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Rok przestępny</span>
+                </button>
+                <button class="dashboard-btn" data-action="matrixCalculator" data-app="matrixCalc">
+                    <i class="fas fa-calculator"></i>
+                    <span>Kalkulator macierzy</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Dashboard Toggle -->
+    <button class="mobile-dashboard-toggle">
+        <i class="fas fa-th-large"></i>
+    </button>
 
     <!-- Global Navigation Bar -->
     <div class="nav-bar">
-        <button class="nav-btn user-btn" id="showUserProfileBtn">👤</button>
+        <button class="nav-btn user-btn" id="showUserProfileBtn">
+            <i class="fas fa-user"></i>
+        </button>
         <button id="themeToggleBtn" class="theme-toggle-btn light">
-            <span class="icon-sun">☀️</span>
-            <span class="icon-moon">🌙</span>
+            <i class="fas fa-sun icon-sun"></i>
+            <i class="fas fa-moon icon-moon"></i>
         </button>
         <div class="lang-container">
             <div class="lang-btn"></div>
@@ -36,6 +85,47 @@
         <div data-lang="pl">Polski</div>
         <div data-lang="en">English</div>
         <div data-lang="de">Deutsch</div>
+    </div>
+    
+    <!-- Language submenu for mobile dashboard -->
+    <div class="dashboard-submenu" id="languageSubmenu">
+        <button class="dashboard-back-btn">
+            <i class="fas fa-arrow-left"></i>
+            <span>Wstecz</span>
+        </button>
+        <button class="dashboard-btn" data-action="language" data-lang="pl">
+            <i class="fas fa-flag"></i>
+            <span>Polski</span>
+        </button>
+        <button class="dashboard-btn" data-action="language" data-lang="en">
+            <i class="fas fa-flag"></i>
+            <span>English</span>
+        </button>
+        <button class="dashboard-btn" data-action="language" data-lang="de">
+            <i class="fas fa-flag"></i>
+            <span>Deutsch</span>
+        </button>
+    </div>
+    
+    <!-- Tooltip for keyboard shortcuts (will be added dynamically) -->
+    <div id="keyboardShortcuts" class="keyboard-shortcuts" style="display: none;">
+        <div class="shortcuts-title">Skróty klawiszowe:</div>
+        <div class="shortcut-item">
+            <span class="shortcut-key">Ctrl + M</span>
+            <span class="shortcut-desc">Przełącz między macierzami</span>
+        </div>
+        <div class="shortcut-item">
+            <span class="shortcut-key">Ctrl + 1</span>
+            <span class="shortcut-desc">Przejdź do macierzy A</span>
+        </div>
+        <div class="shortcut-item">
+            <span class="shortcut-key">Ctrl + 2</span>
+            <span class="shortcut-desc">Przejdź do macierzy B</span>
+        </div>
+        <div class="shortcut-item">
+            <span class="shortcut-key">Ctrl + Enter</span>
+            <span class="shortcut-desc">Oblicz wynik</span>
+        </div>
     </div>
 
     <div class="lang-menu welcome-lang-menu">
@@ -178,23 +268,26 @@
                 </div>
 
                 <div class="action-buttons">
-                    <button id="computeBtn" class="btn" tabindex="0">Oblicz</button>
-                    <button id="clearBtn" class="btn">Wyczyść</button>
+                    <button id="computeBtn" class="btn matrix-btn" tabindex="0">Oblicz</button>
+                    <button id="clearBtn" class="btn matrix-btn">Wyczyść</button>
                 </div>
 
                 <div id="matricesContainer" class="matrices-container">
                     <div id="matrixA" class="matrix-frame">
-                        <button class="resize-icon" onclick="toggleSizeMenu('A')">+</button>
+                        <button class="resize-icon" onclick="toggleSizeMenu('A')">+
+                        </button>
                         <div id="matrixATitle" class="matrix-title">Macierz A</div>
                         <div id="matrixAGrid" class="matrix-grid"></div>
                     </div>
                     
                     <div id="matrixB" class="matrix-frame">
-                        <button class="resize-icon" onclick="toggleSizeMenu('B')">+</button>
+                        <button class="resize-icon" onclick="toggleSizeMenu('B')">+
+                        </button>
                         <div id="matrixBTitle" class="matrix-title">Macierz B</div>
                         <div id="matrixBGrid" class="matrix-grid"></div>
                     </div>
                 </div>
+                
                 <div id="errorMessage" class="error-message"></div>
                 <div id="resultBox" class="result-container-matrix">
                     <div class="default-result-text"></div>

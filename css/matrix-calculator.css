@@ -543,7 +543,7 @@
 }
 
 .matrix-title {
-    color: var(--clr-accent);
+    color: black;
     text-align: center;
     font-weight: bold;
     margin-bottom: 12px;
@@ -591,32 +591,27 @@
     position: absolute;
     top: -15px;
     left: -15px;
-    width: 35px;
-    height: 35px;
-    background: rgba(224, 122, 95, 0.15);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    width: 30px; /* Zmniejszono z 35px na 30px */
+    height: 30px; /* Zmniejszono z 35px na 30px */
     border-radius: 50%;
-    color: black;
-    font-size: 20px;
+    color: white;
+    font-size: 18px; /* Zmniejszono z 20px na 18px */
     font-weight: bold;
     cursor: pointer;
     z-index: 950;
     display: flex;
     justify-content: center;
     align-items: center;
+    background: rgba(0, 0, 0, 0.7);
     border: var(--liquid-glass-border);
-    box-shadow: var(--liquid-glass-shadow);
     transition: all 0.3s ease;
 }
 
 .resize-icon:hover {
-    background: rgba(224, 122, 95, 0.25);
-    backdrop-filter: blur(12px) brightness(1.3);
-    -webkit-backdrop-filter: blur(12px) brightness(1.3);
-    color: rgb(255, 0, 0);
-    border-color: var(--clr-accent);
-    transform: scale(1.1);
+    background: rgba(0, 0, 0, 0.25);
+    color: black;
+    border-color: black;
+    transform: rotate(45deg) scale(1.2); /* Zachowanie obrotu + powiększenie */
 }
 
 .single-matrix .matrix-a-container {
@@ -1028,7 +1023,7 @@
     -webkit-backdrop-filter: var(--liquid-glass-blur);
     border: var(--liquid-glass-border);
     box-shadow: var(--liquid-glass-shadow);
-    color: rgb(224, 123, 95);
+    color: white;
     border-radius: 25px;
     padding: 12px 24px;
     font-size: 1.1rem;
@@ -1044,7 +1039,7 @@
 }
 
 .accept-btn:hover {
-    color: #000000;
+    color: white;
     background-color: rgba(0, 255, 0, 1);
     border-color: rgb(0, 255, 0) !important;
     box-shadow: 0 0 20px rgba(0, 255, 0, 0.8) !important;
@@ -1064,31 +1059,12 @@
 }
 
 
-.animated-result-light {
-    color: #d32f2f !important;
-    animation: pulse-red 1.5s infinite;
-}
-
-@keyframes pulse-red {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-    }
-    50% {
-        transform: scale(1.05);
-        opacity: 0.8;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
 /* Responsywne poprawki dla kalkulatora macierzy */
 @media (max-width: 768px) {
     .matrix-container {
-        padding: 10px;
+        padding: 10px 15px; /* Zwiększ padding z 10px na 15px po bokach */
         margin-top: 70px;
+        padding-bottom: 100px;
         overflow-y: auto;
         max-height: calc(100vh - 80px);
     }
@@ -1096,8 +1072,8 @@
     .matrices-container {
         flex-direction: column;
         gap: 15px;
-        padding: 0 10px;
-        align-items: center; /* Wycentrowanie kontenerów macierzy */
+        padding: 0 15px; /* Zwiększ padding z 10px na 15px */
+        align-items: center;
     }
     
     .matrix-frame {
@@ -1156,27 +1132,14 @@
 @media (max-width: 480px) {
     .matrix-container {
         margin-top: 80px;
-        padding: 5px;
+        padding: 5px 15px; /* Zwiększ padding z 5px na 15px po bokach */
+        padding-bottom: 120px;
         max-height: calc(100vh - 90px);
-    }
-    
-    .matrix-input {
-        width: 32px;
-        height: 26px;
-        font-size: 12px;
-        margin: 1px;
-        justify-self: center;
-        align-self: center;
-    }
-    
-    .matrix-frame {
-        padding: 5px 8px;
-        max-width: 280px;
     }
     
     .matrices-container {
         gap: 12px;
-        padding: 0 5px;
+        padding: 0 15px; /* Zwiększ padding z 5px na 15px */
         align-items: center;
     }
     
@@ -1197,4 +1160,26 @@
         max-width: 260px !important;
         z-index: 1300 !important;
     }
+}
+
+/* Podświetlanie aktywnej macierzy */
+.matrix-frame.active-matrix {
+    border: 3px solid #E07A5F;
+    box-shadow: 0 0 15px rgba(224, 122, 95, 0.7);
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.matrix-frame.active-matrix .matrix-title {
+    color: var(--clr-accent) !important;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(224, 122, 95, 0.3);
+}
+
+/* Animacja przełączania między macierzami */
+.matrix-frame {
+    transition: 
+        all 0.3s ease,
+        border 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
 }

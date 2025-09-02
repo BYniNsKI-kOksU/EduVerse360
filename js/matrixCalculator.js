@@ -30,6 +30,8 @@ const resizeRowsB = document.getElementById('resizeRowsB');
 const resizeColsB = document.getElementById('resizeColsB');
 const acceptResize = document.getElementById('acceptResize');
 
+let currentActiveMatrix = 'A'; // Śledzenie aktualnie aktywnej macierzy
+
 function createMatrix(gridElement, rows, cols) {
     if (!gridElement) throw new Error("Element macierzy nie istnieje!");
     gridElement.innerHTML = '';
@@ -86,6 +88,20 @@ function createMatrix(gridElement, rows, cols) {
             });
 
             input.addEventListener('keydown', function(e) {
+                // Obsługa przełączania między macierzami (ALT/CMD + Tab)
+                if ((e.altKey || e.metaKey) && e.key === 'Tab') {
+                    e.preventDefault();
+                    switchToOtherMatrix();
+                    return;
+                }
+                
+                // Obsługa przełączania między macierzami (ALT/CMD + Shift + M) - zachowujemy dla kompatybilności
+                if ((e.altKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'm') {
+                    e.preventDefault();
+                    switchToOtherMatrix();
+                    return;
+                }
+                
                 if (e.key.startsWith('Arrow')) {
                     e.preventDefault();
                     const currentRow = parseInt(this.dataset.row);
@@ -122,17 +138,25 @@ function createMatrix(gridElement, rows, cols) {
                 }
             });
 
+            // Dodaj event listener do śledzenia aktywnej macierzy
+            input.addEventListener('focus', function() {
+                // Określ która macierz jest aktywna na podstawie rodzica
+                if (this.closest('#matrixAGrid')) {
+                    currentActiveMatrix = 'A';
+                    highlightActiveMatrix('A');
+                } else if (this.closest('#matrixBGrid')) {
+                    currentActiveMatrix = 'B';
+                    highlightActiveMatrix('B');
+                }
+            });
+
             gridElement.appendChild(input);
         }
     }
 
-    // Ustaw zmienną --i dla elementów operation-menu-item w układzie 2 kolumn
+    // Ustaw zmienną --i dla elementów operation-menu-item
     document.querySelectorAll('.operation-menu-item').forEach((item, index) => {
-        // Dla układu 2 kolumn: kolumna 1: indeksy 0,2,4,6 | kolumna 2: indeksy 1,3,5
-        const column = index % 2;
-        const row = Math.floor(index / 2);
-        const adjustedIndex = column * Math.ceil(document.querySelectorAll('.operation-menu-item').length / 2) + row;
-        item.style.setProperty('--i', adjustedIndex);
+        item.style.setProperty('--i', index);
     });
 }
 
@@ -777,10 +801,6 @@ function initializeMatrixCalculator() {
         }, 300);
     } else {
         operationMenu.style.display = 'block';
-        
-        // Pozycjonuj menu na mobile
-        positionMobileMenu(operationMenu, operationBtn);
-        
         // Krótkie opóźnienie aby umożliwić przejście CSS
         requestAnimationFrame(() => {
             operationMenu.classList.add('open');
@@ -854,10 +874,6 @@ function initializeMatrixCalculator() {
             }, 300);
         } else {
             methodSelector.style.display = 'flex';
-            
-            // Pozycjonuj menu na mobile
-            positionMobileMenu(methodSelector, methodBtn);
-            
             requestAnimationFrame(() => {
                 methodSelector.classList.add('open');
             });
@@ -1016,13 +1032,15 @@ document.addEventListener('keydown', function(event) {
 });
 
 function toggleSizeMenu(matrixId) {
-    if (currentScreen === "welcome") return;
-
+    console.log(`toggleSizeMenu called with matrixId: ${matrixId}`); // Debugowanie
     const menu = document.getElementById(`sizeMenu${matrixId}`);
     const matrixFrame = document.getElementById(`matrix${matrixId}`);
     const resizeIcon = matrixFrame?.querySelector('.resize-icon');
 
-    if (!menu || !matrixFrame || !resizeIcon) return;
+    if (!menu || !matrixFrame || !resizeIcon) {
+        console.error('Menu, matrix frame, or resize icon not found'); // Debugowanie
+        return;
+    }
 
     // Zamknij wszystkie inne menu
     document.querySelectorAll('.size-menu').forEach(m => {
@@ -1039,106 +1057,126 @@ function toggleSizeMenu(matrixId) {
         menu.classList.add('closing');
         setTimeout(() => menu.classList.remove('closing'), 300);
     } else {
-        // Najpierw pokaż menu, żeby getBoundingClientRect działało poprawnie
         menu.style.display = 'flex';
-
-        // Pozycjonowanie menu względem przycisku resize
         const iconRect = resizeIcon.getBoundingClientRect();
         menu.style.position = 'fixed';
         menu.style.top = `${iconRect.bottom + window.scrollY + 5}px`;
         menu.style.left = `${iconRect.left + window.scrollX}px`;
 
         const menuRect = menu.getBoundingClientRect();
-        const viewportWidth = window.innerWidth;
-        const viewportHeight = window.innerHeight;
-
-        if (menuRect.right > viewportWidth) {
-            menu.style.left = `${viewportWidth - menuRect.width - 10}px`;
+        if (menuRect.right > window.innerWidth) {
+            menu.style.left = `${window.innerWidth - menuRect.width - 10}px`;
         }
-
-        if (menuRect.bottom > viewportHeight) {
+        if (menuRect.bottom > window.innerHeight) {
             menu.style.top = `${iconRect.top + window.scrollY - menuRect.height - 5}px`;
         }
 
-        // Animacja kolejnych elementów
-        const inputs = menu.querySelectorAll('.resize-input-group');
-        const buttons = menu.querySelectorAll('.size-menu-buttons');
-        inputs.forEach((input, index) => input.style.setProperty('--i', index));
-        buttons.forEach((button, index) => button.style.setProperty('--i', index + inputs.length));
-
-        // Dodaj klasę open po pozycji
         requestAnimationFrame(() => menu.classList.add('open'));
-
-        // Focus na pierwszym polu
         const firstInput = menu.querySelector('input');
         if (firstInput) setTimeout(() => { firstInput.focus(); firstInput.select(); }, 100);
     }
 }
 
-// Funkcja do pozycjonowania menu na mobile
-function positionMobileMenu(menu, button) {
-    if (window.innerWidth > 768) return; // Tylko dla mobile
-    
-    const buttonRect = button.getBoundingClientRect();
-    const menuRect = menu.getBoundingClientRect();
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    
-    // Pozycjonuj menu bezpośrednio pod przyciskiem
-    menu.style.position = 'absolute';
-    menu.style.top = 'calc(100% + 5px)';
-    menu.style.left = '50%';
-    menu.style.transform = 'translateX(-50%)';
-    
-    // Sprawdź czy menu zmieści się w viewport
-    const menuTop = buttonRect.bottom + 5;
-    const menuBottom = menuTop + menuRect.height;
-    
-    if (menuBottom > viewportHeight) {
-        // Jeśli menu nie zmieści się na dole, pokaż nad przyciskiem
-        menu.style.top = 'auto';
-        menu.style.bottom = 'calc(100% + 5px)';
-        menu.style.transform = 'translateX(-50%)';
-    }
-    
-    // Sprawdź szerokość
-    if (buttonRect.left + menuRect.width / 2 > viewportWidth) {
-        menu.style.left = 'auto';
-        menu.style.right = '0';
-        menu.style.transform = 'none';
-    } else if (buttonRect.right - menuRect.width / 2 < 0) {
-        menu.style.left = '0';
-        menu.style.right = 'auto';
-        menu.style.transform = 'none';
-    }
-}
+// Dodaj nasłuchiwanie na zmianę rozmiaru okna
+window.addEventListener('resize', () => {
+    document.querySelectorAll('.size-menu').forEach(menu => {
+        if (menu.style.display === 'flex') {
+            positionSizeMenu(menu);
+        }
+    });
+});
 
-// Dodaj nasłuchiwanie na scroll dla repozycionowania menu
-window.addEventListener('scroll', function() {
-    if (window.innerWidth <= 768) {
-        const openMenus = document.querySelectorAll('.operation-menu.open, .method-selector.open');
-        openMenus.forEach(menu => {
-            const button = menu.closest('.operation-selector, .method-selector-wrapper')
-                              ?.querySelector('.operation-btn, .method-btn-main');
-            if (button) {
-                positionMobileMenu(menu, button);
+// Dodaj globalny event listener dla skrótów klawiszowych
+document.addEventListener('keydown', function(e) {
+    // Sprawdź czy jesteśmy w kalkulatorze macierzy
+    const isInMatrixCalculator = document.getElementById('matrixCalculatorApp')?.classList.contains('active');
+    if (!isInMatrixCalculator) return;
+    
+    // ALT/CMD + Tab - przełączanie między macierzami
+    if ((e.altKey || e.metaKey) && e.key === 'Tab') {
+        e.preventDefault();
+        switchToOtherMatrix();
+        return;
+    }
+    
+    // ALT/CMD + Shift + M - przełączanie między macierzami (alternatywny skrót)
+    if ((e.altKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'm') {
+        e.preventDefault();
+        switchToOtherMatrix();
+        return;
+    }
+    
+    // ALT/CMD + Shift + A - przejdź do macierzy A
+    if ((e.altKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'a') {
+        e.preventDefault();
+        const matrixAGrid = document.getElementById('matrixAGrid');
+        const firstInput = matrixAGrid?.querySelector('.matrix-input');
+        if (firstInput) {
+            firstInput.focus();
+            firstInput.select();
+            currentActiveMatrix = 'A';
+            highlightActiveMatrix('A');
+        }
+        return;
+    }
+    
+    // ALT/CMD + Shift + B - przejdź do macierzy B (jeśli widoczna)
+    if ((e.altKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'b') {
+        e.preventDefault();
+        const matrixBGrid = document.getElementById('matrixBGrid');
+        const isBVisible = matrixBGrid && matrixBGrid.closest('#matrixB').style.display !== 'none';
+        
+        if (isBVisible) {
+            const firstInput = matrixBGrid.querySelector('.matrix-input');
+            if (firstInput) {
+                firstInput.focus();
+                firstInput.select();
+                currentActiveMatrix = 'B';
+                highlightActiveMatrix('B');
             }
-        });
+        }
+        return;
+    }
+    
+    // CTRL + Enter - szybkie obliczenie (alternatywa)
+    if (e.ctrlKey && e.key === 'Enter') {
+        e.preventDefault();
+        compute();
+        return;
     }
 });
 
-// Dodaj nasłuchiwanie na zmianę orientacji
-window.addEventListener('orientationchange', function() {
-    setTimeout(() => {
-        if (window.innerWidth <= 768) {
-            const openMenus = document.querySelectorAll('.operation-menu.open, .method-selector.open');
-            openMenus.forEach(menu => {
-                const button = menu.closest('.operation-selector, .method-selector-wrapper')
-                                  ?.querySelector('.operation-btn, .method-btn-main');
-                if (button) {
-                    positionMobileMenu(menu, button);
-                }
-            });
+// Globalny skrót klawiszowy do przełączania macierzy
+document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.key.toLowerCase() === 'm') {
+        e.preventDefault();
+        switchToOtherMatrix();
+    }
+
+    if (e.ctrlKey && e.key.toLowerCase() === 'a') {
+        e.preventDefault();
+        const matrixAGrid = document.getElementById('matrixAGrid');
+        const firstInput = matrixAGrid?.querySelector('.matrix-input');
+        if (firstInput) {
+            firstInput.focus();
+            firstInput.select();
+            currentActiveMatrix = 'A';
+            highlightActiveMatrix('A');
         }
-    }, 500); // Opóźnienie dla stabilizacji orientacji
+    }
+
+    if (e.ctrlKey && e.key.toLowerCase() === 'b') {
+        e.preventDefault();
+        const matrixBGrid = document.getElementById('matrixBGrid');
+        const isBVisible = matrixBGrid && matrixBGrid.closest('#matrixB').style.display !== 'none';
+        if (isBVisible) {
+            const firstInput = matrixBGrid.querySelector('.matrix-input');
+            if (firstInput) {
+                firstInput.focus();
+                firstInput.select();
+                currentActiveMatrix = 'B';
+                highlightActiveMatrix('B');
+            }
+        }
+    }
 });

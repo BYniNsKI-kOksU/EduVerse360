@@ -23,12 +23,26 @@ function setupMenu() {
     
     menuBtn.addEventListener('click', function(e) {
         e.stopPropagation();
+        
+        // Close mobile nav-bar if expanded
+        const navBar = document.querySelector('.nav-bar');
+        const navToggle = document.querySelector('.nav-toggle');
+        if (navBar && navBar.classList.contains('mobile-expanded')) {
+            navBar.classList.remove('mobile-expanded');
+            navBar.classList.add('mobile-collapsing');
+            setTimeout(() => {
+                navBar.classList.remove('mobile-collapsing');
+            }, 300);
+        }
+        
         sideMenu.classList.remove('hidden');
         sideMenu.classList.toggle('open');
         
         if (sideMenu.classList.contains('open')) {
+            menuBtn.classList.add('open'); // Dodano klasę
             menuBtn.style.display = 'none';
         } else {
+            menuBtn.classList.remove('open'); // Usunięto klasę
             resetMenuBtnState();
         }
     });
@@ -61,7 +75,9 @@ function setupMenu() {
     }
 
     document.addEventListener('click', function(e) {
-        if (!e.target.closest('#globalSideMenu') && e.target !== menuBtn) {
+        if (!e.target.closest('#globalSideMenu') && 
+            e.target !== menuBtn &&
+            !e.target.closest('.menu-btn')) { // Dodano sprawdzenie dla klasy menu-btn
             if (sideMenu && sideMenu.classList.contains('open')) {
                 closeMenuWithAnimation();
             }
@@ -158,6 +174,7 @@ function resetMenuBtnState() {
         menuBtn.style.display = 'block';
         menuBtn.style.opacity = '1';
         menuBtn.style.pointerEvents = 'auto';
+        menuBtn.style.visibility = 'visible'; // Dodano dla pewności
     }
 }
 
@@ -167,6 +184,12 @@ function resetMenuState() {
     if (sideMenu) {
         sideMenu.classList.remove('open');
         sideMenu.classList.remove('hidden');
+    }
+    
+    // Reset mobile nav-bar state
+    const navBar = document.querySelector('.nav-bar');
+    if (navBar) {
+        navBar.classList.remove('mobile-expanded', 'mobile-collapsing');
     }
 }
 
@@ -259,6 +282,13 @@ function showUserProfile() {
         navBarLangBtn.style.backgroundImage = `url(${flags[currentLang]})`;
     }
 
+    // Upewnij się, że animacja user-btn jest aktywna
+    const userBtn = document.querySelector('.user-btn');
+    if (userBtn) {
+        userBtn.style.animation = 'rotateAndScale 2s infinite alternate';
+        userBtn.style.animationTimingFunction = 'linear';
+    }
+    
     createWaterDrops();
     resetMenuState();
     updateUI();
@@ -297,3 +327,68 @@ function createWaterDrops() {
     waterEffect.className = 'water-effect';
     container.appendChild(waterEffect);
 }
+
+// Funkcje pomocnicze do przełączania między macierzami
+function switchToOtherMatrix() {
+    const matrixAGrid = document.getElementById('matrixAGrid');
+    const matrixBGrid = document.getElementById('matrixBGrid');
+    const matrixB = document.getElementById('matrixB');
+    
+    // Sprawdź czy jesteśmy w kalkulatorze macierzy
+    if (!matrixAGrid || !matrixBGrid) return;
+    
+    // Sprawdź czy macierz B jest widoczna
+    const isBVisible = matrixB && matrixB.style.display !== 'none';
+    
+    if (currentActiveMatrix === 'A' && isBVisible) {
+        // Przełącz na macierz B
+        const firstInputB = matrixBGrid.querySelector('.matrix-input');
+        if (firstInputB) {
+            firstInputB.focus();
+            firstInputB.select();
+            currentActiveMatrix = 'B';
+            highlightActiveMatrix('B');
+        }
+    } else if (currentActiveMatrix === 'B' || !isBVisible) {
+        // Przełącz na macierz A
+        const firstInputA = matrixAGrid.querySelector('.matrix-input');
+        if (firstInputA) {
+            firstInputA.focus();
+            firstInputA.select();
+            currentActiveMatrix = 'A';
+            highlightActiveMatrix('A');
+        }
+    }
+}
+
+function highlightActiveMatrix(matrixId) {
+    const matrixAFrame = document.getElementById('matrixA');
+    const matrixBFrame = document.getElementById('matrixB');
+    
+    // Usuń podświetlenie z obu macierzy
+    if (matrixAFrame) matrixAFrame.classList.remove('active-matrix');
+    if (matrixBFrame) matrixBFrame.classList.remove('active-matrix');
+    
+    // Dodaj podświetlenie do aktywnej macierzy
+    if (matrixId === 'A' && matrixAFrame) {
+        matrixAFrame.classList.add('active-matrix');
+    } else if (matrixId === 'B' && matrixBFrame && matrixBFrame.style.display !== 'none') {
+        matrixBFrame.classList.add('active-matrix');
+    }
+}
+
+// Globalny skrót klawiszowy do przełączania macierzy
+document.addEventListener('keydown', (e) => {
+    if ((e.altKey || e.metaKey) && e.key === 'Tab') {
+        e.preventDefault();
+        switchToOtherMatrix();
+    }
+});
+
+// Modyfikacja event listenerów dla inputów macierzy
+document.querySelectorAll('.matrix-input').forEach(input => {
+    input.addEventListener('focus', function() {
+        const matrixId = this.closest('.matrix-grid').id === 'matrixAGrid' ? 'A' : 'B';
+        highlightActiveMatrix(matrixId);
+    });
+});

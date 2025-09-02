@@ -155,6 +155,20 @@ function updateUI() {
             matricesContainer.style.gap = window.innerWidth >= 768 ? '60px' : '30px';
         }
     }
+    
+    // Dodaj tooltip z informacjami o skrótach klawiszowych dla kalkulatora macierzy
+    const matrixTitle = document.getElementById('matrixCalcTitle');
+    if (matrixTitle) {
+        // Dodaj atrybut title z informacjami o skrótach
+        const shortcutsInfo = currentLang === 'pl' 
+            ? 'Skróty klawiszowe:\n• Ctrl + M - Przełącz między macierzami\n• Ctrl + 1 - Macierz A\n• Ctrl + 2 - Macierz B\n• Ctrl + Enter - Oblicz\n• Strzałki - Nawigacja'
+            : 'Keyboard shortcuts:\n• Ctrl + M - Switch between matrices\n• Ctrl + 1 - Matrix A\n• Ctrl + 2 - Matrix B\n• Ctrl + Enter - Calculate\n• Arrow keys - Navigation';
+        
+        matrixTitle.setAttribute('title', shortcutsInfo);
+        matrixTitle.style.cursor = 'help';
+    }
+
+    updateDashboardUI();
 }
 
 function updateHomeUI() {
@@ -196,7 +210,7 @@ function updateWelcomeScreen() {
     const welcomeSubtitle = document.querySelector('.welcome-subtitle');
     const startBtn = document.querySelector('.start-btn');
     const startHint = document.querySelector('.start-hint');
-    const welcomeLangBtn = document.querySelector('.welcome-lang-btn'); // Dodaj tę linię
+    const welcomeLangBtn = document.querySelector('.welcome-lang-btn');
 
     if (welcomeTitle) {
         welcomeTitle.innerHTML = `<span>${translations[currentLang].welcome.title}</span>`;
@@ -243,8 +257,8 @@ function ensureTranslationsLoaded() {
 }
 
 function initializeUI() {
-    optimizeProfilePage();
-    createWaterDrops();
+    if (typeof optimizeProfilePage === 'function') optimizeProfilePage();
+    if (typeof createWaterDrops === 'function') createWaterDrops();
     
     const menuBtn = document.getElementById('menuBtn');
     const globalSideMenu = document.getElementById('globalSideMenu');
@@ -266,6 +280,73 @@ function initializeUI() {
             menuBtn.style.opacity = '1';
             menuBtn.style.pointerEvents = 'auto';
         }
-        resetMenuState();
+        if (typeof resetMenuState === 'function') resetMenuState();
+    }
+}
+
+function updateDashboardUI() {
+    if (!translations[currentLang].dashboard) return;
+    
+    const dashboardHeader = document.querySelector('.dashboard-header h3');
+    if (dashboardHeader) {
+        dashboardHeader.textContent = translations[currentLang].dashboard.menu;
+    }
+    
+    const sections = document.querySelectorAll('.dashboard-section');
+    if (sections[0]) {
+        sections[0].querySelector('h4').textContent = translations[currentLang].dashboard.navigation;
+    }
+    if (sections[1]) {
+        sections[1].querySelector('h4').textContent = translations[currentLang].dashboard.settings;
+    }
+    if (sections[2]) {
+        sections[2].querySelector('h4').textContent = translations[currentLang].dashboard.applications;
+    }
+    
+    const dashboardBtns = document.querySelectorAll('.dashboard-btn');
+    dashboardBtns.forEach(btn => {
+        const action = btn.dataset.action;
+        const span = btn.querySelector('span');
+        
+        switch(action) {
+            case 'home':
+                span.textContent = translations[currentLang].dashboard.home;
+                break;
+            case 'profile':
+                span.textContent = translations[currentLang].dashboard.profile;
+                break;
+            case 'theme':
+                span.textContent = darkMode ? 
+                    translations[currentLang].dashboard.lightMode : 
+                    translations[currentLang].dashboard.darkMode;
+                break;
+            case 'language-menu':
+                span.textContent = translations[currentLang].dashboard.language;
+                break;
+            case 'language':
+                // Nie zmieniaj tekstów przycisków języków - pozostają stałe
+                const lang = btn.dataset.lang;
+                const langNames = {
+                    pl: 'Polski',
+                    en: 'English',
+                    de: 'Deutsch'
+                };
+                if (langNames[lang]) {
+                    span.textContent = langNames[lang];
+                }
+                break;
+            case 'leapYear':
+                span.textContent = translations[currentLang].leapYear.title;
+                break;
+            case 'matrixCalculator':
+                span.textContent = translations[currentLang].matrixCalc.title;
+                break;
+        }
+    });
+    
+    // Zaktualizuj przycisk powrotu w submenu
+    const backBtn = document.querySelector('#languageSubmenu .dashboard-back-btn span');
+    if (backBtn) {
+        backBtn.textContent = translations[currentLang].dashboard.back || 'Wstecz';
     }
 }

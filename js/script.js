@@ -40,9 +40,14 @@ function switchLanguage(lang) {
     currentLang = lang;
     document.title = translations[lang].title;
     
-    updateWelcomeScreen();
-    updateHomeUI();
-    updateUI();
+    // Zaktualizuj UI w zależności od aktualnego ekranu
+    if (currentScreen === "welcome") {
+        updateWelcomeScreen();
+    } else if (currentScreen === "home") {
+        updateHomeUI();
+    } else if (currentScreen === "app") {
+        updateUI();
+    }
 
     const flags = {
         pl: "https://flagcdn.com/w40/pl.png",
@@ -54,6 +59,12 @@ function switchLanguage(lang) {
     langButtons.forEach(btn => {
         btn.style.backgroundImage = `url(${flags[lang]})`;
     });
+    
+    // Zaktualizuj dashboard UI jeśli jest na mobile
+    if (window.innerWidth <= 768) {
+        updateDashboardUI();
+        updateLanguageSubmenuTexts();
+    }
 }
 
 function toggleDarkMode() {
@@ -98,130 +109,250 @@ function initializeTheme() {
     }
 }
 
+// Funkcja globalna do aktualizacji tekstów w submenu językowym
+function updateLanguageSubmenuTexts() {
+    const langBtns = document.querySelectorAll('#languageSubmenu .dashboard-btn[data-action="language"]');
+    langBtns.forEach(btn => {
+        const lang = btn.dataset.lang;
+        const span = btn.querySelector('span');
+        const langNames = {
+            pl: 'Polski',
+            en: 'English',
+            de: 'Deutsch'
+        };
+        if (span && langNames[lang]) {
+            span.textContent = langNames[lang];
+        }
+    });
+    
+    // Zaktualizuj przycisk powrotu
+    const backBtn = document.querySelector('#languageSubmenu .dashboard-back-btn span');
+    if (backBtn && translations[currentLang] && translations[currentLang].dashboard) {
+        backBtn.textContent = translations[currentLang].dashboard.back || 'Wstecz';
+    }
+}
+
 // Mobile navigation toggle functionality
 function setupMobileNav() {
-    const navToggle = document.getElementById('navToggle');
-    const navBar = document.querySelector('.nav-bar');
-    let isNavExpanded = false;
+    const dashboardToggle = document.querySelector('.mobile-dashboard-toggle');
+    const mobileDashboard = document.getElementById('mobileDashboard');
+    const dashboardCloseBtn = document.querySelector('.dashboard-close-btn');
+    const sideMenu = document.getElementById('globalSideMenu');
+    const menuBtn = document.getElementById('menuBtn');
     
-    if (!navToggle || !navBar) return;
+    if (!dashboardToggle || !mobileDashboard) return;
     
-    // Nav toggle click handler
-    navToggle.addEventListener('click', function(e) {
+    let isDashboardOpen = false;
+    
+    dashboardToggle.addEventListener('click', function(e) {
         e.stopPropagation();
         
-        if (isNavExpanded) {
-            // Collapse nav-bar
-            navBar.classList.remove('mobile-expanded');
-            navBar.classList.add('mobile-collapsing');
-            isNavExpanded = false;
-            
-            // Show nav-toggle after collapse animation
-            setTimeout(() => {
-                navBar.classList.remove('mobile-collapsing');
-                navToggle.style.display = 'flex';
-                navToggle.classList.remove('hidden');
-            }, 150);
-            
+        if (isDashboardOpen) {
+            closeDashboard();
         } else {
-            // Expand nav-bar
-            navBar.classList.add('mobile-expanded');
-            navToggle.classList.add('hidden');
-            isNavExpanded = true;
+            openDashboard();
+        }
+    });
+    
+    dashboardCloseBtn?.addEventListener('click', function(e) {
+        e.stopPropagation();
+        closeDashboard();
+    });
+    
+    function openDashboard() {
+        // Close side-menu if open
+        if (sideMenu && sideMenu.classList.contains('open')) {
+            sideMenu.classList.remove('open');
+            sideMenu.classList.add('closing');
             
-            // Hide nav-toggle during expansion
-            setTimeout(() => {
-                if (isNavExpanded) {
-                    navToggle.style.display = 'none';
-                }
-            }, 100);
-        }
-    });
-    
-    // Close nav-bar when clicking outside
-    document.addEventListener('click', function(e) {
-        if (isNavExpanded && 
-            !navBar.contains(e.target) && 
-            !navToggle.contains(e.target)) {
-            closeNavBar();
-        }
-    });
-    
-    // Close nav-bar after using buttons in it
-    const navButtons = navBar.querySelectorAll('.nav-btn');
-    navButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            setTimeout(closeNavBar, 200);
-        });
-    });
-    
-    // Close nav-bar on escape key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && isNavExpanded) {
-            closeNavBar();
-        }
-    });
-    
-    // Handle window resize
-    window.addEventListener('resize', function() {
-        if (window.innerWidth > 768 && isNavExpanded) {
-            navBar.classList.remove('mobile-expanded', 'mobile-collapsing');
-            navToggle.style.display = 'flex';
-            navToggle.classList.remove('hidden');
-            isNavExpanded = false;
-        }
-    });
-    
-    function closeNavBar() {
-        if (isNavExpanded) {
-            navBar.classList.remove('mobile-expanded');
-            navBar.classList.add('mobile-collapsing');
-            navToggle.classList.remove('hidden');
-            isNavExpanded = false;
-            
-            setTimeout(() => {
-                navBar.classList.remove('mobile-collapsing');
-                navToggle.style.display = 'flex';
-            }, 150);
-        }
-    }
-    
-    // Function to check welcome screen state
-    function checkWelcomeScreen() {
-        const welcomeScreen = document.querySelector('.welcome-screen');
-        const body = document.body;
-        
-        if (welcomeScreen && !welcomeScreen.classList.contains('hidden')) {
-            body.classList.add('welcome-active');
-            navToggle.style.display = 'none';
-        } else {
-            body.classList.remove('welcome-active');
-            if (window.innerWidth <= 768) {
-                navToggle.style.display = 'flex';
+            if (menuBtn) {
+                menuBtn.style.display = 'block';
+                menuBtn.style.opacity = '1';
+                menuBtn.style.pointerEvents = 'auto';
             }
+            
+            setTimeout(() => {
+                sideMenu.classList.remove('closing');
+                sideMenu.classList.add('hidden');
+            }, 300);
+        }
+        
+        mobileDashboard.classList.remove('hidden');
+        mobileDashboard.classList.add('open');
+        dashboardToggle.classList.add('active');
+        isDashboardOpen = true;
+    }
+    
+    function closeDashboard() {
+        mobileDashboard.classList.remove('open');
+        mobileDashboard.classList.add('closing');
+        dashboardToggle.classList.remove('active');
+        
+        setTimeout(() => {
+            mobileDashboard.classList.remove('closing');
+            mobileDashboard.classList.add('hidden');
+            isDashboardOpen = false;
+        }, 300);
+    }
+    
+    // Dashboard button actions
+    const dashboardBtns = document.querySelectorAll('.dashboard-btn');
+    dashboardBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation(); // Zapobiega propagacji zdarzenia
+            const action = this.dataset.action;
+            const lang = this.dataset.lang;
+            
+            switch(action) {
+                case 'home':
+                    backToHome();
+                    break;
+                case 'profile':
+                    showUserProfile();
+                    break;
+                case 'theme':
+                    toggleDarkMode();
+                    updateDashboardThemeBtn();
+                    break;
+                case 'language-menu':
+                    toggleLanguageSubmenu();
+                    return; // Nie zamykaj dashboardu
+                case 'language':
+                    if (lang) {
+                        switchLanguage(lang);
+                        updateDashboardLanguageBtn();
+                        // Zamknij TYLKO submenu językowe, NIE zamykaj dashboardu
+                        closeLanguageSubmenu();
+                    }
+                    return; // NIE zamykaj dashboardu
+                case 'leapYear':
+                    // Navigate to leap year app
+                    document.querySelector('.tile[data-app="leapYear"]')?.click();
+                    break;
+                case 'matrixCalculator':
+                    // Navigate to matrix calculator app
+                    const matrixTile = document.querySelector('.tile[data-app="matrixCalc"]');
+                    if (matrixTile) {
+                        matrixTile.click();
+                    } else {
+                        // Bezpośrednie przejście do aplikacji
+                        currentScreen = "app";
+                        document.querySelector('.welcome-screen').style.display = 'none';
+                        document.querySelector('.home-screen').style.display = 'none';
+                        document.querySelector('.app-container').style.display = 'block';
+                        
+                        document.querySelectorAll('.app-content').forEach(content => {
+                            content.classList.remove('active');
+                        });
+                        
+                        document.getElementById('matrixCalcApp').classList.add('active');
+                        
+                        const menuBtn = document.getElementById('menuBtn');
+                        if (menuBtn) {
+                            menuBtn.style.display = 'block';
+                            menuBtn.style.opacity = '1';
+                            menuBtn.style.pointerEvents = 'auto';
+                        }
+                        
+                        updateUI();
+                    }
+                    break;
+            }
+            
+            // Zamknij główny dashboard TYLKO dla akcji innych niż language-menu i language
+            if (action !== 'language-menu' && action !== 'language') {
+                closeDashboard();
+            }
+        });
+    });
+    
+    // Obsługa przycisku powrotu w submenu językowym
+    const dashboardBackBtn = document.querySelector('.dashboard-back-btn');
+    dashboardBackBtn?.addEventListener('click', function(e) {
+        e.stopPropagation(); // Zapobiega propagacji zdarzenia
+        closeLanguageSubmenu();
+    });
+    
+    function toggleLanguageSubmenu() {
+        const languageSubmenu = document.getElementById('languageSubmenu');
+        const languageBtn = document.querySelector('[data-action="language-menu"]');
+        
+        if (languageSubmenu && languageBtn) {
+            // Zaktualizuj teksty w submenu przed pokazaniem
+            updateLanguageSubmenuTexts();
+            languageSubmenu.classList.toggle('active');
+            languageBtn.classList.toggle('active');
         }
     }
     
-    // Check on start
-    checkWelcomeScreen();
+    function closeLanguageSubmenu() {
+        const languageSubmenu = document.getElementById('languageSubmenu');
+        const languageBtn = document.querySelector('[data-action="language-menu"]');
+        
+        if (languageSubmenu && languageBtn) {
+            languageSubmenu.classList.remove('active');
+            languageBtn.classList.remove('active');
+        }
+    }
     
-    // Observe welcome screen changes
-    const welcomeScreen = document.querySelector('.welcome-screen');
-    if (welcomeScreen) {
-        const observer = new MutationObserver(checkWelcomeScreen);
-        observer.observe(welcomeScreen, { 
-            attributes: true, 
-            attributeFilter: ['class', 'style'] 
-        });
+    // Close dashboard when clicking outside
+    document.addEventListener('click', function(e) {
+        if (isDashboardOpen && 
+            !mobileDashboard.contains(e.target) && 
+            !dashboardToggle.contains(e.target)) {
+            closeDashboard();
+        }
+    });
+    
+    // Close dashboard on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && isDashboardOpen) {
+            closeDashboard();
+        }
+    });
+    
+    // Hide dashboard on window resize to desktop
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768 && isDashboardOpen) {
+            closeDashboard();
+        }
+    });
+}
+
+function updateDashboardThemeBtn() {
+    const themeBtn = document.querySelector('.dashboard-btn[data-action="theme"]');
+    if (themeBtn) {
+        const icon = themeBtn.querySelector('i');
+        const span = themeBtn.querySelector('span');
+        if (darkMode) {
+            icon.className = 'fas fa-moon';
+            span.textContent = translations[currentLang].lightMode || 'Tryb jasny';
+        } else {
+            icon.className = 'fas fa-sun';
+            span.textContent = translations[currentLang].darkMode || 'Tryb ciemny';
+        }
+    }
+}
+
+function updateDashboardLanguageBtn() {
+    const langBtn = document.querySelector('.dashboard-btn[data-action="language"]');
+    if (langBtn) {
+        const span = langBtn.querySelector('span');
+        const langNames = {
+            pl: 'Polski',
+            en: 'English',
+            de: 'Deutsch'
+        };
+        span.textContent = langNames[currentLang] || 'Język';
     }
 }
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', async () => {
     await loadAllCSS();
-
+    
     setupMenu();
-    setupMobileNav(); // Add mobile nav setup here
+    setupMobileNav();
     initializeUI();
     initializeTheme();
     initializeLeapYear();
@@ -343,3 +474,51 @@ document.addEventListener('DOMContentLoaded', async () => {
         btn.classList.add('show'); // Dodaj animację pojawiania się
     });
 });
+function initializeUI() {
+    if (typeof optimizeProfilePage === 'function') optimizeProfilePage();
+    if (typeof createWaterDrops === 'function') createWaterDrops();
+    
+    const menuBtn = document.getElementById('menuBtn');
+    const globalSideMenu = document.getElementById('globalSideMenu');
+    const mobileDashboard = document.getElementById('mobileDashboard');
+    const dashboardToggle = document.querySelector('.mobile-dashboard-toggle');
+
+    if (currentScreen === "welcome") {
+        // Ukryj wszystkie elementy nawigacji na welcome screen
+        if (menuBtn) {
+            menuBtn.style.display = 'none';
+            menuBtn.style.opacity = '0';
+            menuBtn.style.pointerEvents = 'none';
+        }
+        if (globalSideMenu) {
+            globalSideMenu.classList.add('hidden');
+            globalSideMenu.classList.remove('open');
+        }
+        if (mobileDashboard) {
+            mobileDashboard.classList.add('hidden');
+            mobileDashboard.style.display = 'none';
+        }
+        if (dashboardToggle) {
+            dashboardToggle.style.display = 'none';
+            dashboardToggle.style.visibility = 'hidden';
+        }
+    } else {
+        // Pokaż wszystkie elementy nawigacji po welcome screen
+        if (menuBtn) {
+            menuBtn.style.display = 'block';
+            menuBtn.style.opacity = '1';
+            menuBtn.style.pointerEvents = 'auto';
+        }
+        if (globalSideMenu) {
+            globalSideMenu.classList.remove('hidden');
+        }
+        if (mobileDashboard) {
+            mobileDashboard.classList.remove('hidden');
+            mobileDashboard.style.display = '';
+        }
+        if (dashboardToggle && window.innerWidth <= 768) {
+            dashboardToggle.style.display = 'flex';
+            dashboardToggle.style.visibility = 'visible';
+        }
+    }
+}
