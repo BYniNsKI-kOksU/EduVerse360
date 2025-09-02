@@ -325,11 +325,11 @@ function updateDashboardThemeBtn() {
         const icon = themeBtn.querySelector('i');
         const span = themeBtn.querySelector('span');
         if (darkMode) {
-            icon.className = 'fas fa-moon';
-            span.textContent = translations[currentLang].lightMode || 'Tryb jasny';
-        } else {
             icon.className = 'fas fa-sun';
-            span.textContent = translations[currentLang].darkMode || 'Tryb ciemny';
+            span.textContent = translations[currentLang].dashboard.lightMode;
+        } else {
+            icon.className = 'fas fa-moon';
+            span.textContent = translations[currentLang].dashboard.darkMode;
         }
     }
 }

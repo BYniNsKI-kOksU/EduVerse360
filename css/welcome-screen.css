@@ -119,29 +119,6 @@
         padding: 6px 12px;
         top: 65%;
     }
-
-    /* Responsywność macierzy */
-    .matrices-container {
-        flex-direction: column;
-        gap: 15px;
-        padding: 0 10px;
-        align-items: center;
-        justify-content: center;
-        margin-top: 20px;
-    }
-
-    .matrix-frame {
-        transform: scale(0.9);
-        width: 100%;
-        max-width: 350px;
-        margin: 0 auto;
-    }
-
-    .matrix-input {
-        width: 35px;
-        height: 25px;
-        font-size: 0.85rem;
-    }
 }
 
 @media (max-width: 480px) {
@@ -159,36 +136,5 @@
         font-size: 0.8rem;
         padding: 5px 10px;
         top: 68%;
-    }
-
-    /* Responsywność macierzy dla małych ekranów */
-    .matrices-container {
-        flex-direction: column;
-        gap: 10px;
-        padding: 0 5px;
-        align-items: center;
-        margin-top: 15px;
-    }
-
-    .matrix-frame {
-        transform: scale(1);
-        width: 100%;
-        max-width: 280px;
-        margin: 0 auto;
-        padding: 10px;
-    }
-
-    .matrix-input {
-        width: 30px;
-        height: 22px;
-        font-size: 0.8rem;
-        margin: 1px;
-    }
-
-    .matrix-grid {
-        justify-content: center;
-        align-content: center;
-        display: grid;
-        place-items: center;
     }
 }

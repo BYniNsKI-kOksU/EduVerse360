@@ -316,9 +316,7 @@ function updateDashboardUI() {
                 span.textContent = translations[currentLang].dashboard.profile;
                 break;
             case 'theme':
-                span.textContent = darkMode ? 
-                    translations[currentLang].dashboard.lightMode : 
-                    translations[currentLang].dashboard.darkMode;
+                // Usuń tę część - będzie obsługiwana przez updateDashboardThemeBtn()
                 break;
             case 'language-menu':
                 span.textContent = translations[currentLang].dashboard.language;
@@ -349,4 +347,6 @@ function updateDashboardUI() {
     if (backBtn) {
         backBtn.textContent = translations[currentLang].dashboard.back || 'Wstecz';
     }
+
+    updateDashboardThemeBtn();
 }
