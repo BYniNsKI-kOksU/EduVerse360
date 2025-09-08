@@ -86,7 +86,86 @@ const translations = {
             "activity": "Ostatnia aktywność",
             "calculations": "Obliczenia",
             "saved": "Zapisane",
-            "favoritesCount": "Ulubione"
+            "favoritesCount": "Ulubione",
+            "sections": {
+                "statistics": "Statystyki",
+                "quickActions": "Szybkie akcje",
+                "recentActivity": "Ostatnia aktywność",
+                "achievements": "Osiągnięcia"
+            },
+            "stats": {
+                "completedCourses": "Ukończone kursy",
+                "studyTime": "Czas nauki",
+                "achievements": "Osiągnięcia",
+                "averageGrades": "Średnia ocen"
+            },
+            "actions": {
+                "title": "Szybkie akcje",
+                "editProfile": "Edytuj profil",
+                "detailedStats": "Szczegółowe Statystyki",
+                "detailedStatsDesc": "Zobacz pełny raport swojego postępu",
+                "activityDesc": "Przeglądaj swoją historię nauki",
+                "achievementsDesc": "Zobacz pełną listę swoich sukcesów",
+                "settingsDesc": "Personalizuj swoje dane i preferencje"
+            },
+            "modals": {
+                "stats": {
+                    "title": "Szczegółowe Statystyki"
+                },
+                "activity": {
+                    "title": "Ostatnia Aktywność"
+                },
+                "achievements": {
+                    "title": "Wszystkie Osiągnięcia"
+                },
+                "editProfile": {
+                    "title": "Edytuj Profil",
+                    "personalInfo": "Informacje osobiste",
+                    "name": "Imię i nazwisko",
+                    "email": "Adres email",
+                    "preferences": "Preferencje",
+                    "darkMode": "Tryb ciemny",
+                    "language": "Język",
+                    "role": "Rola",
+                    "roles": {
+                        "student": "Student",
+                        "teacher": "Nauczyciel",
+                        "researcher": "Badacz",
+                        "developer": "Programista"
+                    },
+                    "avatar": "Zdjęcie profilowe",
+                    "uploadAvatar": "Prześlij nowe zdjęcie",
+                    "removeAvatar": "Usuń zdjęcie",
+                    "save": "Zapisz zmiany",
+                    "cancel": "Anuluj"
+                }
+            },
+            "form": {
+                "userName": "Nazwa użytkownika",
+                "email": "Email",
+                "role": "Rola",
+                "emailNotifications": "Powiadomienia email",
+                "darkMode": "Tryb ciemny",
+                "saveChanges": "Zapisz zmiany",
+                "cancel": "Anuluj"
+            },
+            "roles": {
+                "student": "Student",
+                "teacher": "Nauczyciel",
+                "administrator": "Administrator"
+            },
+            "notifications": {
+                "profileUpdated": "Profil został zaktualizowany pomyślnie!",
+                "noChanges": "Nie wykryto żadnych zmian.",
+                "passwordChanged": "Hasło zostało zmienione pomyślnie!",
+                "avatarUpdated": "Zdjęcie profilowe zostało zaktualizowane!",
+                "avatarRemoved": "Zdjęcie profilowe zostało usunięte!",
+                "error": "Wystąpił błąd. Spróbuj ponownie.",
+                "invalidFile": "Wybierz poprawny plik obrazu.",
+                "fileTooLarge": "Rozmiar pliku musi być mniejszy niż 5MB.",
+                "nameRequired": "Nazwa użytkownika jest wymagana!",
+                "emailInvalid": "Wprowadź poprawny adres email!"
+            }
         },
         "dashboard": {
             "menu": "Menu",
@@ -95,6 +174,7 @@ const translations = {
             "applications": "Aplikacje",
             "home": "Strona główna",
             "profile": "Profil",
+            "help": "Pomoc",
             "darkMode": "Tryb ciemny",
             "lightMode": "Tryb jasny",
             "language": "Język",
@@ -184,12 +264,93 @@ const translations = {
             "title": "User Profile",
             "edit": "Edit Profile",
             "favorites": "Favorite Calculations",
-            "settings knives": "Settings",
+            "settings": "Settings",
             "password": "Change Password",
             "activity": "Recent Activity",
             "calculations": "Calculations",
             "saved": "Saved",
-            "favoritesCount": "Favorites"
+            "favoritesCount": "Favorites",
+            "statistics": {
+                "title": "Your Statistics",
+                "totalCalculations": "Total Calculations",
+                "favoriteCalculations": "Favorite Calculations",
+                "completedTasks": "Completed Tasks",
+                "accuracy": "Accuracy Rate"
+            },
+            "actions": {
+                "title": "Quick Actions",
+                "editProfile": "Edit Profile",
+                "viewFavorites": "View Favorites", 
+                "openSettings": "Open Settings",
+                "changePassword": "Change Password",
+                "detailedStats": "Detailed Statistics",
+                "detailedStatsDesc": "View your complete progress report",
+                "activityDesc": "Browse your learning history",
+                "achievementsDesc": "View your complete list of achievements",
+                "settingsDesc": "Customize your data and preferences"
+            },
+            "achievements": {
+                "title": "Achievements",
+                "mathExplorer": "Math Explorer",
+                "accuracyMaster": "Accuracy Master",
+                "speedCalculator": "Speed Calculator"
+            },
+            "modals": {
+                "stats": {
+                    "title": "Detailed Statistics"
+                },
+                "activity": {
+                    "title": "Recent Activity"
+                },
+                "achievements": {
+                    "title": "All Achievements"
+                },
+                "editProfile": {
+                    "title": "Edit Profile",
+                    "personalInfo": "Personal Information",
+                    "name": "Full Name",
+                    "email": "Email Address",
+                    "preferences": "Preferences",
+                    "darkMode": "Dark Mode",
+                    "language": "Language",
+                    "role": "Role",
+                    "roles": {
+                        "student": "Student",
+                        "teacher": "Teacher",
+                        "researcher": "Researcher",
+                        "developer": "Developer"
+                    },
+                    "avatar": "Profile Picture",
+                    "uploadAvatar": "Upload New Avatar",
+                    "removeAvatar": "Remove Avatar",
+                    "save": "Save Changes",
+                    "cancel": "Cancel"
+                },
+                "viewFavorites": {
+                    "title": "Favorite Calculations",
+                    "noFavorites": "No favorite calculations yet",
+                    "clearAll": "Clear All",
+                    "close": "Close"
+                },
+                "changePassword": {
+                    "title": "Change Password",
+                    "currentPassword": "Current Password",
+                    "newPassword": "New Password",
+                    "confirmPassword": "Confirm New Password",
+                    "save": "Change Password",
+                    "cancel": "Cancel"
+                }
+            },
+            "notifications": {
+                "profileUpdated": "Profile updated successfully!",
+                "noChanges": "No changes detected.",
+                "passwordChanged": "Password changed successfully!",
+                "avatarUpdated": "Avatar updated successfully!",
+                "avatarRemoved": "Avatar removed successfully!",
+                "error": "An error occurred. Please try again.",
+                "invalidFile": "Please select a valid image file.",
+                "fileTooLarge": "File size must be less than 5MB."
+            }
         },
         "dashboard": {
             "menu": "Menu",
@@ -198,6 +359,7 @@ const translations = {
             "applications": "Applications",
             "home": "Home",
             "profile": "Profile",
+            "help": "Help",
             "darkMode": "Dark mode",
             "lightMode": "Light mode",
             "language": "Language",

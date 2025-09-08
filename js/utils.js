@@ -260,16 +260,37 @@ function backToHome() {
 
 function showUserProfile() {
     currentScreen = "app";
+    
+    // Dodaj klasę dla profilu użytkownika do body
     document.body.classList.add('user-profile-active');
+    
+    // Ukryj inne ekrany
     document.querySelector('.welcome-screen').style.display = 'none';
     document.querySelector('.home-screen').style.display = 'none';
     document.querySelector('.app-container').style.display = 'block';
     
+    // Usuń aktywność z innych aplikacji
     document.querySelectorAll('.app-content').forEach(content => {
         content.classList.remove('active');
     });
     
+    // Aktywuj profil użytkownika
     document.getElementById('userProfileApp').classList.add('active');
+    
+    // Załaduj zapisane dane użytkownika
+    if (typeof userProfileModals !== 'undefined') {
+        userProfileModals.loadSavedSettings();
+    }
+    
+    // Aktualizuj tłumaczenia profilu użytkownika
+    if (typeof updateUserProfileTranslations === 'function') {
+        updateUserProfileTranslations();
+    }
+    
+    // Inicjalizuj tło matematyczne
+    if (typeof initMathBackground === 'function') {
+        initMathBackground();
+    }
     
     const navBarLangBtn = document.querySelector('.nav-bar .lang-btn');
     if (navBarLangBtn) {
@@ -282,14 +303,13 @@ function showUserProfile() {
         navBarLangBtn.style.backgroundImage = `url(${flags[currentLang]})`;
     }
 
-    // Upewnij się, że animacja user-btn jest aktywna
+    // Aktywuj animację przycisku użytkownika
     const userBtn = document.querySelector('.user-btn');
     if (userBtn) {
         userBtn.style.animation = 'rotateAndScale 2s infinite alternate';
         userBtn.style.animationTimingFunction = 'linear';
     }
     
-    createWaterDrops();
     resetMenuState();
     updateUI();
 }

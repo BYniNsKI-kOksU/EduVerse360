@@ -48,6 +48,14 @@ function switchLanguage(lang) {
     } else if (currentScreen === "app") {
         updateUI();
     }
+    
+    // Aktualizuj tłumaczenia profilu użytkownika
+    updateUserProfileTranslations();
+    
+    // Aktualizuj otwarte modały profilu użytkownika
+    if (typeof userProfileModals !== 'undefined' && userProfileModals.currentModal) {
+        userProfileModals.updateModalTranslations();
+    }
 
     const flags = {
         pl: "https://flagcdn.com/w40/pl.png",
@@ -65,6 +73,52 @@ function switchLanguage(lang) {
         updateDashboardUI();
         updateLanguageSubmenuTexts();
     }
+}
+
+// Funkcja do aktualizacji tłumaczeń profilu użytkownika
+function updateUserProfileTranslations() {
+    const translateElements = document.querySelectorAll('[data-translate-key]');
+    
+    translateElements.forEach(element => {
+        const key = element.getAttribute('data-translate-key');
+        if (key) {
+            const keys = key.split('.');
+            let translation = translations[currentLang] || translations['pl'];
+            
+            for (const k of keys) {
+                translation = translation[k];
+                if (!translation) {
+                    // Fallback to Polish if translation not found
+                    translation = translations['pl'];
+                    for (const fallbackKey of keys) {
+                        translation = translation[fallbackKey];
+                        if (!translation) break;
+                    }
+                    break;
+                }
+            }
+            
+            if (translation) {
+                element.textContent = translation;
+            }
+        }
+    });
+}
+
+function updateHomeUI() {
+    updateUserProfileTranslations();
+}
+
+function updateDashboardUI() {
+    updateUserProfileTranslations();
+}
+
+function updateUI() {
+    updateUserProfileTranslations();
+}
+
+function updateWelcomeScreen() {
+    updateUserProfileTranslations();
 }
 
 function toggleDarkMode() {
@@ -107,6 +161,19 @@ function initializeTheme() {
             themeToggleBtn.classList.add('light');
         }
     }
+}
+
+// Load saved dark mode preference
+function loadSavedDarkMode() {
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'enabled') {
+        document.body.classList.add('dark-mode');
+        darkMode = true;
+    } else if (savedDarkMode === 'disabled') {
+        document.body.classList.remove('dark-mode');
+        darkMode = false;
+    }
+    // If no preference saved, use system default or keep current state
 }
 
 // Funkcja globalna do aktualizacji tekstów w submenu językowym
@@ -350,6 +417,9 @@ function updateDashboardLanguageBtn() {
 // Initialize the application
 document.addEventListener('DOMContentLoaded', async () => {
     await loadAllCSS();
+    
+    // Load saved dark mode preference
+    loadSavedDarkMode();
     
     setupMenu();
     setupMobileNav();

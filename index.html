@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="css/side-menu.css">
     <link rel="stylesheet" href="css/welcome-screen.css">
     <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/new-user-profile.css">
+    <link rel="stylesheet" href="css/user-profile-modals.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- Poprawiono Font Awesome -->
 </head>
 <body>
@@ -48,7 +50,7 @@
                 </button>
             </div>
             <div class="dashboard-section">
-                <h4>Aplikacje</h4>
+                <h4 data-translate-key="dashboard.applications">Aplikacje</h4>
                 <button class="dashboard-btn" data-action="leapYear">
                     <i class="fas fa-calendar-alt"></i>
                     <span>Rok przestępny</span>
@@ -172,13 +174,13 @@
         <button id="closeSideMenuBtn" class="close-side-menu-btn">✖</button>
 
         <div id="homeMenuItem" class="menu-item" style="--menu-item-index: 0;">Strona główna</div>
-        <div id="appMenuItem" class="menu-item" style="--menu-item-index: 1;">Aplikacje</div>
+        <div id="appMenuItem" class="menu-item" style="--menu-item-index: 1;" data-translate-key="dashboard.applications">Aplikacje</div>
         <div id="appSubmenu" class="submenu">
             <div class="back-btn">←</div>
             <div class="submenu-item" data-app="leapYear">Badacz roku przestępnego</div>
             <div class="submenu-item" data-app="matrixCalc">Kalkulator macierzy</div>
         </div>
-        <div id="helpMenuItem" class="menu-item" style="--menu-item-index: 2;">Pomoc</div>
+        <div id="helpMenuItem" class="menu-item" style="--menu-item-index: 2;" data-translate-key="dashboard.help">Pomoc</div>
         <div id="helpSubmenu" class="submenu">
             <div class="back-btn">←</div>
             <div class="submenu-item">O aplikacji</div>
@@ -298,71 +300,269 @@
     </div>
 
     <div id="userProfileApp" class="app-content">
-    <div class="user-profile-container">
-        <div class="user-avatar">👤</div>
-        <div>
-            <h2 class="user-name">Jan Kowalski</h2>
-            <p class="user-email">jan.kowalski@example.com</p>
-        </div>
-        
-        <div class="user-stats">
-            <div class="stat-item">
-                <div class="stat-value">24</div>
-                <div class="stat-label">Obliczenia</div>
+        <div class="modern-user-profile">
+            <!-- Floating particles background -->
+            <div class="profile-particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
             </div>
-            <div class="stat-item">
-                <div class="stat-value">5</div>
-                <div class="stat-label">Zapisane</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">3</div>
-                <div class="stat-label">Ulubione</div>
-            </div>
-        </div>
-        
-        <div class="user-actions">
-            <button class="action-btn">
-                <span>✏️</span> Edytuj profil
-            </button>
-            <button class="action-btn">
-                <span>⭐</span> Ulubione obliczenia
-            </button>
-            <button class="action-btn">
-                <span>⚙️</span> Ustawienia
-            </button>
-            <button class="action-btn">
-                <span>🔒</span> Zmień hasło
-            </button>
-        </div>
-        
-        <div class="recent-activity">
-            <h3 class="activity-title">
-                <span>📝</span> Ostatnia aktywność
-            </h3>
-            <div class="activity-item">
-                <div class="activity-icon">🧮</div>
-                <div class="activity-details">
-                    <div class="activity-description">Obliczono wyznacznik macierzy 3x3</div>
-                    <div class="activity-time">2 godziny temu</div>
+            
+            <!-- Profile Hero Section -->
+            <div class="profile-hero">
+                <div class="profile-avatar-section">
+                    <div class="avatar-wrapper">
+                        <div class="avatar-ring pulse-ring"></div>
+                        <div class="avatar-image">
+                            <div class="avatar-placeholder">JK</div>
+                            <div class="online-indicator"></div>
+                        </div>
+                        <button class="change-avatar-btn" onclick="userProfileModals.handleAvatarUpload()">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="profile-info">
+                    <h1 class="profile-name">Jan Kowalski</h1>
+                    <p class="profile-role">Matematyk • Student</p>
+                    <p class="profile-email">jan.kowalski@example.com</p>
+                    <div class="profile-level">
+                        <span class="level-badge">Poziom 12</span>
+                        <div class="level-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%"></div>
+                            </div>
+                            <span class="progress-text">750/1000 XP</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="activity-item">
-                <div class="activity-icon">📆</div>
-                <div class="activity-details">
-                    <div class="activity-description">Sprawdzono rok przestępny: 2024</div>
-                    <div class="activity-time">Wczoraj, 14:30</div>
+
+            <!-- Statistics Grid -->
+            <div class="stats-section">
+                <h2 class="section-header">
+                    <i class="fas fa-chart-bar"></i>
+                    <span data-translate-key="userProfile.statistics.title">Twoje statystyki</span>
+                </h2>
+                <div class="stats-grid">
+                    <div class="stat-card primary">
+                        <div class="stat-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-number">124</div>
+                            <div class="stat-label" data-translate-key="userProfile.statistics.totalCalculations">Obliczenia</div>
+                            <div class="stat-change positive">+8 w tym tygodniu</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-number">18h</div>
+                            <div class="stat-label">Czas aktywności</div>
+                            <div class="stat-change positive">+3h dziś</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-number">7</div>
+                            <div class="stat-label">Osiągnięcia</div>
+                            <div class="stat-change neutral">2 w tym miesiącu</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-number">23</div>
+                            <div class="stat-label" data-translate-key="userProfile.favoritesCount">Ulubione</div>
+                            <div class="stat-change positive">+5 ostatnio</div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="activity-item">
-                <div class="activity-icon">🧮</div>
-                <div class="activity-details">
-                    <div class="activity-description">Dodano nową macierz do ulubionych</div>
-                    <div class="activity-time">3 dni temu</div>
+
+            <!-- Quick Actions -->
+            <div class="actions-section">
+                <h2 class="section-header">
+                    <i class="fas fa-bolt"></i>
+                    <span data-translate-key="userProfile.actions.title">Szybkie akcje</span>
+                </h2>
+                <div class="actions-grid">
+                    <button class="action-card featured" onclick="userProfileModals.openModal('stats')">
+                        <div class="action-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3 data-translate-key="userProfile.actions.detailedStats">Szczegółowe Statystyki</h3>
+                            <p data-translate-key="userProfile.actions.detailedStatsDesc">Zobacz pełny raport swojego postępu</p>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </button>
+                    
+                    <button class="action-card" onclick="userProfileModals.openModal('activity')">
+                        <div class="action-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3 data-translate-key="userProfile.activity">Ostatnia Aktywność</h3>
+                            <p data-translate-key="userProfile.actions.activityDesc">Przeglądaj swoją historię nauki</p>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </button>
+                    
+                    <button class="action-card" onclick="userProfileModals.openModal('achievements')">
+                        <div class="action-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3 data-translate-key="userProfile.achievements.title">Wszystkie Osiągnięcia</h3>
+                            <p data-translate-key="userProfile.actions.achievementsDesc">Zobacz pełną listę swoich sukcesów</p>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </button>
+                    
+                    <button class="action-card" onclick="userProfileModals.openModal('settings')">
+                        <div class="action-icon">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3 data-translate-key="userProfile.actions.editProfile">Ustawienia Profilu</h3>
+                            <p data-translate-key="userProfile.actions.settingsDesc">Personalizuj swoje dane i preferencje</p>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Activity Timeline -->
+            <div class="timeline-section">
+                <h2 class="section-header">
+                    <i class="fas fa-history"></i>
+                    Ostatnia aktywność
+                </h2>
+                <div class="activity-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot matrix"></div>
+                        <div class="timeline-content">
+                            <div class="activity-header">
+                                <h4>Obliczenie macierzy 3x3</h4>
+                                <span class="activity-time">2 godziny temu</span>
+                            </div>
+                            <p>Wyznacznik macierzy obliczony metodą Sarrusa</p>
+                            <div class="activity-tags">
+                                <span class="tag">Macierze</span>
+                                <span class="tag">Wyznacznik</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot leap-year"></div>
+                        <div class="timeline-content">
+                            <div class="activity-header">
+                                <h4>Sprawdzenie roku przestępnego</h4>
+                                <span class="activity-time">Wczoraj</span>
+                            </div>
+                            <p>Rok 2024 zweryfikowany jako przestępny</p>
+                            <div class="activity-tags">
+                                <span class="tag">Kalendarz</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot achievement"></div>
+                        <div class="timeline-content">
+                            <div class="activity-header">
+                                <h4>Nowe osiągnięcie!</h4>
+                                <span class="activity-time">3 dni temu</span>
+                            </div>
+                            <p>Odblokowano "Mistrz macierzy" - 100 obliczeń</p>
+                            <div class="activity-tags">
+                                <span class="tag achievement">Osiągnięcie</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievement Showcase -->
+            <div class="achievements-section">
+                <h2 class="section-header">
+                    <i class="fas fa-medal"></i>
+                    Osiągnięcia
+                </h2>
+                <div class="achievements-grid">
+                    <div class="achievement-card unlocked">
+                        <div class="achievement-icon">🏆</div>
+                        <div class="achievement-info">
+                            <h3>Pierwszy krok</h3>
+                            <p>Wykonaj pierwsze obliczenie</p>
+                            <span class="unlock-date">Odblokowane 15 marca</span>
+                        </div>
+                    </div>
+                    
+                    <div class="achievement-card unlocked">
+                        <div class="achievement-icon">🧮</div>
+                        <div class="achievement-info">
+                            <h3>Mistrz macierzy</h3>
+                            <p>Wykonaj 100 obliczeń macierzowych</p>
+                            <span class="unlock-date">Odblokowane 3 dni temu</span>
+                        </div>
+                    </div>
+                    
+                    <div class="achievement-card locked">
+                        <div class="achievement-icon">🔥</div>
+                        <div class="achievement-info">
+                            <h3>Seria 7 dni</h3>
+                            <p>Używaj aplikacji przez 7 dni z rzędu</p>
+                            <div class="progress-indicator">
+                                <div class="progress-bar small">
+                                    <div class="progress-fill" style="width: 57%"></div>
+                                </div>
+                                <span>4/7 dni</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="achievement-card locked">
+                        <div class="achievement-icon">⭐</div>
+                        <div class="achievement-info">
+                            <h3>Kolekcjoner</h3>
+                            <p>Zapisz 50 obliczeń w ulubionych</p>
+                            <div class="progress-indicator">
+                                <div class="progress-bar small">
+                                    <div class="progress-fill" style="width: 46%"></div>
+                                </div>
+                                <span>23/50</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
     <script src="js/translations.js"></script>
     <script src="js/script.js"></script>
@@ -371,5 +571,6 @@
     <script src="js/matrixCalculator.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/utils.js"></script>
+    <script src="js/user-profile-modals.js"></script>
 </body>
 </html>
