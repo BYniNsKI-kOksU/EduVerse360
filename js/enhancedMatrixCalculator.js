@@ -10,9 +10,17 @@ class EnhancedMatrixCalculator {
 
     init() {
         console.log('Enhanced Matrix Calculator initializing...');
+        
+        // Check if we're in the correct app context
+        const app = document.getElementById('matrixCalculatorApp');
+        if (!app) {
+            console.warn('Enhanced Matrix Calculator - matrixCalculatorApp not found');
+            return;
+        }
+        
         this.bindEvents();
         this.initializeMatrix();
-        console.log('Enhanced Matrix Calculator initialized.');
+        console.log('Enhanced Matrix Calculator initialized successfully.');
     }
 
     createHTML() {
@@ -25,6 +33,58 @@ class EnhancedMatrixCalculator {
         this.createMatrixGrid('A', 3, 3);
         this.currentMatrix = 'A';
         this.currentOperation = 'eigenvalues';
+    }
+
+    createMatrixGrid(matrixId, rows, cols) {
+        const container = document.getElementById(`enhanced${matrixId === 'A' ? 'MatrixAGrid' : 'MatrixBGrid'}`);
+        if (!container) {
+            console.error(`Container for matrix ${matrixId} not found`);
+            return;
+        }
+
+        container.innerHTML = '';
+        container.style.display = 'grid';
+        container.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+        container.style.gap = '8px';
+
+        // Create matrix inputs
+        for (let i = 0; i < rows; i++) {
+            for (let j = 0; j < cols; j++) {
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.step = 'any';
+                input.className = 'matrix-input';
+                input.dataset.row = i;
+                input.dataset.col = j;
+                input.dataset.matrix = matrixId;
+                input.placeholder = '0';
+                input.value = '0';
+                
+                // Add event listener for updating matrix data
+                input.addEventListener('input', () => {
+                    this.updateMatrixFromGrid(matrixId, rows, cols);
+                });
+                
+                container.appendChild(input);
+            }
+        }
+
+        // Initialize matrix data structure
+        this.matrices[matrixId] = Array(rows).fill().map(() => Array(cols).fill(0));
+        this.updateMatrixFromGrid(matrixId, rows, cols);
+    }
+
+    updateMatrixFromGrid(matrixId, rows, cols) {
+        const matrix = [];
+        for (let i = 0; i < rows; i++) {
+            matrix[i] = [];
+            for (let j = 0; j < cols; j++) {
+                const input = document.querySelector(`input[data-matrix="${matrixId}"][data-row="${i}"][data-col="${j}"]`);
+                matrix[i][j] = parseFloat(input ? input.value : 0) || 0;
+            }
+        }
+        this.matrices[matrixId] = matrix;
+        console.log(`Matrix ${matrixId} updated:`, matrix);
     }
 
     bindEvents() {
@@ -97,13 +157,16 @@ class EnhancedMatrixCalculator {
         // Compute button
         const computeBtn = document.getElementById('enhancedComputeBtn');
         if (computeBtn) {
-            computeBtn.addEventListener('click', () => this.performOperation());
+            computeBtn.addEventListener('click', () => {
+                console.log('Compute button clicked for operation:', this.currentOperation);
+                this.performOperation(this.currentOperation);
+            });
         }
 
         // Clear button
         const clearBtn = document.getElementById('enhancedClearBtn');
         if (clearBtn) {
-            clearBtn.addEventListener('click', () => this.clearResults());
+            clearBtn.addEventListener('click', () => this.clearMatrix());
         }
         
         // Clear history button (if exists)
@@ -178,21 +241,9 @@ class EnhancedMatrixCalculator {
     }
 
     updateMatrix(matrixId) {
-        const inputs = document.querySelectorAll(`input[data-matrix="${matrixId}"]`);
-        const rows = parseInt(document.getElementById('matrixRows').value);
-        const cols = parseInt(document.getElementById('matrixCols').value);
-        
-        const matrix = [];
-        for (let i = 0; i < rows; i++) {
-            matrix[i] = [];
-            for (let j = 0; j < cols; j++) {
-                const input = document.querySelector(`input[data-matrix="${matrixId}"][data-row="${i}"][data-col="${j}"]`);
-                matrix[i][j] = parseFloat(input.value) || 0;
-            }
-        }
-        
-        this.matrices[matrixId] = matrix;
-        this.updateMatrixInfo();
+        // This method is not needed for enhanced matrix calculator
+        // as we use updateMatrixFromGrid instead
+        console.log('updateMatrix called for:', matrixId);
     }
 
     fillMatrix(type) {
@@ -223,48 +274,56 @@ class EnhancedMatrixCalculator {
     }
 
     clearMatrix() {
-        const matrixId = this.currentMatrix;
-        const inputs = document.querySelectorAll(`input[data-matrix="${matrixId}"]`);
+        // Clear matrix A
+        const inputs = document.querySelectorAll(`#enhancedMatrixAGrid input[data-matrix="A"]`);
         
         inputs.forEach(input => {
-            input.value = '';
+            input.value = '0';
         });
         
-        this.updateMatrix(matrixId);
+        // Clear results
+        this.clearResults();
+        
+        // Update matrix data
+        if (this.matrices.A) {
+            for (let i = 0; i < this.matrices.A.length; i++) {
+                for (let j = 0; j < this.matrices.A[i].length; j++) {
+                    this.matrices.A[i][j] = 0;
+                }
+            }
+        }
+    }
+
+    clearResults() {
+        const resultBox = document.getElementById('enhancedResultBox');
+        if (resultBox) {
+            resultBox.innerHTML = '<div class="default-result-text">Wprowadź macierz i wybierz operację</div>';
+        }
+        
+        const errorMessage = document.getElementById('enhancedErrorMessage');
+        if (errorMessage) {
+            errorMessage.textContent = '';
+            errorMessage.style.display = 'none';
+        }
+        
+        const solutionBox = document.getElementById('enhancedSolutionBox');
+        if (solutionBox) {
+            solutionBox.innerHTML = '';
+        }
     }
 
     performOperation(operation) {
         try {
+            console.log('Performing operation:', operation);
+            console.log('Matrix A:', this.matrices.A);
+            
+            if (!this.matrices.A || this.matrices.A.length === 0) {
+                throw new Error('Macierz A musi być wypełniona');
+            }
+            
             let result;
             
             switch (operation) {
-                case 'add':
-                    result = this.addMatrices();
-                    break;
-                case 'subtract':
-                    result = this.subtractMatrices();
-                    break;
-                case 'multiply':
-                    result = this.multiplyMatrices();
-                    break;
-                case 'scalar':
-                    this.showScalarInput();
-                    return;
-                case 'determinant':
-                    result = this.calculateDeterminant();
-                    break;
-                case 'transpose':
-                    result = this.transposeMatrix();
-                    break;
-                case 'trace':
-                    result = this.calculateTrace();
-                    break;
-                case 'rank':
-                    result = this.calculateRank();
-                    break;
-                case 'inverse':
-                    result = this.calculateInverse();
-                    break;
                 case 'eigenvalues':
                     result = this.calculateEigenvalues();
                     break;
@@ -274,13 +333,38 @@ class EnhancedMatrixCalculator {
                 case 'lup':
                     result = this.calculateLUP();
                     break;
+                case 'trace':
+                    result = this.calculateTrace();
+                    break;
+                case 'rank':
+                    result = this.calculateRank();
+                    break;
+                case 'determinant':
+                    result = this.calculateDeterminant();
+                    break;
+                case 'transpose':
+                    result = this.transposeMatrix();
+                    break;
+                case 'inverse':
+                    result = this.calculateInverse();
+                    break;
+                case 'norm':
+                    result = this.calculateNorm();
+                    break;
+                default:
+                    throw new Error(`Nieznana operacja: ${operation}`);
             }
+            
+            console.log('Operation result:', result);
             
             if (result) {
                 this.displayResult(result);
                 this.addToHistory(result);
+            } else {
+                throw new Error('Brak wyniku operacji');
             }
         } catch (error) {
+            console.error('Error in performOperation:', error);
             this.showError(error.message);
         }
     }
@@ -455,7 +539,7 @@ class EnhancedMatrixCalculator {
 
     calculateTrace() {
         const matrix = this.matrices.A;
-        if (!matrix) {
+        if (!matrix || matrix.length === 0) {
             throw new Error('Macierz A musi być wypełniona');
         }
         
@@ -463,20 +547,110 @@ class EnhancedMatrixCalculator {
             throw new Error('Ślad można obliczyć tylko dla macierzy kwadratowych');
         }
         
-        const trace = matrix.reduce((sum, row, i) => sum + row[i], 0);
+        const trace = matrix.reduce((sum, row, i) => sum + (row[i] || 0), 0);
         
         return {
             operation: 'Ślad macierzy',
             formula: 'tr(A)',
             result: trace,
             type: 'scalar',
-            interpretation: `Suma elementów na głównej przekątnej`
+            interpretation: `Suma elementów na głównej przekątnej: ${trace}`
+        };
+    }
+
+    transposeMatrix() {
+        const matrix = this.matrices.A;
+        if (!matrix || matrix.length === 0) {
+            throw new Error('Macierz A musi być wypełniona');
+        }
+        
+        const transposed = matrix[0].map((_, colIndex) => 
+            matrix.map(row => row[colIndex] || 0)
+        );
+        
+        return {
+            operation: 'Transpozycja macierzy',
+            formula: 'A^T',
+            result: transposed,
+            type: 'matrix',
+            interpretation: 'Macierz po zamianie wierszy i kolumn'
+        };
+    }
+
+    calculateNorm() {
+        const matrix = this.matrices.A;
+        if (!matrix || matrix.length === 0) {
+            throw new Error('Macierz A musi być wypełniona');
+        }
+        
+        // Frobenius norm
+        let sum = 0;
+        for (let i = 0; i < matrix.length; i++) {
+            for (let j = 0; j < matrix[i].length; j++) {
+                sum += Math.pow(matrix[i][j] || 0, 2);
+            }
+        }
+        const norm = Math.sqrt(sum);
+        
+        return {
+            operation: 'Norma macierzy (Frobenius)',
+            formula: '||A||_F = √(Σ|a_ij|²)',
+            result: norm,
+            type: 'scalar',
+            interpretation: `Norma Frobeniusa: ${norm.toFixed(6)}`
+        };
+    }
+
+    calculateDeterminant() {
+        const matrix = this.matrices.A;
+        if (!matrix || matrix.length === 0) {
+            throw new Error('Macierz A musi być wypełniona');
+        }
+        
+        if (matrix.length !== matrix[0].length) {
+            throw new Error('Wyznacznik można obliczyć tylko dla macierzy kwadratowych');
+        }
+        
+        const det = this.determinant(matrix);
+        
+        return {
+            operation: 'Wyznacznik macierzy',
+            formula: 'det(A)',
+            result: det,
+            type: 'scalar',
+            interpretation: `Wyznacznik: ${det}`
+        };
+    }
+
+    calculateInverse() {
+        const matrix = this.matrices.A;
+        if (!matrix || matrix.length === 0) {
+            throw new Error('Macierz A musi być wypełniona');
+        }
+        
+        if (matrix.length !== matrix[0].length) {
+            throw new Error('Macierz odwrotna istnieje tylko dla macierzy kwadratowych');
+        }
+        
+        const det = this.determinant(matrix);
+        if (Math.abs(det) < 1e-10) {
+            throw new Error('Macierz jest osobliwa (wyznacznik = 0)');
+        }
+        
+        const inverse = this.matrixInverse(matrix);
+        
+        return {
+            operation: 'Macierz odwrotna',
+            formula: 'A^(-1)',
+            result: inverse,
+            type: 'matrix',
+            interpretation: 'Macierz odwrotna do A'
         };
     }
 
     calculateRank() {
         const matrix = this.matrices.A;
-        if (!matrix) {
+        if (!matrix || matrix.length === 0) {
             throw new Error('Macierz A musi być wypełniona');
         }
         
@@ -484,7 +658,7 @@ class EnhancedMatrixCalculator {
         let rank = 0;
         
         for (let i = 0; i < rref.length; i++) {
-            const hasNonZero = rref[i].some(val => Math.abs(val) > 1e-10);
+            const hasNonZero = rref[i].some(val => Math.abs(val || 0) > 1e-10);
             if (hasNonZero) rank++;
         }
         
@@ -493,7 +667,7 @@ class EnhancedMatrixCalculator {
             formula: 'rank(A)',
             result: rank,
             type: 'scalar',
-            interpretation: `Liczba liniowo niezależnych wierszy/kolumn`
+            interpretation: `Rząd macierzy: ${rank} (liczba liniowo niezależnych wierszy/kolumn)`
         };
     }
 
@@ -767,69 +941,80 @@ class EnhancedMatrixCalculator {
     }
 
     displayResult(result) {
-        const container = document.getElementById('resultsSection');
-        
-        let resultHTML = `
-            <div class="matrix-result">
-                <div class="result-header">
-                    <h3>${result.operation}</h3>
-                    <span class="formula">${result.formula}</span>
+        const resultBox = document.getElementById('enhancedResultBox');
+        if (!resultBox) return;
+
+        resultBox.innerHTML = '';
+
+        if (result.type === 'matrix') {
+            const resultDiv = document.createElement('div');
+            resultDiv.innerHTML = `
+                <h4>${result.operation}</h4>
+                <p><strong>Formuła:</strong> ${result.formula}</p>
+                <div class="matrix-display">
+                    ${this.formatMatrixResult(result.result)}
                 </div>
-                <div class="result-content">
-        `;
-        
-        switch (result.type) {
-            case 'matrix':
-                resultHTML += this.formatMatrixResult(result.result);
-                break;
-            case 'scalar':
-                resultHTML += `<div class="scalar-result">${result.result.toFixed(6)}</div>`;
-                break;
-            case 'eigenvalues':
-                resultHTML += this.formatEigenvaluesResult(result.result);
-                break;
-            case 'lup':
-                resultHTML += this.formatLUPResult(result.result);
-                break;
+            `;
+            resultBox.appendChild(resultDiv);
+        } else if (result.type === 'scalar') {
+            const resultDiv = document.createElement('div');
+            resultDiv.innerHTML = `
+                <h4>${result.operation}</h4>
+                <p><strong>Wynik:</strong> ${result.result}</p>
+                ${result.description ? `<p><small>${result.description}</small></p>` : ''}
+            `;
+            resultBox.appendChild(resultDiv);
+        } else if (result.type === 'eigenvalues') {
+            const resultDiv = document.createElement('div');
+            resultDiv.innerHTML = `
+                <h4>${result.operation}</h4>
+                <div class="eigenvalues-display">
+                    ${this.formatEigenvaluesResult(result)}
+                </div>
+            `;
+            resultBox.appendChild(resultDiv);
+        } else {
+            const resultDiv = document.createElement('div');
+            resultDiv.innerHTML = `
+                <h4>${result.operation}</h4>
+                <p><strong>Wynik:</strong> ${JSON.stringify(result.result)}</p>
+            `;
+            resultBox.appendChild(resultDiv);
         }
-        
-        if (result.interpretation) {
-            resultHTML += `<div class="result-interpretation">${result.interpretation}</div>`;
-        }
-        
-        if (result.verification) {
-            resultHTML += `<div class="result-verification">${result.verification}</div>`;
-        }
-        
-        resultHTML += `</div></div>`;
-        
-        container.innerHTML = resultHTML;
     }
 
     formatMatrixResult(matrix) {
-        return `
-            <div class="matrix-display">
-                ${matrix.map(row => 
-                    `<div class="matrix-row">
-                        ${row.map(val => `<span class="matrix-element">${val.toFixed(4)}</span>`).join('')}
-                    </div>`
-                ).join('')}
-            </div>
-        `;
+        let html = '<div class="matrix-brackets">[';
+        for (let i = 0; i < matrix.length; i++) {
+            html += '<div class="matrix-row">';
+            for (let j = 0; j < matrix[i].length; j++) {
+                const value = typeof matrix[i][j] === 'number' 
+                    ? matrix[i][j].toFixed(3).replace(/\.?0+$/, '') 
+                    : matrix[i][j];
+                html += `<span class="matrix-cell">${value}</span>`;
+            }
+            html += '</div>';
+        }
+        html += ']</div>';
+        return html;
     }
 
-    formatEigenvaluesResult(eigenvalues) {
-        return `
-            <div class="eigenvalues-result">
-                ${eigenvalues.map(val => {
-                    if (typeof val === 'object') {
-                        return `<div class="eigenvalue complex">${val.real.toFixed(4)} ${val.imag >= 0 ? '+' : ''}${val.imag.toFixed(4)}i</div>`;
-                    } else {
-                        return `<div class="eigenvalue real">${val.toFixed(4)}</div>`;
-                    }
-                }).join('')}
-            </div>
-        `;
+    formatEigenvaluesResult(result) {
+        if (result.eigenvalues) {
+            let html = '<div class="eigenvalues-list">';
+            result.eigenvalues.forEach((value, index) => {
+                const formattedValue = typeof value === 'number' 
+                    ? value.toFixed(6).replace(/\.?0+$/, '') 
+                    : value;
+                html += `<div class="eigenvalue">λ₍${index + 1}₎ = ${formattedValue}</div>`;
+            });
+            html += '</div>';
+            if (result.type) {
+                html += `<p><small>Typ: ${result.type === 'real' ? 'wartości rzeczywiste' : 'wartości zespolone'}</small></p>`;
+            }
+            return html;
+        }
+        return '<p>Nie można obliczyć wartości własnych</p>';
     }
 
     formatLUPResult(lup) {
@@ -876,12 +1061,17 @@ class EnhancedMatrixCalculator {
     }
 
     addToHistory(result) {
-        this.results.unshift(result);
-        if (this.results.length > 5) {
-            this.results.pop();
+        this.results.push({
+            ...result,
+            timestamp: new Date().toLocaleTimeString()
+        });
+        
+        // Keep only last 10 results
+        if (this.results.length > 10) {
+            this.results.shift();
         }
         
-        this.updateHistoryDisplay();
+        console.log('Result added to history:', result);
     }
 
     updateHistoryDisplay() {
@@ -1237,6 +1427,26 @@ class EnhancedMatrixCalculator {
             note: 'Uproszczona wersja SVD - pokazuje tylko wartości osobliwe'
         };
     }
+
+    showError(message) {
+        const errorDiv = document.getElementById('enhancedErrorMessage');
+        if (errorDiv) {
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            errorDiv.style.color = 'red';
+            errorDiv.style.padding = '10px';
+            errorDiv.style.marginTop = '10px';
+            errorDiv.style.borderRadius = '5px';
+            errorDiv.style.backgroundColor = 'rgba(255, 0, 0, 0.1)';
+            
+            // Auto-hide error after 5 seconds
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        } else {
+            console.error(message);
+        }
+    }
 }
 
 // Enhanced matrix calculator will be initialized when needed by the main app
@@ -1244,9 +1454,11 @@ class EnhancedMatrixCalculator {
 // Size menu functions for enhanced matrix calculator
 function toggleSizeMenuEnhanced(matrixId) {
     const sizeMenu = document.getElementById(`enhancedSizeMenu${matrixId}`);
-    const resizeIcon = sizeMenu.previousElementSibling;
     
-    if (!sizeMenu) return;
+    if (!sizeMenu) {
+        console.error(`Size menu not found for matrix ${matrixId}`);
+        return;
+    }
     
     // Close any other open size menus
     document.querySelectorAll('#matrixCalculatorApp .size-menu').forEach(menu => {
@@ -1270,11 +1482,8 @@ function toggleSizeMenuEnhanced(matrixId) {
             sizeMenu.style.display = 'none';
         }, 600);
     } else {
-        // Open menu - position it near the resize icon
-        const iconRect = resizeIcon.getBoundingClientRect();
+        // Open menu with CSS positioning
         sizeMenu.style.display = 'flex';
-        sizeMenu.style.left = (iconRect.left - 85) + 'px';
-        sizeMenu.style.top = (iconRect.bottom + 5) + 'px';
         
         // Add animation delay to size options
         sizeMenu.querySelectorAll('.size-option').forEach((option, index) => {

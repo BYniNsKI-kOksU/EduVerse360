@@ -8,14 +8,14 @@ let darkMode = false;
 function showCloseButton() {
     const closeBtn = document.getElementById('closeUserPageBtn');
     if (closeBtn) {
-        closeBtn.style.display = 'block';
+        closeBtn.classList.add('show');
     }
 }
 
 function hideCloseButton() {
     const closeBtn = document.getElementById('closeUserPageBtn');
     if (closeBtn) {
-        closeBtn.style.display = 'none';
+        closeBtn.classList.remove('show');
     }
 }
 
@@ -405,6 +405,25 @@ function setupMobileNav() {
             closeDashboard();
         }
     });
+    
+    // Close nav lang menu when clicking outside
+    document.addEventListener('click', function(e) {
+        const navLangMenu = document.querySelector('.nav-lang-menu');
+        const langBtn = document.querySelector('.nav-bar .lang-btn');
+        
+        if (navLangMenu && navLangMenu.classList.contains('open') && 
+            !e.target.closest('.nav-lang-menu') && 
+            !e.target.closest('.lang-btn')) {
+            navLangMenu.classList.remove('open');
+            navLangMenu.classList.add('closing');
+            navLangMenu.addEventListener('animationend', () => {
+                if (navLangMenu.classList.contains('closing')) {
+                    navLangMenu.style.display = 'none';
+                    navLangMenu.classList.remove('closing');
+                }
+            }, { once: true });
+        }
+    });
 }
 
 function updateDashboardThemeBtn() {
@@ -442,8 +461,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Load saved dark mode preference
     loadSavedDarkMode();
     
-    // Hide close button on startup
+    // Hide close button on startup and ensure it stays hidden
     hideCloseButton();
+    
+    // Force hide on startup - additional safety
+    setTimeout(() => {
+        if (currentScreen !== "app" || !document.getElementById('userProfileApp')?.classList.contains('active')) {
+            hideCloseButton();
+        }
+    }, 200);
     
     setupMenu();
     setupMobileNav();
@@ -510,54 +536,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // === NAV-BAR LANG MENU ===
-    const langBtn = document.querySelector('.nav-bar .lang-btn');
-    const navLangMenu = document.querySelector('.nav-lang-menu');
-
-    if (langBtn && navLangMenu) {
-        langBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-
-            // Hide welcome lang menu if open
-            const welcomeLangMenu = document.querySelector('.welcome-lang-menu');
-            if (welcomeLangMenu.classList.contains('open')) {
-                welcomeLangMenu.classList.remove('open');
-                welcomeLangMenu.classList.add('closing');
-                welcomeLangMenu.addEventListener('animationend', () => {
-                    welcomeLangMenu.style.display = 'none';
-                    welcomeLangMenu.classList.remove('closing');
-                }, { once: true });
-            }
-
-            if (!navLangMenu.classList.contains('open')) {
-                navLangMenu.classList.remove('closing');
-                navLangMenu.style.display = 'block';
-                navLangMenu.classList.add('open');
-            } else {
-                navLangMenu.classList.remove('open');
-                navLangMenu.classList.add('closing');
-                navLangMenu.addEventListener('animationend', () => {
-                    if (navLangMenu.classList.contains('closing')) {
-                        navLangMenu.style.display = 'none';
-                        navLangMenu.classList.remove('closing');
-                    }
-                }, { once: true });
-            }
-        });
-
-        navLangMenu.addEventListener('click', (e) => {
-            if (e.target.dataset.lang) {
-                switchLanguage(e.target.dataset.lang);
-                navLangMenu.classList.remove('open');
-                navLangMenu.classList.add('closing');
-                navLangMenu.addEventListener('animationend', () => {
-                    navLangMenu.style.display = 'none';
-                    navLangMenu.classList.remove('closing');
-                }, { once: true });
-            }
-            e.stopPropagation();
-        });
-    }
+    // Usunięte - duplikacja kodu obsługi lang-menu (druga wersja jest poniżej)
 
     const defaultLang = "pl";
     const flags = {
@@ -568,7 +547,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Initialize all lang-btn elements with the default flag
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.style.backgroundImage = `url(${flags[defaultLang]})`;
-        btn.classList.add('show'); // Dodaj animację pojawiania się
+        btn.classList.add('show');
     });
 });
 function initializeUI() {
@@ -843,3 +822,131 @@ function transitionToHomeScreen() {
         initializeUI();
     }, 300);
 }
+
+// Function to initialize language menu
+function initializeLanguageMenu() {
+    // Nav-bar language button
+    const langBtn = document.querySelector('.lang-container .lang-btn');
+    const navLangMenu = document.querySelector('.nav-lang-menu');
+    
+    if (langBtn && navLangMenu) {
+        langBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            
+            // Toggle nav lang menu
+            if (navLangMenu.classList.contains('open')) {
+                navLangMenu.classList.remove('open');
+                setTimeout(() => {
+                    navLangMenu.style.display = 'none';
+                }, 300);
+            } else {
+                navLangMenu.style.display = 'block';
+                setTimeout(() => {
+                    navLangMenu.classList.add('open');
+                }, 10);
+            }
+        });
+    }
+
+    // Welcome screen language button
+    const welcomeLangBtn = document.querySelector('.welcome-lang-btn .lang-btn');
+    const welcomeLangMenu = document.querySelector('.welcome-lang-menu');
+    
+    if (welcomeLangBtn && welcomeLangMenu) {
+        welcomeLangBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            
+            // Toggle welcome lang menu
+            if (welcomeLangMenu.classList.contains('open')) {
+                welcomeLangMenu.classList.add('closing');
+                welcomeLangMenu.classList.remove('open');
+                setTimeout(() => {
+                    welcomeLangMenu.classList.remove('closing');
+                }, 600);
+            } else {
+                welcomeLangMenu.classList.add('open');
+                // Add animation delay to items
+                welcomeLangMenu.querySelectorAll('div').forEach((item, index) => {
+                    item.style.setProperty('--i', index);
+                });
+            }
+        });
+    }
+
+    // Language menu items for both menus
+    document.querySelectorAll('.nav-lang-menu div[data-lang], .welcome-lang-menu div[data-lang]').forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const lang = item.getAttribute('data-lang');
+            if (lang) {
+                switchLanguage(lang);
+                
+                // Close menus
+                document.querySelectorAll('.nav-lang-menu').forEach(menu => {
+                    if (menu.classList.contains('open')) {
+                        menu.classList.remove('open');
+                        setTimeout(() => {
+                            menu.style.display = 'none';
+                        }, 300);
+                    }
+                });
+                
+                document.querySelectorAll('.welcome-lang-menu').forEach(menu => {
+                    if (menu.classList.contains('open')) {
+                        menu.classList.add('closing');
+                        menu.classList.remove('open');
+                        setTimeout(() => {
+                            menu.classList.remove('closing');
+                        }, 600);
+                    }
+                });
+            }
+        });
+    });
+
+    // Close language menus when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.lang-container') && !e.target.closest('.welcome-lang-btn') && 
+            !e.target.closest('.nav-lang-menu') && !e.target.closest('.welcome-lang-menu')) {
+            
+            document.querySelectorAll('.nav-lang-menu').forEach(menu => {
+                if (menu.classList.contains('open')) {
+                    menu.classList.remove('open');
+                    setTimeout(() => {
+                        menu.style.display = 'none';
+                    }, 300);
+                }
+            });
+            
+            document.querySelectorAll('.welcome-lang-menu').forEach(menu => {
+                if (menu.classList.contains('open')) {
+                    menu.classList.add('closing');
+                    menu.classList.remove('open');
+                    setTimeout(() => {
+                        menu.classList.remove('closing');
+                    }, 600);
+                }
+            });
+        }
+    });
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing...');
+    
+    // Initialize welcome screen transition
+    initializeWelcomeTransition();
+    
+    // Initialize language menu
+    initializeLanguageMenu();
+    
+    // Initialize calculators
+    initializeCalculators();
+    
+    // Load all CSS files
+    loadAllCSS();
+    
+    // Initialize default language
+    switchLanguage(currentLang);
+});

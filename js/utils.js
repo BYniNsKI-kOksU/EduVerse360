@@ -215,6 +215,11 @@ function backToHome() {
     document.body.classList.remove('user-profile-active');
     hideCloseButton();
     
+    // Force hide close button with additional check
+    setTimeout(() => {
+        hideCloseButton();
+    }, 50);
+    
     document.querySelector('.home-screen').style.display = 'flex';
     document.querySelector('.app-container').style.display = 'none';
     document.getElementById('globalSideMenu').classList.remove('hidden');
@@ -296,13 +301,19 @@ function showUserProfile() {
         const userProfileApp = document.getElementById('userProfileApp');
         const appContainer = document.querySelector('.app-container');
         const homeScreen = document.querySelector('.home-screen');
+        const welcomeScreen = document.querySelector('.welcome-screen');
         
+        // Bardzo restrykcyjne warunki - pokazuj X TYLKO w user profile
         if (userProfileApp && userProfileApp.classList.contains('active') && 
             appContainer && appContainer.style.display === 'block' &&
-            homeScreen && homeScreen.style.display === 'none') {
+            homeScreen && homeScreen.style.display === 'none' &&
+            welcomeScreen && welcomeScreen.style.display === 'none' &&
+            currentScreen === "app") {
             showCloseButton();
+        } else {
+            hideCloseButton();
         }
-    }, 100);
+    }, 150);
     
     // Załaduj zapisane dane użytkownika
     if (typeof userProfileModals !== 'undefined') {
@@ -464,4 +475,4 @@ function goBackToPreviousPage() {
     updateUI();
 }
 
-// Functions showCloseButton and hideCloseButton are now defined in script.js
+// Functions showCloseButton and hideCloseButton are now defined in script.js to avoid loading order issues

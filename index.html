@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="css/user-profile-modals.css">
     <link rel="stylesheet" href="css/new-applications.css">
     <link rel="stylesheet" href="css/advanced-calculators.css">
+    <link rel="stylesheet" href="css/keyboard-shortcuts.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- Poprawiono Font Awesome -->
 </head>
 <body>
@@ -88,14 +89,14 @@
     </div>
 
     <!-- Lang menus moved to body level -->
-    <div class="lang-menu nav-lang-menu">
+    <div class="lang-menu nav-lang-menu" style="display: none;">
         <div data-lang="pl">Polski</div>
         <div data-lang="en">English</div>
         <div data-lang="de">Deutsch</div>
     </div>
     
     <!-- Language submenu for mobile dashboard -->
-    <div class="dashboard-submenu" id="languageSubmenu">
+    <div class="dashboard-submenu" id="languageSubmenu" style="display: none;">
         <button class="dashboard-back-btn">
             <i class="fas fa-arrow-left"></i>
             <span>Wstecz</span>
@@ -114,28 +115,7 @@
         </button>
     </div>
     
-    <!-- Tooltip for keyboard shortcuts (will be added dynamically) -->
-    <div id="keyboardShortcuts" class="keyboard-shortcuts" style="display: none;">
-        <div class="shortcuts-title">Skróty klawiszowe:</div>
-        <div class="shortcut-item">
-            <span class="shortcut-key">Ctrl + M</span>
-            <span class="shortcut-desc">Przełącz między macierzami</span>
-        </div>
-        <div class="shortcut-item">
-            <span class="shortcut-key">Ctrl + 1</span>
-            <span class="shortcut-desc">Przejdź do macierzy A</span>
-        </div>
-        <div class="shortcut-item">
-            <span class="shortcut-key">Ctrl + 2</span>
-            <span class="shortcut-desc">Przejdź do macierzy B</span>
-        </div>
-        <div class="shortcut-item">
-            <span class="shortcut-key">Ctrl + Enter</span>
-            <span class="shortcut-desc">Oblicz wynik</span>
-        </div>
-    </div>
-
-    <div class="lang-menu welcome-lang-menu">
+    <div class="lang-menu welcome-lang-menu" style="display: none;">
         <div data-lang="pl">Polski</div>
         <div data-lang="en">English</div>
         <div data-lang="de">Deutsch</div>
@@ -143,7 +123,7 @@
 
 
     <!-- Size menus moved to body level -->
-    <div id="sizeMenuA" class="size-menu">
+    <div id="sizeMenuA" class="size-menu" style="display: none;">
         <div class="resize-input-group">
             <label for="rowsA">Wiersze:</label>
             <input id="rowsA" type="number" min="1" max="10" value="2" class="size-input">
@@ -158,7 +138,7 @@
         </div>
     </div>
     
-    <div id="sizeMenuB" class="size-menu">
+    <div id="sizeMenuB" class="size-menu" style="display: none;">
         <div class="resize-input-group">
             <label for="rowsB">Wiersze:</label>
             <input id="rowsB" type="number" min="1" max="10" value="2" class="size-input">
@@ -207,7 +187,7 @@
 
     <!-- Home Screen -->
     <div class="home-screen" style="display: none;">
-        <h1 class="home-title" data-translate-key="choose_app">Wybierz aplikacje</h1>
+        <h2 class="home-title" data-translate-key="choose_app">Wybierz aplikacje</h2>
         <div class="tiles">
             <div class="tile" data-app="leapYear">
                 <span class="tile-icon">📆</span>
@@ -276,7 +256,7 @@
                     <div class="operation-selector">
                         <div id="operationLabel" class="operation-label">Operacja:</div>
                         <button id="operationBtn" class="operation-btn">Dodawanie</button>
-                        <div id="operationMenu" class="operation-menu">
+                        <div id="operationMenu" class="operation-menu" style="display: none;">
                             <div class="operation-menu-item" data-op="add">Dodawanie</div>
                             <div class="operation-menu-item" data-op="sub">Odejmowanie</div>
                             <div class="operation-menu-item" data-op="mul">Mnożenie</div>
@@ -289,11 +269,11 @@
                     <div class="method-selector-wrapper" style="display: none;">
                         <div class="method-label">Metoda:</div>
                         <button id="methodBtn" class="method-btn-main">Cramer</button>
-                        <div id="methodSelector" class="method-selector">
-                            <div class="method-menu-item" data-value="value1">Cramer</div>
-                            <div class="method-menu-item" data-value="value2">Eliminacja Gaussa</div>
-                            <div class="method-menu-item" data-value="value3">Gauss-Jordan</div>
-                            <div class="method-menu-item" data-value="value4">Macierz odwrotna</div>
+                        <div id="methodSelector" class="method-selector" style="display: none;">
+                            <div class="method-menu-item" data-value="cramer">Cramer</div>
+                            <div class="method-menu-item" data-value="gauss">Eliminacja Gaussa</div>
+                            <div class="method-menu-item" data-value="gauss-jordan">Gauss-Jordan</div>
+                            <div class="method-menu-item" data-value="inverse">Macierz odwrotna</div>
                         </div>
                     </div>
                 </div>
@@ -301,6 +281,27 @@
                 <div class="action-buttons">
                     <button id="computeBtn" class="btn matrix-btn" tabindex="0">Oblicz</button>
                     <button id="clearBtn" class="btn matrix-btn">Wyczyść</button>
+                </div>
+
+                <!-- Keyboard shortcuts for matrix calculator -->
+                <div id="matrixKeyboardShortcuts" class="keyboard-shortcuts" style="display: none;">
+                    <div class="shortcuts-title">Skróty klawiszowe:</div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + M</span>
+                        <span class="shortcut-desc">Przełącz między macierzami</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + 1</span>
+                        <span class="shortcut-desc">Przejdź do macierzy A</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + 2</span>
+                        <span class="shortcut-desc">Przejdź do macierzy B</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="shortcut-key">Ctrl + Enter</span>
+                        <span class="shortcut-desc">Oblicz wynik</span>
+                    </div>
                 </div>
 
                 <div id="matricesContainer" class="matrices-container">
@@ -473,7 +474,7 @@
                     <div class="operation-selector">
                         <div class="operation-label">Kategoria:</div>
                         <button id="categoryBtn" class="operation-btn">Długość</button>
-                        <div id="categoryMenu" class="operation-menu">
+                        <div id="categoryMenu" class="operation-menu" style="display: none;">
                             <div class="operation-menu-item" data-category="length">Długość</div>
                             <div class="operation-menu-item" data-category="mass">Masa</div>
                             <div class="operation-menu-item" data-category="time">Czas</div>
@@ -522,12 +523,7 @@
                             <div class="unit-input-group">
                                 <label for="toUnit">Na jednostkę:</label>
                                 <select id="toUnit" class="unit-select">
-                                    <option value="m">metr (m)</option>
                                     <option value="cm" selected>centymetr (cm)</option>
-                                    <option value="mm">milimetr (mm)</option>
-                                    <option value="km">kilometr (km)</option>
-                                    <option value="inch">cal (in)</option>
-                                    <option value="ft">stopa (ft)</option>
                                 </select>
                             </div>
                         </div>
@@ -625,7 +621,7 @@
                     <div class="operation-selector">
                         <div class="operation-label">Operacja:</div>
                         <button id="combinatoricsOperationBtn" class="operation-btn">Permutacje P(n,k)</button>
-                        <div id="combinatoricsOperationMenu" class="operation-menu">
+                        <div id="combinatoricsOperationMenu" class="operation-menu" style="display: none;">
                             <div class="operation-menu-item" data-op="permutations">Permutacje P(n,k)</div>
                             <div class="operation-menu-item" data-op="combinations">Kombinacje C(n,k)</div>
                             <div class="operation-menu-item" data-op="factorial">Silnia n!</div>
@@ -705,7 +701,7 @@
                     <div class="operation-selector">
                         <div id="enhancedOperationLabel" class="operation-label">Operacja:</div>
                         <button id="enhancedOperationBtn" class="operation-btn">Wartości własne</button>
-                        <div id="enhancedOperationMenu" class="operation-menu">
+                        <div id="enhancedOperationMenu" class="operation-menu" style="display: none;">
                             <div class="operation-menu-item" data-op="eigenvalues">Wartości własne</div>
                             <div class="operation-menu-item" data-op="eigenvectors">Wektory własne</div>
                             <div class="operation-menu-item" data-op="lup">Rozkład LUP</div>
@@ -720,7 +716,7 @@
                     <div class="method-selector-wrapper" style="display: none;">
                         <div class="method-label">Metoda:</div>
                         <button id="enhancedMethodBtn" class="method-btn-main">Standard</button>
-                        <div id="enhancedMethodSelector" class="method-selector">
+                        <div id="enhancedMethodSelector" class="method-selector" style="display: none;">
                             <div class="method-menu-item" data-value="standard">Standard</div>
                             <div class="method-menu-item" data-value="iterative">Iteracyjna</div>
                             <div class="method-menu-item" data-value="numerical">Numeryczna</div>
@@ -779,33 +775,33 @@
                     <div class="avatar-wrapper">
                         <div class="avatar-ring pulse-ring"></div>
                         <div class="avatar-image">
-                            <div class="avatar-placeholder">JK</div>
-                            <div class="online-indicator"></div>
+                            <div class="avatar-placeholder">G</div>
+                            <div class="online-indicator" style="display: none;"></div>
                         </div>
-                        <button class="change-avatar-btn" onclick="userProfileModals.handleAvatarUpload()">
+                        <button class="change-avatar-btn" onclick="userProfileModals.handleAvatarUpload()" style="display: none;">
                             <i class="fas fa-camera"></i>
                         </button>
                     </div>
                 </div>
                 
                 <div class="profile-info">
-                    <h1 class="profile-name">Jan Kowalski</h1>
-                    <p class="profile-role">Matematyk • Student</p>
-                    <p class="profile-email">jan.kowalski@example.com</p>
-                    <div class="profile-level">
-                        <span class="level-badge">Poziom 12</span>
+                    <h1 class="profile-name">Gość</h1>
+                    <p class="profile-role">Użytkownik • Niezalogowany</p>
+                    <p class="profile-email">Zaloguj się aby zapisać postęp</p>
+                    <div class="profile-level" style="display: none;">
+                        <span class="level-badge">Poziom 0</span>
                         <div class="level-progress">
                             <div class="progress-bar">
-                                <div class="progress-fill" style="width: 75%"></div>
+                                <div class="progress-fill" style="width: 0%"></div>
                             </div>
-                            <span class="progress-text">750/1000 XP</span>
+                            <span class="progress-text">0/100 XP</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Statistics Grid -->
-            <div class="stats-section">
+            <div class="stats-section" style="display: none;">
                 <h2 class="section-header">
                     <i class="fas fa-chart-bar"></i>
                     <span data-translate-key="userProfile.statistics.title">Twoje statystyki</span>
@@ -863,6 +859,9 @@
                     <i class="fas fa-bolt"></i>
                     <span data-translate-key="userProfile.actions.title">Szybkie akcje</span>
                 </h2>
+                <div class="guest-message" style="text-align: center; padding: 20px; color: #888; margin-bottom: 20px;">
+                    <p>Zaloguj się, aby uzyskać dostęp do pełnych funkcji profilu, statystyk i historii aktywności.</p>
+                </div>
                 <div class="actions-grid">
                     <button class="action-card featured" onclick="userProfileModals.openModal('stats')">
                         <div class="action-icon">
@@ -919,7 +918,7 @@
             </div>
 
             <!-- Activity Timeline -->
-            <div class="timeline-section">
+            <div class="timeline-section" style="display: none;">
                 <h2 class="section-header">
                     <i class="fas fa-history"></i>
                     Ostatnia aktywność
@@ -971,7 +970,7 @@
             </div>
 
             <!-- Achievement Showcase -->
-            <div class="achievements-section">
+            <div class="achievements-section" style="display: none;">
                 <h2 class="section-header">
                     <i class="fas fa-medal"></i>
                     Osiągnięcia

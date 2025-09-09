@@ -1,0 +1,86 @@
+/* Keyboard shortcuts panel styling */
+.keyboard-shortcuts {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    min-width: 250px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.keyboard-shortcuts.show {
+    display: block !important;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.shortcuts-title {
+    font-weight: bold;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 8px;
+}
+
+.shortcut-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    font-size: 13px;
+}
+
+.shortcut-key {
+    background: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 11px;
+    color: #555;
+    border: 1px solid #ddd;
+}
+
+.shortcut-desc {
+    color: #666;
+    margin-left: 10px;
+    flex: 1;
+}
+
+/* Dark mode support */
+[data-theme="dark"] .keyboard-shortcuts {
+    background: rgba(26, 26, 26, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .shortcuts-title {
+    color: #fff;
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .shortcut-key {
+    background: #444;
+    color: #fff;
+    border-color: #555;
+}
+
+[data-theme="dark"] .shortcut-desc {
+    color: #ccc;
+}
+
+/* Hide by default, show only in matrix calculator */
+#matrixKeyboardShortcuts {
+    display: none;
+}
+
+/* Show shortcuts when matrix calculator is active */
+#matrixCalcApp.active #matrixKeyboardShortcuts {
+    display: block;
+}
