@@ -151,6 +151,15 @@ function setupMenu() {
             void userBtn.offsetWidth;
         });
     }
+
+    // Close button handler
+    const closeBtn = document.getElementById('closeUserPageBtn');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            goBackToPreviousPage();
+        });
+    }
 }
 
 function resetMenuState() {
@@ -201,6 +210,11 @@ window.addEventListener("pageshow", (event) => {
 
 function backToHome() {
     currentScreen = "home";
+    
+    // Remove user profile class and hide close button when returning to home
+    document.body.classList.remove('user-profile-active');
+    hideCloseButton();
+    
     document.querySelector('.home-screen').style.display = 'flex';
     document.querySelector('.app-container').style.display = 'none';
     document.getElementById('globalSideMenu').classList.remove('hidden');
@@ -276,6 +290,19 @@ function showUserProfile() {
     
     // Aktywuj profil użytkownika
     document.getElementById('userProfileApp').classList.add('active');
+    
+    // Show close button ONLY when user profile is actually active AND we're in app container
+    setTimeout(() => {
+        const userProfileApp = document.getElementById('userProfileApp');
+        const appContainer = document.querySelector('.app-container');
+        const homeScreen = document.querySelector('.home-screen');
+        
+        if (userProfileApp && userProfileApp.classList.contains('active') && 
+            appContainer && appContainer.style.display === 'block' &&
+            homeScreen && homeScreen.style.display === 'none') {
+            showCloseButton();
+        }
+    }, 100);
     
     // Załaduj zapisane dane użytkownika
     if (typeof userProfileModals !== 'undefined') {
@@ -412,3 +439,29 @@ document.querySelectorAll('.matrix-input').forEach(input => {
         highlightActiveMatrix(matrixId);
     });
 });
+
+// Function to go back to previous page
+function goBackToPreviousPage() {
+    // Hide user profile and close button
+    document.body.classList.remove('user-profile-active');
+    hideCloseButton();
+    
+    // Show home screen
+    document.querySelector('.welcome-screen').style.display = 'none';
+    document.querySelector('.app-container').style.display = 'none';
+    document.querySelector('.home-screen').style.display = 'block';
+    
+    // Remove active from all app contents
+    document.querySelectorAll('.app-content').forEach(content => {
+        content.classList.remove('active');
+    });
+    
+    // Update current screen
+    currentScreen = "home";
+    
+    // Reset menu state
+    resetMenuState();
+    updateUI();
+}
+
+// Functions showCloseButton and hideCloseButton are now defined in script.js

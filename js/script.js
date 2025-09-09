@@ -4,6 +4,21 @@ let currentScreen = "welcome";
 let isUserProfileVisible = false;
 let darkMode = false;
 
+// Function to show/hide close button
+function showCloseButton() {
+    const closeBtn = document.getElementById('closeUserPageBtn');
+    if (closeBtn) {
+        closeBtn.style.display = 'block';
+    }
+}
+
+function hideCloseButton() {
+    const closeBtn = document.getElementById('closeUserPageBtn');
+    if (closeBtn) {
+        closeBtn.style.display = 'none';
+    }
+}
+
 // Function to dynamically load CSS files
 function loadCSS(filename) {
     return new Promise((resolve, reject) => {
@@ -115,6 +130,12 @@ function updateDashboardUI() {
 
 function updateUI() {
     updateUserProfileTranslations();
+    
+    // Hide close button if not in user profile
+    const userProfileApp = document.getElementById('userProfileApp');
+    if (!userProfileApp || !userProfileApp.classList.contains('active')) {
+        hideCloseButton();
+    }
 }
 
 function updateWelcomeScreen() {
@@ -421,6 +442,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Load saved dark mode preference
     loadSavedDarkMode();
     
+    // Hide close button on startup
+    hideCloseButton();
+    
     setupMenu();
     setupMobileNav();
     initializeUI();
@@ -428,6 +452,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     initializeLeapYear();
     updateWelcomeScreen();
     initializeMatrixCalculator();
+    initializeAppTiles();
+    initializeWelcomeTransition();
+    ensureAppInitialization();
 
     const themeToggleBtn = document.getElementById('themeToggleBtn');
     if (themeToggleBtn) {
@@ -591,4 +618,228 @@ function initializeUI() {
             dashboardToggle.style.visibility = 'visible';
         }
     }
+}
+
+// Initialize app tiles functionality
+function initializeAppTiles() {
+    const tiles = document.querySelectorAll('.tile[data-app]');
+    
+    tiles.forEach(tile => {
+        tile.addEventListener('click', () => {
+            const appName = tile.dataset.app;
+            showApp(appName);
+        });
+    });
+}
+
+// Show specific app
+function showApp(appName) {
+    currentScreen = "app";
+    
+    // Remove user profile class and hide close button when opening any app (not user profile)
+    document.body.classList.remove('user-profile-active');
+    hideCloseButton();
+    
+    // Hide welcome and home screens
+    document.querySelector('.welcome-screen').style.display = 'none';
+    document.querySelector('.home-screen').style.display = 'none';
+    document.querySelector('.app-container').style.display = 'block';
+    
+    // Hide all app contents
+    document.querySelectorAll('.app-content').forEach(content => {
+        content.classList.remove('active');
+    });
+    
+    // Show specific app
+    const appMap = {
+        'leapYear': 'leapYearApp',
+        'matrixCalc': 'matrixCalcApp',
+        'functionCalculator': 'functionCalculatorApp',
+        'equationSolver': 'equationSolverApp',
+        'unitConverter': 'unitConverterApp',
+        'statisticalCalculator': 'statisticalCalculatorApp',
+        'combinatoricsCalculator': 'combinatoricsCalculatorApp',
+        'matrixCalculator': 'matrixCalculatorApp'
+    };
+    
+    const targetAppId = appMap[appName];
+    if (targetAppId) {
+        const targetApp = document.getElementById(targetAppId);
+        if (targetApp) {
+            targetApp.classList.add('active');
+        }
+    }
+    
+    // Show menu button
+    const menuBtn = document.getElementById('menuBtn');
+    if (menuBtn) {
+        menuBtn.style.display = 'block';
+        menuBtn.style.opacity = '1';
+        menuBtn.style.pointerEvents = 'auto';
+    }
+    
+    // Update UI
+    updateUI();
+    
+    // Initialize specific app if needed
+    switch (appName) {
+        case 'leapYear':
+            if (typeof initializeLeapYear === 'function') initializeLeapYear();
+            break;
+        case 'matrixCalc':
+            if (typeof initializeMatrixCalculator === 'function') initializeMatrixCalculator();
+            break;
+        case 'functionCalculator':
+            if (!window.functionCalculator) {
+                window.functionCalculator = new FunctionCalculator();
+            }
+            break;
+        case 'equationSolver':
+            if (!window.equationSolver) {
+                window.equationSolver = new EquationSolver();
+            }
+            break;
+        case 'unitConverter':
+            if (!window.unitConverter) {
+                window.unitConverter = new UnitConverter();
+            }
+            break;
+        case 'statisticalCalculator':
+            if (!window.statisticalCalculator) {
+                window.statisticalCalculator = new StatisticalCalculator();
+            }
+            break;
+        case 'combinatoricsCalculator':
+            if (!window.combinatoricsCalculator) {
+                window.combinatoricsCalculator = new CombinatoricsCalculator();
+            }
+            break;
+        case 'matrixCalculator':
+            if (!window.enhancedMatrixCalculator) {
+                window.enhancedMatrixCalculator = new EnhancedMatrixCalculator();
+            }
+            break;
+    }
+}
+
+// Funkcja do zapewnienia inicjalizacji aplikacji
+function ensureAppInitialization() {
+    // Inicjalizuj wszystkie aplikacje z opóźnieniem
+    setTimeout(() => {
+        // Function Calculator
+        if (typeof FunctionCalculator !== 'undefined' && !window.functionCalculator) {
+            try {
+                window.functionCalculator = new FunctionCalculator();
+                console.log('Function Calculator initialized');
+            } catch (e) {
+                console.warn('Function Calculator initialization failed:', e);
+            }
+        }
+        
+        // Equation Solver
+        if (typeof EquationSolver !== 'undefined' && !window.equationSolver) {
+            try {
+                window.equationSolver = new EquationSolver();
+                console.log('Equation Solver initialized');
+            } catch (e) {
+                console.warn('Equation Solver initialization failed:', e);
+            }
+        }
+        
+        // Unit Converter
+        if (typeof UnitConverter !== 'undefined' && !window.unitConverter) {
+            try {
+                window.unitConverter = new UnitConverter();
+                console.log('Unit Converter initialized');
+            } catch (e) {
+                console.warn('Unit Converter initialization failed:', e);
+            }
+        }
+        
+        // Statistical Calculator
+        if (typeof StatisticalCalculator !== 'undefined' && !window.statisticalCalculator) {
+            try {
+                window.statisticalCalculator = new StatisticalCalculator();
+                console.log('Statistical Calculator initialized');
+            } catch (e) {
+                console.warn('Statistical Calculator initialization failed:', e);
+            }
+        }
+        
+        // Combinatorics Calculator
+        if (typeof CombinatoricsCalculator !== 'undefined' && !window.combinatoricsCalculator) {
+            try {
+                window.combinatoricsCalculator = new CombinatoricsCalculator();
+                console.log('Combinatorics Calculator initialized');
+            } catch (e) {
+                console.warn('Combinatorics Calculator initialization failed:', e);
+            }
+        }
+        
+        // Enhanced Matrix Calculator
+        if (typeof EnhancedMatrixCalculator !== 'undefined' && !window.enhancedMatrixCalculator) {
+            try {
+                window.enhancedMatrixCalculator = new EnhancedMatrixCalculator();
+                console.log('Enhanced Matrix Calculator initialized');
+            } catch (e) {
+                console.warn('Enhanced Matrix Calculator initialization failed:', e);
+            }
+        }
+    }, 1000); // Opóźnienie 1 sekundy aby upewnić się że wszystkie skrypty są załadowane
+}
+
+// Welcome screen to home screen transition
+function initializeWelcomeTransition() {
+    // Handle click anywhere on welcome screen
+    document.querySelector('.welcome-screen').addEventListener('click', (e) => {
+        // Don't trigger if clicking on language button or menu
+        if (!e.target.closest('.welcome-lang-btn') && !e.target.closest('.welcome-lang-menu')) {
+            transitionToHomeScreen();
+        }
+    });
+    
+    // Handle any key press
+    document.addEventListener('keydown', (e) => {
+        if (currentScreen === "welcome") {
+            // Don't trigger on modifier keys or special keys
+            if (!e.ctrlKey && !e.altKey && !e.metaKey && 
+                e.key !== 'Tab' && e.key !== 'Shift' && e.key !== 'CapsLock') {
+                transitionToHomeScreen();
+            }
+        }
+    });
+}
+
+function transitionToHomeScreen() {
+    if (currentScreen !== "welcome") return;
+    
+    currentScreen = "home";
+    
+    // Start transition animation
+    const welcomeScreen = document.querySelector('.welcome-screen');
+    const homeScreen = document.querySelector('.home-screen');
+    
+    welcomeScreen.classList.add('fade-out');
+    
+    setTimeout(() => {
+        welcomeScreen.style.display = 'none';
+        homeScreen.style.display = 'flex';
+        
+        // Show navigation elements
+        const navBar = document.querySelector('.nav-bar');
+        if (navBar) {
+            navBar.style.display = 'flex';
+            navBar.style.animation = 'fadeInDown 0.5s ease-out forwards';
+        }
+        
+        const dashboardToggle = document.querySelector('.mobile-dashboard-toggle');
+        if (dashboardToggle && window.innerWidth <= 768) {
+            dashboardToggle.style.display = 'flex';
+            dashboardToggle.style.visibility = 'visible';
+        }
+        
+        // Update UI
+        updateHomeUI();
+        initializeUI();
+    }, 300);
 }

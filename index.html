@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="css/navigation.css">
     <link rel="stylesheet" href="css/new-user-profile.css">
     <link rel="stylesheet" href="css/user-profile-modals.css">
+    <link rel="stylesheet" href="css/new-applications.css">
+    <link rel="stylesheet" href="css/advanced-calculators.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- Poprawiono Font Awesome -->
 </head>
 <body>
@@ -70,6 +72,9 @@
 
     <!-- Global Navigation Bar -->
     <div class="nav-bar">
+        <button class="nav-btn close-btn" id="closeUserPageBtn" style="display: none;">
+            <i class="fas fa-times"></i>
+        </button>
         <button class="nav-btn user-btn" id="showUserProfileBtn">
             <i class="fas fa-user"></i>
         </button>
@@ -208,9 +213,33 @@
                 <span class="tile-icon">📆</span>
                 <span class="tile-label">Badacz roku przestępnego</span>
             </div>
-            <div class="tile" data-app="matrixCalc">
+            <div class="tile" data-app="functionCalculator">
+                <span class="tile-icon">📈</span>
+                <span class="tile-label">Kalkulator funkcji</span>
+            </div>
+            <div class="tile" data-app="equationSolver">
+                <span class="tile-icon">🔧</span>
+                <span class="tile-label">Rozwiązywanie równań</span>
+            </div>
+            <div class="tile" data-app="unitConverter">
+                <span class="tile-icon">⚖️</span>
+                <span class="tile-label">Konwerter jednostek</span>
+            </div>
+            <div class="tile" data-app="statisticalCalculator">
+                <span class="tile-icon">📊</span>
+                <span class="tile-label">Kalkulator statystyczny</span>
+            </div>
+            <div class="tile" data-app="combinatoricsCalculator">
+                <span class="tile-icon">🎲</span>
+                <span class="tile-label">Kombinatoryka</span>
+            </div>
+            <div class="tile" data-app="matrixCalculator">
                 <span class="tile-icon">🧮</span>
-                <span class="tile-label">Kalkulator macierzy</span>
+                <span class="tile-label">Rozszerzony kalkulator macierzy</span>
+            </div>
+            <div class="tile" data-app="matrixCalc">
+                <span class="tile-icon">🔢</span>
+                <span class="tile-label">Prosty kalkulator macierzy</span>
             </div>
         </div>
     </div>
@@ -295,6 +324,440 @@
                     <div class="default-result-text"></div>
                 </div>
                 <div id="solutionBox" class="solution-container"></div>
+            </div>
+        </div>
+
+        <!-- Function Calculator App -->
+        <div id="functionCalculatorApp" class="app-content">
+            <div class="function-calculator-container">
+                <h2 class="app-title">Kalkulator funkcji</h2>
+                
+                <div class="function-controls">
+                    <div class="function-input-panel">
+                        <div class="function-input-group">
+                            <label for="functionSelect">Wybierz funkcję:</label>
+                            <select id="functionSelect" class="function-select">
+                                <option value="sin">Sinus</option>
+                                <option value="cos">Cosinus</option>
+                                <option value="tan">Tangens</option>
+                                <option value="log">Logarytm naturalny</option>
+                                <option value="log10">Logarytm dziesiętny</option>
+                                <option value="sqrt">Pierwiastek kwadratowy</option>
+                                <option value="exp">Funkcja wykładnicza</option>
+                                <option value="abs">Wartość bezwzględna</option>
+                                <option value="asin">Arcus sinus</option>
+                                <option value="acos">Arcus cosinus</option>
+                                <option value="atan">Arcus tangens</option>
+                            </select>
+                        </div>
+                        
+                        <div class="function-input-group">
+                            <label for="xValue">Wartość x:</label>
+                            <input type="number" id="xValue" class="function-input" step="0.01" placeholder="Wprowadź wartość x" value="1">
+                        </div>
+                        
+                        <div class="function-buttons">
+                            <button id="calculateFunctionBtn" class="function-btn primary">Oblicz wartość</button>
+                            <button id="plotPointBtn" class="function-btn primary">Pokaż na wykresie</button>
+                            <button id="clearFunctionBtn" class="function-btn secondary">Wyczyść</button>
+                        </div>
+                        
+                        <div id="functionInfo" class="function-info-card">
+                            <h4>Informacje o funkcji:</h4>
+                            <div class="info-content">Wybierz funkcję i wprowadź wartość x aby obliczyć wynik</div>
+                        </div>
+                    </div>
+                    
+                    <div class="function-canvas-container">
+                        <h4 style="color: white; margin-bottom: 15px;">Wykres funkcji z zaznaczoną wartością</h4>
+                        <canvas id="functionCanvas" class="function-canvas" width="600" height="400"></canvas>
+                    </div>
+                </div>
+                
+                <div id="functionError" class="error-container" style="display: none;"></div>
+                <div id="functionResult" class="result-container">
+                    <h3>Wynik obliczeń:</h3>
+                    <div class="result-content">Wprowadź wartość x i kliknij "Oblicz wartość" aby zobaczyć wynik</div>
+                </div>
+                
+                <div id="functionHistory" class="history-container">
+                    <h3>Historia obliczeń:</h3>
+                    <div class="history-list">
+                        <div class="empty-history">Brak historii obliczeń</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Equation Solver App -->
+        <div id="equationSolverApp" class="app-content">
+            <div class="equation-solver-container">
+                <h2 class="app-title">Rozwiązywanie równań</h2>
+                
+                <div class="equation-controls">
+                    <div class="equation-type-selector">
+                        <div class="equation-input-group">
+                            <label for="equationType">Typ równania:</label>
+                            <select id="equationType" class="equation-select">
+                                <option value="linear">Równanie liniowe: ax + b = 0</option>
+                                <option value="quadratic">Równanie kwadratowe: ax² + bx + c = 0</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div id="equationInputs" class="equation-inputs">
+                        <!-- Linear equation inputs (default) -->
+                        <div class="linear-inputs">
+                            <div class="equation-input-group">
+                                <label for="coeff_a">Współczynnik a:</label>
+                                <input type="number" id="coeff_a" class="equation-input" step="0.01" value="2" placeholder="np. 2">
+                            </div>
+                            <div class="equation-input-group">
+                                <label for="coeff_b">Współczynnik b:</label>
+                                <input type="number" id="coeff_b" class="equation-input" step="0.01" value="-6" placeholder="np. -6">
+                            </div>
+                        </div>
+                        
+                        <div class="quadratic-inputs" style="display: none;">
+                            <div class="equation-input-group">
+                                <label for="quad_a">Współczynnik a:</label>
+                                <input type="number" id="quad_a" class="equation-input" step="0.01" value="1" placeholder="np. 1">
+                            </div>
+                            <div class="equation-input-group">
+                                <label for="quad_b">Współczynnik b:</label>
+                                <input type="number" id="quad_b" class="equation-input" step="0.01" value="-5" placeholder="np. -5">
+                            </div>
+                            <div class="equation-input-group">
+                                <label for="quad_c">Współczynnik c:</label>
+                                <input type="number" id="quad_c" class="equation-input" step="0.01" value="6" placeholder="np. 6">
+                            </div>
+                        </div>
+                        
+                        <div class="equation-display">
+                            <p>Równanie: <span id="equationPreview">2x - 6 = 0</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="equation-buttons">
+                        <button id="solveEquationBtn" class="equation-btn primary">Rozwiąż równanie</button>
+                        <button id="clearEquationBtn" class="equation-btn secondary">Wyczyść</button>
+                        <button id="showStepsBtn" class="equation-btn secondary">Pokaż kroki</button>
+                    </div>
+                </div>
+                
+                <div id="equationError" class="error-container" style="display: none;"></div>
+                <div id="equationResult" class="result-container">
+                    <h3>Rozwiązanie równania:</h3>
+                    <div class="result-content">Wprowadź współczynniki i kliknij "Rozwiąż równanie"</div>
+                </div>
+                <div id="equationSteps" class="steps-container">
+                    <h3>Kroki rozwiązania:</h3>
+                    <div class="steps-content">Rozwiąż równanie aby zobaczyć kroki</div>
+                </div>
+                
+                <div id="equationHistory" class="history-container">
+                    <h3>Historia równań:</h3>
+                    <div class="history-list">
+                        <div class="empty-history">Brak historii równań</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Unit Converter App -->
+        <div id="unitConverterApp" class="app-content">
+            <div class="matrix-container">
+                <h2 class="matrix-Calc-title">Konwerter jednostek</h2>
+                
+                <div class="controls">
+                    <div class="operation-selector">
+                        <div class="operation-label">Kategoria:</div>
+                        <button id="categoryBtn" class="operation-btn">Długość</button>
+                        <div id="categoryMenu" class="operation-menu">
+                            <div class="operation-menu-item" data-category="length">Długość</div>
+                            <div class="operation-menu-item" data-category="mass">Masa</div>
+                            <div class="operation-menu-item" data-category="time">Czas</div>
+                            <div class="operation-menu-item" data-category="temperature">Temperatura</div>
+                            <div class="operation-menu-item" data-category="area">Powierzchnia</div>
+                            <div class="operation-menu-item" data-category="volume">Objętość</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="convertUnitBtn" class="btn matrix-btn">Konwertuj</button>
+                    <button id="swapUnitsBtn" class="btn matrix-btn">Zamień jednostki</button>
+                    <button id="clearUnitsBtn" class="btn matrix-btn">Wyczyść</button>
+                </div>
+
+                <div class="matrices-container">
+                    <div class="matrix-frame">
+                        <div class="matrix-title">Wartość wejściowa</div>
+                        <div class="unit-conversion-input">
+                            <div class="unit-input-group">
+                                <label for="inputValue">Wartość:</label>
+                                <input type="number" id="inputValue" class="unit-input" step="0.001" value="1" placeholder="Wprowadź wartość">
+                            </div>
+                            <div class="unit-input-group">
+                                <label for="fromUnit">Z jednostki:</label>
+                                <select id="fromUnit" class="unit-select">
+                                    <option value="m">metr (m)</option>
+                                    <option value="cm">centymetr (cm)</option>
+                                    <option value="mm">milimetr (mm)</option>
+                                    <option value="km">kilometr (km)</option>
+                                    <option value="inch">cal (in)</option>
+                                    <option value="ft">stopa (ft)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="matrix-frame">
+                        <div class="matrix-title">Wynik konwersji</div>
+                        <div class="unit-conversion-output">
+                            <div class="unit-input-group">
+                                <label for="outputValue">Wynik:</label>
+                                <input type="text" id="outputValue" class="unit-input" readonly placeholder="Wynik konwersji">
+                            </div>
+                            <div class="unit-input-group">
+                                <label for="toUnit">Na jednostkę:</label>
+                                <select id="toUnit" class="unit-select">
+                                    <option value="m">metr (m)</option>
+                                    <option value="cm" selected>centymetr (cm)</option>
+                                    <option value="mm">milimetr (mm)</option>
+                                    <option value="km">kilometr (km)</option>
+                                    <option value="inch">cal (in)</option>
+                                    <option value="ft">stopa (ft)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="unitError" class="error-message" style="display: none;"></div>
+                <div id="unitResult" class="result-container-matrix">
+                    <div class="default-result-text">Wprowadź wartość i kliknij "Konwertuj"</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistical Calculator App -->
+        <div id="statisticalCalculatorApp" class="app-content">
+            <div class="statistical-calculator-container">
+                <h2 class="app-title">Kalkulator statystyczny</h2>
+                
+                <div class="stats-controls-enhanced">
+                    <div class="stats-input-panel-enhanced">
+                        <div class="stats-input-group">
+                            <label for="dataInput">Wprowadź dane (oddzielone przecinkami):</label>
+                            <textarea id="dataInput" class="stats-textarea" rows="4" placeholder="np. 1, 2, 3, 4, 5 lub każda wartość w nowej linii">1, 2, 3, 4, 5, 6, 7, 8, 9, 10</textarea>
+                        </div>
+                        
+                        <div class="stats-input-group">
+                            <label for="dataType">Typ danych:</label>
+                            <select id="dataType" class="stats-select">
+                                <option value="sample">Próba</option>
+                                <option value="population">Populacja</option>
+                            </select>
+                        </div>
+                        
+                        <div class="stats-input-group">
+                            <label for="chartType">Typ wykresu:</label>
+                            <select id="chartType" class="stats-select">
+                                <option value="histogram">Histogram</option>
+                                <option value="boxplot">Wykres pudełkowy</option>
+                                <option value="scatter">Wykres punktowy</option>
+                            </select>
+                        </div>
+                        
+                        <div class="stats-input-group">
+                            <label>Typy obliczeń:</label>
+                            <div class="stats-checkboxes">
+                                <label class="stats-checkbox">
+                                    <input type="checkbox" name="calcType" value="basic" checked> Podstawowe
+                                </label>
+                                <label class="stats-checkbox">
+                                    <input type="checkbox" name="calcType" value="spread" checked> Rozrzut
+                                </label>
+                                <label class="stats-checkbox">
+                                    <input type="checkbox" name="calcType" value="position"> Pozycyjne
+                                </label>
+                                <label class="stats-checkbox">
+                                    <input type="checkbox" name="calcType" value="shape"> Kształt
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="stats-input-group">
+                            <label>Dane (<span id="dataCount">0</span> elementów):</label>
+                            <div id="dataDisplay" class="data-display">Brak danych</div>
+                        </div>
+                        
+                        <div class="stats-buttons-enhanced">
+                            <button id="calculateStatsBtn" class="stats-btn primary">Oblicz statystyki</button>
+                            <button id="generateChartBtn" class="stats-btn primary">Generuj wykres</button>
+                            <button id="clearStatsBtn" class="stats-btn secondary">Wyczyść</button>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-chart-container-enhanced">
+                        <h4 style="color: white; text-align: center; margin-bottom: 15px;">Wykres danych</h4>
+                        <canvas id="statsCanvas" class="stats-canvas" width="500" height="400"></canvas>
+                    </div>
+                </div>
+                
+                <div id="statsError" class="error-container" style="display: none;"></div>
+                
+                <div class="stats-results-container-enhanced">
+                    <div id="resultsContainer">
+                        <div class="default-result-text">Wprowadź dane i wybierz typ obliczeń</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Combinatorics Calculator App -->
+        <div id="combinatoricsCalculatorApp" class="app-content">
+            <div class="matrix-container">
+                <h2 class="matrix-Calc-title">Kalkulator kombinatoryki</h2>
+                
+                <div class="controls">
+                    <div class="operation-selector">
+                        <div class="operation-label">Operacja:</div>
+                        <button id="combinatoricsOperationBtn" class="operation-btn">Permutacje P(n,k)</button>
+                        <div id="combinatoricsOperationMenu" class="operation-menu">
+                            <div class="operation-menu-item" data-op="permutations">Permutacje P(n,k)</div>
+                            <div class="operation-menu-item" data-op="combinations">Kombinacje C(n,k)</div>
+                            <div class="operation-menu-item" data-op="factorial">Silnia n!</div>
+                            <div class="operation-menu-item" data-op="derangements">Derrangements D(n)</div>
+                            <div class="operation-menu-item" data-op="stirling2">Liczby Stirlinga II</div>
+                            <div class="operation-menu-item" data-op="catalan">Liczby Catalana C(n)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="calculateCombinatoricsBtn" class="btn matrix-btn">Oblicz</button>
+                    <button id="showFormulaBtn" class="btn matrix-btn">Pokaż wzór</button>
+                    <button id="clearCombinatoricsBtn" class="btn matrix-btn">Wyczyść</button>
+                </div>
+
+                <div class="combinatorics-inputs-horizontal">
+                    <div class="combinatorics-input-panel">
+                        <div class="matrix-title">Parametry</div>
+                        <div class="combinatorics-input-content">
+                            <div class="param-input-group">
+                                <label for="nValue">Wartość n:</label>
+                                <input type="number" id="nValue" class="combinatorics-input" min="0" step="1" value="5" placeholder="np. 5">
+                            </div>
+                            <div class="param-input-group" id="kInputGroup">
+                                <label for="kValue">Wartość k:</label>
+                                <input type="number" id="kValue" class="combinatorics-input" min="0" step="1" value="3" placeholder="np. 3">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="combinatorics-formula-panel">
+                        <div class="matrix-title">Wzór i wyjaśnienie</div>
+                        <div id="formulaDisplay" class="formula-display-content">
+                            <div class="formula-content">
+                                <strong>Permutacje P(n,k)</strong><br>
+                                Wzór: P(n,k) = n!/(n-k)!<br>
+                                Liczba sposobów ustawienia k elementów z n elementów
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="combinatoricsError" class="error-message" style="display: none;"></div>
+                <div id="combinatoricsResult" class="result-container-matrix">
+                    <div class="default-result-text">Wprowadź wartości i kliknij "Oblicz"</div>
+                </div>
+                
+                <div class="combinatorics-examples-enhanced">
+                    <h3 style="color: white; text-align: center; margin-bottom: 20px;">Przykłady użycia:</h3>
+                    <div class="examples-grid-enhanced">
+                        <div class="example-card-enhanced">
+                            <h4>Permutacje</h4>
+                            <p>P(5,3) = 5!/(5-3)! = 60</p>
+                            <small>Różne sposoby ustawienia 3 osób z grupy 5</small>
+                        </div>
+                        <div class="example-card-enhanced">
+                            <h4>Kombinacje</h4>
+                            <p>C(5,3) = 5!/(3!×2!) = 10</p>
+                            <small>Różne sposoby wyboru 3 osób z grupy 5</small>
+                        </div>
+                        <div class="example-card-enhanced">
+                            <h4>Silnia</h4>
+                            <p>5! = 5×4×3×2×1 = 120</p>
+                            <small>Wszystkie permutacje 5 elementów</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Matrix Calculator App -->
+        <div id="matrixCalculatorApp" class="app-content">
+            <div class="matrix-container">
+                <h2 id="enhancedMatrixCalcTitle" class="matrix-Calc-title">Rozszerzony kalkulator macierzy</h2>
+                <div class="controls">
+                    <div class="operation-selector">
+                        <div id="enhancedOperationLabel" class="operation-label">Operacja:</div>
+                        <button id="enhancedOperationBtn" class="operation-btn">Wartości własne</button>
+                        <div id="enhancedOperationMenu" class="operation-menu">
+                            <div class="operation-menu-item" data-op="eigenvalues">Wartości własne</div>
+                            <div class="operation-menu-item" data-op="eigenvectors">Wektory własne</div>
+                            <div class="operation-menu-item" data-op="lup">Rozkład LUP</div>
+                            <div class="operation-menu-item" data-op="qr">Rozkład QR</div>
+                            <div class="operation-menu-item" data-op="svd">Rozkład SVD</div>
+                            <div class="operation-menu-item" data-op="rref">Postać schodkowa (RREF)</div>
+                            <div class="operation-menu-item" data-op="rank">Rząd macierzy</div>
+                            <div class="operation-menu-item" data-op="trace">Ślad macierzy</div>
+                            <div class="operation-menu-item" data-op="norm">Norma macierzy</div>
+                        </div>
+                    </div>
+                    <div class="method-selector-wrapper" style="display: none;">
+                        <div class="method-label">Metoda:</div>
+                        <button id="enhancedMethodBtn" class="method-btn-main">Standard</button>
+                        <div id="enhancedMethodSelector" class="method-selector">
+                            <div class="method-menu-item" data-value="standard">Standard</div>
+                            <div class="method-menu-item" data-value="iterative">Iteracyjna</div>
+                            <div class="method-menu-item" data-value="numerical">Numeryczna</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="enhancedComputeBtn" class="btn matrix-btn" tabindex="0">Oblicz</button>
+                    <button id="enhancedClearBtn" class="btn matrix-btn">Wyczyść</button>
+                </div>
+
+                <div id="enhancedMatricesContainer" class="matrices-container">
+                    <div id="enhancedMatrixA" class="matrix-frame">
+                        <button class="resize-icon" onclick="toggleSizeMenuEnhanced('A')">+
+                        </button>
+                        <div class="size-menu" id="enhancedSizeMenuA">
+                            <div class="size-option" onclick="setMatrixSizeEnhanced('A', 1, 1)">1×1</div>
+                            <div class="size-option" onclick="setMatrixSizeEnhanced('A', 2, 2)">2×2</div>
+                            <div class="size-option" onclick="setMatrixSizeEnhanced('A', 3, 3)">3×3</div>
+                            <div class="size-option" onclick="setMatrixSizeEnhanced('A', 4, 4)">4×4</div>
+                            <div class="size-option" onclick="setMatrixSizeEnhanced('A', 5, 5)">5×5</div>
+                            <div class="size-option" onclick="setMatrixSizeEnhanced('A', 2, 3)">2×3</div>
+                            <div class="size-option" onclick="setMatrixSizeEnhanced('A', 3, 2)">3×2</div>
+                            <div class="size-option" onclick="setMatrixSizeEnhanced('A', 3, 4)">3×4</div>
+                            <div class="size-option" onclick="setMatrixSizeEnhanced('A', 4, 3)">4×3</div>
+                        </div>
+                        <div id="enhancedMatrixATitle" class="matrix-title">Macierz A</div>
+                        <div id="enhancedMatrixAGrid" class="matrix-grid"></div>
+                    </div>
+                </div>
+                
+                <div id="enhancedErrorMessage" class="error-message"></div>
+                <div id="enhancedResultBox" class="result-container-matrix">
+                    <div class="default-result-text">Wprowadź macierz i wybierz operację</div>
+                </div>
+                <div id="enhancedSolutionBox" class="solution-container"></div>
             </div>
         </div>
     </div>
@@ -569,6 +1032,12 @@
     <script src="js/background.js"></script>
     <script src="js/leapYear.js"></script>
     <script src="js/matrixCalculator.js"></script>
+    <script src="js/functionCalculator.js"></script>
+    <script src="js/equationSolver.js"></script>
+    <script src="js/unitConverter.js"></script>
+    <script src="js/statisticalCalculator.js"></script>
+    <script src="js/combinatoricsCalculator.js"></script>
+    <script src="js/enhancedMatrixCalculator.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/user-profile-modals.js"></script>

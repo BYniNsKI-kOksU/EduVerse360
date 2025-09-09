@@ -121,6 +121,36 @@
         inset 0 3px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Close Button Styles */
+.close-btn {
+    background: rgba(220, 53, 69, 0.8);
+    color: white;
+    border: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+.close-btn:hover {
+    background: rgba(220, 53, 69, 1);
+    color: white;
+    border-color: rgba(220, 53, 69, 0.5);
+    transform: translateY(-2px);
+}
+
+.close-btn i {
+    font-size: 16px;
+    transition: transform 0.3s ease;
+}
+
+.close-btn:hover i {
+    transform: rotate(90deg);
+}
+
+.close-btn:active {
+    transform: scale(0.95) translateY(2px);
+    box-shadow: 
+        0 1px 3px rgba(220, 53, 69, 0.3),
+        inset 0 3px 5px rgba(220, 53, 69, 0.2);
+}
+
 .theme-toggle-btn {
     width: 40px;
     height: 40px;
