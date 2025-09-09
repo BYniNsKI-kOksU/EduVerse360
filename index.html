@@ -2,7 +2,8 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="EduVerse 360 - Nowoczesne narzędzia do obliczeń matematycznych">
     <title>EduVerse 360</title>
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/base.css">
@@ -17,10 +18,12 @@
     <link rel="stylesheet" href="css/new-applications.css">
     <link rel="stylesheet" href="css/advanced-calculators.css">
     <link rel="stylesheet" href="css/keyboard-shortcuts.css">
+    <link rel="stylesheet" href="css/accessibility-improvements.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- Poprawiono Font Awesome -->
 </head>
 <body>
-    <canvas id="mathBg"></canvas>
+    <a href="#main-content" class="skip-link">Przejdź do głównej zawartości</a>
+    <canvas id="mathBg" aria-hidden="true"></canvas>
 
     <!-- Mobile Dashboard -->
     <div id="mobileDashboard" class="mobile-dashboard hidden">
@@ -84,7 +87,12 @@
             <i class="fas fa-moon icon-moon"></i>
         </button>
         <div class="lang-container">
-            <div class="lang-btn"></div>
+            <button type="button" class="lang-btn" 
+                    aria-label="Wybierz język" 
+                    aria-expanded="false" 
+                    aria-controls="nav-lang-menu"
+                    title="Zmień język aplikacji">
+            </button>
         </div>
     </div>
 
@@ -154,9 +162,19 @@
     </div>
 
     <!-- Global Side menu -->
-    <button id="menuBtn" class="menu-btn">☰</button>
+    <button id="menuBtn" type="button" class="menu-btn" 
+            aria-label="Otwórz menu nawigacji" 
+            aria-expanded="false" 
+            aria-controls="globalSideMenu"
+            title="Menu (☰)">
+        <span aria-hidden="true">☰</span>
+    </button>
     <div id="globalSideMenu" class="side-menu hidden">
-        <button id="closeSideMenuBtn" class="close-side-menu-btn">✖</button>
+        <button id="closeSideMenuBtn" type="button" class="close-side-menu-btn" 
+                aria-label="Zamknij menu nawigacji" 
+                title="Zamknij menu (✖)">
+            <span aria-hidden="true">✖</span>
+        </button>
 
         <div id="homeMenuItem" class="menu-item" style="--menu-item-index: 0;">Strona główna</div>
         <div id="appMenuItem" class="menu-item" style="--menu-item-index: 1;" data-translate-key="dashboard.applications">Aplikacje</div>
@@ -174,7 +192,7 @@
     </div>
 
     <!-- Welcome Screen -->
-    <div class="welcome-screen">
+    <main id="main-content" class="welcome-screen">
         <h1 class="welcome-title"><span>Witaj w EduVerse 360</span></h1>
         <p class="welcome-subtitle"><span>Odkryj narzędzia do obliczeń matematycznych</span></p>
         <p class="start-hint">(kliknij dowolny klawisz lub kliknij myszką aby kontynuować)</p>
@@ -183,7 +201,7 @@
                 <div class="lang-btn"></div>
             </div>
         </div>
-    </div>
+    </main>
 
     <!-- Home Screen -->
     <div class="home-screen" style="display: none;">
@@ -234,10 +252,15 @@
             <div class="leap-year-container">
                 <h2 id="leapYearTitle" class="leap-year-title">Badacz roku przestępnego</h2>
                 <div class="input-container">
-                    <label id="yearLabel" class="input-label">Podaj rok:</label>
-                    <input type="number" id="yearInput" class="year-input" inputmode="numeric">
+                    <label for="yearInput" id="yearLabel" class="input-label">Podaj rok:</label>
+                    <input type="number" id="yearInput" name="year" class="year-input" inputmode="numeric" 
+                           placeholder="np. 2024" aria-describedby="yearError" required>
+                    <div id="yearError" class="error-message" role="alert" aria-live="polite" style="display: none;"></div>
                 </div>
-                <button id="checkBtn" class="check-btn">Oblicz</button>
+                <button id="checkBtn" type="button" class="check-btn" aria-describedby="resultContainer">
+                    <span class="btn-text">Oblicz</span>
+                    <span class="btn-spinner" style="display: none;" aria-hidden="true">⏳</span>
+                </button>
                 <div id="resultContainer" class="result-container"></div>
                 <div class="history-container">
                     <div id="historyLabel" class="history-title">Historia:</div>
@@ -279,8 +302,15 @@
                 </div>
 
                 <div class="action-buttons">
-                    <button id="computeBtn" class="btn matrix-btn" tabindex="0">Oblicz</button>
-                    <button id="clearBtn" class="btn matrix-btn">Wyczyść</button>
+                    <button id="computeBtn" type="button" class="btn matrix-btn" tabindex="0" 
+                            aria-describedby="resultBox" title="Wykonaj obliczenie (Ctrl+Enter)">
+                        <span class="btn-text">Oblicz</span>
+                        <span class="btn-spinner" style="display: none;" aria-hidden="true">⏳</span>
+                    </button>
+                    <button id="clearBtn" type="button" class="btn matrix-btn" 
+                            aria-label="Wyczyść macierze" title="Wyczyść wszystkie pola">
+                        Wyczyść
+                    </button>
                 </div>
 
                 <!-- Keyboard shortcuts for matrix calculator -->
@@ -337,30 +367,43 @@
                     <div class="function-input-panel">
                         <div class="function-input-group">
                             <label for="functionSelect">Wybierz funkcję:</label>
-                            <select id="functionSelect" class="function-select">
-                                <option value="sin">Sinus</option>
-                                <option value="cos">Cosinus</option>
-                                <option value="tan">Tangens</option>
-                                <option value="log">Logarytm naturalny</option>
-                                <option value="log10">Logarytm dziesiętny</option>
-                                <option value="sqrt">Pierwiastek kwadratowy</option>
-                                <option value="exp">Funkcja wykładnicza</option>
-                                <option value="abs">Wartość bezwzględna</option>
-                                <option value="asin">Arcus sinus</option>
-                                <option value="acos">Arcus cosinus</option>
-                                <option value="atan">Arcus tangens</option>
+                            <select id="functionSelect" name="function" class="function-select" aria-describedby="functionInfo" required>
+                                <option value="sin">Sinus (sin)</option>
+                                <option value="cos">Cosinus (cos)</option>
+                                <option value="tan">Tangens (tan)</option>
+                                <option value="log">Logarytm naturalny (ln)</option>
+                                <option value="log10">Logarytm dziesiętny (log₁₀)</option>
+                                <option value="sqrt">Pierwiastek kwadratowy (√)</option>
+                                <option value="exp">Funkcja wykładnicza (eˣ)</option>
+                                <option value="abs">Wartość bezwzględna (|x|)</option>
+                                <option value="asin">Arcus sinus (arcsin)</option>
+                                <option value="acos">Arcus cosinus (arccos)</option>
+                                <option value="atan">Arcus tangens (arctan)</option>
                             </select>
                         </div>
                         
                         <div class="function-input-group">
                             <label for="xValue">Wartość x:</label>
-                            <input type="number" id="xValue" class="function-input" step="0.01" placeholder="Wprowadź wartość x" value="1">
+                            <input type="number" id="xValue" name="xValue" class="function-input" 
+                                   step="0.01" placeholder="np. 1.5" value="1" 
+                                   aria-describedby="functionError" required>
+                            <div id="functionErrorX" class="error-message" role="alert" aria-live="polite" style="display: none;"></div>
                         </div>
                         
                         <div class="function-buttons">
-                            <button id="calculateFunctionBtn" class="function-btn primary">Oblicz wartość</button>
-                            <button id="plotPointBtn" class="function-btn primary">Pokaż na wykresie</button>
-                            <button id="clearFunctionBtn" class="function-btn secondary">Wyczyść</button>
+                            <button id="calculateFunctionBtn" type="button" class="function-btn primary" 
+                                    aria-describedby="functionResult">
+                                <span class="btn-text">Oblicz wartość</span>
+                                <span class="btn-spinner" style="display: none;" aria-hidden="true">⏳</span>
+                            </button>
+                            <button id="plotPointBtn" type="button" class="function-btn primary" 
+                                    aria-describedby="functionCanvas" title="Wyświetl punkt na wykresie funkcji">
+                                Pokaż na wykresie
+                            </button>
+                            <button id="clearFunctionBtn" type="button" class="function-btn secondary" 
+                                    aria-label="Wyczyść wszystkie pola" title="Resetuj pola i wyniki">
+                                Wyczyść
+                            </button>
                         </div>
                         
                         <div id="functionInfo" class="function-info-card">
@@ -409,29 +452,43 @@
                     <div id="equationInputs" class="equation-inputs">
                         <!-- Linear equation inputs (default) -->
                         <div class="linear-inputs">
+                            <h4>Równanie liniowe: ax + b = 0</h4>
                             <div class="equation-input-group">
-                                <label for="coeff_a">Współczynnik a:</label>
-                                <input type="number" id="coeff_a" class="equation-input" step="0.01" value="2" placeholder="np. 2">
+                                <label for="coeff_a">Współczynnik a (przy x):</label>
+                                <input type="number" id="coeff_a" name="coeff_a" class="equation-input" 
+                                       step="0.01" value="2" placeholder="np. 2" 
+                                       aria-describedby="linearError" required>
                             </div>
                             <div class="equation-input-group">
-                                <label for="coeff_b">Współczynnik b:</label>
-                                <input type="number" id="coeff_b" class="equation-input" step="0.01" value="-6" placeholder="np. -6">
+                                <label for="coeff_b">Współczynnik b (stały):</label>
+                                <input type="number" id="coeff_b" name="coeff_b" class="equation-input" 
+                                       step="0.01" value="-6" placeholder="np. -6" 
+                                       aria-describedby="linearError" required>
                             </div>
+                            <div id="linearError" class="error-message" role="alert" aria-live="polite" style="display: none;"></div>
                         </div>
                         
                         <div class="quadratic-inputs" style="display: none;">
+                            <h4>Równanie kwadratowe: ax² + bx + c = 0</h4>
                             <div class="equation-input-group">
-                                <label for="quad_a">Współczynnik a:</label>
-                                <input type="number" id="quad_a" class="equation-input" step="0.01" value="1" placeholder="np. 1">
+                                <label for="quad_a">Współczynnik a (przy x²):</label>
+                                <input type="number" id="quad_a" name="quad_a" class="equation-input" 
+                                       step="0.01" value="1" placeholder="np. 1" 
+                                       aria-describedby="quadError" required>
                             </div>
                             <div class="equation-input-group">
-                                <label for="quad_b">Współczynnik b:</label>
-                                <input type="number" id="quad_b" class="equation-input" step="0.01" value="-5" placeholder="np. -5">
+                                <label for="quad_b">Współczynnik b (przy x):</label>
+                                <input type="number" id="quad_b" name="quad_b" class="equation-input" 
+                                       step="0.01" value="-5" placeholder="np. -5" 
+                                       aria-describedby="quadError">
                             </div>
                             <div class="equation-input-group">
-                                <label for="quad_c">Współczynnik c:</label>
-                                <input type="number" id="quad_c" class="equation-input" step="0.01" value="6" placeholder="np. 6">
+                                <label for="quad_c">Współczynnik c (stały):</label>
+                                <input type="number" id="quad_c" name="quad_c" class="equation-input" 
+                                       step="0.01" value="6" placeholder="np. 6" 
+                                       aria-describedby="quadError">
                             </div>
+                            <div id="quadError" class="error-message" role="alert" aria-live="polite" style="display: none;"></div>
                         </div>
                         
                         <div class="equation-display">
@@ -440,9 +497,19 @@
                     </div>
                     
                     <div class="equation-buttons">
-                        <button id="solveEquationBtn" class="equation-btn primary">Rozwiąż równanie</button>
-                        <button id="clearEquationBtn" class="equation-btn secondary">Wyczyść</button>
-                        <button id="showStepsBtn" class="equation-btn secondary">Pokaż kroki</button>
+                        <button id="solveEquationBtn" type="button" class="equation-btn primary" 
+                                aria-describedby="equationResult">
+                            <span class="btn-text">Rozwiąż równanie</span>
+                            <span class="btn-spinner" style="display: none;" aria-hidden="true">⏳</span>
+                        </button>
+                        <button id="clearEquationBtn" type="button" class="equation-btn secondary" 
+                                aria-label="Wyczyść wszystkie pola" title="Resetuj współczynniki i wyniki">
+                            Wyczyść
+                        </button>
+                        <button id="showStepsBtn" type="button" class="equation-btn secondary" 
+                                aria-describedby="equationSteps" title="Pokaż szczegółowe kroki rozwiązania">
+                            Pokaż kroki
+                        </button>
                     </div>
                 </div>
                 
@@ -486,9 +553,20 @@
                 </div>
 
                 <div class="action-buttons">
-                    <button id="convertUnitBtn" class="btn matrix-btn">Konwertuj</button>
-                    <button id="swapUnitsBtn" class="btn matrix-btn">Zamień jednostki</button>
-                    <button id="clearUnitsBtn" class="btn matrix-btn">Wyczyść</button>
+                    <button id="convertUnitBtn" type="button" class="btn matrix-btn" 
+                            aria-describedby="unitResult">
+                        <span class="btn-text">Konwertuj</span>
+                        <span class="btn-spinner" style="display: none;" aria-hidden="true">⏳</span>
+                    </button>
+                    <button id="swapUnitsBtn" type="button" class="btn matrix-btn" 
+                            aria-label="Zamień miejscami jednostki wejściową i wyjściową" 
+                            title="Zamień jednostki miejscami (⇄)">
+                        Zamień jednostki
+                    </button>
+                    <button id="clearUnitsBtn" type="button" class="btn matrix-btn" 
+                            aria-label="Wyczyść wszystkie pola" title="Resetuj pola i wyniki">
+                        Wyczyść
+                    </button>
                 </div>
 
                 <div class="matrices-container">
@@ -496,12 +574,15 @@
                         <div class="matrix-title">Wartość wejściowa</div>
                         <div class="unit-conversion-input">
                             <div class="unit-input-group">
-                                <label for="inputValue">Wartość:</label>
-                                <input type="number" id="inputValue" class="unit-input" step="0.001" value="1" placeholder="Wprowadź wartość">
+                                <label for="inputValue">Wartość do konwersji:</label>
+                                <input type="number" id="inputValue" name="inputValue" class="unit-input" 
+                                       step="0.001" value="1" placeholder="np. 1.5" 
+                                       aria-describedby="unitError" required>
                             </div>
                             <div class="unit-input-group">
                                 <label for="fromUnit">Z jednostki:</label>
-                                <select id="fromUnit" class="unit-select">
+                                <select id="fromUnit" name="fromUnit" class="unit-select" 
+                                        aria-describedby="unitError" required>
                                     <option value="m">metr (m)</option>
                                     <option value="cm">centymetr (cm)</option>
                                     <option value="mm">milimetr (mm)</option>
@@ -510,6 +591,7 @@
                                     <option value="ft">stopa (ft)</option>
                                 </select>
                             </div>
+                            <div id="unitError" class="error-message" role="alert" aria-live="polite" style="display: none;"></div>
                         </div>
                     </div>
                     
@@ -1027,6 +1109,7 @@
     </div>
 
     <script src="js/translations.js"></script>
+    <script src="js/form-validation.js"></script>
     <script src="js/script.js"></script>
     <script src="js/background.js"></script>
     <script src="js/leapYear.js"></script>

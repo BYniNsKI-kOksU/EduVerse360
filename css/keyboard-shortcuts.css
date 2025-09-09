@@ -84,3 +84,98 @@
 #matrixCalcApp.active #matrixKeyboardShortcuts {
     display: block;
 }
+
+/* Error messages styling */
+.error-message {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 5px;
+    padding: 5px 10px;
+    background: rgba(220, 53, 69, 0.1);
+    border: 1px solid rgba(220, 53, 69, 0.2);
+    border-radius: 4px;
+    min-height: 0;
+    transition: all 0.3s ease;
+}
+
+.error-message:empty {
+    display: none !important;
+}
+
+/* Button spinner styling */
+.btn-spinner {
+    display: inline-block;
+    margin-left: 8px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Button loading state */
+.btn.loading {
+    opacity: 0.7;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.btn.loading .btn-text {
+    opacity: 0.5;
+}
+
+.btn.loading .btn-spinner {
+    display: inline-block !important;
+}
+
+/* Form validation styling */
+.form-field.error input,
+.form-field.error select,
+.form-field.error textarea {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.2);
+}
+
+.form-field.success input,
+.form-field.success select,
+.form-field.success textarea {
+    border-color: #28a745;
+    box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.2);
+}
+
+/* Focus states for accessibility */
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .error-message {
+        background: #fff;
+        border-color: #dc3545;
+        color: #dc3545;
+    }
+    
+    input:focus,
+    select:focus,
+    textarea:focus,
+    button:focus {
+        outline: 3px solid #000;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .btn-spinner {
+        animation: none;
+    }
+    
+    .error-message {
+        transition: none;
+    }
+}
