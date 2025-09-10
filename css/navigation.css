@@ -626,3 +626,14 @@ body:has(.welcome-screen:not(.hidden)) .mobile-dashboard-toggle {
 body:has(.welcome-screen:not(.hidden)) #mobileDashboard {
     display: none !important;
 }
+
+/* Fallback dla selektora :has() w przeglądarkach które go nie wspierają (np. starsze wersje Safari) */
+body.welcome-active .mobile-dashboard-toggle {
+    display: none !important;
+}
+
+body.welcome-active #mobileDashboard {
+    display: none !important;
+}
+
+/* Jeśli :has() jest wspierane, pozostawiamy oryginalne reguły; jeśli nie, skrypt JS będzie dodawał klasę .welcome-active do body. */

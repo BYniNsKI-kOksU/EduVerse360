@@ -22,6 +22,8 @@ body.user-profile-active {
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     z-index: 800;
+    -webkit-overflow-scrolling: touch;
+    -webkit-backface-visibility: hidden;
 }
 
 .modern-user-profile .profile-content-wrapper {

@@ -717,3 +717,16 @@ body.dark-mode .modern-about .about-hero {
         font-size: 0.85rem;
     }
 }
+
+/* Smooth scrolling for iOS/Safari */
+.modern-about,
+#inlineAbout {
+    -webkit-overflow-scrolling: touch;
+    -webkit-backface-visibility: hidden;
+}
+
+/* Ensure inline containers have proper -webkit- properties for Safari */
+#inlineAbout, #inlineAbout .about-content-wrapper {
+    -webkit-overflow-scrolling: touch;
+    -webkit-backface-visibility: hidden;
+}

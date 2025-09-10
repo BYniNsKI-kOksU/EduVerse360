@@ -107,6 +107,8 @@ body.instructions-active::after {
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     z-index: 800;
+    -webkit-overflow-scrolling: touch;
+    -webkit-backface-visibility: hidden;
 }
 
 .modern-instructions::before {
@@ -160,6 +162,8 @@ body.instructions-active::after {
     -webkit-backdrop-filter: blur(20px);
     z-index: 800;
     pointer-events: auto;
+    -webkit-overflow-scrolling: touch;
+    -webkit-backface-visibility: hidden;
 
     /* Scrollbar - dopasowane do stylu userpage */
     scrollbar-width: thin;

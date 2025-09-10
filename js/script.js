@@ -815,3 +815,38 @@ async function showInstructionsFromDashboard() {
 
     console.error('Nie można wyświetlić strony Instructions - brak szablonu i pliku JS');
 }
+
+// Fallback dla selektora :has() — Safari starsze wersje nie wspierają :has()
+(function() {
+    function updateWelcomeActive() {
+        const welcome = document.querySelector('.welcome-screen');
+        if (!welcome) return;
+        const hasVisible = !welcome.classList.contains('hidden') && getComputedStyle(welcome).display !== 'none' && getComputedStyle(welcome).visibility !== 'hidden';
+        if (hasVisible) document.body.classList.add('welcome-active'); else document.body.classList.remove('welcome-active');
+    }
+
+    // If browser supports :has(), do nothing — CSS handles it
+    try {
+        if (!CSS.supports('selector(:has(*))')) {
+            // initial
+            document.addEventListener('DOMContentLoaded', updateWelcomeActive);
+            // observe changes to welcome-screen class list/attributes
+            const welcome = document.querySelector('.welcome-screen');
+            if (welcome) {
+                const mo = new MutationObserver(updateWelcomeActive);
+                mo.observe(welcome, { attributes: true, attributeFilter: ['class', 'style'] });
+            }
+            // also in case welcome element is added later
+            const observerBody = new MutationObserver(() => {
+                const w = document.querySelector('.welcome-screen');
+                if (w) {
+                    updateWelcomeActive();
+                }
+            });
+            observerBody.observe(document.documentElement || document.body, { childList: true, subtree: true });
+        }
+    } catch (e) {
+        // Fail gracefully
+        document.addEventListener('DOMContentLoaded', updateWelcomeActive);
+    }
+})();

@@ -97,6 +97,7 @@
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: rgba(224, 122, 95, 0.5) transparent;
+    -webkit-overflow-scrolling: touch;
 }
 
 .profile-modal-content::-webkit-scrollbar {
