@@ -192,7 +192,7 @@
     backdrop-filter: var(--liquid-glass-blur);
     -webkit-backdrop-filter: var(--liquid-glass-blur);
     border: var(--liquid-glass-border);
-    box-shadow: var(--liquid-glass-shadow);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.95);
     border-radius: 20px;
     z-index: 1200;
     width: max-content;
@@ -553,7 +553,6 @@
 
 .matrix-input {
     position: relative;
-    color: black;
     z-index: 20;
     width: 32px; /* Zmniejszono z 35px */
     height: 24px; /* Zmniejszono z 25px */
@@ -771,7 +770,6 @@
 }
 
 .size-input {
-    color: black;
     width: 45px !important;
     height: 28px !important;
     padding: 2px 4px !important;
@@ -783,7 +781,6 @@
 
 .size-input:focus {
     outline: none;
-    background-color: white;
     border-color: var(--clr-accent);
     box-shadow: 0 0 0 2px rgba(224, 122, 95, 0.2);
 }

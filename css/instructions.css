@@ -1,0 +1,633 @@
+/* === Page Navigation === */
+.page-navigation {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 15px 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.page-navigation .back-to-home, .page-navigation .theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background: var(--clr-accent);
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.page-navigation .back-to-home:hover, .page-navigation .theme-toggle:hover {
+    background: var(--clr-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.theme-toggle {
+    min-width: 50px;
+    justify-content: center;
+}
+
+.theme-toggle i {
+    font-size: 1.1rem;
+}
+
+/* Dark mode navigation */
+body.dark-mode .page-navigation {
+    background: rgba(30, 35, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Instructions Page Styles */
+body.instructions-active {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--clr-bg);
+}
+
+body.instructions-active::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, 
+        rgba(224, 122, 95, 0.05) 0%, 
+        rgba(49, 120, 115, 0.05) 100%);
+    z-index: -2;
+    pointer-events: none;
+}
+
+body.instructions-active::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 30% 20%, rgba(224, 122, 95, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 70% 80%, rgba(49, 120, 115, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(224, 122, 95, 0.05) 0%, transparent 50%);
+    z-index: -1;
+    pointer-events: none;
+    animation: float 25s ease-in-out infinite;
+}
+
+/* Modern Instructions Container */
+.modern-instructions {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 40px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(224, 122, 95, 0.5) transparent;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 800;
+}
+
+.modern-instructions::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, 
+        rgba(224, 122, 95, 0.1) 0%, 
+        rgba(49, 120, 115, 0.1) 100%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.instructions-content-wrapper {
+    padding: 100px 30px 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.modern-instructions::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modern-instructions::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modern-instructions::-webkit-scrollbar-thumb {
+    background: rgba(224, 122, 95, 0.5);
+    border-radius: 3px;
+}
+
+/* Inline container when instructions is shown in SPA */
+#inlineInstructions {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 40px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(224, 122, 95, 0.5) transparent;
+    background: transparent;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 800;
+    pointer-events: auto;
+
+    /* Scrollbar - dopasowane do stylu userpage */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(224, 122, 95, 0.5) transparent;
+}
+
+#inlineInstructions::-webkit-scrollbar {
+    width: 6px;
+}
+#inlineInstructions::-webkit-scrollbar-track {
+    background: transparent;
+}
+#inlineInstructions::-webkit-scrollbar-thumb {
+    background: rgba(224, 122, 95, 0.5);
+    border-radius: 3px;
+}
+
+/* Back button styling - positioned like user profile */
+#inlineInstructions .back-to-home {
+    position: fixed;
+    top: 30px;
+    left: 80px;
+    z-index: 900;
+    background: rgba(224, 122, 95, 0.5);
+    border: 1px solid rgba(224, 122, 95, 0.05);
+    border-radius: 15px;
+    padding: 12px 20px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.35);
+}
+
+#inlineInstructions .back-to-home:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+    background: rgba(224, 122, 95, 0.7);
+}
+
+#inlineInstructions .back-to-home i {
+    margin-right: 8px;
+}
+
+#inlineInstructions .instructions-content-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-top: 60px; /* space for back button */
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+/* Instructions Hero Section */
+.instructions-hero {
+    background: linear-gradient(135deg, 
+        rgba(224, 122, 95, 0.9) 0%, 
+        rgba(49, 120, 115, 0.9) 100%);
+    border-radius: 25px;
+    padding: 60px 50px;
+    margin-bottom: 30px;
+    text-align: center;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.instructions-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.1), 
+        transparent);
+    animation: shine 4s ease-in-out infinite;
+}
+
+.instructions-title {
+    font-size: 3rem;
+    font-weight: bold;
+    color: white;
+    margin: 0 0 15px 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.instructions-subtitle {
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    line-height: 1.5;
+}
+
+/* Instructions Sections */
+.instructions-section {
+    margin-bottom: 40px;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 25px;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    padding-bottom: 10px;
+    border-bottom: 3px solid rgba(224, 122, 95, 0.3);
+}
+
+.section-header i {
+    color: var(--clr-accent);
+    font-size: 1.6rem;
+}
+
+/* Steps Grid */
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+}
+
+.step-card {
+    background: var(--clr-accent);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(224, 122, 95, 0.3);
+    border-radius: 20px;
+    padding: 30px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 8px 32px rgba(224, 122, 95, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.step-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.step-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 
+        0 15px 40px rgba(224, 122, 95, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.step-card:hover::before {
+    opacity: 1;
+}
+
+.step-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.step-number {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: white;
+    flex-shrink: 0;
+}
+
+.step-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.step-description {
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+    margin-bottom: 15px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.step-tips {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 15px;
+    border-left: 4px solid rgba(255, 255, 255, 0.3);
+}
+
+.step-tips h4 {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0 0 8px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.step-tips p {
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* FAQ Section */
+.faq-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.faq-item {
+    background: var(--clr-accent);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 8px 32px rgba(224, 122, 95, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.faq-question {
+    padding: 25px 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--clr-accent);
+    border: none;
+    width: 100%;
+    text-align: left;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.faq-question:hover {
+    background: rgba(224, 122, 95, 0.9);
+}
+
+.faq-question i {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-question i {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.faq-item.active .faq-answer {
+    max-height: 300px;
+    padding: 25px 30px;
+}
+
+.faq-answer p {
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Light Mode Support */
+body:not(.dark-mode).instructions-active {
+    background: #f8f9fa;
+}
+
+body:not(.dark-mode).instructions-active::before {
+    background: linear-gradient(135deg, 
+        rgba(224, 122, 95, 0.1) 0%, 
+        rgba(49, 120, 115, 0.1) 100%);
+}
+
+body:not(.dark-mode).instructions-active::after {
+    background: 
+        radial-gradient(circle at 30% 20%, rgba(224, 122, 95, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 70% 80%, rgba(49, 120, 115, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(224, 122, 95, 0.1) 0%, transparent 50%);
+}
+
+body:not(.dark-mode) .modern-instructions {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+body:not(.dark-mode) .modern-instructions .instructions-hero {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.9) 0%, 
+        rgba(240, 240, 240, 0.9) 100%);
+}
+
+body:not(.dark-mode) .modern-instructions .instructions-title {
+    color: #333;
+    text-shadow: none;
+}
+
+body:not(.dark-mode) .modern-instructions .instructions-subtitle {
+    color: #666;
+    text-shadow: none;
+}
+
+body:not(.dark-mode) .modern-instructions .section-header {
+    color: #333;
+    text-shadow: none;
+}
+
+body:not(.dark-mode) .modern-instructions .step-card {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(224, 122, 95, 0.2);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(224, 122, 95, 0.1);
+}
+
+body:not(.dark-mode) .modern-instructions .step-title {
+    color: #333;
+    text-shadow: none;
+}
+
+body:not(.dark-mode) .modern-instructions .step-description {
+    color: #555;
+    text-shadow: none;
+}
+
+body:not(.dark-mode) .modern-instructions .step-number {
+    background: var(--clr-accent);
+    color: white;
+}
+
+body:not(.dark-mode) .modern-instructions .step-tips {
+    background: rgba(224, 122, 95, 0.1);
+    border-left-color: var(--clr-accent);
+}
+
+body:not(.dark-mode) .modern-instructions .step-tips h4,
+body:not(.dark-mode) .modern-instructions .step-tips p {
+    color: #666;
+}
+
+body:not(.dark-mode) .modern-instructions .faq-item {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(224, 122, 95, 0.2);
+}
+
+body:not(.dark-mode) .modern-instructions .faq-question {
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+}
+
+body:not(.dark-mode) .modern-instructions .faq-question:hover {
+    background: rgba(224, 122, 95, 0.1);
+}
+
+body:not(.dark-mode) .modern-instructions .faq-answer {
+    background: rgba(240, 240, 240, 0.5);
+}
+
+body:not(.dark-mode) .modern-instructions .faq-answer p {
+    color: #555;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .modern-instructions {
+        padding: 20px;
+    }
+    
+    .instructions-hero {
+        padding: 40px 30px;
+    }
+    
+    .instructions-title {
+        font-size: 2.2rem;
+    }
+    
+    .instructions-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .steps-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .step-card {
+        padding: 25px;
+    }
+    
+    .section-header {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .modern-instructions {
+        padding: 15px;
+    }
+    
+    .instructions-hero {
+        padding: 30px 20px;
+    }
+    
+    .instructions-title {
+        font-size: 1.8rem;
+    }
+    
+    .step-card {
+        padding: 20px;
+    }
+}
+
+/* Responsive styles for inline instructions container */
+@media (max-width: 768px) {
+    #inlineInstructions {
+        padding: 20px;
+    }
+    
+    #inlineInstructions .back-to-home {
+        top: 20px;
+        left: 20px;
+        padding: 10px 16px;
+        font-size: 0.9rem;
+    }
+    
+    #inlineInstructions .instructions-content-wrapper {
+        padding-top: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    #inlineInstructions {
+        padding: 15px;
+    }
+    
+    #inlineInstructions .back-to-home {
+        top: 15px;
+        left: 15px;
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+}

@@ -142,14 +142,6 @@ body.dark-mode .default-result-text {
     color: #666 !important;
 }
 
-body.dark-mode .nav-bar {
-    background: linear-gradient(135deg, 
-        rgba(224, 122, 95, 0.2) 0%,
-        rgba(224, 122, 95, 0.3) 50%, 
-        rgba(224, 122, 95, 0.2) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
 body.dark-mode #mathBg {
     background: #1a1a1a;
 }
@@ -225,14 +217,13 @@ body.dark-mode .clear-btn {
     color: var(--clr-dark-text) !important;
 }
 
-body.dark-mode .menu-btn {
-    background: linear-gradient(135deg, 
-        rgba(224, 122, 95, 0.2) 0%,
-        rgba(224, 122, 95, 0.3) 50%, 
-        rgba(224, 122, 95, 0.2) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+body.dark-mode .menu-btn,
+body.dark-mode .nav-bar {
+    background-color: rgba(224, 122, 95, 0.35);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 173, 150, 0.5);
     color: var(--clr-dark-text) !important;
 }
 
@@ -241,6 +232,7 @@ body.dark-mode .menu-btn:hover {
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
     transform: rotate(180deg) scale(1.2);
     color: black !important;
+    border: none;
 }
 
 body.dark-mode .theme-toggle-btn {
@@ -283,6 +275,38 @@ body.dark-mode .theme-toggle-btn {
     font-size: 1.5rem;
     transition: all 0.5s cubic-bezier(0.65, 0, 0.35, 1);
     z-index: 1;
+}
+
+/* Force icon visibility based on body.dark-mode state so symbol zawsze odpowiada aktualnemu trybowi */
+.theme-toggle-btn .icon-sun {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.65,0,0.35,1);
+}
+.theme-toggle-btn .icon-moon {
+    opacity: 0;
+    transform: translate(-50%, 100%) scale(0.5);
+    transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.65,0,0.35,1);
+}
+
+/* When dark mode is active, show moon and hide sun */
+body.dark-mode .theme-toggle-btn .icon-sun {
+    opacity: 0;
+    transform: translate(-50%, -100%) scale(0.5);
+}
+body.dark-mode .theme-toggle-btn .icon-moon {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Ensure non-dark state shows sun (cover case when body.dark-mode absent) */
+body:not(.dark-mode) .theme-toggle-btn .icon-sun {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+body:not(.dark-mode) .theme-toggle-btn .icon-moon {
+    opacity: 0;
+    transform: translate(-50%, 100%) scale(0.5);
 }
 
 .theme-toggle-btn:hover .icon-sun,
@@ -364,7 +388,7 @@ body.dark-mode .user-btn {
 body.dark-mode .user-btn:hover {
     background: rgba(224, 122, 95, 0.4);
     box-shadow: 0 0 20px rgba(224, 122, 95, 0.7);
-    transform: scale(1.1) rotate(360deg);
+    transform: scale(1.5) rotate(360deg);
     transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1), 
                 background 0.2s cubic-bezier(0.65, 0, 0.35, 1), 
                 box-shadow 0.2s cubic-bezier(0.65, 0, 0.35, 1);
@@ -455,4 +479,177 @@ body.dark-mode .matrix-frame.active-matrix .matrix-title {
         0 0 10px rgba(224, 122, 95, 0.8),
         0 0 20px rgba(224, 122, 95, 0.6);
     font-size: 1.2em;
+}
+
+body.dark-mode .stat-card,
+body.dark-mode .action-card,
+body.dark-mode .timeline-item {
+    background: rgba(255, 255, 255, 0.45) !important;
+    border: var(--liquid-glass-border);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
+}
+
+body.dark-mode .achievement-card {
+    background: linear-gradient(90deg, rgba(255,215,0,0.65), rgba(255,165,0,0.65));
+}
+
+/* Ensure avatar placeholder initials remain readable if using white bg */
+body.dark-mode .modern-user-profile .avatar-placeholder {
+    color: #000000 !important;
+}
+
+/* Also ensure stat numbers/icons inside stat-card are black */
+body.dark-mode .stat-card .stat-number,
+body.dark-mode .stat-card .stat-label {
+    color: #000000 !important;
+}
+
+/* Force black for specific Font Awesome icons inside user profile in dark mode */
+body.dark-mode .modern-user-profile i.fas.fa-calculator,
+body.dark-mode .modern-user-profile i.fas.fa-clock,
+body.dark-mode .modern-user-profile i.fas.fa-trophy,
+body.dark-mode .modern-user-profile i.fas.fa-star,
+body.dark-mode .modern-user-profile i.fas.fa-chart-bar,
+body.dark-mode .modern-user-profile i.fas.fa-history,
+body.dark-mode .modern-user-profile i.fas.fa-camera {
+    color: #000000 !important;
+    fill: #000000 !important;
+    stroke: #000000 !important;
+}
+
+/* Also target stat icons specifically */
+body.dark-mode .stat-icon,
+body.dark-mode .action-icon  {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
+}
+
+/* About & Instructions: dokładne style modern-user-profile w trybie ciemnym */
+body.dark-mode .modern-about,
+body.dark-mode .modern-instructions,
+body.dark-mode .modern-about .about-content-wrapper,
+body.dark-mode .modern-instructions .instructions-content-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 40px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(224, 122, 95, 0.5) transparent;
+    background: transparent;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 800;
+    color: #e6e6e6;
+}
+
+/* WebKit scrollbars (narrow like modern-user-profile) */
+body.dark-mode .modern-about::-webkit-scrollbar,
+body.dark-mode .modern-instructions::-webkit-scrollbar {
+    width: 6px;
+}
+body.dark-mode .modern-about::-webkit-scrollbar-track,
+body.dark-mode .modern-instructions::-webkit-scrollbar-track {
+    background: transparent;
+}
+body.dark-mode .modern-about::-webkit-scrollbar-thumb,
+body.dark-mode .modern-instructions::-webkit-scrollbar-thumb {
+    background: rgba(224, 122, 95, 0.5);
+    border-radius: 3px;
+}
+
+/* Hero sections — styl zgodny z profile .profile-hero */
+body.dark-mode .about-hero,
+body.dark-mode .modern-about .about-hero,
+body.dark-mode .instructions-hero,
+body.dark-mode .modern-instructions .instructions-hero {
+    background: rgba(224, 122, 95, 0.5);
+    border-radius: 25px;
+    padding: 50px;
+    margin-bottom: 30px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1);
+    position: relative;
+    overflow: hidden;
+    min-height: 300px;
+}
+
+/* Inline SPA containers should match user profile styles */
+body.dark-mode #inlineAbout,
+body.dark-mode #inlineInstructions {
+    background: transparent;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: none;
+    padding: 40px;
+    pointer-events: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(224, 122, 95, 0.5) transparent;
+}
+
+body.dark-mode #inlineAbout::-webkit-scrollbar,
+body.dark-mode #inlineInstructions::-webkit-scrollbar {
+    width: 6px;
+}
+body.dark-mode #inlineAbout::-webkit-scrollbar-track,
+body.dark-mode #inlineInstructions::-webkit-scrollbar-track {
+    background: transparent;
+}
+body.dark-mode #inlineAbout::-webkit-scrollbar-thumb,
+body.dark-mode #inlineInstructions::-webkit-scrollbar-thumb {
+    background: rgba(224, 122, 95, 0.5);
+    border-radius: 3px;
+}
+
+/* Dark mode back button styles */
+body.dark-mode #inlineAbout .back-to-home,
+body.dark-mode #inlineInstructions .back-to-home {
+    background-color: rgba(224, 122, 95, 0.35);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 173, 150, 0.5);
+    color: var(--clr-dark-text) !important;
+}
+
+body.dark-mode #inlineAbout .back-to-home:hover,
+body.dark-mode #inlineInstructions .back-to-home:hover {
+    background: rgba(255, 255, 255, 1) !important;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    transform: scale(1.15);
+    color: black !important;
+    border: none;
+}
+
+/* Ensure text contrast in sections */
+body.dark-mode .modern-about .section-header,
+body.dark-mode .modern-instructions .section-header {
+    color: #e6e6e6;
+}
+
+body.dark-mode .feature-card,
+body.dark-mode .vision-card,
+body.dark-mode .future-item {
+    background: rgba(255, 255, 255, 0.45) !important;
+    border: var(--liquid-glass-border);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
+}
+
+body.dark-mode .feature-card:hover,
+body.dark-mode .vision-card:hover,
+body.dark-mode .future-item:hover{
+    box-shadow: 0 0 20px rgba(255, 255, 255, 1) !important;
+    background: rgba(255, 255, 255, 0.55) !important;
+}
+
+body.dark-mode .feature-icon {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
 }

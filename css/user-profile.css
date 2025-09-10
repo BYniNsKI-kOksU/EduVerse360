@@ -5,7 +5,6 @@ html, body {
     padding: 0;
     overflow: hidden;
 }
-
 body.user-profile-active {
     position: fixed;
     width: 100%;
@@ -70,16 +69,17 @@ body.user-profile-active::after {
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
+    background: var(--clr-accent);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border: 3px solid var(--clr-accent);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 48px;
+    color: white;
     margin-bottom: 20px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 30px rgba(224, 122, 95, 0.3);
     position: relative;
     overflow: hidden;
     will-change: transform;

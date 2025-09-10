@@ -97,6 +97,73 @@ function setupMenu() {
     setupSubmenu(document.getElementById('homeAppMenuItem'), document.getElementById('homeAppSubmenu'));
     setupSubmenu(document.getElementById('homeHelpMenuItem'), document.getElementById('homeHelpSubmenu'));
 
+    // helper to load a script dynamically
+    const loadScript = (src) => {
+        return new Promise((resolve, reject) => {
+            if (document.querySelector(`script[src="${src}"]`)) return resolve();
+            const s = document.createElement('script');
+            s.src = src;
+            s.async = true;
+            s.onload = resolve;
+            s.onerror = reject;
+            document.body.appendChild(s);
+        });
+    };
+
+    // Quick links inside Help submenu: O Aplikacji / Instrukcje
+    const aboutMenuItem = document.getElementById('aboutMenuItem');
+    const instructionsMenuItem = document.getElementById('instructionsMenuItem');
+
+    if (aboutMenuItem) {
+        aboutMenuItem.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            if (typeof closeMenuWithAnimation === 'function') closeMenuWithAnimation();
+
+            // Try template-based inline first
+            if (window.showAboutInlineFromTemplate && window.showAboutInlineFromTemplate()) {
+                return;
+            }
+
+            // Try loading external JS if template not available
+            try {
+                await loadScript('js/about.js');
+                if (typeof window.showAboutInline === 'function') {
+                    window.showAboutInline();
+                    return;
+                }
+            } catch (err) {
+                console.warn('Nie udało się załadować about.js:', err);
+            }
+
+            console.error('Nie można wyświetlić strony About - brak szablonu i pliku JS');
+        });
+    }
+
+    if (instructionsMenuItem) {
+        instructionsMenuItem.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            if (typeof closeMenuWithAnimation === 'function') closeMenuWithAnimation();
+
+            // Try template-based inline first
+            if (window.showInstructionsInlineFromTemplate && window.showInstructionsInlineFromTemplate()) {
+                return;
+            }
+
+            // Try loading external JS if template not available
+            try {
+                await loadScript('js/instructions.js');
+                if (typeof window.showInstructionsInline === 'function') {
+                    window.showInstructionsInline();
+                    return;
+                }
+            } catch (err) {
+                console.warn('Nie udało się załadować instructions.js:', err);
+            }
+
+            console.error('Nie można wyświetlić strony Instructions - brak szablonu i pliku JS');
+        });
+    }
+
     document.querySelectorAll('.back-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -151,15 +218,6 @@ function setupMenu() {
             void userBtn.offsetWidth;
         });
     }
-
-    // Close button handler
-    const closeBtn = document.getElementById('closeUserPageBtn');
-    if (closeBtn) {
-        closeBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            goBackToPreviousPage();
-        });
-    }
 }
 
 function resetMenuState() {
@@ -210,16 +268,6 @@ window.addEventListener("pageshow", (event) => {
 
 function backToHome() {
     currentScreen = "home";
-    
-    // Remove user profile class and hide close button when returning to home
-    document.body.classList.remove('user-profile-active');
-    hideCloseButton();
-    
-    // Force hide close button with additional check
-    setTimeout(() => {
-        hideCloseButton();
-    }, 50);
-    
     document.querySelector('.home-screen').style.display = 'flex';
     document.querySelector('.app-container').style.display = 'none';
     document.getElementById('globalSideMenu').classList.remove('hidden');
@@ -295,25 +343,6 @@ function showUserProfile() {
     
     // Aktywuj profil użytkownika
     document.getElementById('userProfileApp').classList.add('active');
-    
-    // Show close button ONLY when user profile is actually active AND we're in app container
-    setTimeout(() => {
-        const userProfileApp = document.getElementById('userProfileApp');
-        const appContainer = document.querySelector('.app-container');
-        const homeScreen = document.querySelector('.home-screen');
-        const welcomeScreen = document.querySelector('.welcome-screen');
-        
-        // Bardzo restrykcyjne warunki - pokazuj X TYLKO w user profile
-        if (userProfileApp && userProfileApp.classList.contains('active') && 
-            appContainer && appContainer.style.display === 'block' &&
-            homeScreen && homeScreen.style.display === 'none' &&
-            welcomeScreen && welcomeScreen.style.display === 'none' &&
-            currentScreen === "app") {
-            showCloseButton();
-        } else {
-            hideCloseButton();
-        }
-    }, 150);
     
     // Załaduj zapisane dane użytkownika
     if (typeof userProfileModals !== 'undefined') {
@@ -451,28 +480,96 @@ document.querySelectorAll('.matrix-input').forEach(input => {
     });
 });
 
-// Function to go back to previous page
-function goBackToPreviousPage() {
-    // Hide user profile and close button
-    document.body.classList.remove('user-profile-active');
-    hideCloseButton();
+// Expose helpers to show inline templates directly from the index (useful when templates are embedded)
+window.showAboutInlineFromTemplate = function() {
+    const tpl = document.getElementById('tpl-about');
+    if (!tpl) return false;
+    let container = document.getElementById('inlineAbout');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'inlineAbout';
+        container.className = 'about-inline-container';
+        document.body.appendChild(container);
+    }
+    container.innerHTML = '';
     
-    // Show home screen
-    document.querySelector('.welcome-screen').style.display = 'none';
-    document.querySelector('.app-container').style.display = 'none';
-    document.querySelector('.home-screen').style.display = 'block';
+    // Create only the back button (no surrounding nav bar)
+    const backButton = document.createElement('button');
+    backButton.className = 'back-to-home';
+    backButton.id = 'inlineAboutBack';
+    backButton.innerHTML = '<i class="fas fa-arrow-left"></i> Powrót';
+    container.appendChild(backButton);
     
-    // Remove active from all app contents
-    document.querySelectorAll('.app-content').forEach(content => {
-        content.classList.remove('active');
+    const content = tpl.content.cloneNode(true);
+    container.appendChild(content);
+    container.style.display = 'block';
+    
+    // Add body class for styling
+    document.body.classList.add('about-active');
+    document.body.style.overflow = 'hidden';
+    
+    document.querySelectorAll('.welcome-screen, .home-screen, .app-container').forEach(el => { 
+        if (el) el.style.display = 'none'; 
     });
     
-    // Update current screen
-    currentScreen = "home";
-    
-    // Reset menu state
-    resetMenuState();
-    updateUI();
-}
+    document.getElementById('inlineAboutBack').addEventListener('click', (e) => { 
+        e.stopPropagation(); 
+        container.style.display = 'none';
+        document.body.classList.remove('about-active');
+        document.body.style.overflow = '';
+        backToHome(); 
+    });
+    return true;
+};
 
-// Functions showCloseButton and hideCloseButton are now defined in script.js to avoid loading order issues
+window.showInstructionsInlineFromTemplate = function() {
+    const tpl = document.getElementById('tpl-instructions');
+    if (!tpl) return false;
+    let container = document.getElementById('inlineInstructions');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'inlineInstructions';
+        container.className = 'instructions-inline-container';
+        document.body.appendChild(container);
+    }
+    container.innerHTML = '';
+    
+    // Create only the back button (no surrounding nav bar)
+    const backButton = document.createElement('button');
+    backButton.className = 'back-to-home';
+    backButton.id = 'inlineInstructionsBack';
+    backButton.innerHTML = '<i class="fas fa-arrow-left"></i> Powrót';
+    container.appendChild(backButton);
+    
+    const content = tpl.content.cloneNode(true);
+    container.appendChild(content);
+    container.style.display = 'block';
+    
+    // Add body class for styling
+    document.body.classList.add('instructions-active');
+    document.body.style.overflow = 'hidden';
+    
+    // init FAQ toggles
+    container.querySelectorAll('.faq-question').forEach(q => {
+        q.addEventListener('click', () => {
+            const item = q.closest('.faq-item');
+            if (item) item.classList.toggle('active');
+        });
+    });
+    
+    document.querySelectorAll('.welcome-screen, .home-screen, .app-container').forEach(el => { 
+        if (el) el.style.display = 'none'; 
+    });
+    
+    document.getElementById('inlineInstructionsBack').addEventListener('click', (e) => { 
+        e.stopPropagation(); 
+        container.style.display = 'none';
+        document.body.classList.remove('instructions-active');
+        document.body.style.overflow = '';
+        backToHome(); 
+    });
+    return true;
+};
+
+
+

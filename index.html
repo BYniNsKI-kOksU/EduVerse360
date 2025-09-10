@@ -2,12 +2,10 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <meta name="description" content="EduVerse 360 - Nowoczesne narzędzia do obliczeń matematycznych">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduVerse 360</title>
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/btn.css"> 
     <link rel="stylesheet" href="css/app-structure.css">
     <link rel="stylesheet" href="css/responsiveness.css">
     <link rel="stylesheet" href="css/side-menu.css">
@@ -15,15 +13,12 @@
     <link rel="stylesheet" href="css/navigation.css">
     <link rel="stylesheet" href="css/new-user-profile.css">
     <link rel="stylesheet" href="css/user-profile-modals.css">
-    <link rel="stylesheet" href="css/new-applications.css">
-    <link rel="stylesheet" href="css/advanced-calculators.css">
-    <link rel="stylesheet" href="css/keyboard-shortcuts.css">
-    <link rel="stylesheet" href="css/accessibility-improvements.css">
+    <link rel="stylesheet" href="css/about.css">
+    <link rel="stylesheet" href="css/instructions.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- Poprawiono Font Awesome -->
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Przejdź do głównej zawartości</a>
-    <canvas id="mathBg" aria-hidden="true"></canvas>
+    <canvas id="mathBg"></canvas>
 
     <!-- Mobile Dashboard -->
     <div id="mobileDashboard" class="mobile-dashboard hidden">
@@ -66,6 +61,17 @@
                     <span>Kalkulator macierzy</span>
                 </button>
             </div>
+            <div class="dashboard-section">
+                <h4 data-translate-key="dashboard.help">Pomoc</h4>
+                <button class="dashboard-btn" data-action="about">
+                    <i class="fas fa-info-circle"></i>
+                    <span>O aplikacji</span>
+                </button>
+                <button class="dashboard-btn" data-action="instructions">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Instrukcja</span>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -76,9 +82,6 @@
 
     <!-- Global Navigation Bar -->
     <div class="nav-bar">
-        <button class="nav-btn close-btn" id="closeUserPageBtn" style="display: none;">
-            <i class="fas fa-times"></i>
-        </button>
         <button class="nav-btn user-btn" id="showUserProfileBtn">
             <i class="fas fa-user"></i>
         </button>
@@ -87,24 +90,19 @@
             <i class="fas fa-moon icon-moon"></i>
         </button>
         <div class="lang-container">
-            <button type="button" class="lang-btn" 
-                    aria-label="Wybierz język" 
-                    aria-expanded="false" 
-                    aria-controls="nav-lang-menu"
-                    title="Zmień język aplikacji">
-            </button>
+            <div class="lang-btn"></div>
         </div>
     </div>
 
     <!-- Lang menus moved to body level -->
-    <div class="lang-menu nav-lang-menu" style="display: none;">
+    <div class="lang-menu nav-lang-menu">
         <div data-lang="pl">Polski</div>
         <div data-lang="en">English</div>
         <div data-lang="de">Deutsch</div>
     </div>
     
     <!-- Language submenu for mobile dashboard -->
-    <div class="dashboard-submenu" id="languageSubmenu" style="display: none;">
+    <div class="dashboard-submenu" id="languageSubmenu">
         <button class="dashboard-back-btn">
             <i class="fas fa-arrow-left"></i>
             <span>Wstecz</span>
@@ -123,7 +121,28 @@
         </button>
     </div>
     
-    <div class="lang-menu welcome-lang-menu" style="display: none;">
+    <!-- Tooltip for keyboard shortcuts (will be added dynamically) -->
+    <div id="keyboardShortcuts" class="keyboard-shortcuts" style="display: none;">
+        <div class="shortcuts-title">Skróty klawiszowe:</div>
+        <div class="shortcut-item">
+            <span class="shortcut-key">Ctrl + M</span>
+            <span class="shortcut-desc">Przełącz między macierzami</span>
+        </div>
+        <div class="shortcut-item">
+            <span class="shortcut-key">Ctrl + 1</span>
+            <span class="shortcut-desc">Przejdź do macierzy A</span>
+        </div>
+        <div class="shortcut-item">
+            <span class="shortcut-key">Ctrl + 2</span>
+            <span class="shortcut-desc">Przejdź do macierzy B</span>
+        </div>
+        <div class="shortcut-item">
+            <span class="shortcut-key">Ctrl + Enter</span>
+            <span class="shortcut-desc">Oblicz wynik</span>
+        </div>
+    </div>
+
+    <div class="lang-menu welcome-lang-menu">
         <div data-lang="pl">Polski</div>
         <div data-lang="en">English</div>
         <div data-lang="de">Deutsch</div>
@@ -131,7 +150,7 @@
 
 
     <!-- Size menus moved to body level -->
-    <div id="sizeMenuA" class="size-menu" style="display: none;">
+    <div id="sizeMenuA" class="size-menu">
         <div class="resize-input-group">
             <label for="rowsA">Wiersze:</label>
             <input id="rowsA" type="number" min="1" max="10" value="2" class="size-input">
@@ -146,7 +165,7 @@
         </div>
     </div>
     
-    <div id="sizeMenuB" class="size-menu" style="display: none;">
+    <div id="sizeMenuB" class="size-menu">
         <div class="resize-input-group">
             <label for="rowsB">Wiersze:</label>
             <input id="rowsB" type="number" min="1" max="10" value="2" class="size-input">
@@ -162,19 +181,9 @@
     </div>
 
     <!-- Global Side menu -->
-    <button id="menuBtn" type="button" class="menu-btn" 
-            aria-label="Otwórz menu nawigacji" 
-            aria-expanded="false" 
-            aria-controls="globalSideMenu"
-            title="Menu (☰)">
-        <span aria-hidden="true">☰</span>
-    </button>
+    <button id="menuBtn" class="menu-btn">☰</button>
     <div id="globalSideMenu" class="side-menu hidden">
-        <button id="closeSideMenuBtn" type="button" class="close-side-menu-btn" 
-                aria-label="Zamknij menu nawigacji" 
-                title="Zamknij menu (✖)">
-            <span aria-hidden="true">✖</span>
-        </button>
+        <button id="closeSideMenuBtn" class="close-side-menu-btn">✖</button>
 
         <div id="homeMenuItem" class="menu-item" style="--menu-item-index: 0;">Strona główna</div>
         <div id="appMenuItem" class="menu-item" style="--menu-item-index: 1;" data-translate-key="dashboard.applications">Aplikacje</div>
@@ -186,13 +195,13 @@
         <div id="helpMenuItem" class="menu-item" style="--menu-item-index: 2;" data-translate-key="dashboard.help">Pomoc</div>
         <div id="helpSubmenu" class="submenu">
             <div class="back-btn">←</div>
-            <div class="submenu-item">O aplikacji</div>
-            <div class="submenu-item">Instrukcja</div>
+            <div class="submenu-item" id="aboutMenuItem">O aplikacji</div>
+            <div class="submenu-item" id="instructionsMenuItem">Instrukcja</div>
         </div>
     </div>
 
     <!-- Welcome Screen -->
-    <main id="main-content" class="welcome-screen">
+    <div class="welcome-screen">
         <h1 class="welcome-title"><span>Witaj w EduVerse 360</span></h1>
         <p class="welcome-subtitle"><span>Odkryj narzędzia do obliczeń matematycznych</span></p>
         <p class="start-hint">(kliknij dowolny klawisz lub kliknij myszką aby kontynuować)</p>
@@ -201,43 +210,19 @@
                 <div class="lang-btn"></div>
             </div>
         </div>
-    </main>
+    </div>
 
     <!-- Home Screen -->
     <div class="home-screen" style="display: none;">
-        <h2 class="home-title" data-translate-key="choose_app">Wybierz aplikacje</h2>
+        <h1 class="home-title" data-translate-key="choose_app">Wybierz aplikacje</h1>
         <div class="tiles">
             <div class="tile" data-app="leapYear">
                 <span class="tile-icon">📆</span>
                 <span class="tile-label">Badacz roku przestępnego</span>
             </div>
-            <div class="tile" data-app="functionCalculator">
-                <span class="tile-icon">📈</span>
-                <span class="tile-label">Kalkulator funkcji</span>
-            </div>
-            <div class="tile" data-app="equationSolver">
-                <span class="tile-icon">🔧</span>
-                <span class="tile-label">Rozwiązywanie równań</span>
-            </div>
-            <div class="tile" data-app="unitConverter">
-                <span class="tile-icon">⚖️</span>
-                <span class="tile-label">Konwerter jednostek</span>
-            </div>
-            <div class="tile" data-app="statisticalCalculator">
-                <span class="tile-icon">📊</span>
-                <span class="tile-label">Kalkulator statystyczny</span>
-            </div>
-            <div class="tile" data-app="combinatoricsCalculator">
-                <span class="tile-icon">🎲</span>
-                <span class="tile-label">Kombinatoryka</span>
-            </div>
-            <div class="tile" data-app="matrixCalculator">
-                <span class="tile-icon">🧮</span>
-                <span class="tile-label">Rozszerzony kalkulator macierzy</span>
-            </div>
             <div class="tile" data-app="matrixCalc">
-                <span class="tile-icon">🔢</span>
-                <span class="tile-label">Prosty kalkulator macierzy</span>
+                <span class="tile-icon">🧮</span>
+                <span class="tile-label">Kalkulator macierzy</span>
             </div>
         </div>
     </div>
@@ -252,15 +237,10 @@
             <div class="leap-year-container">
                 <h2 id="leapYearTitle" class="leap-year-title">Badacz roku przestępnego</h2>
                 <div class="input-container">
-                    <label for="yearInput" id="yearLabel" class="input-label">Podaj rok:</label>
-                    <input type="number" id="yearInput" name="year" class="year-input" inputmode="numeric" 
-                           placeholder="np. 2024" aria-describedby="yearError" required>
-                    <div id="yearError" class="error-message" role="alert" aria-live="polite" style="display: none;"></div>
+                    <label id="yearLabel" class="input-label">Podaj rok:</label>
+                    <input type="number" id="yearInput" class="year-input" inputmode="numeric">
                 </div>
-                <button id="checkBtn" type="button" class="check-btn" aria-describedby="resultContainer">
-                    <span class="btn-text">Oblicz</span>
-                    <span class="btn-spinner" style="display: none;" aria-hidden="true">⏳</span>
-                </button>
+                <button id="checkBtn" class="check-btn">Oblicz</button>
                 <div id="resultContainer" class="result-container"></div>
                 <div class="history-container">
                     <div id="historyLabel" class="history-title">Historia:</div>
@@ -279,7 +259,7 @@
                     <div class="operation-selector">
                         <div id="operationLabel" class="operation-label">Operacja:</div>
                         <button id="operationBtn" class="operation-btn">Dodawanie</button>
-                        <div id="operationMenu" class="operation-menu" style="display: none;">
+                        <div id="operationMenu" class="operation-menu">
                             <div class="operation-menu-item" data-op="add">Dodawanie</div>
                             <div class="operation-menu-item" data-op="sub">Odejmowanie</div>
                             <div class="operation-menu-item" data-op="mul">Mnożenie</div>
@@ -292,46 +272,18 @@
                     <div class="method-selector-wrapper" style="display: none;">
                         <div class="method-label">Metoda:</div>
                         <button id="methodBtn" class="method-btn-main">Cramer</button>
-                        <div id="methodSelector" class="method-selector" style="display: none;">
-                            <div class="method-menu-item" data-value="cramer">Cramer</div>
-                            <div class="method-menu-item" data-value="gauss">Eliminacja Gaussa</div>
-                            <div class="method-menu-item" data-value="gauss-jordan">Gauss-Jordan</div>
-                            <div class="method-menu-item" data-value="inverse">Macierz odwrotna</div>
+                        <div id="methodSelector" class="method-selector">
+                            <div class="method-menu-item" data-value="value1">Cramer</div>
+                            <div class="method-menu-item" data-value="value2">Eliminacja Gaussa</div>
+                            <div class="method-menu-item" data-value="value3">Gauss-Jordan</div>
+                            <div class="method-menu-item" data-value="value4">Macierz odwrotna</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="action-buttons">
-                    <button id="computeBtn" type="button" class="btn matrix-btn" tabindex="0" 
-                            aria-describedby="resultBox" title="Wykonaj obliczenie (Ctrl+Enter)">
-                        <span class="btn-text">Oblicz</span>
-                        <span class="btn-spinner" style="display: none;" aria-hidden="true">⏳</span>
-                    </button>
-                    <button id="clearBtn" type="button" class="btn matrix-btn" 
-                            aria-label="Wyczyść macierze" title="Wyczyść wszystkie pola">
-                        Wyczyść
-                    </button>
-                </div>
-
-                <!-- Keyboard shortcuts for matrix calculator -->
-                <div id="matrixKeyboardShortcuts" class="keyboard-shortcuts" style="display: none;">
-                    <div class="shortcuts-title">Skróty klawiszowe:</div>
-                    <div class="shortcut-item">
-                        <span class="shortcut-key">Ctrl + M</span>
-                        <span class="shortcut-desc">Przełącz między macierzami</span>
-                    </div>
-                    <div class="shortcut-item">
-                        <span class="shortcut-key">Ctrl + 1</span>
-                        <span class="shortcut-desc">Przejdź do macierzy A</span>
-                    </div>
-                    <div class="shortcut-item">
-                        <span class="shortcut-key">Ctrl + 2</span>
-                        <span class="shortcut-desc">Przejdź do macierzy B</span>
-                    </div>
-                    <div class="shortcut-item">
-                        <span class="shortcut-key">Ctrl + Enter</span>
-                        <span class="shortcut-desc">Oblicz wynik</span>
-                    </div>
+                    <button id="computeBtn" class="btn matrix-btn" tabindex="0">Oblicz</button>
+                    <button id="clearBtn" class="btn matrix-btn">Wyczyść</button>
                 </div>
 
                 <div id="matricesContainer" class="matrices-container">
@@ -357,533 +309,44 @@
                 <div id="solutionBox" class="solution-container"></div>
             </div>
         </div>
-
-        <!-- Function Calculator App -->
-        <div id="functionCalculatorApp" class="app-content">
-            <div class="function-calculator-container">
-                <h2 class="app-title">Kalkulator funkcji</h2>
-                
-                <div class="function-controls">
-                    <div class="function-input-panel">
-                        <div class="function-input-group">
-                            <label for="functionSelect">Wybierz funkcję:</label>
-                            <select id="functionSelect" name="function" class="function-select" aria-describedby="functionInfo" required>
-                                <option value="sin">Sinus (sin)</option>
-                                <option value="cos">Cosinus (cos)</option>
-                                <option value="tan">Tangens (tan)</option>
-                                <option value="log">Logarytm naturalny (ln)</option>
-                                <option value="log10">Logarytm dziesiętny (log₁₀)</option>
-                                <option value="sqrt">Pierwiastek kwadratowy (√)</option>
-                                <option value="exp">Funkcja wykładnicza (eˣ)</option>
-                                <option value="abs">Wartość bezwzględna (|x|)</option>
-                                <option value="asin">Arcus sinus (arcsin)</option>
-                                <option value="acos">Arcus cosinus (arccos)</option>
-                                <option value="atan">Arcus tangens (arctan)</option>
-                            </select>
-                        </div>
-                        
-                        <div class="function-input-group">
-                            <label for="xValue">Wartość x:</label>
-                            <input type="number" id="xValue" name="xValue" class="function-input" 
-                                   step="0.01" placeholder="np. 1.5" value="1" 
-                                   aria-describedby="functionError" required>
-                            <div id="functionErrorX" class="error-message" role="alert" aria-live="polite" style="display: none;"></div>
-                        </div>
-                        
-                        <div class="function-buttons">
-                            <button id="calculateFunctionBtn" type="button" class="function-btn primary" 
-                                    aria-describedby="functionResult">
-                                <span class="btn-text">Oblicz wartość</span>
-                                <span class="btn-spinner" style="display: none;" aria-hidden="true">⏳</span>
-                            </button>
-                            <button id="plotPointBtn" type="button" class="function-btn primary" 
-                                    aria-describedby="functionCanvas" title="Wyświetl punkt na wykresie funkcji">
-                                Pokaż na wykresie
-                            </button>
-                            <button id="clearFunctionBtn" type="button" class="function-btn secondary" 
-                                    aria-label="Wyczyść wszystkie pola" title="Resetuj pola i wyniki">
-                                Wyczyść
-                            </button>
-                        </div>
-                        
-                        <div id="functionInfo" class="function-info-card">
-                            <h4>Informacje o funkcji:</h4>
-                            <div class="info-content">Wybierz funkcję i wprowadź wartość x aby obliczyć wynik</div>
-                        </div>
-                    </div>
-                    
-                    <div class="function-canvas-container">
-                        <h4 style="color: white; margin-bottom: 15px;">Wykres funkcji z zaznaczoną wartością</h4>
-                        <canvas id="functionCanvas" class="function-canvas" width="600" height="400"></canvas>
-                    </div>
-                </div>
-                
-                <div id="functionError" class="error-container" style="display: none;"></div>
-                <div id="functionResult" class="result-container">
-                    <h3>Wynik obliczeń:</h3>
-                    <div class="result-content">Wprowadź wartość x i kliknij "Oblicz wartość" aby zobaczyć wynik</div>
-                </div>
-                
-                <div id="functionHistory" class="history-container">
-                    <h3>Historia obliczeń:</h3>
-                    <div class="history-list">
-                        <div class="empty-history">Brak historii obliczeń</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Equation Solver App -->
-        <div id="equationSolverApp" class="app-content">
-            <div class="equation-solver-container">
-                <h2 class="app-title">Rozwiązywanie równań</h2>
-                
-                <div class="equation-controls">
-                    <div class="equation-type-selector">
-                        <div class="equation-input-group">
-                            <label for="equationType">Typ równania:</label>
-                            <select id="equationType" class="equation-select">
-                                <option value="linear">Równanie liniowe: ax + b = 0</option>
-                                <option value="quadratic">Równanie kwadratowe: ax² + bx + c = 0</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div id="equationInputs" class="equation-inputs">
-                        <!-- Linear equation inputs (default) -->
-                        <div class="linear-inputs">
-                            <h4>Równanie liniowe: ax + b = 0</h4>
-                            <div class="equation-input-group">
-                                <label for="coeff_a">Współczynnik a (przy x):</label>
-                                <input type="number" id="coeff_a" name="coeff_a" class="equation-input" 
-                                       step="0.01" value="2" placeholder="np. 2" 
-                                       aria-describedby="linearError" required>
-                            </div>
-                            <div class="equation-input-group">
-                                <label for="coeff_b">Współczynnik b (stały):</label>
-                                <input type="number" id="coeff_b" name="coeff_b" class="equation-input" 
-                                       step="0.01" value="-6" placeholder="np. -6" 
-                                       aria-describedby="linearError" required>
-                            </div>
-                            <div id="linearError" class="error-message" role="alert" aria-live="polite" style="display: none;"></div>
-                        </div>
-                        
-                        <div class="quadratic-inputs" style="display: none;">
-                            <h4>Równanie kwadratowe: ax² + bx + c = 0</h4>
-                            <div class="equation-input-group">
-                                <label for="quad_a">Współczynnik a (przy x²):</label>
-                                <input type="number" id="quad_a" name="quad_a" class="equation-input" 
-                                       step="0.01" value="1" placeholder="np. 1" 
-                                       aria-describedby="quadError" required>
-                            </div>
-                            <div class="equation-input-group">
-                                <label for="quad_b">Współczynnik b (przy x):</label>
-                                <input type="number" id="quad_b" name="quad_b" class="equation-input" 
-                                       step="0.01" value="-5" placeholder="np. -5" 
-                                       aria-describedby="quadError">
-                            </div>
-                            <div class="equation-input-group">
-                                <label for="quad_c">Współczynnik c (stały):</label>
-                                <input type="number" id="quad_c" name="quad_c" class="equation-input" 
-                                       step="0.01" value="6" placeholder="np. 6" 
-                                       aria-describedby="quadError">
-                            </div>
-                            <div id="quadError" class="error-message" role="alert" aria-live="polite" style="display: none;"></div>
-                        </div>
-                        
-                        <div class="equation-display">
-                            <p>Równanie: <span id="equationPreview">2x - 6 = 0</span></p>
-                        </div>
-                    </div>
-                    
-                    <div class="equation-buttons">
-                        <button id="solveEquationBtn" type="button" class="equation-btn primary" 
-                                aria-describedby="equationResult">
-                            <span class="btn-text">Rozwiąż równanie</span>
-                            <span class="btn-spinner" style="display: none;" aria-hidden="true">⏳</span>
-                        </button>
-                        <button id="clearEquationBtn" type="button" class="equation-btn secondary" 
-                                aria-label="Wyczyść wszystkie pola" title="Resetuj współczynniki i wyniki">
-                            Wyczyść
-                        </button>
-                        <button id="showStepsBtn" type="button" class="equation-btn secondary" 
-                                aria-describedby="equationSteps" title="Pokaż szczegółowe kroki rozwiązania">
-                            Pokaż kroki
-                        </button>
-                    </div>
-                </div>
-                
-                <div id="equationError" class="error-container" style="display: none;"></div>
-                <div id="equationResult" class="result-container">
-                    <h3>Rozwiązanie równania:</h3>
-                    <div class="result-content">Wprowadź współczynniki i kliknij "Rozwiąż równanie"</div>
-                </div>
-                <div id="equationSteps" class="steps-container">
-                    <h3>Kroki rozwiązania:</h3>
-                    <div class="steps-content">Rozwiąż równanie aby zobaczyć kroki</div>
-                </div>
-                
-                <div id="equationHistory" class="history-container">
-                    <h3>Historia równań:</h3>
-                    <div class="history-list">
-                        <div class="empty-history">Brak historii równań</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Unit Converter App -->
-        <div id="unitConverterApp" class="app-content">
-            <div class="matrix-container">
-                <h2 class="matrix-Calc-title">Konwerter jednostek</h2>
-                
-                <div class="controls">
-                    <div class="operation-selector">
-                        <div class="operation-label">Kategoria:</div>
-                        <button id="categoryBtn" class="operation-btn">Długość</button>
-                        <div id="categoryMenu" class="operation-menu" style="display: none;">
-                            <div class="operation-menu-item" data-category="length">Długość</div>
-                            <div class="operation-menu-item" data-category="mass">Masa</div>
-                            <div class="operation-menu-item" data-category="time">Czas</div>
-                            <div class="operation-menu-item" data-category="temperature">Temperatura</div>
-                            <div class="operation-menu-item" data-category="area">Powierzchnia</div>
-                            <div class="operation-menu-item" data-category="volume">Objętość</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="action-buttons">
-                    <button id="convertUnitBtn" type="button" class="btn matrix-btn" 
-                            aria-describedby="unitResult">
-                        <span class="btn-text">Konwertuj</span>
-                        <span class="btn-spinner" style="display: none;" aria-hidden="true">⏳</span>
-                    </button>
-                    <button id="swapUnitsBtn" type="button" class="btn matrix-btn" 
-                            aria-label="Zamień miejscami jednostki wejściową i wyjściową" 
-                            title="Zamień jednostki miejscami (⇄)">
-                        Zamień jednostki
-                    </button>
-                    <button id="clearUnitsBtn" type="button" class="btn matrix-btn" 
-                            aria-label="Wyczyść wszystkie pola" title="Resetuj pola i wyniki">
-                        Wyczyść
-                    </button>
-                </div>
-
-                <div class="matrices-container">
-                    <div class="matrix-frame">
-                        <div class="matrix-title">Wartość wejściowa</div>
-                        <div class="unit-conversion-input">
-                            <div class="unit-input-group">
-                                <label for="inputValue">Wartość do konwersji:</label>
-                                <input type="number" id="inputValue" name="inputValue" class="unit-input" 
-                                       step="0.001" value="1" placeholder="np. 1.5" 
-                                       aria-describedby="unitError" required>
-                            </div>
-                            <div class="unit-input-group">
-                                <label for="fromUnit">Z jednostki:</label>
-                                <select id="fromUnit" name="fromUnit" class="unit-select" 
-                                        aria-describedby="unitError" required>
-                                    <option value="m">metr (m)</option>
-                                    <option value="cm">centymetr (cm)</option>
-                                    <option value="mm">milimetr (mm)</option>
-                                    <option value="km">kilometr (km)</option>
-                                    <option value="inch">cal (in)</option>
-                                    <option value="ft">stopa (ft)</option>
-                                </select>
-                            </div>
-                            <div id="unitError" class="error-message" role="alert" aria-live="polite" style="display: none;"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="matrix-frame">
-                        <div class="matrix-title">Wynik konwersji</div>
-                        <div class="unit-conversion-output">
-                            <div class="unit-input-group">
-                                <label for="outputValue">Wynik:</label>
-                                <input type="text" id="outputValue" class="unit-input" readonly placeholder="Wynik konwersji">
-                            </div>
-                            <div class="unit-input-group">
-                                <label for="toUnit">Na jednostkę:</label>
-                                <select id="toUnit" class="unit-select">
-                                    <option value="cm" selected>centymetr (cm)</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div id="unitError" class="error-message" style="display: none;"></div>
-                <div id="unitResult" class="result-container-matrix">
-                    <div class="default-result-text">Wprowadź wartość i kliknij "Konwertuj"</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Statistical Calculator App -->
-        <div id="statisticalCalculatorApp" class="app-content">
-            <div class="statistical-calculator-container">
-                <h2 class="app-title">Kalkulator statystyczny</h2>
-                
-                <div class="stats-controls-enhanced">
-                    <div class="stats-input-panel-enhanced">
-                        <div class="stats-input-group">
-                            <label for="dataInput">Wprowadź dane (oddzielone przecinkami):</label>
-                            <textarea id="dataInput" class="stats-textarea" rows="4" placeholder="np. 1, 2, 3, 4, 5 lub każda wartość w nowej linii">1, 2, 3, 4, 5, 6, 7, 8, 9, 10</textarea>
-                        </div>
-                        
-                        <div class="stats-input-group">
-                            <label for="dataType">Typ danych:</label>
-                            <select id="dataType" class="stats-select">
-                                <option value="sample">Próba</option>
-                                <option value="population">Populacja</option>
-                            </select>
-                        </div>
-                        
-                        <div class="stats-input-group">
-                            <label for="chartType">Typ wykresu:</label>
-                            <select id="chartType" class="stats-select">
-                                <option value="histogram">Histogram</option>
-                                <option value="boxplot">Wykres pudełkowy</option>
-                                <option value="scatter">Wykres punktowy</option>
-                            </select>
-                        </div>
-                        
-                        <div class="stats-input-group">
-                            <label>Typy obliczeń:</label>
-                            <div class="stats-checkboxes">
-                                <label class="stats-checkbox">
-                                    <input type="checkbox" name="calcType" value="basic" checked> Podstawowe
-                                </label>
-                                <label class="stats-checkbox">
-                                    <input type="checkbox" name="calcType" value="spread" checked> Rozrzut
-                                </label>
-                                <label class="stats-checkbox">
-                                    <input type="checkbox" name="calcType" value="position"> Pozycyjne
-                                </label>
-                                <label class="stats-checkbox">
-                                    <input type="checkbox" name="calcType" value="shape"> Kształt
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="stats-input-group">
-                            <label>Dane (<span id="dataCount">0</span> elementów):</label>
-                            <div id="dataDisplay" class="data-display">Brak danych</div>
-                        </div>
-                        
-                        <div class="stats-buttons-enhanced">
-                            <button id="calculateStatsBtn" class="stats-btn primary">Oblicz statystyki</button>
-                            <button id="generateChartBtn" class="stats-btn primary">Generuj wykres</button>
-                            <button id="clearStatsBtn" class="stats-btn secondary">Wyczyść</button>
-                        </div>
-                    </div>
-                    
-                    <div class="stats-chart-container-enhanced">
-                        <h4 style="color: white; text-align: center; margin-bottom: 15px;">Wykres danych</h4>
-                        <canvas id="statsCanvas" class="stats-canvas" width="500" height="400"></canvas>
-                    </div>
-                </div>
-                
-                <div id="statsError" class="error-container" style="display: none;"></div>
-                
-                <div class="stats-results-container-enhanced">
-                    <div id="resultsContainer">
-                        <div class="default-result-text">Wprowadź dane i wybierz typ obliczeń</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Combinatorics Calculator App -->
-        <div id="combinatoricsCalculatorApp" class="app-content">
-            <div class="matrix-container">
-                <h2 class="matrix-Calc-title">Kalkulator kombinatoryki</h2>
-                
-                <div class="controls">
-                    <div class="operation-selector">
-                        <div class="operation-label">Operacja:</div>
-                        <button id="combinatoricsOperationBtn" class="operation-btn">Permutacje P(n,k)</button>
-                        <div id="combinatoricsOperationMenu" class="operation-menu" style="display: none;">
-                            <div class="operation-menu-item" data-op="permutations">Permutacje P(n,k)</div>
-                            <div class="operation-menu-item" data-op="combinations">Kombinacje C(n,k)</div>
-                            <div class="operation-menu-item" data-op="factorial">Silnia n!</div>
-                            <div class="operation-menu-item" data-op="derangements">Derrangements D(n)</div>
-                            <div class="operation-menu-item" data-op="stirling2">Liczby Stirlinga II</div>
-                            <div class="operation-menu-item" data-op="catalan">Liczby Catalana C(n)</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="action-buttons">
-                    <button id="calculateCombinatoricsBtn" class="btn matrix-btn">Oblicz</button>
-                    <button id="showFormulaBtn" class="btn matrix-btn">Pokaż wzór</button>
-                    <button id="clearCombinatoricsBtn" class="btn matrix-btn">Wyczyść</button>
-                </div>
-
-                <div class="combinatorics-inputs-horizontal">
-                    <div class="combinatorics-input-panel">
-                        <div class="matrix-title">Parametry</div>
-                        <div class="combinatorics-input-content">
-                            <div class="param-input-group">
-                                <label for="nValue">Wartość n:</label>
-                                <input type="number" id="nValue" class="combinatorics-input" min="0" step="1" value="5" placeholder="np. 5">
-                            </div>
-                            <div class="param-input-group" id="kInputGroup">
-                                <label for="kValue">Wartość k:</label>
-                                <input type="number" id="kValue" class="combinatorics-input" min="0" step="1" value="3" placeholder="np. 3">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="combinatorics-formula-panel">
-                        <div class="matrix-title">Wzór i wyjaśnienie</div>
-                        <div id="formulaDisplay" class="formula-display-content">
-                            <div class="formula-content">
-                                <strong>Permutacje P(n,k)</strong><br>
-                                Wzór: P(n,k) = n!/(n-k)!<br>
-                                Liczba sposobów ustawienia k elementów z n elementów
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div id="combinatoricsError" class="error-message" style="display: none;"></div>
-                <div id="combinatoricsResult" class="result-container-matrix">
-                    <div class="default-result-text">Wprowadź wartości i kliknij "Oblicz"</div>
-                </div>
-                
-                <div class="combinatorics-examples-enhanced">
-                    <h3 style="color: white; text-align: center; margin-bottom: 20px;">Przykłady użycia:</h3>
-                    <div class="examples-grid-enhanced">
-                        <div class="example-card-enhanced">
-                            <h4>Permutacje</h4>
-                            <p>P(5,3) = 5!/(5-3)! = 60</p>
-                            <small>Różne sposoby ustawienia 3 osób z grupy 5</small>
-                        </div>
-                        <div class="example-card-enhanced">
-                            <h4>Kombinacje</h4>
-                            <p>C(5,3) = 5!/(3!×2!) = 10</p>
-                            <small>Różne sposoby wyboru 3 osób z grupy 5</small>
-                        </div>
-                        <div class="example-card-enhanced">
-                            <h4>Silnia</h4>
-                            <p>5! = 5×4×3×2×1 = 120</p>
-                            <small>Wszystkie permutacje 5 elementów</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Enhanced Matrix Calculator App -->
-        <div id="matrixCalculatorApp" class="app-content">
-            <div class="matrix-container">
-                <h2 id="enhancedMatrixCalcTitle" class="matrix-Calc-title">Rozszerzony kalkulator macierzy</h2>
-                <div class="controls">
-                    <div class="operation-selector">
-                        <div id="enhancedOperationLabel" class="operation-label">Operacja:</div>
-                        <button id="enhancedOperationBtn" class="operation-btn">Wartości własne</button>
-                        <div id="enhancedOperationMenu" class="operation-menu" style="display: none;">
-                            <div class="operation-menu-item" data-op="eigenvalues">Wartości własne</div>
-                            <div class="operation-menu-item" data-op="eigenvectors">Wektory własne</div>
-                            <div class="operation-menu-item" data-op="lup">Rozkład LUP</div>
-                            <div class="operation-menu-item" data-op="qr">Rozkład QR</div>
-                            <div class="operation-menu-item" data-op="svd">Rozkład SVD</div>
-                            <div class="operation-menu-item" data-op="rref">Postać schodkowa (RREF)</div>
-                            <div class="operation-menu-item" data-op="rank">Rząd macierzy</div>
-                            <div class="operation-menu-item" data-op="trace">Ślad macierzy</div>
-                            <div class="operation-menu-item" data-op="norm">Norma macierzy</div>
-                        </div>
-                    </div>
-                    <div class="method-selector-wrapper" style="display: none;">
-                        <div class="method-label">Metoda:</div>
-                        <button id="enhancedMethodBtn" class="method-btn-main">Standard</button>
-                        <div id="enhancedMethodSelector" class="method-selector" style="display: none;">
-                            <div class="method-menu-item" data-value="standard">Standard</div>
-                            <div class="method-menu-item" data-value="iterative">Iteracyjna</div>
-                            <div class="method-menu-item" data-value="numerical">Numeryczna</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="action-buttons">
-                    <button id="enhancedComputeBtn" class="btn matrix-btn" tabindex="0">Oblicz</button>
-                    <button id="enhancedClearBtn" class="btn matrix-btn">Wyczyść</button>
-                </div>
-
-                <div id="enhancedMatricesContainer" class="matrices-container">
-                    <div id="enhancedMatrixA" class="matrix-frame">
-                        <button class="resize-icon" onclick="toggleSizeMenuEnhanced('A')">+
-                        </button>
-                        <div class="size-menu" id="enhancedSizeMenuA">
-                            <div class="size-option" onclick="setMatrixSizeEnhanced('A', 1, 1)">1×1</div>
-                            <div class="size-option" onclick="setMatrixSizeEnhanced('A', 2, 2)">2×2</div>
-                            <div class="size-option" onclick="setMatrixSizeEnhanced('A', 3, 3)">3×3</div>
-                            <div class="size-option" onclick="setMatrixSizeEnhanced('A', 4, 4)">4×4</div>
-                            <div class="size-option" onclick="setMatrixSizeEnhanced('A', 5, 5)">5×5</div>
-                            <div class="size-option" onclick="setMatrixSizeEnhanced('A', 2, 3)">2×3</div>
-                            <div class="size-option" onclick="setMatrixSizeEnhanced('A', 3, 2)">3×2</div>
-                            <div class="size-option" onclick="setMatrixSizeEnhanced('A', 3, 4)">3×4</div>
-                            <div class="size-option" onclick="setMatrixSizeEnhanced('A', 4, 3)">4×3</div>
-                        </div>
-                        <div id="enhancedMatrixATitle" class="matrix-title">Macierz A</div>
-                        <div id="enhancedMatrixAGrid" class="matrix-grid"></div>
-                    </div>
-                </div>
-                
-                <div id="enhancedErrorMessage" class="error-message"></div>
-                <div id="enhancedResultBox" class="result-container-matrix">
-                    <div class="default-result-text">Wprowadź macierz i wybierz operację</div>
-                </div>
-                <div id="enhancedSolutionBox" class="solution-container"></div>
-            </div>
-        </div>
     </div>
 
     <div id="userProfileApp" class="app-content">
         <div class="modern-user-profile">
-            <!-- Floating particles background -->
-            <div class="profile-particles">
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-            </div>
             
             <!-- Profile Hero Section -->
             <div class="profile-hero">
                 <div class="profile-avatar-section">
                     <div class="avatar-wrapper">
-                        <div class="avatar-ring pulse-ring"></div>
+                        <div class="avatar-ring"></div>
                         <div class="avatar-image">
-                            <div class="avatar-placeholder">G</div>
-                            <div class="online-indicator" style="display: none;"></div>
+                            <div class="avatar-placeholder">JK</div>
+                            <div class="online-indicator"></div>
                         </div>
-                        <button class="change-avatar-btn" onclick="userProfileModals.handleAvatarUpload()" style="display: none;">
+                        <button class="change-avatar-btn" onclick="userProfileModals.handleAvatarUpload()">
                             <i class="fas fa-camera"></i>
                         </button>
                     </div>
                 </div>
                 
                 <div class="profile-info">
-                    <h1 class="profile-name">Gość</h1>
-                    <p class="profile-role">Użytkownik • Niezalogowany</p>
-                    <p class="profile-email">Zaloguj się aby zapisać postęp</p>
-                    <div class="profile-level" style="display: none;">
-                        <span class="level-badge">Poziom 0</span>
+                    <h1 class="profile-name">Jan Kowalski</h1>
+                    <p class="profile-role">Matematyk • Student</p>
+                    <p class="profile-email">jan.kowalski@example.com</p>
+                    <div class="profile-level">
+                        <span class="level-badge">Poziom 12</span>
                         <div class="level-progress">
                             <div class="progress-bar">
-                                <div class="progress-fill" style="width: 0%"></div>
+                                <div class="progress-fill" style="width: 75%"></div>
                             </div>
-                            <span class="progress-text">0/100 XP</span>
+                            <span class="progress-text">750/1000 XP</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Statistics Grid -->
-            <div class="stats-section" style="display: none;">
+            <div class="stats-section">
                 <h2 class="section-header">
                     <i class="fas fa-chart-bar"></i>
                     <span data-translate-key="userProfile.statistics.title">Twoje statystyki</span>
@@ -941,9 +404,6 @@
                     <i class="fas fa-bolt"></i>
                     <span data-translate-key="userProfile.actions.title">Szybkie akcje</span>
                 </h2>
-                <div class="guest-message" style="text-align: center; padding: 20px; color: #888; margin-bottom: 20px;">
-                    <p>Zaloguj się, aby uzyskać dostęp do pełnych funkcji profilu, statystyk i historii aktywności.</p>
-                </div>
                 <div class="actions-grid">
                     <button class="action-card featured" onclick="userProfileModals.openModal('stats')">
                         <div class="action-icon">
@@ -1000,7 +460,7 @@
             </div>
 
             <!-- Activity Timeline -->
-            <div class="timeline-section" style="display: none;">
+            <div class="timeline-section">
                 <h2 class="section-header">
                     <i class="fas fa-history"></i>
                     Ostatnia aktywność
@@ -1052,7 +512,7 @@
             </div>
 
             <!-- Achievement Showcase -->
-            <div class="achievements-section" style="display: none;">
+            <div class="achievements-section">
                 <h2 class="section-header">
                     <i class="fas fa-medal"></i>
                     Osiągnięcia
@@ -1108,20 +568,310 @@
         </div>
     </div>
 
+    <!-- Inline templates for About / Instructions (loaded by about.js / instructions.js) -->
+    <template id="tpl-about">
+        <div class="about-content-wrapper">
+            <!-- Hero Section -->
+            <section class="about-hero">
+                <h1 class="about-title">EduVerse 360</h1>
+                <div class="about-version">Wersja 2.1.0 Beta</div>
+                <p class="about-subtitle">
+                    Rewolucyjna platforma edukacyjna, która łączy matematykę z nowoczesnymi technologiami, 
+                    tworząc niepowtarzalne doświadczenie nauki w 360 stopniach.
+                </p>
+            </section>
+
+            <!-- Statystyki -->
+            <section class="about-section">
+                <div class="stats-row">
+                    <div class="stat-badge">
+                        <div class="stat-number">50K+</div>
+                        <div class="stat-label">Aktywnych Użytkowników</div>
+                    </div>
+                    <div class="stat-badge">
+                        <div class="stat-number">1M+</div>
+                        <div class="stat-label">Wykonanych Obliczeń</div>
+                    </div>
+                    <div class="stat-badge">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Krajów</div>
+                    </div>
+                    <div class="stat-badge">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Zadowolenia</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Główne Funkcje -->
+            <section class="about-section">
+                <h2 class="section-header">
+                    <i class="fas fa-star"></i>
+                    Główne Funkcje
+                </h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <h3 class="feature-title">Zaawansowany Kalkulator Macierzy</h3>
+                        <p class="feature-description">
+                            Wykonuj złożone operacje na macierzach z precyzją do 15 miejsc dziesiętnych. 
+                            Obsługa macierzy do 10x10 z wizualizacją kroków obliczeniowych w czasie rzeczywistym.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <h3 class="feature-title">Inteligentny System Dat</h3>
+                        <p class="feature-description">
+                            Błyskawiczne sprawdzanie lat przestępnych z uwzględnieniem wszystkich reguł kalendarza 
+                            gregoriańskiego. Idealne dla studentów astronomii i matematyki.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <h3 class="feature-title">Personalny Asystent Nauki</h3>
+                        <p class="feature-description">
+                            Śledź swoje postępy, analizuj słabe punkty, otrzymuj spersonalizowane rekomendacje. 
+                            AI-powered system dostosowuje się do Twojego stylu nauki.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h3 class="feature-title">Gamifikacja Nauki</h3>
+                        <p class="feature-description">
+                            Zdobywaj osiągnięcia, odblokowuj nowe funkcje, rywalizuj z przyjaciółmi. 
+                            Nauka matematyki nigdy nie była tak angażująca i motywująca.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Uniwersalna Dostępność</h3>
+                        <p class="feature-description">
+                            Responsywny design działający na wszystkich urządzeniach. Offline support dzięki PWA. 
+                            Synchronizacja między urządzeniami w chmurze.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3 class="feature-title">Spersonalizowany Interface</h3>
+                        <p class="feature-description">
+                            Tryby jasny/ciemny, personalizowane motywy, dostosowywalne skróty klawiszowe. 
+                            Interfejs który dopasowuje się do Twoich preferencji.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Wizja Przyszłości -->
+            <section class="about-section">
+                <div class="vision-card">
+                    <i class="fas fa-rocket vision-icon"></i>
+                    <h2 class="vision-title">Nasza Wizja Przyszłości</h2>
+                    <p class="vision-description">
+                        EduVerse 360 to więcej niż aplikacja - to ekosystem edukacyjny przyszłości. 
+                        Dążymy do stworzenia platformy, która nie tylko uczy matematyki, ale inspiruje 
+                        do odkrywania piękna nauki i rozwoju krytycznego myślenia.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Nadchodzące Funkcje -->
+            <section class="about-section">
+                <h2 class="section-header">
+                    <i class="fas fa-clock"></i>
+                    Nadchodzące Funkcje
+                </h2>
+                <div class="future-grid">
+                    <div class="future-item">
+                        <div class="future-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="future-text">
+                            <h4 class="future-title">AI Tutor Matematyczny</h4>
+                            <p class="future-description">Personalny asystent AI, który odpowie na pytania i pomoże w rozwiązywaniu problemów</p>
+                        </div>
+                    </div>
+
+                    <div class="future-item">
+                        <div class="future-icon">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <div class="future-text">
+                            <h4 class="future-title">Wizualizacja 3D</h4>
+                            <p class="future-description">Interaktywne modele 3D dla geometrii przestrzennej i algebry liniowej</p>
+                        </div>
+                    </div>
+
+                    <div class="future-item">
+                        <div class="future-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="future-text">
+                            <h4 class="future-title">Współpraca Zespołowa</h4>
+                            <p class="future-description">Współdzielone przestrzenie robocze dla projektów grupowych i peer learning</p>
+                        </div>
+                    </div>
+
+                    <div class="future-item">
+                        <div class="future-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="future-text">
+                            <h4 class="future-title">Zaawansowane Wykresy</h4>
+                            <p class="future-description">Narzędzia do tworzenia wykresów funkcji, analiza mathematyczna w czasie rzeczywistym</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Zespół -->
+            <section class="about-section">
+                <h2 class="section-header">
+                    <i class="fas fa-heart"></i>
+                    Tworzone z Pasją
+                </h2>
+                <div class="vision-card">
+                    <p class="vision-description">
+                        EduVerse 360 jest tworzone przez zespół pasjonatów matematyki, programistów i edukatorów 
+                        z całego świata. Naszą misją jest demokratyzacja dostępu do wysokiej jakości edukacji 
+                        matematycznej i inspirowanie kolejnego pokolenia naukowców i inżynierów.
+                    </p>
+                </div>
+            </section>
+        </div>
+    </template>
+
+    <template id="tpl-instructions">
+        <div class="instructions-content-wrapper">
+            <section class="instructions-hero">
+                <h1 class="instructions-title">
+                    <i class="fas fa-book-open"></i>
+                    Instrukcje Użytkowania
+                </h1>
+                <p class="instructions-subtitle">
+                    Przewodnik krok po kroku, który pomoże Ci w pełni wykorzystać możliwości EduVerse 360. 
+                    Naucz się korzystać z każdej funkcji i odkryj sekrety efektywnej nauki matematyki.
+                </p>
+            </section>
+
+            <section class="instructions-section">
+                <h2 class="section-header">
+                    <i class="fas fa-play-circle"></i>
+                    Podstawowe Funkcje
+                </h2>
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <h3 class="step-title">Kalkulator Macierzy</h3>
+                        </div>
+                        <p class="step-description">
+                            Wykonuj zaawansowane operacje na macierzach - dodawanie, odejmowanie, mnożenie, 
+                            transpozycja oraz obliczanie wyznacznika i macierzy odwrotnej.
+                        </p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <h3 class="step-title">Sprawdzanie Lat Przestępnych</h3>
+                        </div>
+                        <p class="step-description">
+                            Szybko sprawdź czy podany rok jest rokiem przestępnym. Aplikacja automatycznie 
+                            zastosuje reguły kalendarza gregoriańskiego.
+                        </p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <h3 class="step-title">System Profilu</h3>
+                        </div>
+                        <p class="step-description">
+                            Śledź swoje postępy, przeglądaj statystyki użytkowania, zdobywaj osiągnięcia 
+                            i personalizuj swoje doświadczenie nauki.
+                        </p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-header">
+                            <div class="step-number">4</div>
+                            <h3 class="step-title">Tryby Motywów</h3>
+                        </div>
+                        <p class="step-description">
+                            Przełączaj między trybem jasnym i ciemnym, aby dostosować interfejs do swoich 
+                            preferencji i warunków oświetlenia.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Najczęściej Zadawane Pytania -->
+            <section class="instructions-section">
+                <h2 class="section-header">
+                    <i class="fas fa-question-circle"></i>
+                    Najczęściej Zadawane Pytania
+                </h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            Jak zwiększyć rozmiar macierzy?
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Użyj przycisków "+" i "-" obok wymiarów macierzy. Maksymalny rozmiar to 10x10.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            Czy wyniki są zapisywane automatycznie?
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Tak, wszystkie obliczenia są automatycznie zapisywane w Twojej historii.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            Jak zdobywać osiągnięcia?
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Osiągnięcia odblokowujesz poprzez regularne korzystanie z aplikacji.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </template>
+
     <script src="js/translations.js"></script>
-    <script src="js/form-validation.js"></script>
     <script src="js/script.js"></script>
     <script src="js/background.js"></script>
     <script src="js/leapYear.js"></script>
     <script src="js/matrixCalculator.js"></script>
-    <script src="js/functionCalculator.js"></script>
-    <script src="js/equationSolver.js"></script>
-    <script src="js/unitConverter.js"></script>
-    <script src="js/statisticalCalculator.js"></script>
-    <script src="js/combinatoricsCalculator.js"></script>
-    <script src="js/enhancedMatrixCalculator.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/user-profile-modals.js"></script>
+    <script src="js/about.js"></script>
+    <script src="js/instructions.js"></script>
 </body>
 </html>

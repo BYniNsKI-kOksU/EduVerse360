@@ -3,11 +3,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    padding: 20px 10px 40px;
-    min-height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
+    justify-content: center;
+    padding: 10px;
+    height: 100vh;
+    overflow: hidden;
     position: relative;
     box-sizing: border-box;
 }
@@ -29,10 +28,10 @@
 .tiles {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 20px;
+    justify-content: center;
+    gap: 15px;
     width: 100%;
-    max-width: 1000px;
+    max-width: 800px;
     padding: 20px;
     box-sizing: border-box;
     margin-top: 20px;
@@ -44,9 +43,8 @@
     -webkit-backdrop-filter: var(--liquid-glass-blur);
     border-radius: 15px;
     padding: 20px;
-    flex: 1 1 calc(33.333% - 20px);
-    max-width: calc(33.333% - 20px);
-    min-width: 200px;
+    width: calc(50% - 20px);
+    max-width: 250px;
     height: 160px;
     text-align: center;
     cursor: pointer;
@@ -73,297 +71,4 @@
     font-size: 1.2rem;
     font-weight: bold;
     color: white;
-}
-
-/* Custom scrollbar dla home-screen */
-.home-screen::-webkit-scrollbar {
-    width: 6px;
-}
-
-.home-screen::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
-}
-
-.home-screen::-webkit-scrollbar-thumb {
-    background: rgba(224, 122, 95, 0.6);
-    border-radius: 3px;
-    transition: background 0.3s ease;
-}
-
-.home-screen::-webkit-scrollbar-thumb:hover {
-    background: rgba(224, 122, 95, 0.8);
-}
-
-/* Smooth scroll behavior */
-.home-screen {
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-}
-
-/* Fade effect na górze i dole gdy scroll */
-.home-screen::before {
-    content: '';
-    position: sticky;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 20px;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.1), transparent);
-    pointer-events: none;
-    z-index: 1;
-}
-
-.home-screen::after {
-    content: '';
-    position: sticky;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 20px;
-    background: linear-gradient(to top, rgba(0,0,0,0.1), transparent);
-    pointer-events: none;
-    z-index: 1;
-}
-
-/* Responsive styles for tiles */
-@media (max-width: 768px) {
-    .home-screen {
-        padding: 20px 15px 40px;
-    }
-    
-    .tiles {
-        gap: 15px;
-        padding: 15px;
-    }
-    
-    .tile {
-        flex: 1 1 calc(50% - 15px);
-        max-width: calc(50% - 15px);
-        height: 140px;
-    }
-    
-    .tile-icon {
-        font-size: 2.4rem;
-        margin-bottom: 12px;
-    }
-    
-    .tile-label {
-        font-size: 1.1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .home-screen {
-        padding: 15px 10px 30px;
-        justify-content: flex-start;
-    }
-    
-    .home-title {
-        font-size: 1.8rem;
-        margin-bottom: 15px;
-        margin-top: 10px;
-    }
-    
-    .tiles {
-        gap: 12px;
-        padding: 10px;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-    }
-    
-    .tile {
-        flex: 0 0 auto;
-        width: 100%;
-        max-width: 320px;
-        min-width: 280px;
-        height: 120px;
-        margin-bottom: 0;
-    }
-    
-    .tile-icon {
-        font-size: 2.2rem;
-        margin-bottom: 10px;
-    }
-    
-    .tile-label {
-        font-size: 1rem;
-        line-height: 1.2;
-    }
-}
-
-@media (max-width: 360px) {
-    .home-screen {
-        padding: 10px 8px 25px;
-    }
-    
-    .home-title {
-        font-size: 1.6rem;
-    }
-    
-    .tiles {
-        padding: 8px;
-        gap: 10px;
-    }
-    
-    .tile {
-        min-width: 260px;
-        max-width: 300px;
-        height: 110px;
-        padding: 15px;
-    }
-    
-    .tile-icon {
-        font-size: 2rem;
-        margin-bottom: 8px;
-    }
-    
-    .tile-label {
-        font-size: 0.9rem;
-    }
-}
-
-/* Orientacja landscape na telefonach */
-@media (max-height: 500px) and (orientation: landscape) {
-    .home-screen {
-        padding: 10px 15px 20px;
-    }
-    
-    .home-title {
-        font-size: 1.5rem;
-        margin-bottom: 10px;
-        margin-top: 5px;
-    }
-    
-    .tiles {
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 10px;
-        padding: 5px;
-    }
-    
-    .tile {
-        flex: 1 1 calc(25% - 10px);
-        max-width: calc(25% - 10px);
-        min-width: 150px;
-        height: 100px;
-        width: auto;
-    }
-    
-    .tile-icon {
-        font-size: 1.8rem;
-        margin-bottom: 5px;
-    }
-    
-    .tile-label {
-        font-size: 0.85rem;
-    }
-}
-
-/* Bardzo małe ekrany */
-@media (max-width: 320px) {
-    .tile {
-        min-width: 240px;
-        max-width: 280px;
-    }
-    
-    .tiles {
-        padding: 5px;
-    }
-    
-    .home-title {
-        font-size: 1.4rem;
-    }
-}
-
-/* Touch device optimizations */
-@media (pointer: coarse) {
-    .tile {
-        /* Większy area kliknięcia na touch */
-        min-height: 130px;
-        padding: 20px;
-    }
-    
-    .tile:hover {
-        /* Mniej agresywne animacje na touch */
-        transform: translateY(-2px) scale(1.01);
-    }
-    
-    .tile:active {
-        transform: scale(0.98);
-        transition-duration: 0.1s;
-    }
-}
-
-/* Optimizations for very small screens */
-@media (max-width: 280px) {
-    .home-screen {
-        padding: 8px 5px 20px;
-    }
-    
-    .home-title {
-        font-size: 1.3rem;
-        margin-bottom: 8px;
-    }
-    
-    .tiles {
-        padding: 3px;
-        gap: 8px;
-    }
-    
-    .tile {
-        min-width: 220px;
-        max-width: 260px;
-        height: 100px;
-        padding: 12px;
-    }
-    
-    .tile-icon {
-        font-size: 1.8rem;
-        margin-bottom: 6px;
-    }
-    
-    .tile-label {
-        font-size: 0.85rem;
-        line-height: 1.1;
-    }
-}
-
-/* Performance optimizations */
-@media (prefers-reduced-motion: reduce) {
-    .tile,
-    .home-screen {
-        transition: none !important;
-        animation: none !important;
-    }
-    
-    .tile:hover {
-        transform: none;
-    }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-    .tile {
-        border: 2px solid;
-        background-color: rgba(239, 115, 80, 0.9);
-    }
-    
-    .tile-label {
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-    }
-}
-
-/* Reduced data mode - remove some visual effects */
-@media (prefers-reduced-data: reduce) {
-    .home-screen::before,
-    .home-screen::after {
-        display: none;
-    }
-    
-    .tile {
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-    }
 }

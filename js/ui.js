@@ -302,6 +302,9 @@ function updateDashboardUI() {
     if (sections[2]) {
         sections[2].querySelector('h4').textContent = translations[currentLang].dashboard.applications;
     }
+    if (sections[3]) {
+        sections[3].querySelector('h4').textContent = translations[currentLang].dashboard.help || 'Pomoc';
+    }
     
     const dashboardBtns = document.querySelectorAll('.dashboard-btn');
     dashboardBtns.forEach(btn => {
@@ -338,6 +341,12 @@ function updateDashboardUI() {
                 break;
             case 'matrixCalculator':
                 span.textContent = translations[currentLang].matrixCalc.title;
+                break;
+            case 'about':
+                span.textContent = translations[currentLang].about || 'O aplikacji';
+                break;
+            case 'instructions':
+                span.textContent = translations[currentLang].instructions || 'Instrukcja';
                 break;
         }
     });
