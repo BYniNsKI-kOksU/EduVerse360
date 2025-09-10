@@ -1,0 +1,560 @@
+/* Authentication System Styles */
+
+/* Auth Button */
+.auth-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(224, 122, 95, 0);
+    color: white;
+    font-size: 18px;
+    pointer-events: auto !important;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.65, 0, 0.35, 1), 
+                background 0.2s cubic-bezier(0.65, 0, 0.35, 1), 
+                box-shadow 0.2s cubic-bezier(0.65, 0, 0.35, 1);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+        0 2px 10px rgba(0, 0, 0, 0.1),
+        inset 0 0 5px rgba(255, 255, 255, 0.3);
+    padding: 0;
+}
+
+.auth-btn.login-btn {
+    background: rgba(34, 139, 34, 0.6); /* Zielony dla logowania */
+}
+
+.auth-btn.logout-btn {
+    background: rgba(220, 20, 60, 0.6); /* Czerwony dla wylogowania */
+}
+
+.auth-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(224, 122, 95, 0.7);
+}
+
+.auth-btn.login-btn:hover {
+    background: rgba(34, 139, 34, 0.9);
+    box-shadow: 0 0 20px rgba(34, 139, 34, 0.7);
+}
+
+.auth-btn.logout-btn:hover {
+    background: rgba(220, 20, 60, 0.9);
+    box-shadow: 0 0 20px rgba(220, 20, 60, 0.7);
+}
+
+.auth-btn:active {
+    transform: scale(0.95) translateY(2px);
+    box-shadow: 
+        0 1px 3px rgba(0, 0, 0, 0.2),
+        inset 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Light mode auth button */
+body:not(.dark-mode) .auth-btn.login-btn:hover {
+    background: rgba(34, 139, 34, 1) !important;
+    box-shadow: 0 0 20px rgba(34, 139, 34, 0.8);
+    color: white !important;
+}
+
+body:not(.dark-mode) .auth-btn.logout-btn:hover {
+    background: rgba(220, 20, 60, 1) !important;
+    box-shadow: 0 0 20px rgba(220, 20, 60, 0.8);
+    color: white !important;
+}
+
+/* Auth Modal */
+.auth-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.auth-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.auth-modal {
+    background: var(--liquid-glass-bg);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    border: var(--liquid-glass-border);
+    border-radius: 20px;
+    box-shadow: var(--liquid-glass-shadow);
+    width: 90%;
+    max-width: 450px;
+    max-height: 90vh;
+    overflow: hidden;
+    transform: scale(0.9) translateY(20px);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.auth-modal-overlay.active .auth-modal {
+    transform: scale(1) translateY(0);
+}
+
+/* Dark mode modal */
+body.dark-mode .auth-modal {
+    background: var(--liquid-glass-bg-black);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Modal Header */
+.auth-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.auth-modal-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: white;
+    margin: 0;
+}
+
+.auth-modal-title i {
+    font-size: 1.5rem;
+    color: #4CAF50;
+}
+
+.auth-modal-close {
+    background: rgba(255, 0, 0, 0.2);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.auth-modal-close:hover {
+    background: rgba(255, 0, 0, 0.4);
+    transform: scale(1.1);
+}
+
+/* Modal Content */
+.auth-modal-content {
+    padding: 25px;
+}
+
+/* Auth Tabs */
+.auth-tabs {
+    display: flex;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.auth-tab.active {
+    background: rgba(76, 175, 80, 0.3);
+    color: white;
+    font-weight: 600;
+}
+
+.auth-tab:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+/* Auth Forms */
+.auth-form {
+    display: none;
+}
+
+.auth-form.active {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: white;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-group input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+}
+
+/* Password Toggle Styles */
+.password-input-wrapper {
+    position: relative;
+}
+
+.password-input-wrapper input {
+    padding-right: 50px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    font-size: 18px;
+    transition: color 0.3s ease;
+    padding: 5px;
+}
+
+.password-toggle:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Submit Button */
+.auth-submit-btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.auth-submit-btn:hover {
+    background: linear-gradient(135deg, #45a049, #3d8b40);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
+}
+
+.auth-submit-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+}
+
+/* Auth Message */
+.auth-message {
+    display: none;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.auth-message.success {
+    background: rgba(76, 175, 80, 0.2);
+    border: 1px solid rgba(76, 175, 80, 0.4);
+    color: #4CAF50;
+}
+
+.auth-message.error {
+    background: rgba(244, 67, 54, 0.2);
+    border: 1px solid rgba(244, 67, 54, 0.4);
+    color: #f44336;
+}
+
+/* Modal Open Body Class */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* Dark Mode Adjustments */
+body.dark-mode .auth-modal-title {
+    color: #f0f0f0;
+}
+
+body.dark-mode .form-group label {
+    color: #f0f0f0;
+}
+
+body.dark-mode .form-group input {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #f0f0f0;
+}
+
+body.dark-mode .form-group input:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: #4CAF50;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .auth-modal {
+        width: 95%;
+        margin: 10px;
+    }
+    
+    .auth-modal-content {
+        padding: 20px;
+    }
+    
+    .auth-tabs {
+        margin-bottom: 20px;
+    }
+    
+    .auth-tab {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .form-group input {
+        padding: 10px 12px;
+    }
+    
+    .auth-submit-btn {
+        padding: 12px;
+        font-size: 1rem;
+    }
+}
+
+/* Logout Confirmation Modal */
+.logout-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2001;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.logout-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.logout-modal {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 90%;
+    max-width: 400px;
+    padding: 30px;
+    text-align: center;
+    transform: scale(0.8) translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.logout-modal-overlay.active .logout-modal {
+    transform: scale(1) translateY(0);
+}
+
+.logout-modal-header {
+    margin-bottom: 20px;
+}
+
+.logout-modal-header i {
+    font-size: 3rem;
+    color: #dc143c;
+    margin-bottom: 15px;
+}
+
+.logout-modal-header h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 0;
+}
+
+.logout-modal-content p {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.logout-modal-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.logout-cancel-btn,
+.logout-confirm-btn {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.logout-cancel-btn {
+    background: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+    border: 1px solid rgba(108, 117, 125, 0.2);
+}
+
+.logout-cancel-btn:hover {
+    background: rgba(108, 117, 125, 0.2);
+    transform: translateY(-1px);
+}
+
+.logout-confirm-btn {
+    background: linear-gradient(135deg, #dc143c, #b91c3c);
+    color: white;
+    box-shadow: 0 4px 15px rgba(220, 20, 60, 0.3);
+}
+
+.logout-confirm-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 20, 60, 0.4);
+}
+
+/* Auth Notifications */
+.auth-notification {
+    position: fixed;
+    top: 100px;
+    right: 30px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 12px;
+    padding: 15px 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 2002;
+    transform: translateX(100%);
+    opacity: 0;
+    transition: all 0.3s ease;
+    max-width: 300px;
+}
+
+.auth-notification.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.auth-notification.success {
+    border-left: 4px solid #4caf50;
+}
+
+.auth-notification.success i {
+    color: #4caf50;
+}
+
+.auth-notification.info {
+    border-left: 4px solid #2196f3;
+}
+
+.auth-notification.info i {
+    color: #2196f3;
+}
+
+.auth-notification span {
+    font-weight: 500;
+    color: #333;
+}
+
+/* Dark Mode for new elements */
+body.dark-mode .logout-modal {
+    background: rgba(30, 30, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .logout-modal-header h3,
+body.dark-mode .logout-modal-content p {
+    color: #fff;
+}
+
+body.dark-mode .logout-modal-content p {
+    color: #ccc;
+}
+
+body.dark-mode .auth-notification {
+    background: rgba(30, 30, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .auth-notification span {
+    color: #fff;
+}

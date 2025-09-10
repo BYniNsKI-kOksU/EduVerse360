@@ -117,6 +117,15 @@ body.user-profile-active {
     font-weight: bold;
     color: white;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.avatar-placeholder i {
+    font-size: 4rem;
 }
 
 .online-indicator {
@@ -373,6 +382,8 @@ body.user-profile-active {
 /* Actions Section */
 .actions-section {
     margin-bottom: 40px;
+    z-index: 1000;
+    position: relative;
 }
 
 .actions-grid {

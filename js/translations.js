@@ -23,6 +23,26 @@ const translations = {
             "no": "To nie {verb} rok przestępny",
             "verbs": {"past": "był", "present": "jest", "future": "będzie"}
         },
+        "auth": {
+            "login": "Zaloguj się",
+            "register": "Zarejestruj się",
+            "logout": "Wyloguj się",
+            "email": "Email",
+            "password": "Hasło",
+            "confirmPassword": "Potwierdź hasło",
+            "firstName": "Imię",
+            "lastName": "Nazwisko",
+            "loginSuccess": "Logowanie udane!",
+            "registerSuccess": "Rejestracja udana! Witamy w EduVerse 360!",
+            "invalidCredentials": "Nieprawidłowy email lub hasło!",
+            "passwordMismatch": "Hasła nie są identyczne!",
+            "userExists": "Użytkownik z tym emailem już istnieje!",
+            "welcome": "Witamy w EduVerse 360!",
+            "logoutConfirmation": "Czy na pewno chcesz się wylogować?",
+            "logoutSuccess": "Wylogowano pomyślnie!",
+            "cancel": "Anuluj",
+            "confirm": "Potwierdź"
+        },
         "matrixCalc": {
             "resizeBtn": "Zmień rozmiar",
             "acceptBtn": "Akceptuj",
@@ -193,6 +213,22 @@ const translations = {
             "title": "Welcome to EduVerse 360",
             "subtitle": "Discover tools for mathematical calculations",
             "start_hint": "Click any key or mouse to continue"
+        },
+        "auth": {
+            "login": "Log in",
+            "register": "Register",
+            "logout": "Log out",
+            "email": "Email",
+            "password": "Password",
+            "confirmPassword": "Confirm Password",
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "loginSuccess": "Login successful!",
+            "registerSuccess": "Registration successful! Welcome to EduVerse 360!",
+            "invalidCredentials": "Invalid email or password!",
+            "passwordMismatch": "Passwords do not match!",
+            "userExists": "User with this email already exists!",
+            "welcome": "Welcome to EduVerse 360!"
         },
         "leapYear": {
             "title": "Leap Year Investigator",
@@ -378,6 +414,22 @@ const translations = {
             "title": "Willkommen bei EduVerse 360",
             "subtitle": "Entdecken Sie Werkzeuge für mathematische Berechnungen",
             "start_hint": "Klicken Sie auf eine beliebige Taste oder Maus, um fortzufahren"
+        },
+        "auth": {
+            "login": "Anmelden",
+            "register": "Registrieren",
+            "logout": "Abmelden",
+            "email": "E-Mail",
+            "password": "Passwort",
+            "confirmPassword": "Passwort bestätigen",
+            "firstName": "Vorname",
+            "lastName": "Nachname",
+            "loginSuccess": "Anmeldung erfolgreich!",
+            "registerSuccess": "Registrierung erfolgreich! Willkommen bei EduVerse 360!",
+            "invalidCredentials": "Ungültige E-Mail oder Passwort!",
+            "passwordMismatch": "Passwörter stimmen nicht überein!",
+            "userExists": "Benutzer mit dieser E-Mail existiert bereits!",
+            "welcome": "Willkommen bei EduVerse 360!"
         },
         "leapYear": {
             "title": "Schaltjahr-Untersucher",

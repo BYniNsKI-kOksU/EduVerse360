@@ -7,6 +7,8 @@ function setupMenu() {
     if (homeMenuItem) {
         homeMenuItem.addEventListener('click', function(e) {
             e.stopPropagation();
+            // Zamknij aktywne strony (About, Instructions, UserProfile)
+            closeActivePages();
             backToHome();
             if (sideMenu) {
                 closeMenuWithAnimation();
@@ -119,6 +121,9 @@ function setupMenu() {
             e.stopPropagation();
             if (typeof closeMenuWithAnimation === 'function') closeMenuWithAnimation();
 
+            // Zamknij inne aktywne strony przed otwarciem About
+            closeActivePages();
+
             // Try template-based inline first
             if (window.showAboutInlineFromTemplate && window.showAboutInlineFromTemplate()) {
                 return;
@@ -143,6 +148,9 @@ function setupMenu() {
         instructionsMenuItem.addEventListener('click', async (e) => {
             e.stopPropagation();
             if (typeof closeMenuWithAnimation === 'function') closeMenuWithAnimation();
+
+            // Zamknij inne aktywne strony przed otwarciem Instructions
+            closeActivePages();
 
             // Try template-based inline first
             if (window.showInstructionsInlineFromTemplate && window.showInstructionsInlineFromTemplate()) {
@@ -260,6 +268,100 @@ function resetMenuState() {
     }
 }
 
+// Funkcja do zamykania aktywnych stron (About, Instructions, UserProfile)
+function closeActivePages() {
+    // Zamknij About page jeśli aktywne
+    const inlineAbout = document.getElementById('inlineAbout');
+    if (inlineAbout && inlineAbout.style.display !== 'none') {
+        inlineAbout.style.display = 'none';
+        inlineAbout.innerHTML = '';
+        document.body.classList.remove('about-active');
+        document.body.style.overflow = inlineAbout._previousBodyOverflow || '';
+    }
+    
+    // Zamknij Instructions page jeśli aktywne
+    const inlineInstructions = document.getElementById('inlineInstructions');
+    if (inlineInstructions && inlineInstructions.style.display !== 'none') {
+        inlineInstructions.style.display = 'none';
+        inlineInstructions.innerHTML = '';
+        document.body.classList.remove('instructions-active');
+        document.body.style.overflow = inlineInstructions._previousBodyOverflow || '';
+    }
+    
+    // Zamknij User Profile jeśli aktywne
+    if (document.body.classList.contains('user-profile-active')) {
+        document.body.classList.remove('user-profile-active');
+        const closeBtn = document.getElementById('closeProfileBtn');
+        if (closeBtn) {
+            closeBtn.remove();
+        }
+        
+        // Przywróć side-menu bez wyświetlania
+        const globalSideMenu = document.getElementById('globalSideMenu');
+        if (globalSideMenu) {
+            globalSideMenu.style.display = '';
+            globalSideMenu.classList.remove('hidden');
+            globalSideMenu.classList.remove('open'); // Ważne: nie otwieraj menu
+        }
+        
+        // Ukryj user profile app
+        const userProfileApp = document.getElementById('userProfileApp');
+        if (userProfileApp) {
+            userProfileApp.classList.remove('active');
+        }
+    }
+}
+
+// Funkcja do dodawania przycisku zamknięcia profilu
+function addCloseProfileButton() {
+    // Usuń istniejący przycisk jeśli istnieje
+    const existingBtn = document.getElementById('closeProfileBtn');
+    if (existingBtn) {
+        existingBtn.remove();
+    }
+    
+    // Dodaj nowy przycisk do nav-bar
+    const navBar = document.querySelector('.nav-bar');
+    if (navBar) {
+        const closeBtn = document.createElement('button');
+        closeBtn.id = 'closeProfileBtn';
+        closeBtn.className = 'close-profile-btn';
+        closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+        closeBtn.addEventListener('click', closeUserProfile);
+        
+        // Wstaw na początku nav-bar
+        navBar.insertBefore(closeBtn, navBar.firstChild);
+    }
+}
+
+// Funkcja do zamykania profilu użytkownika
+function closeUserProfile() {
+    // Usuń klasę profilu z body
+    document.body.classList.remove('user-profile-active');
+    
+    // Usuń przycisk zamknięcia
+    const closeBtn = document.getElementById('closeProfileBtn');
+    if (closeBtn) {
+        closeBtn.remove();
+    }
+    
+    // NAPRAWKA: Przywróć side-menu BEZ otwierania i bez migania
+    const globalSideMenu = document.getElementById('globalSideMenu');
+    if (globalSideMenu) {
+        // Najpierw ustaw jako ukryte, żeby nie było migania
+        globalSideMenu.style.visibility = 'hidden';
+        globalSideMenu.classList.remove('hidden');
+        globalSideMenu.classList.remove('open'); // Upewnij się, że nie jest otwarte
+        // Przywróć widoczność po małym opóźnieniu
+        setTimeout(() => {
+            globalSideMenu.style.visibility = '';
+        }, 50);
+    }
+    
+    // Wróć do home screen
+    backToHome();
+}
+
 window.addEventListener("pageshow", (event) => {
     if (event.persisted) {
         location.reload();
@@ -270,14 +372,13 @@ function backToHome() {
     currentScreen = "home";
     document.querySelector('.home-screen').style.display = 'flex';
     document.querySelector('.app-container').style.display = 'none';
-    document.getElementById('globalSideMenu').classList.remove('hidden');
     document.querySelectorAll('.app-content').forEach(content => {
         content.classList.remove('active');
     });
     const globalSideMenu = document.getElementById('globalSideMenu');
     if (globalSideMenu) {
         globalSideMenu.classList.remove('hidden');
-        globalSideMenu.classList.remove('open');
+        globalSideMenu.classList.remove('open'); // NAPRAWKA: Zapewnij że menu nie jest otwarte
     }
     
     const menuBtn = document.getElementById('menuBtn');
@@ -328,6 +429,9 @@ function backToHome() {
 function showUserProfile() {
     currentScreen = "app";
     
+    // Zamknij inne aktywne strony (About, Instructions)
+    closeActivePages();
+    
     // Dodaj klasę dla profilu użytkownika do body
     document.body.classList.add('user-profile-active');
     
@@ -344,9 +448,26 @@ function showUserProfile() {
     // Aktywuj profil użytkownika
     document.getElementById('userProfileApp').classList.add('active');
     
+    // NAPRAWKA: Zachowaj side-menu, ale nie otwieraj go automatycznie
+    const globalSideMenu = document.getElementById('globalSideMenu');
+    if (globalSideMenu) {
+        globalSideMenu.classList.remove('open');
+        globalSideMenu.classList.remove('hidden'); // Pozwól na korzystanie z menu
+        // Nie ukrywaj całkowicie - pozwól użytkownikowi otworzyć menu przyciskiem
+    }
+    
+    // Dodaj przycisk zamknięcia profilu
+    addCloseProfileButton();
+    
     // Załaduj zapisane dane użytkownika
     if (typeof userProfileModals !== 'undefined') {
         userProfileModals.loadSavedSettings();
+    }
+    
+    // Aktualizuj profil użytkownika z systemu autoryzacji
+    if (typeof authSystem !== 'undefined' && authSystem) {
+        authSystem.updateUserProfile();
+        authSystem.updateAvatarInitials();
     }
     
     // Aktualizuj tłumaczenia profilu użytkownika

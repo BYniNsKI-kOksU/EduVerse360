@@ -600,10 +600,21 @@ class UserProfileModals {
 
     // Get current user data from localStorage or defaults
     getCurrentUserData() {
+        // Najpierw sprawdź dane z systemu autoryzacji
+        let authData = {};
+        if (typeof authSystem !== 'undefined' && authSystem.currentUser) {
+            const user = authSystem.currentUser;
+            authData = {
+                name: `${user.firstName || ''} ${user.lastName || ''}`.trim(),
+                email: user.email || '',
+                role: user.role || 'Student'
+            };
+        }
+
         const defaultData = {
-            name: 'Jan Kowalski',
-            email: 'jan.kowalski@example.com',
-            role: 'Student',
+            name: authData.name || 'Użytkownik',
+            email: authData.email || 'uzytkownik@example.com',
+            role: authData.role || 'Student',
             emailNotifications: true,
             darkMode: document.body.classList.contains('dark-mode'),
             avatar: null
@@ -612,10 +623,12 @@ class UserProfileModals {
         const savedData = localStorage.getItem('userProfileData');
         if (savedData) {
             try {
-                return { ...defaultData, ...JSON.parse(savedData) };
+                const parsed = JSON.parse(savedData);
+                // Scalaj z danymi z systemu autoryzacji (priorytet dla auth)
+                return { ...defaultData, ...parsed, ...authData };
             } catch (e) {
                 console.error('Error parsing user data:', e);
-                return defaultData;
+                return { ...defaultData, ...authData };
             }
         }
         return defaultData;

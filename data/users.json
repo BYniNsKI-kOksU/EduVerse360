@@ -1,0 +1,21 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "email": "admin@eduverse360.pl",
+      "password": "admin123",
+      "firstName": "Jan",
+      "lastName": "Kowalski",
+      "registeredAt": "2024-01-01T10:00:00Z",
+      "lastLogin": "2024-12-10T09:30:00Z",
+      "isActive": true,
+      "level": 12,
+      "xp": 750,
+      "maxXp": 1000,
+      "role": "Matematyk • Student",
+      "avatar": null
+    }
+  ],
+  "currentUser": null
+}

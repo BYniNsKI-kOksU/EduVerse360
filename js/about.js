@@ -4,6 +4,11 @@ function showAboutInline() {
     const tpl = document.getElementById('tpl-about');
     if (!tpl) return console.warn('Template #tpl-about not found');
 
+    // Zamknij inne aktywne strony
+    if (typeof closeActivePages === 'function') {
+        closeActivePages();
+    }
+
     document.querySelectorAll('.welcome-screen, .home-screen, .app-container').forEach(el => {
         if (el) el.style.display = 'none';
     });
