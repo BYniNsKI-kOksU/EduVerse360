@@ -72,3 +72,12 @@
     font-weight: bold;
     color: white;
 }
+
+@media (max-width: 600px) {
+  .auth-modal,
+  .auth-container {
+    overflow-y: auto !important;
+    max-height: 100vh !important;
+    -webkit-overflow-scrolling: touch;
+  }
+}

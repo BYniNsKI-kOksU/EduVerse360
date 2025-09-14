@@ -449,8 +449,10 @@ body:not(.dark-mode) .user-btn:hover {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: rgba(224, 122, 95, 0.9);
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(239, 115, 80, 0.65);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(239, 115, 80, 0.25);
     color: white;
     font-size: 24px;
     display: none;
@@ -471,6 +473,14 @@ body:not(.dark-mode) .user-btn:hover {
 .mobile-dashboard-toggle.active {
     transform: rotate(45deg) scale(1.1);
     background: rgba(255, 0, 0, 0.8);
+}
+
+body.dark-mode .mobile-dashboard-toggle {
+    background-color: rgba(224, 122, 95, 0.35);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+    border: 1px solid #ffad96;
 }
 
 /* Close Profile Button */
@@ -659,5 +669,3 @@ body.welcome-active .mobile-dashboard-toggle {
 body.welcome-active #mobileDashboard {
     display: none !important;
 }
-
-/* Jeśli :has() jest wspierane, pozostawiamy oryginalne reguły; jeśli nie, skrypt JS będzie dodawał klasę .welcome-active do body. */
