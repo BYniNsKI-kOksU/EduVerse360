@@ -4,37 +4,149 @@ let currentScreen = "welcome";
 let isUserProfileVisible = false;
 let darkMode = false;
 
-// Function to dynamically load CSS files
-function loadCSS(filename) {
-    return new Promise((resolve, reject) => {
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = filename;
-        link.onload = resolve;
-        link.onerror = reject;
-        document.head.appendChild(link);
-    });
-}
+// Dynamic Resource Loader
+class ResourceLoader {
+    constructor() {
+        this.loadedCSS = new Set();
+        this.loadedJS = new Set();
+        this.loadingPromises = new Map();
+    }
 
-// Function to load all required CSS files
-async function loadAllCSS() {
-    try {
-        const cssFiles = [
-            'css/leap-year.css',
-            'css/matrix-calculator.css',
+    // Load CSS file dynamically
+    loadCSS(filename) {
+        if (this.loadedCSS.has(filename)) {
+            return Promise.resolve();
+        }
+
+        if (this.loadingPromises.has(filename)) {
+            return this.loadingPromises.get(filename);
+        }
+
+        const promise = new Promise((resolve, reject) => {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = filename;
+            link.onload = () => {
+                this.loadedCSS.add(filename);
+                this.loadingPromises.delete(filename);
+                resolve();
+            };
+            link.onerror = () => {
+                this.loadingPromises.delete(filename);
+                reject(new Error(`Failed to load CSS: ${filename}`));
+            };
+            document.head.appendChild(link);
+        });
+
+        this.loadingPromises.set(filename, promise);
+        return promise;
+    }
+
+    // Load JS file dynamically
+    loadJS(filename) {
+        if (this.loadedJS.has(filename)) {
+            return Promise.resolve();
+        }
+
+        if (this.loadingPromises.has(filename)) {
+            return this.loadingPromises.get(filename);
+        }
+
+        const promise = new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = filename;
+            script.async = true;
+            script.onload = () => {
+                this.loadedJS.add(filename);
+                this.loadingPromises.delete(filename);
+                resolve();
+            };
+            script.onerror = () => {
+                this.loadingPromises.delete(filename);
+                reject(new Error(`Failed to load JS: ${filename}`));
+            };
+            document.body.appendChild(script);
+        });
+
+        this.loadingPromises.set(filename, promise);
+        return promise;
+    }
+
+    // Load multiple resources
+    loadMultiple(resources) {
+        const promises = resources.map(resource => {
+            if (resource.endsWith('.css')) {
+                return this.loadCSS(resource);
+            } else if (resource.endsWith('.js')) {
+                return this.loadJS(resource);
+            }
+            return Promise.resolve();
+        });
+
+        return Promise.all(promises);
+    }
+
+    // Load resources for specific app
+    async loadAppResources(appName) {
+        const appResources = {
+            matrix: [
+                'css/matrix-calculator.css',
+                'css/help-modals.css',
+                'js/help-system.js'
+            ],
+            leapYear: [
+                'css/leap-year.css',
+                'css/help-modals.css',
+                'js/help-system.js'
+            ],
+            userProfile: [
+                'css/user-profile.css',
+                'css/user-profile-modals.css',
+                'css/new-user-profile.css',
+                'css/settings.css',
+                'js/user-profile-modals.js',
+                'js/settings-system.js'
+            ],
+            about: [
+                'css/about.css',
+                'js/about.js'
+            ],
+            instructions: [
+                'css/instructions.css',
+                'js/instructions.js'
+            ]
+        };
+
+        const resources = appResources[appName] || [];
+        try {
+            await this.loadMultiple(resources);
+            console.log(`Resources loaded for ${appName}:`, resources);
+        } catch (error) {
+            console.error(`Error loading resources for ${appName}:`, error);
+        }
+    }
+
+    // Preload essential resources
+    async preloadEssentials() {
+        const essentialResources = [
             'css/home-screen.css',
-            'css/user-profile.css',
-            'css/dark-mode.css'
+            'css/welcome-screen.css',
+            'css/dark-mode.css',
+            'css/responsiveness.css',
+            'css/enhanced-responsiveness.css'
         ];
 
-        for (const file of cssFiles) {
-            await loadCSS(file);
+        try {
+            await this.loadMultiple(essentialResources);
+            console.log('Essential resources preloaded');
+        } catch (error) {
+            console.error('Error preloading essential resources:', error);
         }
-        console.log('All CSS files loaded successfully');
-    } catch (error) {
-        console.error('Error loading CSS files:', error);
     }
 }
+
+// Initialize resource loader
+const resourceLoader = new ResourceLoader();
 
 function switchLanguage(lang) {
     currentLang = lang;
@@ -55,6 +167,16 @@ function switchLanguage(lang) {
     // Aktualizuj otwarte modały profilu użytkownika
     if (typeof userProfileModals !== 'undefined' && userProfileModals.currentModal) {
         userProfileModals.updateModalTranslations();
+    }
+    
+    // Aktualizuj system pomocy
+    if (typeof helpSystem !== 'undefined') {
+        helpSystem.updateModalTranslations();
+    }
+    
+    // Aktualizuj system ustawień
+    if (typeof settingsSystem !== 'undefined') {
+        settingsSystem.updateSettingsUI();
     }
 
     const flags = {
@@ -436,7 +558,8 @@ function updateDashboardLanguageBtn() {
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', async () => {
-    await loadAllCSS();
+    // Preload essential resources
+    await resourceLoader.preloadEssentials();
     
     // Load saved dark mode preference
     loadSavedDarkMode();

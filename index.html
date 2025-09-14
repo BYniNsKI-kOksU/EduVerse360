@@ -16,6 +16,11 @@
     <link rel="stylesheet" href="css/about.css">
     <link rel="stylesheet" href="css/instructions.css">
     <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/help-modals.css">
+    <link rel="stylesheet" href="css/matrix-calculator.css">
+    <link rel="stylesheet" href="css/leap-year.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <link rel="stylesheet" href="css/matrix-mode-switch.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- Poprawiono Font Awesome -->
 </head>
 <body>
@@ -263,18 +268,32 @@
         <div id="matrixCalcApp" class="app-content">
             <div class="matrix-container">
                 <h2 id="matrixCalcTitle" class="matrix-Calc-title">Kalkulator Macierzy</h2>
-                <div class="controls">
-                    <div class="operation-selector">
-                        <div id="operationLabel" class="operation-label">Operacja:</div>
-                        <button id="operationBtn" class="operation-btn">Dodawanie</button>
-                        <div id="operationMenu" class="operation-menu">
-                            <div class="operation-menu-item" data-op="add">Dodawanie</div>
-                            <div class="operation-menu-item" data-op="sub">Odejmowanie</div>
-                            <div class="operation-menu-item" data-op="mul">Mnożenie</div>
-                            <div class="operation-menu-item" data-op="det">Wyznacznik</div>
-                            <div class="operation-menu-item" data-op="inv">Macierz odwrotna</div>
-                            <div class="operation-menu-item" data-op="trans">Transpozycja</div>
-                            <div class="operation-menu-item" data-op="solve">Układ równań</div>
+                <div class="controls" style="display: flex; align-items: center; justify-content: space-between; position: relative;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div class="operation-selector">
+                            <div id="operationLabel" class="operation-label">Operacja:</div>
+                            <button id="operationBtn" class="operation-btn">Dodawanie</button>
+                            <div id="operationMenu" class="operation-menu">
+                                <div class="operation-menu-item" data-op="add">Dodawanie</div>
+                                <div class="operation-menu-item" data-op="sub">Odejmowanie</div>
+                                <div class="operation-menu-item" data-op="mul">Mnożenie</div>
+                                <div class="operation-menu-item" data-op="det">Wyznacznik</div>
+                                <div class="operation-menu-item" data-op="inv">Macierz odwrotna</div>
+                                <div class="operation-menu-item" data-op="trans">Transpozycja</div>
+                                <div class="operation-menu-item" data-op="solve">Układ równań</div>
+                            </div>
+                        </div>
+                        <!-- Pomoc i suwak trybu -->
+                        <div id="matrixHelpAndMode" style="display: flex; align-items: center; gap: 10px;">
+                            <!-- Przycisk Pomoc jest dynamicznie dodawany przez JS -->
+                            <div class="matrix-mode-switch-wrapper" style="margin:0;">
+                                <span class="matrix-mode-label">Tryb:</span>
+                                <label class="matrix-mode-switch">
+                                    <input type="checkbox" id="matrixModeSwitch">
+                                    <span class="matrix-mode-slider"></span>
+                                </label>
+                                <span id="matrixModeSwitchText" class="matrix-mode-switch-text">Podstawowy</span>
+                            </div>
                         </div>
                     </div>
                     <div class="method-selector-wrapper" style="display: none;">
@@ -351,6 +370,18 @@
                             </div>
                             <span class="progress-text">750/1000 XP</span>
                         </div>
+                    </div>
+                    
+                    <!-- Profile Actions -->
+                    <div class="profile-hero-actions">
+                        <button class="profile-hero-btn edit-profile-btn" onclick="userProfileModals.openModal('editProfile')">
+                            <i class="fas fa-edit"></i>
+                            <span data-translate-key="userProfile.edit">Edytuj profil</span>
+                        </button>
+                        <button class="profile-hero-btn settings-btn" onclick="settingsSystem.showSettings()">
+                            <i class="fas fa-cog"></i>
+                            <span data-translate-key="userProfile.settings.title">Ustawienia</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -873,16 +904,18 @@
         </div>
     </template>
 
+    <!-- Core scripts - loaded immediately -->
     <script src="js/translations.js"></script>
     <script src="js/script.js"></script>
     <script src="js/background.js"></script>
     <script src="js/leapYear.js"></script>
     <script src="js/matrixCalculator.js"></script>
+    <script src="js/matrix-mode-switch-global.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/utils.js"></script>
-    <script src="js/user-profile-modals.js"></script>
     <script src="js/auth.js"></script>
-    <script src="js/about.js"></script>
-    <script src="js/instructions.js"></script>
+    
+    <!-- Feature scripts - loaded dynamically as needed -->
+    <script src="js/help-system.js"></script>
 </body>
 </html>

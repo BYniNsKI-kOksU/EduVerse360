@@ -1,0 +1,250 @@
+/* Enhanced Responsiveness for New Features */
+
+/* Help buttons responsive design */
+@media (min-width: 1200px) {
+    .help-button {
+        padding: 12px 24px;
+        font-size: 1rem;
+        min-width: 120px;
+    }
+}
+
+@media (max-width: 1199px) and (min-width: 992px) {
+    .help-button {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+        min-width: 110px;
+    }
+}
+
+@media (max-width: 991px) and (min-width: 769px) {
+    .help-button {
+        display: none;
+    }
+    
+    .tablet-help-button {
+        display: flex !important;
+        position: fixed;
+        top: 80px;
+        right: 15px;
+        z-index: 1000;
+    }
+}
+
+@media (max-width: 768px) {
+    .help-button,
+    .tablet-help-button {
+        display: none;
+    }
+    
+    .mobile-help-button {
+        display: flex !important;
+        position: fixed;
+        top: 70px;
+        right: 15px;
+        z-index: 1000;
+    }
+}
+
+/* Settings page responsive improvements */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .settings-content-wrapper {
+        padding: 30px;
+    }
+    
+    .settings-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .setting-item {
+        padding: 18px;
+    }
+    
+    .settings-title {
+        font-size: 2.5rem;
+    }
+}
+
+/* User profile hero actions responsive */
+@media (min-width: 1200px) {
+    .profile-hero-actions {
+        justify-content: flex-start;
+        margin-top: 30px;
+    }
+    
+    .profile-hero-btn {
+        min-width: 160px;
+        padding: 14px 24px;
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 1199px) and (min-width: 992px) {
+    .profile-hero-actions {
+        justify-content: center;
+        margin-top: 25px;
+    }
+    
+    .profile-hero-btn {
+        min-width: 150px;
+        padding: 12px 22px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 991px) and (min-width: 769px) {
+    .profile-hero-actions {
+        justify-content: center;
+        margin-top: 20px;
+        gap: 12px;
+    }
+    
+    .profile-hero-btn {
+        min-width: 140px;
+        padding: 12px 20px;
+        font-size: 0.95rem;
+    }
+}
+
+/* Help modal responsive improvements */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .help-modal {
+        width: 90%;
+        max-width: 700px;
+        max-height: 80vh;
+    }
+    
+    .help-modal-content {
+        padding: 25px;
+        max-height: 65vh;
+    }
+    
+    .shortcuts-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 18px;
+    }
+}
+
+/* Matrix calculator help button positioning */
+@media (min-width: 1200px) {
+    .matrix-frame .help-button {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+}
+
+@media (max-width: 1199px) and (min-width: 769px) {
+    .matrix-frame {
+        position: relative;
+    }
+}
+
+/* Leap year calculator help button positioning */
+@media (min-width: 992px) {
+    .leap-year-container .help-button {
+        margin-top: 20px;
+        align-self: center;
+    }
+}
+
+/* Settings system mobile optimizations */
+@media (max-width: 480px) {
+    .settings-hero {
+        padding: 15px 0;
+    }
+    
+    .settings-title {
+        font-size: 1.6rem;
+        margin-bottom: 10px;
+    }
+    
+    .settings-subtitle {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+    
+    .settings-back-btn {
+        top: 15px;
+        left: 15px;
+        padding: 8px 14px;
+        font-size: 0.85rem;
+    }
+    
+    .settings-back-btn i {
+        margin-right: 6px;
+    }
+}
+
+/* Language-specific adjustments */
+[lang="de"] .help-modal-title,
+[lang="de"] .settings-title {
+    font-size: 0.95em; /* German text tends to be longer */
+}
+
+[lang="en"] .profile-hero-btn {
+    min-width: 130px; /* English text is usually shorter */
+}
+
+[lang="de"] .profile-hero-btn {
+    min-width: 160px; /* German text is usually longer */
+}
+
+/* High DPI display adjustments */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .help-button,
+    .profile-hero-btn,
+    .settings-btn {
+        border-width: 0.5px;
+    }
+    
+    .help-modal {
+        border-width: 0.5px;
+    }
+}
+
+/* Focus improvements for accessibility */
+.help-button:focus,
+.profile-hero-btn:focus,
+.settings-btn:focus,
+.mobile-help-button:focus,
+.tablet-help-button:focus {
+    outline: 3px solid rgba(224, 122, 95, 0.5);
+    outline-offset: 2px;
+}
+
+/* Animation performance optimizations */
+@media (prefers-reduced-motion: reduce) {
+    .help-modal,
+    .modern-settings,
+    .profile-hero-btn,
+    .help-button {
+        transition: none;
+        animation: none;
+    }
+}
+
+/* Print styles */
+@media print {
+    .help-button,
+    .mobile-help-button,
+    .tablet-help-button,
+    .settings-back-btn,
+    .profile-hero-actions {
+        display: none !important;
+    }
+    
+    .help-modal-overlay {
+        position: static;
+        background: none;
+        backdrop-filter: none;
+    }
+    
+    .help-modal {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        background: white;
+        color: black;
+    }
+}

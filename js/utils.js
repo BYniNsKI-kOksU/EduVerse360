@@ -124,6 +124,11 @@ function setupMenu() {
             // Zamknij inne aktywne strony przed otwarciem About
             closeActivePages();
 
+            // Load about resources dynamically
+            if (typeof resourceLoader !== 'undefined') {
+                await resourceLoader.loadAppResources('about');
+            }
+
             // Try template-based inline first
             if (window.showAboutInlineFromTemplate && window.showAboutInlineFromTemplate()) {
                 return;
@@ -151,6 +156,11 @@ function setupMenu() {
 
             // Zamknij inne aktywne strony przed otwarciem Instructions
             closeActivePages();
+
+            // Load instructions resources dynamically
+            if (typeof resourceLoader !== 'undefined') {
+                await resourceLoader.loadAppResources('instructions');
+            }
 
             // Try template-based inline first
             if (window.showInstructionsInlineFromTemplate && window.showInstructionsInlineFromTemplate()) {
@@ -181,12 +191,19 @@ function setupMenu() {
 
     // ZMIANA: Zamykaj menu tylko po wyborze konkretnej aplikacji, nie przy rozwijaniu submenu
     document.querySelectorAll('.submenu-item[data-app]').forEach(item => {
-        item.addEventListener('click', function(e) {
+        item.addEventListener('click', async function(e) {
             e.stopPropagation();
+            // --- NOWOŚĆ: Zamknij każdą inną aktywną stronę przed uruchomieniem aplikacji ---
+            if (typeof closeActivePages === 'function') closeActivePages();
             const app = this.dataset.app;
             if (app) {
                 // Zamknij menu po wyborze aplikacji
                 closeMenuWithAnimation();
+                
+                // Load app-specific resources dynamically
+                if (typeof resourceLoader !== 'undefined') {
+                    await resourceLoader.loadAppResources(app);
+                }
                 
                 currentScreen = "app";
                 document.querySelector('.welcome-screen').style.display = 'none';
@@ -197,9 +214,23 @@ function setupMenu() {
                     content.classList.remove('active');
                 });
                 
+                // Remove help buttons from previous app
+                if (typeof helpSystem !== 'undefined') {
+                    helpSystem.removeHelpButtons();
+                }
+                
                 const appElement = document.getElementById(app + 'App');
                 if (appElement) {
                     appElement.classList.add('active');
+                    
+                    // Initialize app-specific features
+                    setTimeout(() => {
+                        if (app === 'matrixCalc' && typeof helpSystem !== 'undefined') {
+                            helpSystem.addMatrixHelpButton();
+                        } else if (app === 'leapYear' && typeof helpSystem !== 'undefined') {
+                            helpSystem.addLeapYearHelpButton();
+                        }
+                    }, 100);
                 }
                 
                 const menuBtn = document.getElementById('menuBtn');
@@ -295,19 +326,35 @@ function closeActivePages() {
         if (closeBtn) {
             closeBtn.remove();
         }
-        
         // Przywróć side-menu bez wyświetlania
         const globalSideMenu = document.getElementById('globalSideMenu');
         if (globalSideMenu) {
             globalSideMenu.style.display = '';
             globalSideMenu.classList.remove('hidden');
-            globalSideMenu.classList.remove('open'); // Ważne: nie otwieraj menu
+            globalSideMenu.classList.remove('open');
         }
-        
         // Ukryj user profile app
         const userProfileApp = document.getElementById('userProfileApp');
         if (userProfileApp) {
             userProfileApp.classList.remove('active');
+        }
+        // Remove help buttons
+        if (typeof helpSystem !== 'undefined') {
+            helpSystem.removeHelpButtons();
+        }
+    }
+    // --- NOWOŚĆ: Zamknij stronę ustawień jeśli aktywna ---
+    if (document.body.classList.contains('settings-active')) {
+        document.body.classList.remove('settings-active');
+        document.body.style.overflow = '';
+        // Usuń kontener ustawień jeśli istnieje
+        const settingsContainer = document.getElementById('settingsContainer');
+        if (settingsContainer) {
+            settingsContainer.remove();
+        }
+        // Jeśli jest instancja settingsSystem, wyzeruj settingsContainer
+        if (window.settingsSystem && window.settingsSystem.settingsContainer) {
+            window.settingsSystem.settingsContainer = null;
         }
     }
 }
@@ -348,6 +395,18 @@ function closeUserProfile() {
     // NAPRAWKA: Przywróć side-menu BEZ otwierania i bez migania
     const globalSideMenu = document.getElementById('globalSideMenu');
     if (globalSideMenu) {
+        // Najpierw ukryj menu bez animacji
+        globalSideMenu.style.transition = 'none';
+        globalSideMenu.style.transform = 'translateX(-100%)';
+        globalSideMenu.style.opacity = '0';
+        globalSideMenu.classList.remove('hidden', 'open', 'closing');
+        
+        // Następnie przywróć funkcjonalność po krótkiej przerwie
+        setTimeout(() => {
+            globalSideMenu.style.transition = '';
+            globalSideMenu.style.transform = '';
+            globalSideMenu.style.opacity = '';
+        }, 50);
         // Najpierw ustaw jako ukryte, żeby nie było migania
         globalSideMenu.style.visibility = 'hidden';
         globalSideMenu.classList.remove('hidden');
@@ -379,6 +438,15 @@ function backToHome() {
     if (globalSideMenu) {
         globalSideMenu.classList.remove('hidden');
         globalSideMenu.classList.remove('open'); // NAPRAWKA: Zapewnij że menu nie jest otwarte
+        globalSideMenu.style.visibility = 'visible';
+    }
+    
+    // NAPRAWKA 3: Przywróć normalny stan przycisku użytkownika po wyjściu z profilu
+    const homeUserBtn = document.querySelector('.user-btn');
+    if (homeUserBtn) {
+        homeUserBtn.style.animation = 'none';
+        homeUserBtn.style.transform = 'none';
+        homeUserBtn.style.transition = 'all 0.3s ease';
     }
     
     const menuBtn = document.getElementById('menuBtn');
@@ -426,8 +494,31 @@ function backToHome() {
     initializeUI();
 }
 
-function showUserProfile() {
+async function showUserProfile() {
     currentScreen = "app";
+    
+    // NAPRAWKA 2: Nie ukrywaj side-menu w userpage - powinno być dostępne
+    const globalSideMenu = document.getElementById('globalSideMenu');
+    if (globalSideMenu) {
+        // Tylko zamknij menu jeśli jest otwarte, ale nie ukrywaj
+        globalSideMenu.classList.remove('open', 'closing');
+        globalSideMenu.style.transform = '';
+        globalSideMenu.style.opacity = '';
+        globalSideMenu.style.visibility = '';
+    }
+    
+    // NAPRAWKA 2: Zatrzymaj animację przycisku użytkownika
+    const profileUserBtn = document.querySelector('.user-btn');
+    if (profileUserBtn) {
+        profileUserBtn.style.animation = 'none';
+        profileUserBtn.style.transform = 'none';
+        profileUserBtn.style.transition = 'all 0.3s ease';
+    }
+    
+    // Load user profile resources dynamically
+    if (typeof resourceLoader !== 'undefined') {
+        await resourceLoader.loadAppResources('userProfile');
+    }
     
     // Zamknij inne aktywne strony (About, Instructions)
     closeActivePages();
@@ -447,14 +538,6 @@ function showUserProfile() {
     
     // Aktywuj profil użytkownika
     document.getElementById('userProfileApp').classList.add('active');
-    
-    // NAPRAWKA: Zachowaj side-menu, ale nie otwieraj go automatycznie
-    const globalSideMenu = document.getElementById('globalSideMenu');
-    if (globalSideMenu) {
-        globalSideMenu.classList.remove('open');
-        globalSideMenu.classList.remove('hidden'); // Pozwól na korzystanie z menu
-        // Nie ukrywaj całkowicie - pozwól użytkownikowi otworzyć menu przyciskiem
-    }
     
     // Dodaj przycisk zamknięcia profilu
     addCloseProfileButton();
@@ -491,12 +574,8 @@ function showUserProfile() {
         navBarLangBtn.style.backgroundImage = `url(${flags[currentLang]})`;
     }
 
-    // Aktywuj animację przycisku użytkownika
-    const userBtn = document.querySelector('.user-btn');
-    if (userBtn) {
-        userBtn.style.animation = 'rotateAndScale 2s infinite alternate';
-        userBtn.style.animationTimingFunction = 'linear';
-    }
+    // NAPRAWKA 3: NIE aktywuj animacji w userProfile - ma być zatrzymana
+    // Animacja będzie zatrzymana wcześniej w funkcji
     
     resetMenuState();
     updateUI();

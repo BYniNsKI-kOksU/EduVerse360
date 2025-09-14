@@ -2,7 +2,7 @@
     /* Colors */
     --clr-bg: #317873;
     --clr-fg: #F0F0F0;
-    --clr-accent: #e07a5f;
+    --clr-accent: rgb(224, 122, 95);
     --clr-btn-bg: #7289DA;
     --clr-btn-hover: #677BC4;
     --liquid-glass-bg: rgba(255, 255, 255, 0.1);

@@ -269,4 +269,22 @@ function initializeLeapYear() {
 
     // Initialize history box to show "Brak historii" on start
     updateHistoryBox();
+    
+    // Initialize help system for leap year calculator
+    setTimeout(() => {
+        if (typeof helpSystem !== 'undefined') {
+            helpSystem.addLeapYearHelpButton();
+        }
+    }, 500);
 }
+
+// Add keyboard shortcuts for help
+document.addEventListener('keydown', (e) => {
+    // F1 key opens help
+    if (e.key === 'F1' && document.getElementById('leapYearApp')?.classList.contains('active')) {
+        e.preventDefault();
+        if (typeof helpSystem !== 'undefined') {
+            helpSystem.openModal('leapYear');
+        }
+    }
+});

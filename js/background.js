@@ -274,6 +274,16 @@ document.querySelectorAll('.tile').forEach(tile => {
             menuBtn.style.pointerEvents = 'auto';
         }
         
+        // Dodaj/odśwież przycisk pomocy
+        if (window.helpSystem) {
+            window.helpSystem.removeHelpButtons();
+            if (app === 'matrixCalc') {
+                window.helpSystem.addMatrixHelpButton();
+            } else if (app === 'leapYear') {
+                window.helpSystem.addLeapYearHelpButton();
+            }
+        }
+        
         updateUI();
         initializeUI();
     });

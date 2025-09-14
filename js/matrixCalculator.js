@@ -1,5 +1,6 @@
 let currentOperation = "add";
 let currentMethod = "cramer";
+let isAdvancedMode = false;
 
 const operationBtn = document.getElementById('operationBtn');
 const operationMenu = document.getElementById('operationMenu');
@@ -21,6 +22,23 @@ const solutionBox = document.getElementById('solutionBox');
 const matricesContainer = document.getElementById('matricesContainer');
 const methodBtn = document.getElementById('methodBtn');
 const methodSelectorWrapper = document.querySelector('.method-selector-wrapper');
+const matrixModeSwitch = document.getElementById('matrixModeSwitch');
+const matrixModeSwitchText = document.getElementById('matrixModeSwitchText');
+
+const basicOperations = [
+  { op: 'add', label: 'Dodawanie' },
+  { op: 'sub', label: 'Odejmowanie' },
+  { op: 'mul', label: 'Mnożenie' },
+  { op: 'det', label: 'Wyznacznik' },
+  { op: 'inv', label: 'Macierz odwrotna' },
+  { op: 'trans', label: 'Transpozycja' },
+  { op: 'solve', label: 'Układ równań' }
+];
+const advancedOperations = [
+  { op: 'trace', label: 'Ślad macierzy' },
+  { op: 'rank', label: 'Rząd macierzy' },
+  { op: 'eig', label: 'Wartości własne' }
+];
 
 const resizeBtn = document.getElementById('resizeBtn');
 const resizeDialog = document.getElementById('resizeDialog');
@@ -333,7 +351,6 @@ function adjustMatrixB() {
 
 function displayResult(result) {
     if (!resultBox || !solutionBox) return;
-    
     // Clear previous results but keep the default text
     const defaultText = resultBox.querySelector('.default-result-text');
     resultBox.innerHTML = '';
@@ -341,9 +358,8 @@ function displayResult(result) {
     newDefaultText.className = 'default-result-text';
     newDefaultText.textContent = translations[currentLang].matrixCalc.result_label;
     resultBox.appendChild(newDefaultText);
-    
     solutionBox.innerHTML = '';
-    
+
     if (Array.isArray(result)) {
         // Remove default text when showing actual results
         resultBox.innerHTML = '';
@@ -392,16 +408,18 @@ function displayResult(result) {
     } else {
         // Remove default text when showing actual results
         resultBox.innerHTML = '';
-        
         // Single value result (like determinant)
         const span = document.createElement('span');
-        span.textContent = result.toString();
-        
+        if (result === undefined || result === null || (typeof result === 'number' && isNaN(result))) {
+            span.textContent = translations[currentLang]?.matrixCalc?.errors?.no_result || 'Brak wyniku';
+            span.style.color = '#e07a5f';
+        } else {
+            span.textContent = result.toString();
+        }
         // Dodanie klasy dla animowanego wyniku w trybie light-mode
         if (!document.body.classList.contains('dark-mode')) {
             span.classList.add('animated-result-light');
         }
-        
         resultBox.appendChild(span);
         solutionBox.classList.remove('visible');
     }
@@ -411,60 +429,107 @@ function compute() {
     try {
         const A = getMatrixValues(matrixAGrid);
         let B;
-        if (['add', 'sub', 'mul', 'solve'].includes(currentOperation)) {
+        if (["add", "sub", "mul", "solve"].includes(currentOperation)) {
             B = getMatrixValues(matrixBGrid);
         }
 
         let result;
         switch (currentOperation) {
-            case 'add':
+            case "add":
                 if (A.length !== B.length || A[0].length !== B[0].length) {
-                    throw new Error(translations[currentLang].matrixCalc.errors.same_dim.replace('{op}', 'dodawania'));
+                    throw new Error(translations[currentLang].matrixCalc.errors.same_dim.replace("{op}", "dodawania"));
                 }
                 result = A.map((row, i) => row.map((val, j) => val + B[i][j]));
                 break;
-            case 'sub':
+            case "sub":
                 if (A.length !== B.length || A[0].length !== B[0].length) {
-                    throw new Error(translations[currentLang].matrixCalc.errors.same_dim.replace('{op}', 'odejmowania'));
+                    throw new Error(translations[currentLang].matrixCalc.errors.same_dim.replace("{op}", "odejmowania"));
                 }
                 result = A.map((row, i) => row.map((val, j) => val - B[i][j]));
                 break;
-            case 'mul':
+            case "mul":
                 if (A[0].length !== B.length) {
                     throw new Error(translations[currentLang].matrixCalc.errors.mul_dim);
                 }
-                result = Array(A.length).fill().map((_, i) => 
-                    Array(B[0].length).fill().map((_, j) => 
+                result = Array(A.length).fill().map((_, i) =>
+                    Array(B[0].length).fill().map((_, j) =>
                         Array(A[0].length).fill().reduce((sum, _, k) => sum + A[i][k] * B[k][j], 0)
                     )
                 );
                 break;
-            case 'det':
+            case "det":
                 if (A.length !== A[0].length) {
                     throw new Error(translations[currentLang].matrixCalc.errors.square);
                 }
                 result = determinant(A);
                 break;
-            case 'inv':
+            case "inv":
                 if (A.length !== A[0].length) {
                     throw new Error(translations[currentLang].matrixCalc.errors.square);
                 }
                 result = inverse(A);
                 break;
-            case 'trans':
+            case "trans":
                 result = A[0].map((_, j) => A.map(row => row[j]));
                 break;
-            case 'solve':
+            case "solve":
                 if (A.length !== A[0].length) {
                     throw new Error(translations[currentLang].matrixCalc.errors.square);
                 }
                 result = solveSystem(A, B);
+                break;
+            case "trace":
+                if (A.length !== A[0].length) {
+                    throw new Error(translations[currentLang].matrixCalc.errors.square);
+                }
+                result = matrixTrace(A);
+                break;
+            case "rank":
+                result = matrixRank(A);
+                break;
+            case "eig":
+                result = translations[currentLang]?.matrixCalc?.errors?.not_implemented || "Funkcja niezaimplementowana";
                 break;
         }
         displayResult(result);
     } catch (error) {
         alert(error.message);
     }
+}
+
+function matrixTrace(matrix) {
+    let sum = 0;
+    for (let i = 0; i < Math.min(matrix.length, matrix[0].length); i++) {
+        sum += matrix[i][i];
+    }
+    return sum;
+}
+
+function matrixRank(matrix) {
+    // Prosta implementacja rzędu macierzy przez eliminację Gaussa
+    const m = matrix.length;
+    const n = matrix[0].length;
+    const mat = matrix.map(row => row.slice());
+    let rank = 0;
+    let row = 0;
+    for (let col = 0; col < n && row < m; col++) {
+        let pivot = row;
+        for (let i = row + 1; i < m; i++) {
+            if (Math.abs(mat[i][col]) > Math.abs(mat[pivot][col])) pivot = i;
+        }
+        if (Math.abs(mat[pivot][col]) > 1e-10) {
+            [mat[row], mat[pivot]] = [mat[pivot], mat[row]];
+            for (let i = row + 1; i < m; i++) {
+                const factor = mat[i][col] / mat[row][col];
+                for (let j = col; j < n; j++) {
+                    mat[i][j] -= factor * mat[row][j];
+                }
+            }
+            row++;
+            rank++;
+        }
+    }
+    return rank;
 }
 
 function determinant(matrix) {
@@ -808,17 +873,20 @@ function initializeMatrixCalculator() {
     }
     });
 
+    // Zastąp obsługę kliknięcia w menu operacji:
     if (operationMenu) operationMenu.addEventListener('click', e => {
-    if (e.target.classList.contains('operation-menu-item')) {
-        changeOperation(e.target.dataset.op);
+      if (e.target.classList.contains('operation-menu-item')) {
+        const op = e.target.dataset.op;
+        changeOperation(op);
+        operationBtn.textContent = e.target.textContent; // zawsze aktualizuj napis
         operationMenu.classList.remove('open');
         operationMenu.classList.add('closing');
         setTimeout(() => {
-            operationMenu.style.display = 'none';
-            operationMenu.classList.remove('closing');
+          operationMenu.style.display = 'none';
+          operationMenu.classList.remove('closing');
         }, 300);
-    }
-    e.stopPropagation();
+      }
+      e.stopPropagation();
     });
 
     document.addEventListener('click', (e) => {
@@ -1179,4 +1247,75 @@ document.addEventListener('keydown', (e) => {
             }
         }
     }
+    
+    // F1 key opens help
+    if (e.key === 'F1' && document.getElementById('matrixCalcApp')?.classList.contains('active')) {
+        e.preventDefault();
+        if (typeof helpSystem !== 'undefined') {
+            helpSystem.openModal('matrix');
+        }
+    }
 });
+
+// Initialize help system for matrix calculator
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        if (typeof helpSystem !== 'undefined') {
+            helpSystem.addMatrixHelpButton();
+        }
+    }, 500);
+});
+
+function updateOperationMenu() {
+  const ops = isAdvancedMode ? advancedOperations : basicOperations;
+  operationMenu.innerHTML = '';
+  ops.forEach(({ op, label }) => {
+    const div = document.createElement('div');
+    div.className = 'operation-menu-item';
+    div.dataset.op = op;
+    div.textContent = label;
+    operationMenu.appendChild(div);
+  });
+  // Ustaw zmienną --i dla animacji
+  document.querySelectorAll('.operation-menu-item').forEach((item, index) => {
+    item.style.setProperty('--i', index);
+  });
+}
+
+function updateMatrixVisibility() {
+  // Operacje na jednej macierzy
+  const singleMatrixOps = ['det', 'inv', 'trans', 'trace', 'rank', 'eig'];
+  if (singleMatrixOps.includes(currentOperation)) {
+    matrixB.style.display = 'none';
+    matrixA.style.margin = '0 auto';
+    matricesContainer.style.justifyContent = 'center';
+  } else {
+    matrixB.style.display = '';
+    matrixA.style.margin = '';
+    matricesContainer.style.justifyContent = '';
+  }
+}
+
+if (matrixModeSwitch) {
+  matrixModeSwitch.addEventListener('change', function() {
+    isAdvancedMode = this.checked;
+    window.isAdvancedMode = isAdvancedMode; // <- synchronizacja dla help-system
+    matrixModeSwitchText.textContent = isAdvancedMode ? 'Rozszerzony' : 'Podstawowy';
+    updateOperationMenu();
+    // Resetuj operację na pierwszą z listy
+    const ops = isAdvancedMode ? advancedOperations : basicOperations;
+    currentOperation = ops[0].op;
+    operationBtn.textContent = ops[0].label;
+    updateMatrixVisibility();
+    if (window.helpSystem && typeof window.helpSystem.updateModalTranslations === 'function') {
+      window.helpSystem.updateModalTranslations();
+    }
+  });
+  // Synchronizacja na starcie
+  window.isAdvancedMode = matrixModeSwitch.checked;
+}
+
+// Inicjalizacja menu operacji i widoczności macierzy na starcie
+updateOperationMenu();
+updateMatrixVisibility();
+

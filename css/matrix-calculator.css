@@ -1061,104 +1061,91 @@
 
 /* Responsywne poprawki dla kalkulatora macierzy */
 @media (max-width: 768px) {
-    .matrix-container {
-        padding: 10px 15px; /* Zwiększ padding z 10px na 15px po bokach */
-        margin-top: 70px;
-        padding-bottom: 100px;
-        overflow-y: auto;
-        max-height: calc(100vh - 80px);
-    }
-    
+    /* Fix matrix layout on mobile - keep side by side like desktop */
     .matrices-container {
-        flex-direction: column;
+        flex-direction: row !important;
+        justify-content: center;
+        align-items: flex-start;
         gap: 15px;
-        padding: 0 15px; /* Zwiększ padding z 10px na 15px */
-        align-items: center;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 0 10px;
     }
     
     .matrix-frame {
-        max-width: 100%;
-        width: fit-content;
-        margin: 0 auto;
-        padding: 6px 10px;
+        max-width: 140px;
+        min-width: 120px;
+        padding: 6px 8px;
+        margin: 0;
+        flex-shrink: 0;
     }
     
     .matrix-grid {
-        justify-content: center;
-        align-content: center;
-        margin: 0 auto;
+        width: 100% !important;
+        max-width: none !important;
+        grid-gap: 3px !important;
     }
     
     .matrix-input {
-        width: 35px;
-        height: 28px;
-        font-size: 13px;
-        margin: 1.5px;
-        justify-self: center;
+        width: 35px !important;
+        height: 35px !important;
+        font-size: 14px !important;
+        padding: 2px !important;
+        min-width: 35px !important;
+    }
+    
+    .matrix-operator {
+        font-size: 1.8rem;
+        padding: 0 8px;
         align-self: center;
+        flex-shrink: 0;
     }
     
-    /* Menu na mobile - pozycjonowanie pod przyciskiem */
-    .operation-menu,
-    .method-selector {
-        position: absolute !important;
-        top: calc(100% + 5px) !important; /* Zawsze pod przyciskiem */
-        left: 50% !important;
-        transform: translateX(-50%) scaleY(0) !important;
-        transform-origin: top center !important;
-        width: 90vw !important;
-        max-width: 280px !important;
-        z-index: 1300 !important;
-        /* Usuń fixed positioning dla mobile */
+    /* Zapobiegaj rozjeżdżaniu się macierzy */
+    .matrix-container {
+        overflow: visible;
+        width: 100%;
     }
     
-    .operation-menu.open,
-    .method-selector.open {
-        transform: translateX(-50%) scaleY(1) !important;
+    /* Upewnij się że macierze nie się nie rozciągają */
+    #matrixA, #matrixB {
+        flex-shrink: 0;
+        width: auto;
+        max-width: 140px;
     }
     
-    .operation-menu.closing,
-    .method-selector.closing {
-        transform: translateX(-50%) scaleY(0) !important;
+    /* Zmniejsz rozmiar przycisków operacji na mobile */
+    .operation-btn, .method-btn {
+        padding: 8px 12px;
+        font-size: 14px;
     }
     
-    /* Zapewnij że kontenery przycisków mają relative positioning */
-    .operation-selector,
-    .method-selector-wrapper {
-        position: relative !important;
+    .btn.matrix-btn {
+        padding: 10px 15px;
+        font-size: 14px;
     }
 }
 
 @media (max-width: 480px) {
-    .matrix-container {
-        margin-top: 80px;
-        padding: 5px 15px; /* Zwiększ padding z 5px na 15px po bokach */
-        padding-bottom: 120px;
-        max-height: calc(100vh - 90px);
-    }
-    
     .matrices-container {
-        gap: 12px;
-        padding: 0 15px; /* Zwiększ padding z 5px na 15px */
-        align-items: center;
+        gap: 10px;
+        padding: 0 5px;
     }
     
-    .matrix-grid {
-        justify-content: center;
-        align-content: center;
+    .matrix-frame {
+        max-width: 130px;
+        min-width: 110px;
     }
     
-    /* Menu dla bardzo małych ekranów - też pod przyciskiem */
-    .operation-menu,
-    .method-selector {
-        position: absolute !important;
-        top: calc(100% + 5px) !important;
-        left: 50% !important;
-        transform: translateX(-50%) scaleY(0) !important;
-        transform-origin: top center !important;
-        width: 95vw !important;
-        max-width: 260px !important;
-        z-index: 1300 !important;
+    .matrix-input {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 12px !important;
+    }
+    
+    .matrix-operator {
+        font-size: 1.5rem;
+        padding: 0 5px;
     }
 }
 

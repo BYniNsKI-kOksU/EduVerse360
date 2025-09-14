@@ -456,7 +456,7 @@ body.dark-mode .start-hint {
 
 body.dark-mode .start-hint:hover {
     background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
     border-radius: 20px;
     transform: translateY(-3px);
 }
@@ -529,7 +529,7 @@ body.dark-mode .action-icon  {
 body.dark-mode .modern-about,
 body.dark-mode .modern-instructions,
 body.dark-mode .modern-about .about-content-wrapper,
-body.dark-mode .modern-instructions .instructions-content-wrapper {
+body.dark_mode .modern-instructions .instructions-content-wrapper {
     position: fixed;
     top: 0;
     left: 0;
@@ -652,4 +652,28 @@ body.dark-mode .future-item:hover{
 
 body.dark-mode .feature-icon {
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
+}
+
+body.dark-mode .help-button:hover {
+    background: rgba(255, 255, 255, 1) !important;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    color: black !important;
+    border: none;
+}
+
+body.dark-mode #settingsContainer .settings-back-btn {
+    background-color: rgba(224, 122, 95, 0.35);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 173, 150, 0.5);
+    color: var(--clr-dark-text) !important;
+}
+
+body.dark-mode #settingsContainer .settings-back-btn:hover {
+    background: rgba(255, 255, 255, 1) !important;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    transform: scale(1.15);
+    color: black !important;
+    border: none;
 }

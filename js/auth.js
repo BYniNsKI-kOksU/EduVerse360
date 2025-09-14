@@ -13,6 +13,68 @@ class AuthSystem {
             // Nawet gdy błąd - zainicjalizuj UI żeby strona się nie zablokowała
             this.initializeAuthUI();
         });
+
+        let tabToastTimeout = null;
+        let tabToastShown = false;
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                const modal = document.getElementById('authModal');
+                if (modal && modal.classList.contains('active')) {
+                    // Kropka tylko przy aktywnym polu hasła
+                    setTimeout(() => {
+                        const activeInput = document.activeElement;
+                        if (activeInput && activeInput.type === 'password' && activeInput.closest('.password-input-wrapper')) {
+                            const wrapper = activeInput.closest('.password-input-wrapper');
+                            if (!wrapper.querySelector('.tab-indicator')) {
+                                const dot = document.createElement('div');
+                                dot.className = 'tab-indicator';
+                                wrapper.appendChild(dot);
+                            }
+                            wrapper.classList.add('tab-active');
+                        }
+                    }, 0);
+                    // Toast informacyjny tylko raz na otwarcie modala
+                    if (!tabToastShown) {
+                        tabToastShown = true;
+                        if (!document.querySelector('.tab-info-toast')) {
+                            const toast = document.createElement('div');
+                            toast.className = 'tab-info-toast';
+                            toast.textContent = 'Używasz klawisza TAB do nawigacji';
+                            document.body.appendChild(toast);
+                            setTimeout(() => {
+                                toast.classList.add('show');
+                            }, 10);
+                            tabToastTimeout = setTimeout(() => {
+                                toast.classList.remove('show');
+                                setTimeout(() => toast.remove(), 400);
+                            }, 2000);
+                        }
+                    }
+                }
+            }
+        });
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'Tab') {
+                // Ukryj kropkę po opuszczeniu pola hasła
+                document.querySelectorAll('.password-input-wrapper.tab-active').forEach(el => {
+                    el.classList.remove('tab-active');
+                });
+            }
+        });
+        // Ukryj kropkę, gdy focus opuści pole hasła
+        document.addEventListener('focusin', (e) => {
+            document.querySelectorAll('.password-input-wrapper.tab-active').forEach(el => {
+                if (!el.contains(e.target)) {
+                    el.classList.remove('tab-active');
+                }
+            });
+        });
+        // Resetuj flagę toastu przy każdym otwarciu modala
+        const origOpenAuthModal = this.openAuthModal.bind(this);
+        this.openAuthModal = function() {
+            tabToastShown = false;
+            origOpenAuthModal();
+        }
     }
 
     // Symulacja ładowania użytkowników (w prawdziwej aplikacji to byłby request do API)
@@ -250,6 +312,13 @@ class AuthSystem {
         const modal = document.getElementById('authModal');
         modal.classList.add('active');
         document.body.classList.add('modal-open');
+        // Dodaj kropkę sygnalizującą TAB jeśli nie istnieje
+        const authModal = modal.querySelector('.auth-modal');
+        if (authModal && !authModal.querySelector('.tab-indicator')) {
+            const dot = document.createElement('div');
+            dot.className = 'tab-indicator';
+            authModal.appendChild(dot);
+        }
     }
 
     // Zamknij modal autoryzacji
@@ -612,6 +681,17 @@ class AuthSystem {
         messageDiv.textContent = message;
         messageDiv.className = `auth-message ${type}`;
         messageDiv.style.display = 'block';
+        // Dodaj klasę do .auth-modal dla efektu globalnego
+        const modal = document.getElementById('authModal');
+        const authModal = modal ? modal.querySelector('.auth-modal') : null;
+        if (authModal) {
+            authModal.classList.remove('auth-success', 'auth-error');
+            if (type === 'success') {
+                authModal.classList.add('auth-success');
+            } else if (type === 'error') {
+                authModal.classList.add('auth-error');
+            }
+        }
     }
 
     // Wyczyść wiadomość
@@ -620,6 +700,12 @@ class AuthSystem {
         messageDiv.style.display = 'none';
         messageDiv.textContent = '';
         messageDiv.className = 'auth-message';
+        // Usuń klasy efektów z .auth-modal
+        const modal = document.getElementById('authModal');
+        const authModal = modal ? modal.querySelector('.auth-modal') : null;
+        if (authModal) {
+            authModal.classList.remove('auth-success', 'auth-error');
+        }
     }
 
     // Pobierz aktualnego użytkownika

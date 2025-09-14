@@ -51,19 +51,6 @@
     content: none;
 }
 
-.nav-btn:hover {
-    transform: scale(1.1);
-    background: rgba(224, 122, 95, 0.4);
-    box-shadow: 0 0 20px rgba(224, 122, 95, 0.7);
-}
-
-.nav-btn:active {
-    transform: scale(0.95) translateY(2px);
-    box-shadow: 
-        0 1px 3px rgba(0, 0, 0, 0.2),
-        inset 0 3px 5px rgba(0, 0, 0, 0.1);
-}
-
 .user-btn {
     width: 40px;
     height: 40px;
@@ -90,26 +77,19 @@
     padding: 0;
 }
 
-.user-btn:hover {
-    transform: scale(1.1);
-    background: rgba(224, 122, 95, 0.4);
-    box-shadow: 0 0 20px rgba(224, 122, 95, 0.7);
-}
-
-.user-btn i {
-    transition: transform 0.2s cubic-bezier(0.65, 0, 0.35, 1);
-    transform-origin: center;
-}
-
-.user-btn:hover i {
-    transform: none;
-}
-
 .user-btn:active {
     transform: scale(0.95) translateY(2px);
     box-shadow: 
         0 1px 3px rgba(0, 0, 0, 0.2),
         inset 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+body:not(.dark-mode) .user-btn:hover {
+    background: rgba(255, 255, 255, 1) !important;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    transform: rotate(360deg);
+    color: black !important;
+    border: none;
 }
 
 .theme-toggle-btn {
@@ -548,13 +528,6 @@ body.dark-mode .close-profile-btn:hover {
 }
 
 /* Hover dla przycisków nav-bar w trybie jasnym - biały jak menu-btn */
-body:not(.dark-mode) .user-btn:hover {
-    background: rgba(255, 255, 255, 1) !important;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
-    transform: rotate(360deg);
-    color: black !important;
-    border: none;
-}
 
 body:not(.dark-mode) .theme-toggle-btn:hover {
     background: rgba(255, 255, 255, 1) !important;

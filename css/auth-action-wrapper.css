@@ -1,0 +1,65 @@
+/* Tło dla wrappera przycisku logowania/wylogowania pod user-btn */
+.auth-action-wrapper.nav-bar-bg {
+    background-color: rgba(239, 115, 80, 0.5); /* tło nav-bar */
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 18px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.18);
+    /* padding usunięty, rozmiar wrappera ustala JS */
+    margin-top: 0;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.auth-action-wrapper .auth-btn {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    border-radius: 50%;
+    color: #fff !important;
+    font-size: 1.2rem !important;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #317873 !important; /* zielony jak user-btn */
+    border: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.10), inset 0 0 5px rgba(255,255,255,0.3);
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s, transform 0.2s;
+    margin: 0;
+    padding: 0;
+}
+
+.auth-action-wrapper .auth-btn:hover {
+    background: #399e8c !important;
+}
+
+.auth-action-wrapper .auth-btn i {
+    color: #fff !important;
+    font-size: 1.3em !important;
+    margin: 0;
+    min-width: 0;
+    display: inline-block;
+    line-height: 1;
+}
+
+.auth-action-wrapper {
+    animation: fadeInUp 0.25s;
+    pointer-events: auto;
+    overflow: visible;
+    z-index: 2000;
+}
+
+@media (max-width: 600px) {
+    .auth-action-wrapper.nav-bar-bg {
+        min-width: 90px;
+        padding: 4px 0;
+    }
+}
