@@ -58,7 +58,8 @@ body.dark-mode #computeBtn,
 body.dark-mode #clearBtn,
 body.dark-mode .calculate-btn,
 body.dark-mode .clear-btn,
-body.dark-mode .check-btn {
+body.dark-mode .check-btn,
+body.dark-mode .history-title {
     border: 1px solid rgba(255, 255, 255, 0.3) !important;
 }
 
@@ -90,6 +91,11 @@ body.dark-mode .tile {
     -webkit-backdrop-filter: var(--liquid-glass-blur);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
     border: 1px solid #ffad96;
+}
+
+body.dark-mode .tile:hover {
+    background-color: rgba(224, 122, 95, 0.55);
+    box-shadow: 0 0 15px rgba(239, 115, 80, 0.65);
 }
 
 body.dark-mode .year-input {

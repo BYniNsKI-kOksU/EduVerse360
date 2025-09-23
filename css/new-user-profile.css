@@ -260,7 +260,6 @@ body.user-profile-active {
     backdrop-filter: var(--liquid-glass-blur);
     -webkit-backdrop-filter: var(--liquid-glass-blur);
     border: var(--liquid-glass-border);
-    box-shadow: var(--liquid-glass-shadow);
     border-radius: 12px;
     padding: 12px 20px;
     font-size: 1rem;
@@ -290,34 +289,33 @@ body.user-profile-active {
 }
 
 .profile-hero-btn.settings-btn {
-    background: rgba(114, 137, 218, 0.1);
-    color: var(--clr-btn-bg);
-    border: 1px solid rgba(114, 137, 218, 0.2);
+    background: var(--clr-accent);
+    color: white;
 }
 
 .profile-hero-btn.settings-btn:hover {
-    background: rgba(114, 137, 218, 0.2);
+    transform: translateY(-5px) scale(1.03);
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 /* Dark mode adjustments */
 body.dark-mode .profile-hero-btn {
     color: white;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-body.dark-mode .profile-hero-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
 }
 
 body.dark-mode .profile-hero-btn.settings-btn {
-    color: #7289DA;
-    background: rgba(114, 137, 218, 0.15);
-    border: 1px solid rgba(114, 137, 218, 0.3);
+    background-color: rgba(224, 122, 95, 0.35);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    border: 1px solid #ffad96;
 }
 
 body.dark-mode .profile-hero-btn.settings-btn:hover {
-    background: rgba(114, 137, 218, 0.25);
+    transform: translateY(-5px) scale(1.03);
+    background-color: rgba(224, 122, 95, 0.55);
+    box-shadow: 0 0 15px rgba(239, 115, 80, 0.65);
 }
 
 /* Responsive adjustments for profile hero actions */

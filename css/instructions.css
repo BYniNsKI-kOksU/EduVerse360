@@ -182,7 +182,7 @@ body.instructions-active::after {
 }
 
 /* Back button styling - positioned like user profile */
-#inlineInstructions .back-to-home {
+.back-to-home {
     position: fixed;
     top: 30px;
     left: 80px;
@@ -200,13 +200,13 @@ body.instructions-active::after {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.35);
 }
 
-#inlineInstructions .back-to-home:hover {
+.back-to-home:hover {
     transform: translateY(-2px);
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
     background: rgba(224, 122, 95, 0.7);
 }
 
-#inlineInstructions .back-to-home i {
+.back-to-home i {
     margin-right: 8px;
 }
 

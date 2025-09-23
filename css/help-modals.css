@@ -44,11 +44,21 @@
 
 /* Dark mode adjustments */
 body.dark-mode .help-modal {
-    background: var(--liquid-glass-bg);
+    background: rgba(255, 255, 255, 0.45) !important;
+    color: #111 !important;
+    border: var(--liquid-glass-border);
     backdrop-filter: var(--liquid-glass-blur);
     -webkit-backdrop-filter: var(--liquid-glass-blur);
-    border: var(--liquid-glass-border);
-    color: white;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.5) !important;
+}
+
+body.dark-mode .help-modal-title {
+    color: #111 !important;
+    text-shadow: 0 2px 10px rgba(224, 122, 95, 0.08);
+    background: var(--clr-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .help-modal-header {
@@ -63,7 +73,7 @@ body.dark-mode .help-modal {
 .help-modal-title {
     font-size: 1.5rem;
     font-weight: bold;
-    color: rgb(255, 255, 255);
+    color: var(--clr-accent);
     display: flex;
     align-items: center;
     gap: 12px;
@@ -74,15 +84,11 @@ body.dark-mode .help-modal {
     font-size: 1.3rem;
 }
 
-body.dark-mode .help-modal-title {
-    color: white;
-}
-
 .help-modal-close {
     background: none;
     border: none;
     font-size: 1.5rem;
-    color: #666;
+    color: #ffffff;
     cursor: pointer;
     padding: 8px;
     border-radius: 50%;
@@ -217,6 +223,7 @@ body.dark-mode .help-list li {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 24px;
 }
 
 .shortcut-key {

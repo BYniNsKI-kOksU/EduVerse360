@@ -242,7 +242,7 @@ body.dark-mode .auth-modal {
 }
 
 .auth-tab.active {
-    background: rgba(76, 175, 80, 0.3);
+    background: rgba(76, 175, 80, 0.5);
     color: white;
     font-weight: 600;
 }
