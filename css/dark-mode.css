@@ -637,6 +637,22 @@ body.dark-mode #inlineInstructions .back-to-home:hover {
 body.dark-mode .modern-about .section-header,
 body.dark-mode .modern-instructions .section-header {
     color: #e6e6e6;
+    border-bottom: 3px solid rgba(255, 255, 255, 0.5) !important;
+    position: relative;
+}
+body.dark-mode .modern-about .section-header::after,
+body.dark-mode .modern-instructions .section-header::after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 3px;
+    background: rgb(255, 255, 255) !important;
+ box-shadow: 0 2px 12px rgb(255, 255, 255) !important;
+    pointer-events: none;
+    z-index: 1;
 }
 
 body.dark-mode .feature-card,

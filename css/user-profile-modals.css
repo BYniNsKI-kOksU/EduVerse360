@@ -29,8 +29,8 @@
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 25px;
+    border: 2px solid #e07a5f;
     box-shadow: 
         0 25px 80px rgba(0, 0, 0, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -38,6 +38,32 @@
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
     position: relative;
+}
+
+.profile-modal-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-modal-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 27px;
+    pointer-events: none;
+    z-index: 1;
+    background: linear-gradient(90deg, rgb(217, 141, 119), rgb(219, 102, 70), rgb(217, 141, 119));
+    opacity: 0.7;
+    animation: border-move 2s linear infinite;
+}
+
+@keyframes border-move {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
 }
 
 .profile-modal-overlay.active .profile-modal {
@@ -50,9 +76,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: linear-gradient(135deg, 
-        rgba(224, 122, 95, 0.1), 
-        rgba(49, 120, 115, 0.1));
+    background: linear-gradient(90deg, rgba(217, 141, 119, 0.7), rgba(219, 102, 70, 0.7));
 }
 
 .profile-modal-title {
@@ -95,8 +119,9 @@
     padding: 30px 40px;
     max-height: calc(85vh - 120px);
     overflow-y: auto;
+    background: linear-gradient(180deg, rgba(217, 141, 119, 0.3), rgba(218, 92, 57, 0.3));
     scrollbar-width: thin;
-    scrollbar-color: rgba(224, 122, 95, 0.5) transparent;
+    scrollbar-color: rgba(224, 122, 95, 1) transparent;
     -webkit-overflow-scrolling: touch;
 }
 
@@ -109,7 +134,7 @@
 }
 
 .profile-modal-content::-webkit-scrollbar-thumb {
-    background: rgba(224, 122, 95, 0.5);
+    background: rgba(224, 122, 95, 1);
     border-radius: 3px;
 }
 
@@ -230,15 +255,24 @@
 }
 
 .detailed-stat-card {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.35);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 15px;
     padding: 25px;
-    transition: all 0.3s ease;
+    transition: background 0.35s cubic-bezier(0.4,0,0.2,1),
+                border 0.35s cubic-bezier(0.4,0,0.2,1),
+                box-shadow 0.35s cubic-bezier(0.4,0,0.2,1),
+                backdrop-filter 0.35s cubic-bezier(0.4,0,0.2,1),
+                -webkit-backdrop-filter 0.35s cubic-bezier(0.4,0,0.2,1),
+                transform 0.35s cubic-bezier(0.4,0,0.2,1);
 }
 
 .detailed-stat-card:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
     transform: translateY(-5px);
 }
 
@@ -252,7 +286,7 @@
 .detailed-stat-icon {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, #e07a5f, #317873);
+    background: linear-gradient(135deg, #ffffff, #000000);
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -285,18 +319,25 @@
 
 /* Progress Chart */
 .progress-chart {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 15px;
     padding: 25px;
-    margin-bottom: 25px;
+    box-shadow: 0 0 15px 0 rgba(193,193,193,0.5), 0 0 30px 0 rgba(0,0,0,0.3);
+    transition: background 0.35s cubic-bezier(0.4,0,0.2,1),
+                border 0.35s cubic-bezier(0.4,0,0.2,1),
+                box-shadow 0.35s cubic-bezier(0.4,0,0.2,1),
+                backdrop-filter 0.35s cubic-bezier(0.4,0,0.2,1),
+                -webkit-backdrop-filter 0.35s cubic-bezier(0.4,0,0.2,1),
+                transform 0.35s cubic-bezier(0.4,0,0.2,1);
 }
 
-.chart-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: white;
-    margin-bottom: 20px;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+.progress-chart:hover {
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
 }
 
 .progress-bar-detailed {
@@ -321,7 +362,7 @@
 
 .progress-bar-fill {
     height: 100%;
-    background: linear-gradient(90deg, #e07a5f, #317873);
+    background: linear-gradient(90deg, #e07a5f 0%, #ff6f91 40%, #845ec2 70%, #2c73d2 100%) !important;
     border-radius: 6px;
     transition: width 1s ease;
     position: relative;
@@ -448,7 +489,12 @@
 }
 
 .achievement-detailed-card:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: linear-gradient(90deg, rgba(255, 215, 0, 0.8), rgba(255, 165, 0, 0.8));
+    transform: translateY(-5px);
+}
+
+.achievement-detailed-card.locked:hover {
+    background: rgba(102, 102, 102, 0.8);
     transform: translateY(-5px);
 }
 
@@ -680,12 +726,6 @@ body:not(.dark-mode) .profile-modal {
     color: #333;
 }
 
-body:not(.dark-mode) .profile-modal-header {
-    background: linear-gradient(135deg, 
-        rgba(224, 122, 95, 0.1), 
-        rgba(49, 120, 115, 0.1));
-}
-
 body:not(.dark-mode) .profile-modal-close {
     background: rgba(0, 0, 0, 0.1);
     color: #333;
@@ -780,4 +820,28 @@ body:not(.dark-mode) .btn-cancel:hover {
     .achievement-detailed-card {
         padding: 20px;
     }
+}
+
+.activity-item-detailed,
+.progress-chart {
+    background: rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 25px;
+    transition: background 0.35s cubic-bezier(0.4,0,0.2,1),
+                border 0.35s cubic-bezier(0.4,0,0.2,1),
+                box-shadow 0.35s cubic-bezier(0.4,0,0.2,1),
+                backdrop-filter 0.35s cubic-bezier(0.4,0,0.2,1),
+                -webkit-backdrop-filter 0.35s cubic-bezier(0.4,0,0.2,1),
+                transform 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+
+.activity-item-detailed:hover,
+.progress-chart:hover {
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    transform: translateY(-5px);
 }

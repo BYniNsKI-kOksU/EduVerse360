@@ -235,7 +235,7 @@ body.user-profile-active {
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--clr-accent), rgba(224, 122, 95, 0.8));
+    background: linear-gradient(90deg, #e07a5f 0%, #ff6f91 40%, #845ec2 70%, #2c73d2 100%);
     border-radius: 4px;
     transition: width 1s ease;
 }
@@ -365,12 +365,22 @@ body.dark-mode .profile-hero-btn.settings-btn:hover {
     color: white;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     padding-bottom: 10px;
-    border-bottom: 3px solid rgba(224, 122, 95, 0.3);
+    position: relative;
+    border-bottom: none;
 }
 
-.section-header i {
-    color: #e07a5f;
-    font-size: 1.4rem;
+.section-header::after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(224, 122, 95, 0.5);
+    box-shadow: 0 2px 12px rgba(224, 122, 95, 0.4);
+    pointer-events: none;
+    z-index: 1;
 }
 
 /* Statistics Section */
@@ -410,9 +420,13 @@ body.dark-mode .profile-hero-btn.settings-btn:hover {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #e07a5f, #317873);
+    background: linear-gradient(90deg, rgb(212, 163, 150), rgb(209, 51, 7));
     opacity: 0;
     transition: opacity 0.3s ease;
+}
+
+body.dark-mode .stat-card::before {
+    background: linear-gradient(90deg, rgb(217, 141, 119), rgb(218, 95, 61));
 }
 
 .stat-card:hover {
@@ -425,13 +439,6 @@ body.dark-mode .profile-hero-btn.settings-btn:hover {
 
 .stat-card:hover::before {
     opacity: 1;
-}
-
-.stat-card.primary {
-    background: linear-gradient(135deg, 
-        rgba(224, 122, 95, 0.1), 
-        rgba(49, 120, 115, 0.1));
-    border-color: rgba(224, 122, 95, 0.3);
 }
 
 .stat-icon {
@@ -489,6 +496,18 @@ body.dark-mode .profile-hero-btn.settings-btn:hover {
     border: 1px solid rgba(158, 158, 158, 0.2);
 }
 
+body.dark-mode .stat-change.neutral {
+    background: rgba(95, 95, 95, 0.35);
+    color: white;
+    border: 1px solid rgb(95, 95, 95);
+}
+
+body.dark-mode .stat-change.positive {
+    background: rgba(76, 175, 80, 0.2);
+    color: white;
+    border: 1px solid rgb(76, 175, 80);
+}
+
 /* Actions Section */
 .actions-section {
     margin-bottom: 40px;
@@ -530,9 +549,13 @@ body.dark-mode .profile-hero-btn.settings-btn:hover {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #e07a5f, #317873);
+    background: linear-gradient(90deg, rgb(212, 163, 150), rgb(209, 51, 7));
     transform: scaleX(0);
     transition: transform 0.3s ease;
+}
+
+body.dark-mode .stat-card::before {
+    background: linear-gradient(90deg, rgb(217, 141, 119), rgb(218, 95, 61));
 }
 
 .action-card:hover {
@@ -580,7 +603,7 @@ body.dark-mode .profile-hero-btn.settings-btn:hover {
 .action-content {
     flex: 1;
 }
-
+d
 .action-content h3 {
     font-size: 1.2rem;
     font-weight: bold;
@@ -628,8 +651,12 @@ body.dark-mode .profile-hero-btn.settings-btn:hover {
     top: 0;
     bottom: 0;
     width: 4px;
-    background: linear-gradient(to bottom, #e07a5f, #317873);
+    background: linear-gradient(135deg, rgb(213, 140, 119), rgb(217, 93, 58));
     border-radius: 2px;
+}
+
+body:not(.dark-mode) .activity-timeline::before {
+    background: linear-gradient(135deg, rgb(0, 255, 0), rgb(255, 0, 0));
 }
 
 .timeline-item {
@@ -849,10 +876,6 @@ body.dark-mode .profile-hero-btn.settings-btn:hover {
 }
 
 /* Dark Mode Support */
-body.dark-mode .modern-user-profile .section-header {
-    color: #fff;
-}
-
 body.dark-mode .modern-user-profile .stat-number,
 body.dark-mode .modern-user-profile .activity-header h4,
 body.dark-mode .modern-user-profile .action-content h3,
