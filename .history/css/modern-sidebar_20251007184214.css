@@ -1,0 +1,775 @@
+/* Modern Sidebar Styles */
+:root {
+    --sidebar-width: 280px;
+    --sidebar-collapsed-width: 70px;
+    --sidebar-bg: rgba(255, 255, 255, 0.15);
+    --sidebar-border: rgba(224, 122, 95, 0.2);
+    --sidebar-item-hover: rgba(224, 122, 95, 0.3);
+    --sidebar-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.dark-mode {
+    --sidebar-bg: rgba(0, 0, 0, 0.5);
+    --sidebar-border: rgba(224, 122, 95, 0.3);
+    --sidebar-item-hover: rgba(224, 122, 95, 0.4);
+}
+
+/* Main Sidebar Container */
+.modern-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: var(--sidebar-width);
+    background: var(--sidebar-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-right: 2px solid var(--sidebar-border);
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+    transition: width var(--sidebar-transition), transform var(--sidebar-transition), opacity 0.5s ease;
+    z-index: 1100;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    opacity: 1;
+}
+
+/* Hide sidebar on welcome screen */
+body:has(.welcome-screen:not(.hidden)) .modern-sidebar,
+.welcome-screen:not(.hidden) ~ .modern-sidebar {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-100%);
+}
+
+.modern-sidebar.collapsed {
+    width: var(--sidebar-collapsed-width);
+}
+
+/* Sidebar Header */
+.sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--sidebar-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 70px;
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #e07a5f;
+    font-weight: bold;
+    font-size: 1.3rem;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: opacity var(--sidebar-transition);
+}
+
+.sidebar-brand i {
+    font-size: 1.5rem;
+    min-width: 30px;
+}
+
+.modern-sidebar.collapsed .sidebar-brand span {
+    opacity: 0;
+    width: 0;
+}
+
+/* Toggle Button */
+.sidebar-toggle {
+    background: rgba(224, 122, 95, 0.2);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #e07a5f;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.sidebar-toggle:hover {
+    background: rgba(224, 122, 95, 0.4);
+    transform: scale(1.1);
+}
+
+.sidebar-toggle:active {
+    transform: scale(0.95);
+}
+
+.modern-sidebar.collapsed .sidebar-toggle i {
+    transform: rotate(180deg);
+}
+
+/* Quick Actions */
+.sidebar-quick-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 8px;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--sidebar-border);
+}
+
+.quick-action-btn {
+    background: rgba(224, 122, 95, 0.15);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #e07a5f;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.quick-action-btn:hover {
+    background: rgba(224, 122, 95, 0.3);
+    transform: scale(1.1);
+}
+
+.quick-action-btn:active {
+    transform: scale(0.95);
+}
+
+/* Auth action button special styling */
+.auth-action-btn {
+    background: rgba(49, 120, 115, 0.15);
+    color: #317873;
+}
+
+.auth-action-btn:hover {
+    background: rgba(49, 120, 115, 0.3);
+}
+
+/* Hide quick action text when collapsed */
+.modern-sidebar.collapsed .sidebar-quick-actions {
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px 10px;
+}
+
+/* Tooltips for quick actions in collapsed state */
+.modern-sidebar.collapsed .quick-action-btn::after {
+    content: attr(title);
+    position: absolute;
+    left: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%) translateX(-10px);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 10001;
+}
+
+.modern-sidebar.collapsed .quick-action-btn:hover::after {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+body.dark-mode .quick-action-btn {
+    background: rgba(224, 122, 95, 0.2);
+}
+
+body.dark-mode .quick-action-btn:hover {
+    background: rgba(224, 122, 95, 0.4);
+}
+
+body.dark-mode .auth-action-btn {
+    background: rgba(49, 120, 115, 0.2);
+}
+
+body.dark-mode .auth-action-btn:hover {
+    background: rgba(49, 120, 115, 0.4);
+}
+
+
+/* User Section */
+.sidebar-user {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--sidebar-border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Przywrócony hover */
+.sidebar-user:hover {
+    background: var(--sidebar-item-hover);
+}
+
+/* Subtelne efekty dla user section i avatara */
+.sidebar-user:active,
+.sidebar-user-bottom:active {
+    transform: none !important;
+}
+
+.user-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(224, 122, 95, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.user-avatar:hover {
+    transform: scale(1.02);
+    background: rgba(224, 122, 95, 1);
+}
+
+.user-avatar:active {
+    transform: none;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-avatar .avatar-initials {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important; /* Wyjątek tylko dla centrowania */
+}
+
+.user-info {
+    flex: 1;
+    min-width: 0;
+    transition: opacity var(--sidebar-transition);
+}
+
+.modern-sidebar.collapsed .user-info {
+    opacity: 0;
+    width: 0;
+}
+
+.user-name {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+body.dark-mode .user-name {
+    color: #f0f0f0;
+}
+
+.user-status {
+    font-size: 0.8rem;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+body.dark-mode .user-status {
+    color: #aaa;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #4caf50;
+    animation: none !important;
+    transform: none !important;
+}
+
+.status-dot.logged-out {
+    background: #999;
+    animation: none;
+}
+
+/* User Section - moved to bottom */
+.sidebar-user-bottom {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    border-top: 1px solid var(--sidebar-border);
+    margin-top: auto;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    position: relative;
+}
+
+.sidebar-user-bottom:hover {
+    background: rgba(224, 122, 95, 0.1);
+}
+
+.sidebar-user-bottom .user-avatar {
+    flex-shrink: 0;
+}
+
+.sidebar-user-bottom .user-info {
+    flex: 1;
+    min-width: 0;
+    opacity: 1;
+    transition: opacity var(--sidebar-transition), width var(--sidebar-transition);
+}
+
+.modern-sidebar.collapsed .sidebar-user-bottom .user-info {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+}
+
+/* Sidebar Auth Button */
+.sidebar-auth-btn {
+    background: rgba(224, 122, 95, 0.25);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #e07a5f;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.sidebar-auth-btn:hover {
+    background: rgba(224, 122, 95, 0.4);
+    transform: scale(1.1);
+}
+
+.sidebar-auth-btn:active {
+    transform: scale(0.95);
+}
+
+/* Hide auth button when sidebar is collapsed */
+.modern-sidebar.collapsed .sidebar-auth-btn {
+    opacity: 0;
+    width: 0;
+    pointer-events: none;
+    transform: scale(0);
+}
+
+body.dark-mode .sidebar-auth-btn {
+    background: rgba(224, 122, 95, 0.3);
+    color: #e07a5f;
+}
+
+body.dark-mode .sidebar-auth-btn:hover {
+    background: rgba(224, 122, 95, 0.5);
+}
+
+/* Navigation Menu */
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px 0;
+}
+
+.sidebar-nav::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar-nav::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+    background: rgba(224, 122, 95, 0.3);
+    border-radius: 3px;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb:hover {
+    background: rgba(224, 122, 95, 0.5);
+}
+
+/* Nav Section */
+.nav-section {
+    margin-bottom: 20px;
+}
+
+.nav-section-title {
+    padding: 12px 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #999;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: opacity var(--sidebar-transition);
+}
+
+.modern-sidebar.collapsed .nav-section-title {
+    opacity: 0;
+    height: 0;
+    padding: 0;
+}
+
+/* Nav Items */
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: #333;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    gap: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+body.dark-mode .nav-item {
+    color: #f0f0f0;
+}
+
+.nav-item i {
+    font-size: 1.2rem;
+    width: 24px;
+    min-width: 24px;
+    text-align: center;
+    color: #e07a5f;
+    flex-shrink: 0;
+}
+
+.nav-item-text {
+    flex: 1;
+    min-width: 0;
+    transition: opacity var(--sidebar-transition);
+}
+
+.modern-sidebar.collapsed .nav-item-text {
+    opacity: 0;
+    width: 0;
+}
+
+.nav-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background: #e07a5f;
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+
+.nav-item:hover {
+    background: var(--sidebar-item-hover);
+    padding-left: 25px;
+}
+
+.nav-item:hover::before {
+    transform: scaleY(1);
+}
+
+.nav-item.active {
+    background: var(--sidebar-item-hover);
+    padding-left: 25px;
+}
+
+.nav-item.active::before {
+    transform: scaleY(1);
+}
+
+/* Submenu */
+.nav-submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.nav-submenu.open {
+    max-height: 500px;
+}
+
+.nav-submenu .nav-item {
+    padding-left: 55px;
+    font-size: 0.9rem;
+}
+
+.modern-sidebar.collapsed .nav-submenu .nav-item {
+    padding-left: 20px;
+}
+
+.nav-item .nav-arrow {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+    opacity: 0.6;
+}
+
+.nav-item.has-submenu.open .nav-arrow {
+    transform: rotate(90deg);
+}
+
+.modern-sidebar.collapsed .nav-arrow {
+    display: none;
+}
+
+/* Auth Button */
+.sidebar-auth {
+    padding: 15px 20px;
+    border-top: 1px solid var(--sidebar-border);
+}
+
+.sidebar-auth-inline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    background: linear-gradient(135deg, rgba(100, 255, 0, 0.8), rgba(0, 255, 100, 0.8));
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(49, 120, 115, 0.3);
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.sidebar-auth-inline:hover {
+    background: linear-gradient(135deg, rgb(150, 255, 0), rgb(0, 255, 150));
+    box-shadow: 0 0 12px rgba(0, 255, 0, 1);
+}
+
+.sidebar-auth-inline:active {
+    transform: none;
+}
+
+.sidebar-auth-inline.logout {
+    background: linear-gradient(135deg, #e07a5f, #d66a4f);
+    box-shadow: 0 2px 8px rgba(224, 122, 95, 0.3);
+}
+
+.sidebar-auth-inline.logout:hover {
+    background: linear-gradient(135deg, #d66a4f, #e07a5f);
+    box-shadow: 0 4px 12px rgba(224, 122, 95, 0.4);
+}
+
+.modern-sidebar.collapsed .sidebar-auth-inline {
+    display: none;
+}
+
+.auth-button {
+    width: 100%;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #317873, #399e8c);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(49, 120, 115, 0.3);
+}
+
+.auth-button:hover {
+    background: linear-gradient(135deg, #399e8c, #317873);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(49, 120, 115, 0.4);
+}
+
+.auth-button:active {
+    transform: translateY(0);
+}
+
+.auth-button i {
+    font-size: 1.1rem;
+}
+
+.auth-button-text {
+    transition: opacity var(--sidebar-transition);
+}
+
+.modern-sidebar.collapsed .auth-button {
+    padding: 12px;
+    justify-content: center;
+}
+
+.modern-sidebar.collapsed .auth-button-text {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+}
+
+.auth-button.logout {
+    background: linear-gradient(135deg, #e07a5f, #d66a4f);
+    box-shadow: 0 4px 15px rgba(224, 122, 95, 0.3);
+}
+
+.auth-button.logout:hover {
+    background: linear-gradient(135deg, #d66a4f, #e07a5f);
+    box-shadow: 0 6px 20px rgba(224, 122, 95, 0.4);
+}
+
+/* Tooltip for collapsed state */
+.sidebar-tooltip {
+    position: absolute;
+    left: calc(100% + 10px);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+    z-index: 10000;
+}
+
+.modern-sidebar.collapsed .nav-item:hover .sidebar-tooltip,
+.modern-sidebar.collapsed .sidebar-user:hover .sidebar-tooltip {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Sidebar auth button tooltip */
+.sidebar-auth-btn {
+    position: relative;
+}
+
+.sidebar-auth-btn::after {
+    content: attr(title);
+    position: absolute;
+    left: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%) translateX(-10px);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 10001;
+}
+
+.modern-sidebar.collapsed .sidebar-auth-btn:hover::after {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+/* Ensure tooltip doesn't show when sidebar is expanded */
+.modern-sidebar:not(.collapsed) .sidebar-auth-btn::after {
+    display: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+    .modern-sidebar {
+        transform: translateX(-100%);
+    }
+    
+    .modern-sidebar.open {
+        transform: translateX(0);
+    }
+    
+    .modern-sidebar.collapsed {
+        width: var(--sidebar-width);
+        transform: translateX(-100%);
+    }
+    
+    .modern-sidebar.collapsed.open {
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .modern-sidebar {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+/* Overlay for mobile */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1099;
+}
+
+.sidebar-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Animations */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.1);
+    }
+}
+
+/* Sidebar jako overlay - bez przesuwania contentu */
+/* Usunięto margin-left - sidebar teraz działa jako pełny overlay */
+
+@media (max-width: 991px) {
+    /* Na mobile sidebar również overlay */
+}
+

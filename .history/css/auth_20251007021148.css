@@ -1,0 +1,739 @@
+/* Authentication System Styles */
+
+/* Auth Button */
+.auth-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(224, 122, 95, 0);
+    color: white;
+    font-size: 18px;
+    pointer-events: auto !important;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.65, 0, 0.35, 1), 
+                background 0.2s cubic-bezier(0.65, 0, 0.35, 1), 
+                box-shadow 0.2s cubic-bezier(0.65, 0, 0.35, 1);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+        0 2px 10px rgba(0, 0, 0, 0.1),
+        inset 0 0 5px rgba(255, 255, 255, 0.3);
+    padding: 0;
+}
+
+.auth-btn.login-btn {
+    background: rgba(34, 139, 34, 0.6); /* Zielony dla logowania */
+}
+
+.auth-btn.logout-btn {
+    background: rgba(220, 20, 60, 0.6); /* Czerwony dla wylogowania */
+}
+
+.auth-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(224, 122, 95, 0.7);
+}
+
+.auth-btn.login-btn:hover {
+    background: rgba(34, 139, 34, 0.9);
+    box-shadow: 0 0 20px rgba(34, 139, 34, 0.7);
+}
+
+.auth-btn.logout-btn:hover {
+    background: rgba(220, 20, 60, 0.9);
+    box-shadow: 0 0 20px rgba(220, 20, 60, 0.7);
+}
+
+.auth-btn:active {
+    transform: scale(0.95) translateY(2px);
+    box-shadow: 
+        0 1px 3px rgba(0, 0, 0, 0.2),
+        inset 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Light mode auth button */
+body:not(.dark-mode) .auth-btn.login-btn:hover {
+    background: rgba(34, 139, 34, 1) !important;
+    box-shadow: 0 0 20px rgba(34, 139, 34, 0.8);
+    color: white !important;
+}
+
+body:not(.dark-mode) .auth-btn.logout-btn:hover {
+    background: rgba(220, 20, 60, 1) !important;
+    box-shadow: 0 0 20px rgba(220, 20, 60, 0.8);
+    color: white !important;
+}
+
+/* Auth Modal */
+.auth-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.dark-mode .auth-modal-overlay {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+@keyframes floatAnimation {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+    }
+    33% {
+        transform: translate(30px, -30px) scale(1.1);
+    }
+    66% {
+        transform: translate(-20px, 20px) scale(0.9);
+    }
+}
+
+.auth-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+
+/* Ensure all modal elements are non-interactive when closed */
+.auth-modal-overlay:not(.active) * {
+    pointer-events: none !important;
+}
+
+.auth-modal-overlay.active * {
+    pointer-events: auto;
+}
+
+/* Ukryj modal auth gdy user profile jest aktywny */
+body:has(.user-profile-modal.active) .auth-modal-overlay {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* Ukryj user profile gdy auth modal jest aktywny */
+body:has(.auth-modal-overlay.active) .user-profile-modal {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+.auth-modal {
+    position: relative;
+    background: rgba(149, 149, 149, 0.1);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 30px;
+    box-shadow: 
+        0 8px 32px 0 rgba(224, 122, 95, 0.6),
+        inset 0 0 0 1px #e07a5f;
+    width: 90%;
+    max-width: 450px;
+    max-height: 95%;
+    overflow: hidden;
+    transform: scale(0.8) translateY(50px);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-modal-overlay.active .auth-modal {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Dark mode modal */
+body.dark-mode .auth-modal-overlay {
+    border: var(--liquid-glass-border);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+}
+
+body.dark-mode .auth-modal {
+    background: rgba(255, 255, 255, 0.45) !important;
+    border: var(--liquid-glass-border);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Modal Header */
+.auth-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.auth-modal-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: white;
+    margin: 0;
+}
+
+.auth-modal-title i {
+    font-size: 1.5rem;
+    color: #4CAF50;
+}
+
+.auth-modal-close {
+    background: rgba(255, 0, 0, 0.2);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.auth-modal-close:hover {
+    background: rgba(255, 0, 0, 0.4);
+    transform: scale(1.1);
+}
+
+/* Modal Content */
+.auth-modal-content {
+    padding: 25px;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding-right: 8px; /* miejsce na scrollbar */
+}
+
+.auth-modal-content::-webkit-scrollbar {
+    width: 8px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 8px;
+}
+.auth-modal-content::-webkit-scrollbar-thumb {
+    background: rgba(239, 115, 80, 0.5);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.10);
+}
+.auth-modal-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(239, 115, 80, 1);
+}
+.auth-modal-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Firefox */
+.auth-modal-content {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(239,115,80,0.5) rgba(255,255,255,0.08);
+}
+
+.auth-modal-content:hover{
+    scrollbar-color: rgba(239,115,80,1) rgba(255,255,255,0.08);
+}
+
+@media (max-width: 991px) {
+    .auth-modal-content {
+        max-height: 90vh;
+        padding-right: 4px;
+    }
+}
+
+@media (max-width: 600px) {
+    .auth-modal-content {
+        max-height: 96vh;
+        padding-right: 2px;
+    }
+}
+
+/* Auth Tabs */
+.auth-tabs {
+    display: flex;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.auth-tab.active {
+    background: rgba(76, 175, 80, 0.5);
+    color: white;
+    font-weight: 600;
+}
+
+.auth-tab:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+/* Auth Forms */
+.auth-form {
+    display: none;
+}
+
+.auth-form.active {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #fff !important;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-group input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+}
+
+/* Password Toggle Styles */
+.password-input-wrapper {
+    position: relative;
+}
+
+.password-input-wrapper input {
+    padding-right: 50px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    font-size: 18px;
+    transition: color 0.3s ease;
+    padding: 5px;
+}
+
+.password-toggle:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Submit Button */
+.auth-submit-btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease, box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 25px;
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-submit-btn::before {
+    content: "";
+    position: absolute;
+    left: -75%;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(120deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.05) 100%);
+    transform: skewX(-25deg);
+    transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.auth-submit-btn:hover {
+    background: linear-gradient(135deg, #45a049, #3d8b40);
+    transform: translateY(-2px) scale(1.03) rotate(-0.5deg);
+    box-shadow: 0 8px 24px 0 rgba(76, 175, 80, 0.25), 0 1.5px 8px 0 rgba(224,122,95,0.15);
+    filter: brightness(1.08) saturate(1.2);
+}
+
+.auth-submit-btn:hover::before {
+    left: 120%;
+}
+
+.auth-submit-btn:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+}
+
+/* Efekty dla całego modala przy success/error */
+.auth-modal.auth-success {
+    animation: authModalSuccessScale 0.6s cubic-bezier(0.4,0,0.2,1);
+    text-shadow: 0 2px 8px #fff, 0 1px 2px #b2e6c7;
+    box-shadow: 0 0 128px 32px #4caf50cc, 0 0 0 4px #4caf50 inset !important;
+}
+body.dark-mode .auth-modal.auth-success {
+    box-shadow: 0 0 192px 48px #4caf50ee, 0 0 0 4px #4caf50 inset !important;
+}
+.auth-modal.auth-error {
+    animation: authModalShake 0.5s cubic-bezier(0.36,0.07,0.19,0.97);
+    text-shadow: 0 2px 8px #fff, 0 1px 2px #ffd6d6;
+    box-shadow: 0 0 128px 32px #ff4b6ecc, 0 0 0 4px #ff4b6e inset !important;
+}
+body.dark-mode .auth-modal.auth-error {
+    box-shadow: 0 0 192px 48px #ff4b6eee, 0 0 0 4px #ff4b6e inset !important;
+}
+
+/* Modal Open Body Class */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* Dark Mode Adjustments */
+body.dark-mode .auth-modal-title {
+    color: #f0f0f0;
+}
+
+body.dark-mode .form-group label {
+    color: black !important;
+}
+
+body.dark-mode .form-group input {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: black !important;
+}
+
+body.dark-mode .form-group input:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: #4CAF50;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .auth-modal {
+        width: 95%;
+        margin: 10px;
+    }
+    
+    .auth-modal-content {
+        padding: 20px;
+    }
+    
+    .auth-tabs {
+        margin-bottom: 20px;
+    }
+    
+    .auth-tab {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .form-group input {
+        padding: 10px 12px;
+    }
+    
+    .auth-submit-btn {
+        padding: 12px;
+        font-size: 1rem;
+    }
+}
+
+/* Logout Confirmation Modal */
+.logout-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2001;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.logout-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.logout-modal {
+    background: linear-gradient(135deg, #f8fafc 0%, #e3e6ff 60%, #ffe6e6 100%);
+    backdrop-filter: blur(24px) saturate(1.2);
+    -webkit-backdrop-filter: blur(24px) saturate(1.2);
+    border-radius: 28px;
+    box-shadow: 0 12px 48px rgba(224,122,95,0.13), 0 2px 8px rgba(76,175,80,0.10);
+    border: 2px solid #e3e6ff;
+    width: 90%;
+    max-width: 420px;
+    padding: 38px 32px 32px 32px;
+    text-align: center;
+    transform: scale(0.85) translateY(30px);
+    transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    animation: logoutModalFadeIn 0.7s cubic-bezier(0.4,0,0.2,1) forwards;
+    position: relative;
+    overflow: hidden;
+}
+
+.logout-modal-overlay.active .logout-modal {
+    transform: scale(1) translateY(0);
+}
+
+.logout-modal-header {
+    margin-bottom: 20px;
+}
+
+.logout-modal-header i {
+    font-size: 3.2rem;
+    color: #dc143c;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 10px #dc143c55);
+    transition: color 0.3s, filter 0.3s;
+}
+
+.logout-modal-header h3 {
+    font-size: 1.6rem;
+    color: #333;
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+.logout-modal-content p {
+    font-size: 1.13rem;
+    color: #666;
+    margin-bottom: 30px;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.logout-modal-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.logout-cancel-btn,
+.logout-confirm-btn {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.logout-cancel-btn {
+    background: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+    border: 1px solid rgba(108, 117, 125, 0.2);
+}
+
+.logout-cancel-btn:hover {
+    background: rgba(108, 117, 125, 0.2);
+    transform: translateY(-1px);
+}
+
+.logout-confirm-btn {
+    background: linear-gradient(135deg, #dc143c, #b91c3c);
+    color: white;
+    box-shadow: 0 4px 15px rgba(220, 20, 60, 0.3);
+}
+
+.logout-confirm-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 20, 60, 0.4);
+}
+
+/* Dark mode adjustments for logout modal */
+body.dark-mode .logout-modal {
+    background: linear-gradient(120deg, rgba(30,30,30,0.98) 60%, rgba(224,122,95,0.13) 100%) !important;
+    border: 2px solid rgba(255,255,255,0.13);
+    box-shadow: 0 12px 48px rgba(224,122,95,0.22), 0 2px 8px rgba(76,175,80,0.13);
+    color: #f0f0f0;
+}
+body.dark-mode .logout-modal-header h3 {
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+body.dark-mode .logout-modal-header i {
+    color: #ff4b6e;
+    filter: drop-shadow(0 0 12px #ff4b6e88);
+}
+body.dark-mode .logout-modal-content p {
+    color: #ccc;
+}
+body.dark-mode .logout-cancel-btn {
+    background: rgba(108, 117, 125, 0.18);
+    color: #eee;
+    border: 1px solid rgba(255,255,255,0.13);
+}
+body.dark-mode .logout-cancel-btn:hover {
+    background: rgba(108, 117, 125, 0.28);
+}
+body.dark-mode .logout-confirm-btn {
+    background: linear-gradient(135deg, #ff4b6e, #b91c3c);
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(255,75,110,0.18);
+}
+body.dark-mode .logout-confirm-btn:hover {
+    background: linear-gradient(135deg, #ff4b6e, #a3122b);
+    box-shadow: 0 8px 28px rgba(255,75,110,0.22);
+}
+
+/* Tab Indicator for Auth Modal */
+.auth-modal .tab-indicator {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    width: 14px;
+    height: 14px;
+    background: #4caf50;
+    border-radius: 50%;
+    box-shadow: 0 0 8px 2px #4caf50aa;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s cubic-bezier(0.4,0,0.2,1);
+    z-index: 10;
+}
+.auth-modal.tab-active .tab-indicator {
+    opacity: 1;
+    animation: tabIndicatorFadeIn 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes tabIndicatorFadeIn {
+    from { opacity: 0; transform: scale(0.7); }
+    to { opacity: 1; transform: scale(1); }
+}
+.password-input-wrapper {
+    position: relative;
+}
+.password-input-wrapper .tab-indicator {
+    position: absolute;
+    right: 38px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    background: #4caf50;
+    border-radius: 50%;
+    box-shadow: 0 0 6px 1px #4caf50aa;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s cubic-bezier(0.4,0,0.2,1);
+    z-index: 10;
+}
+.password-input-wrapper.tab-active .tab-indicator {
+    opacity: 1;
+    animation: tabIndicatorFadeIn 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+
+.tab-info-toast {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(40, 167, 69, 0.95);
+    color: #fff;
+    padding: 18px 36px;
+    border-radius: 18px;
+    font-size: 1.15rem;
+    font-weight: 600;
+    box-shadow: 0 8px 32px rgba(40,167,69,0.18);
+    z-index: 3000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.tab-info-toast.show {
+    opacity: 1;
+}
+
+@keyframes authModalSuccessScale {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.06); }
+    60% { transform: scale(1.09); }
+    100% { transform: scale(1); }
+}
+@keyframes authModalShake {
+    10%, 90% { transform: translateX(-2px); }
+    20%, 80% { transform: translateX(4px); }
+    30%, 50%, 70% { transform: translateX(-8px); }
+    40%, 60% { transform: translateX(8px); }
+    100% { transform: translateX(0); }
+}
+
+.auth-message {
+    text-align: center;
+    margin-top: 22px;
+    margin-bottom: 6px;
+    width: 100%;
+    display: block;
+}

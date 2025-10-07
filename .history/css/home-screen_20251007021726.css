@@ -1,0 +1,83 @@
+/* Home screen */
+.home-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.home-screen .lang-btn-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+}
+
+.home-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: black;
+    max-width: 90%;
+}
+
+.tiles {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-top: 20px;
+}
+
+.tile {
+    background-color: rgba(239, 115, 80, 0.65);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    border-radius: 15px;
+    padding: 20px;
+    width: calc(50% - 20px);
+    max-width: 250px;
+    height: 160px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+}
+
+.tile:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.tile-icon {
+    font-size: 2.8rem;
+    margin-bottom: 15px;
+}
+
+.tile-label {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+}
+
+@media (max-width: 600px) {
+  .auth-modal,
+  .auth-container {
+    overflow-y: auto !important;
+    max-height: 100vh !important;
+    -webkit-overflow-scrolling: touch;
+  }
+}

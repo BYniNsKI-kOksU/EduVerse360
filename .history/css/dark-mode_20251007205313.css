@@ -1,0 +1,738 @@
+/* W pliku base.css - zmienne dla trybu ciemnego */
+:root {
+    --clr-dark-bg: #1a1a1a;
+    --clr-dark-fg: #e0e0e0;
+    --clr-dark-accent: #E07A5F;
+    --clr-dark-card: #2d2d2d;
+    --clr-dark-border: #404040;
+    --clr-dark-text: #ffffff; /* Biały dla maksymalnej czytelności */
+    --clr-dark-muted: #d0d0d0; /* Jaśniejszy szary dla tekstu pomocniczego */
+}
+
+/* Styl dla trybu ciemnego */
+body.dark-mode {
+    --clr-bg: var(--clr-dark-bg);
+    --clr-fg: var(--clr-dark-fg);
+    --clr-accent: var(--clr-dark-accent);
+    --liquid-glass-bg: rgba(0, 0, 0, 0.1);
+    --liquid-glass-bg-black: rgba(0, 0, 0, 0.6);
+    --liquid-glass-border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: var(--clr-dark-bg);
+    color: var(--clr-dark-text) !important;
+}
+
+/* Catch-all dla wszystkich elementów tekstowych w trybie ciemnym */
+body.dark-mode *,
+body.dark-mode *::before,
+body.dark-mode *::after {
+    color: var(--clr-dark-text) !important;
+}
+
+/* Styl dla konkretnych elementów w trybie ciemnym */
+body.dark-mode .welcome-title,
+body.dark-mode .welcome-subtitle,
+body.dark-mode .home-title,
+body.dark-mode .leap-year-title,
+body.dark-mode .matrix-Calc-title,
+body.dark-mode .input-label,
+body.dark-mode .history-title,
+body.dark-mode .operation-label,
+body.dark-mode .method-label,
+body.dark-mode .matrix-title,
+body.dark-mode .user-name,
+body.dark-mode .user-email,
+body.dark-mode .profile-stats div,
+body.dark-mode .profile-actions button,
+body.dark-mode .activity-item,
+body.dark-mode .lang-menu div,
+body.dark-mode .operation-menu div,
+body.dark-mode .method-selector div,
+body.dark-mode .side-menu,
+body.dark-mode .home-side-menu {
+    color: var(--clr-dark-text) !important; /* Biały kolor tekstu */
+}
+
+body.dark-mode .operation-btn,
+body.dark-mode .method-btn-main,
+body.dark-mode #computeBtn,
+body.dark-mode #clearBtn,
+body.dark-mode .calculate-btn,
+body.dark-mode .clear-btn,
+body.dark-mode .check-btn,
+body.dark-mode .history-title {
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+body.dark-mode .operation-btn:hover,
+body.dark-mode .method-btn-main:hover,
+body.dark-mode #computeBtn:hover,
+body.dark-mode #clearBtn:hover,
+body.dark-mode .calculate-btn:hover,
+body.dark-mode .clear-btn:hover,
+body.dark-mode .check-btn:hover {
+    color: black !important;
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
+}
+
+body.dark-mode .cancel-btn:hover {
+    background-color: rgb(255, 0, 0);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.8) !important;
+}
+
+body.dark-mode .accept-btn:hover{
+    border-color: rgb(0, 255, 0) !important;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.8) !important;
+}
+
+body.dark-mode .tile {
+    background-color: rgba(224, 122, 95, 0.35);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+    border: 1px solid #ffad96;
+}
+
+body.dark-mode .tile:hover {
+    background-color: rgba(224, 122, 95, 0.55);
+    box-shadow: 0 0 15px rgba(239, 115, 80, 0.65);
+}
+
+body.dark-mode .year-input {
+    background-color: var(--clr-dark-card);
+    color: #ffffff !important; /* Biały kolor tekstu dla inputu w badaczu roku przestępnego */
+    border-color: var(--clr-dark-border);
+}
+
+body.dark-mode .matrix-input {
+    background-color: var(--clr-dark-card);
+    color: #000000 !important; /* Czarny kolor tekstu dla inputów macierzowych */
+    border-color: var(--clr-dark-border);
+}
+
+body.dark-mode .size-menu input {
+    background-color: #000000 !important; /* Czarne tło dla inputów w size-menu */
+    color: #ffffff !important; /* Biały kolor tekstu dla inputów w size-menu */
+    border-color: var(--clr-dark-border);
+}
+
+body.dark-mode .result-container,
+body.dark-mode .matrix-frame {
+    background: var(--liquid-glass-bg);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    border: var(--liquid-glass-border);
+    color: var(--clr-dark-text) !important;
+}
+
+body.dark-mode .history-title:hover {
+    color: black !important;
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
+}
+
+body.dark-mode .history-box {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    border: var(--liquid-glass-border);
+    color: var(--clr-dark-text) !important;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
+}
+
+body.dark-mode .result-word {
+    color: var(--clr-dark-text) !important;
+}
+
+body.dark-mode .default-result-text {
+    color: #666 !important;
+}
+
+body.dark-mode #mathBg {
+    background: #1a1a1a;
+}
+
+body.dark-mode .particle {
+    color: #666;
+}
+
+body.dark-mode .side-menu,
+body.dark-mode .size-menu,
+body.dark-mode .home-side-menu,
+body.dark-mode .operation-menu,
+body.dark-mode .method-selector,
+body.dark-mode .lang-menu,
+body.dark-mode .nav-lang-menu,
+body.dark-mode .welcome-lang-menu {
+    background: rgba(255, 255, 255, 0.45) !important;
+    border: var(--liquid-glass-border);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Dark mode - hover dla menu językowego */
+body.dark-mode .lang-menu div:hover,
+body.dark-mode .nav-lang-menu div:hover,
+body.dark-mode .welcome-lang-menu div:hover {
+    background-color: rgba(224, 122, 95, 0.8) !important;
+    color: white !important;
+    font-weight: bold;
+    border-radius: 20px !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 
+        0 0 12px rgba(224, 122, 95, 0.7),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.3) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Dark mode - active state dla menu językowego */
+body.dark-mode .lang-menu div:active,
+body.dark-mode .nav-lang-menu div:active,
+body.dark-mode .welcome-lang-menu div:active {
+    transform: translateX(6px) !important;
+}
+
+/* Dark mode - przycisk językowy */
+body.dark-mode .lang-btn {
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 
+        0 2px 10px rgba(0, 0, 0, 0.3),
+        inset 0 0 5px rgba(255, 255, 255, 0.4);
+}
+
+body.dark-mode .lang-btn:hover {
+    box-shadow: 0 0 20px rgba(224, 122, 95, 0.8);
+    border-color: rgba(255, 255, 255, 0.7);
+}
+
+.dark-mode .resize-input-group label {
+    color: black !important; /* Czarny kolor tekstu dla etykiet */
+    font-weight: bold;
+}
+
+body.dark-mode .resize-icon{
+    color: white !important;
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 7px rgba(255, 255, 255, 0.5) !important;
+    border: none !important;
+}
+
+body.dark-mode .resize-icon:hover{
+    color: black !important;
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
+    border: none !important;
+}
+
+.dark-mode .size-menu-buttons .accept-btn,
+.dark-mode .size-menu-buttons .cancel-btn {
+    color: black !important; /* Czarny kolor tekstu dla przycisków */
+}
+
+.dark-mode .size-menu-buttons .accept-btn:hover {
+    color: white !important;
+    background-color: rgba(0, 255, 0, 0.8);
+}
+
+.dark-mode .size-menu-buttons .cancel-btn:hover {
+    color: white !important;
+    background-color: rgba(255, 0, 0, 0.8);
+}
+
+.dark-mode .resize-input-group input {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: black;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .resize-input-group input:focus {
+    border-color: var(--clr-accent);
+    box-shadow: 0 0 0 2px rgba(224, 122, 95, 0.4);
+}
+
+body.dark-mode .calculate-btn,
+body.dark-mode .clear-btn {
+    background: rgba(255, 255, 255, 0.45) !important;
+    border: var(--liquid-glass-border);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    color: var(--clr-dark-text) !important;
+}
+
+body.dark-mode .menu-btn,
+body.dark-mode .nav-bar {
+    background-color: rgba(224, 122, 95, 0.35);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 173, 150, 0.5);
+    color: var(--clr-dark-text) !important;
+}
+
+body.dark-mode .menu-btn:hover {
+    background: rgba(255, 255, 255, 1) !important;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    transform: rotate(180deg) scale(1.2);
+    color: black !important;
+    border: none;
+}
+
+body.dark-mode .theme-toggle-btn {
+    transform: rotate(180deg);
+    color: var(--clr-dark-text) !important;
+}
+
+/* Animacja ikon słońca i księżyca w przycisku przełączania motywu */
+.theme-toggle-btn {
+    position: relative;
+    color: var(--clr-dark-text) !important;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    background: rgba(224, 122, 95, 0.4);
+    border-radius: 50%;
+}
+
+.theme-toggle-btn:hover {
+    transform: scale(1.1);
+    background: rgba(224, 122, 95, 0.4);
+    box-shadow: 0 0 20px rgba(224, 122, 95, 0.7);
+    border-radius: 50%;
+}
+
+.theme-toggle-btn .icon-sun,
+.theme-toggle-btn .icon-moon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    transition: all 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+    z-index: 1;
+}
+
+/* Force icon visibility based on body.dark-mode state so symbol zawsze odpowiada aktualnemu trybowi */
+.theme-toggle-btn .icon-sun {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.65,0,0.35,1);
+}
+.theme-toggle-btn .icon-moon {
+    opacity: 0;
+    transform: translate(-50%, 100%) scale(0.5);
+    transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.65,0,0.35,1);
+}
+
+/* When dark mode is active, show moon and hide sun */
+body.dark-mode .theme-toggle-btn .icon-sun {
+    opacity: 0;
+    transform: translate(-50%, -100%) scale(0.5);
+}
+body.dark-mode .theme-toggle-btn .icon-moon {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Ensure non-dark state shows sun (cover case when body.dark-mode absent) */
+body:not(.dark-mode) .theme-toggle-btn .icon-sun {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+body:not(.dark-mode) .theme-toggle-btn .icon-moon {
+    opacity: 0;
+    transform: translate(-50%, 100%) scale(0.5);
+}
+
+.theme-toggle-btn:hover .icon-sun,
+.theme-toggle-btn:hover .icon-moon {
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.theme-toggle-btn.light .icon-sun {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.theme-toggle-btn.light:hover .icon-sun {
+    transform: translate(-50%, -50%) scale(1) rotate(90deg);
+}
+
+.theme-toggle-btn.light .icon-moon {
+    opacity: 0;
+    transform: translate(-50%, 100%) scale(0.5);
+}
+
+/* Stan dla trybu ciemnego */
+.theme-toggle-btn.dark .icon-sun {
+    opacity: 0;
+    transform: translate(-50%, -100%) scale(0.5);
+}
+
+.theme-toggle-btn.dark .icon-moon {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    color: var(--clr-dark-text) !important; /* Zmieniono na biały kolor */
+}
+
+.theme-toggle-btn.dark:hover .icon-moon {
+    transform: translate(-50%, -50%) scale(1) rotate(90deg);
+}
+
+body.dark-mode .theme-toggle-btn {
+    transform: rotate(180deg);
+    background: rgba(224, 122, 95, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--clr-dark-text) !important;
+}
+
+body.dark-mode .theme-toggle-btn:hover {
+    transform: rotate(180deg) scale(1.1);
+    border-radius: 50%;
+    background: rgba(224, 122, 95, 0.4);
+    box-shadow: 0 0 20px rgba(224, 122, 95, 0.7);
+}
+
+/* Ujednolicenie stylów przycisków nav-bar w trybie ciemnym */
+body.dark-mode .nav-btn,
+body.dark-mode .user-btn,
+body.dark-mode .theme-toggle-btn {
+    background: rgba(224, 122, 95, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--clr-dark-text) !important;
+    transition: transform 1s cubic-bezier(0.65, 0, 0.35, 1), 
+                background 0.2s cubic-bezier(0.65, 0, 0.35, 1), 
+                box-shadow 0.2s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+body.dark-mode .nav-btn:hover {
+    background: rgba(224, 122, 95, 0.4);
+    box-shadow: 0 0 20px rgba(224, 122, 95, 0.7);
+    transform: scale(1.1);
+}
+
+body.dark-mode .user-btn {
+    background: rgba(224, 122, 95, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--clr-dark-text) !important;
+    transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1), 
+                background 0.2s cubic-bezier(0.65, 0, 0.35, 1), 
+                box-shadow 0.2s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+body.dark-mode .user-btn:hover {
+    background: rgba(224, 122, 95, 0.4);
+    box-shadow: 0 0 20px rgba(224, 122, 95, 0.7);
+    transform: scale(1.5) rotate(360deg);
+    transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1), 
+                background 0.2s cubic-bezier(0.65, 0, 0.35, 1), 
+                box-shadow 0.2s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+body.dark-mode .user-btn i {
+    transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+    transform-origin: center;
+}
+
+body.dark-mode .user-btn:hover i {
+    transform: rotate(360deg);
+}
+
+/* Override dark mode for matrix results to match light mode */
+body.dark-mode .result-container-matrix,
+body.dark-mode .solution-container {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    border: var(--liquid-glass-border);
+    color: var(--clr-dark-text) !important;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Ensure all child elements in results match light mode text colors */
+body.dark-mode .result-container-matrix *,
+body.dark-mode .solution-container * {
+    color: #fffefe !important; /* Black text for general content */
+}
+
+/* Preserve specific light mode colors for sub-elements */
+body.dark-mode .default-result-text {
+    color: rgb(205, 205, 205) !important; /* Gray for default text, as in light mode */
+}
+
+body.dark-mode .solution-variable {
+    color: #E07A5F !important; /* Accent color for variables */
+}
+
+body.dark-mode .solution-value {
+    background: rgba(224, 122, 95, 0.1) !important; /* Light accent background */
+    color: #000000 !important;
+}
+
+/* Error states to match light mode */
+body.dark-mode .result-container-matrix.error {
+    background-color: #fde7e7 !important;
+    border: 1px solid #d32f2f !important;
+}
+
+body.dark-mode .error-message {
+    color: #d32f2f !important;
+    background-color: #fde7e7 !important;
+    border-left: 4px solid #d32f2f !important;
+}
+
+body.dark-mode .start-hint {
+    color: #000 !important;
+    border: var(--liquid-glass-border);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
+}
+
+body.dark-mode .start-hint:hover {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    transform: translateY(-3px);
+}
+
+/* Podświetlanie aktywnej macierzy w trybie ciemnym */
+body.dark-mode .matrix-frame.active-matrix {
+    border: 3px solid rgba(224, 122, 95, 1);
+    transform: scale(1.05);
+    background: rgba(224, 122, 95, 0.1);
+    box-shadow: 
+        0 0 20px rgba(224, 122, 95, 0.9),
+        0 0 30px rgba(224, 122, 95, 0.6),
+        inset 0 0 15px rgba(224, 122, 95, 0.2);
+}
+
+body.dark-mode .matrix-frame.active-matrix .matrix-title {
+    color: rgba(255, 255, 255, 1) !important;
+    font-weight: bold;
+    text-shadow: 
+        0 0 10px rgba(224, 122, 95, 0.8),
+        0 0 20px rgba(224, 122, 95, 0.6);
+    font-size: 1.2em;
+}
+
+body.dark-mode .stat-card,
+body.dark-mode .action-card,
+body.dark-mode .timeline-item {
+    background: rgba(255, 255, 255, 0.45) !important;
+    border: var(--liquid-glass-border);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
+}
+
+body.dark-mode .achievement-card {
+    background: linear-gradient(90deg, rgba(255,215,0,0.65), rgba(255,165,0,0.65));
+}
+
+/* Ensure avatar placeholder initials remain readable if using white bg */
+body.dark-mode .modern-user-profile .avatar-placeholder {
+    color: #000000 !important;
+}
+
+/* Also ensure stat numbers/icons inside stat-card are black */
+body.dark-mode .stat-card .stat-number,
+body.dark-mode .stat-card .stat-label {
+    color: #000000 !important;
+}
+
+/* Force black for specific Font Awesome icons inside user profile in dark mode */
+body.dark-mode .modern-user-profile i.fas.fa-calculator,
+body.dark-mode .modern-user-profile i.fas.fa-clock,
+body.dark-mode .modern-user-profile i.fas.fa-trophy,
+body.dark-mode .modern-user-profile i.fas.fa-star,
+body.dark-mode .modern-user-profile i.fas.fa-chart-bar,
+body.dark-mode .modern-user-profile i.fas.fa-history,
+body.dark-mode .modern-user-profile i.fas.fa-camera {
+    color: #000000 !important;
+    fill: #000000 !important;
+    stroke: #000000 !important;
+}
+
+/* Also target stat icons specifically */
+body.dark-mode .stat-icon,
+body.dark-mode .action-icon  {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
+}
+
+/* About & Instructions: dokładne style modern-user-profile w trybie ciemnym */
+body.dark-mode .modern-about,
+body.dark-mode .modern-instructions,
+body.dark-mode .modern-about .about-content-wrapper,
+body.dark_mode .modern-instructions .instructions-content-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 40px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(224, 122, 95, 0.5) transparent;
+    background: transparent;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 800;
+    color: #e6e6e6;
+}
+
+/* WebKit scrollbars (narrow like modern-user-profile) */
+body.dark-mode .modern-about::-webkit-scrollbar,
+body.dark-mode .modern-instructions::-webkit-scrollbar {
+    width: 6px;
+}
+body.dark-mode .modern-about::-webkit-scrollbar-track,
+body.dark-mode .modern-instructions::-webkit-scrollbar-track {
+    background: transparent;
+}
+body.dark-mode .modern-about::-webkit-scrollbar-thumb,
+body.dark-mode .modern-instructions::-webkit-scrollbar-thumb {
+    background: rgba(224, 122, 95, 0.5);
+    border-radius: 3px;
+}
+
+/* Hero sections — styl zgodny z profile .profile-hero */
+body.dark-mode .about-hero,
+body.dark-mode .modern-about .about-hero,
+body.dark-mode .instructions-hero,
+body.dark-mode .modern-instructions .instructions-hero {
+    background: rgba(224, 122, 95, 0.5);
+    border-radius: 25px;
+    padding: 50px;
+    margin-bottom: 30px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1);
+    position: relative;
+    overflow: hidden;
+    min-height: 300px;
+}
+
+/* Inline SPA containers should match user profile styles */
+body.dark-mode #inlineAbout,
+body.dark-mode #inlineInstructions {
+    background: transparent;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: none;
+    padding: 40px;
+    pointer-events: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(224, 122, 95, 0.5) transparent;
+}
+
+body.dark-mode #inlineAbout::-webkit-scrollbar,
+body.dark-mode #inlineInstructions::-webkit-scrollbar {
+    width: 6px;
+}
+body.dark-mode #inlineAbout::-webkit-scrollbar-track,
+body.dark-mode #inlineInstructions::-webkit-scrollbar-track {
+    background: transparent;
+}
+body.dark-mode #inlineAbout::-webkit-scrollbar-thumb,
+body.dark-mode #inlineInstructions::-webkit-scrollbar-thumb {
+    background: rgba(224, 122, 95, 0.5);
+    border-radius: 3px;
+}
+
+/* Dark mode back button styles */
+body.dark-mode #inlineAbout .back-to-home,
+body.dark-mode #inlineInstructions .back-to-home {
+    background-color: rgba(224, 122, 95, 0.35);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 173, 150, 0.5);
+    color: var(--clr-dark-text) !important;
+}
+
+body.dark-mode #inlineAbout .back-to-home:hover,
+body.dark-mode #inlineInstructions .back-to-home:hover {
+    background: rgba(255, 255, 255, 1) !important;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    transform: scale(1.15);
+    color: black !important;
+    border: none;
+}
+
+/* Ensure text contrast in sections */
+body.dark-mode .modern-about .section-header,
+body.dark-mode .modern-instructions .section-header {
+    color: #e6e6e6;
+    border-bottom: 3px solid rgba(255, 255, 255, 0.5) !important;
+    position: relative;
+}
+body.dark-mode .modern-about .section-header::after,
+body.dark-mode .modern-instructions .section-header::after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 3px;
+    background: rgb(255, 255, 255) !important;
+ box-shadow: 0 2px 12px rgb(255, 255, 255) !important;
+    pointer-events: none;
+    z-index: 1;
+}
+
+body.dark-mode .feature-card,
+body.dark-mode .vision-card,
+body.dark-mode .future-item {
+    background: rgba(255, 255, 255, 0.45) !important;
+    border: var(--liquid-glass-border);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
+}
+
+body.dark-mode .feature-card:hover,
+body.dark-mode .vision-card:hover,
+body.dark-mode .future-item:hover{
+    box-shadow: 0 0 20px rgba(255, 255, 255, 1) !important;
+    background: rgba(255, 255, 255, 0.55) !important;
+}
+
+body.dark-mode .feature-icon {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
+}
+
+body.dark-mode .help-button:hover {
+    background: rgba(255, 255, 255, 1) !important;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    color: black !important;
+    border: none;
+}
+
+body.dark-mode #settingsContainer .settings-back-btn {
+    background-color: rgba(224, 122, 95, 0.35);
+    backdrop-filter: var(--liquid-glass-blur);
+    -webkit-backdrop-filter: var(--liquid-glass-blur);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 173, 150, 0.5);
+    color: var(--clr-dark-text) !important;
+}
+
+body.dark-mode #settingsContainer .settings-back-btn:hover {
+    background: rgba(255, 255, 255, 1) !important;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    transform: scale(1.15);
+    color: black !important;
+    border: none;
+}

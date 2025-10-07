@@ -1,0 +1,151 @@
+/* Styl suwaka trybu kalkulatora macierzy */
+.matrix-mode-switch-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 0;
+  gap: 10px;
+  padding: 8px 12px;
+  background: rgba(224, 122, 95, 0.1);
+  border-radius: 12px;
+  transition: all 0.3s ease, transform 0.2s ease;
+}
+
+.matrix-mode-switch-wrapper:hover {
+  background: rgba(224, 122, 95, 0.15);
+  box-shadow: 0 2px 8px rgba(224, 122, 95, 0.2);
+}
+
+.matrix-mode-label {
+  font-size: 0.95rem;
+  color: #444;
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+body.dark-mode .matrix-mode-label {
+  color: #f0f0f0;
+}
+
+.matrix-mode-switch {
+  position: relative;
+  width: 52px;
+  height: 26px;
+  display: inline-block;
+}
+
+.matrix-mode-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.matrix-mode-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0;
+  background: #e07a5f;
+  border-radius: 26px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.matrix-mode-slider:hover {
+  box-shadow: 0 3px 10px rgba(224, 122, 95, 0.3);
+}
+
+.matrix-mode-slider:before {
+  content: "";
+  position: absolute;
+  height: 22px;
+  width: 22px;
+  left: 2px;
+  bottom: 2px;
+  background: #fff;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.matrix-mode-switch input:checked + .matrix-mode-slider {
+  background: #317873;
+}
+.matrix-mode-switch input:checked + .matrix-mode-slider:before {
+  transform: translateX(24px);
+}
+.matrix-mode-switch-text {
+  font-size: 0.95rem;
+  color: #317873;
+  margin-left: 6px;
+  font-weight: 600;
+  min-width: 90px;
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .matrix-mode-switch-text {
+  color: #ff9a7f;
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+  .matrix-mode-switch-wrapper {
+    gap: 6px;
+    padding: 6px 10px;
+  }
+  
+  .matrix-mode-label {
+    font-size: 0.85rem;
+  }
+  
+  .matrix-mode-switch {
+    width: 46px;
+    height: 24px;
+  }
+  
+  .matrix-mode-slider:before {
+    height: 20px;
+    width: 20px;
+  }
+  
+  .matrix-mode-switch input:checked + .matrix-mode-slider:before {
+    transform: translateX(22px);
+  }
+  
+  .matrix-mode-switch-text {
+    font-size: 0.85rem;
+    min-width: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .matrix-mode-switch-wrapper {
+    gap: 4px;
+    padding: 4px 8px;
+  }
+  
+  .matrix-mode-label {
+    font-size: 0.8rem;
+  }
+  
+  .matrix-mode-switch {
+    width: 42px;
+    height: 22px;
+  }
+  
+  .matrix-mode-slider:before {
+    height: 18px;
+    width: 18px;
+  }
+  
+  .matrix-mode-switch input:checked + .matrix-mode-slider:before {
+    transform: translateX(20px);
+  }
+  
+  .matrix-mode-switch-text {
+    font-size: 0.8rem;
+    min-width: 70px;
+  }
+}

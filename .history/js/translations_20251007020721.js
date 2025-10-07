@@ -1,0 +1,808 @@
+const translations = {
+    "pl": {
+        "title": "EduVerse 360",
+        "choose_app": "Wybierz aplikacje",
+        "home": "Strona główna",
+        "applications": "Aplikacje",
+        "help": "Pomoc",
+        "about": "O aplikacji",
+        "instructions": "Instrukcja",
+        "welcome": {
+            "title": "Witaj w EduVerse 360",
+            "subtitle": "Odkryj narzędzia do obliczeń matematycznych",
+            "start_hint": "Kliknij dowolny klawisz lub kliknij myszką, aby kontynuować"
+        },
+        "leapYear": {
+            "title": "Badacz roku przestępnego",
+            "prompt": "Podaj rok:",
+            "button": "Oblicz",
+            "history": "Historia:",
+            "emptyHistory": "Brak historii",
+            "error": "Wprowadź poprawny rok (liczbę całkowitą).",
+            "yes": "To {verb} rok przestępny",
+            "no": "To nie {verb} rok przestępny",
+            "verbs": {"past": "był", "present": "jest", "future": "będzie"},
+            "help": {
+                "title": "Pomoc - Rok przestępny",
+                "description": "Rok przestępny to rok mający 366 dni zamiast zwykłych 365. Każdy czwarty rok kalendarzowy jest rokiem przestępnym.",
+                "rules": "Zasady roku przestępnego:",
+                "rule1": "Rok podzielny przez 4 jest rokiem przestępnym",
+                "rule2": "JEDNAK rok podzielny przez 100 NIE jest rokiem przestępnym", 
+                "rule3": "JEDNAK rok podzielny przez 400 JEST rokiem przestępnym",
+                "examples": "Przykłady:",
+                "example1": "2024 - rok przestępny (podzielny przez 4)",
+                "example2": "1900 - nie rok przestępny (podzielny przez 100, ale nie przez 400)",
+                "example3": "2000 - rok przestępny (podzielny przez 400)",
+                "shortcuts": "Skróty klawiszowe:",
+                "shortcut1": "Enter - Oblicz rok",
+                "shortcut2": "Escape - Wyczyść pole",
+                "shortcut3": "Tab - Przełącz na historię"
+            },
+            "shortcuts": {
+                "title": "Skróty klawiszowe",
+                "enter": "Enter - Oblicz rok",
+                "escape": "Escape - Wyczyść pole",
+                "tab": "Tab - Przełącz na historię",
+                "upDown": "↑/↓ - Przeglądaj historię"
+            }
+        },
+        "auth": {
+            "login": "Zaloguj się",
+            "register": "Zarejestruj się",
+            "logout": "Wyloguj się",
+            "email": "Email",
+            "password": "Hasło",
+            "confirmPassword": "Potwierdź hasło",
+            "firstName": "Imię",
+            "lastName": "Nazwisko",
+            "loginSuccess": "Logowanie udane!",
+            "registerSuccess": "Rejestracja udana! Witamy w EduVerse 360!",
+            "invalidCredentials": "Nieprawidłowy email lub hasło!",
+            "passwordMismatch": "Hasła nie są identyczne!",
+            "userExists": "Użytkownik z tym emailem już istnieje!",
+            "welcome": "Witamy w EduVerse 360!",
+            "logoutConfirmation": "Czy na pewno chcesz się wylogować?",
+            "logoutSuccess": "Wylogowano pomyślnie!",
+            "cancel": "Anuluj",
+            "confirm": "Potwierdź"
+        },
+        "matrixCalc": {
+            "resizeBtn": "Zmień rozmiar",
+            "acceptBtn": "Akceptuj",
+            "title": "Kalkulator Macierzy",
+            "rows": "Wiersze:",
+            "cols": "Kolumny:",
+            "operation": "Operacja:",
+            "compute": "Oblicz",
+            "clear": "Wyczyść",
+            "matrix_a": "Macierz A",
+            "matrix_b": "Macierz B",
+            "solve": "Układ równań",
+            "default_result": "Wynik pojawi się tutaj",
+            "method_label": "Metoda:",
+            "operations": {
+                "add": "Dodawanie",
+                "sub": "Odejmowanie",
+                "mul": "Mnożenie",
+                "det": "Wyznacznik",
+                "inv": "Macierz odwrotna",
+                "trans": "Transpozycja",
+                "solve": "Układ równań"
+            },
+            "methods": {
+                "cramer": "Cramer",
+                "gauss": "Eliminacja Gaussa",
+                "gauss_jordan": "Gauss-Jordan",
+                "inverse": "Macierz odwrotna"
+            },
+            "errors": {
+                "same_dim": "Macierze muszą mieć te same wymiary do {op}.",
+                "mul_dim": "Liczba kolumn A musi być równa liczbie wierszy B.",
+                "square": "Macierz musi być kwadratowa, aby wykonać tę operację.",
+                "singular": "Macierz osobliwa – brak odwrotności.",
+                "invalid": "Niepoprawna liczba w (wiersz {r}, kolumna {c}).",
+                "solve_dim": "Macierz B musi być wektorem (1 kolumna) dla układu równań.",
+                "size_invalid": "Nieprawidłowy rozmiar macierzy. Wprowadź wartości od 1 do 10.",
+                "resize_failed": "Nie udało się zmienić rozmiaru macierzy."
+            },
+            "resize_dialog": {
+                "title": "Zmień rozmiar macierzy",
+                "matrix_a": "Macierz A",
+                "matrix_b": "Macierz B",
+                "rows": "Wiersze:",
+                "cols": "Kolumny:",
+                "accept": "Akceptuj",
+                "cancel": "Anuluj"
+            },
+            "buttons": {
+                "resize": "Zmień rozmiar",
+                "compute": "Oblicz",
+                "clear": "Wyczyść"
+            },
+            "help": {
+                "title": "Pomoc - Kalkulator Macierzy",
+                "description": "Zaawansowany kalkulator do operacji na macierzach. Obsługuje podstawowe operacje arytmetyczne oraz rozwiązywanie układów równań.",
+                "operations": "Dostępne operacje:",
+                "op1": "Dodawanie - dodaje dwie macierze o tych samych wymiarach",
+                "op2": "Odejmowanie - odejmuje macierz B od macierzy A", 
+                "op3": "Mnożenie - mnoży macierz A przez macierz B",
+                "op4": "Wyznacznik - oblicza wyznacznik macierzy kwadratowej",
+                "op5": "Macierz odwrotna - znajduje macierz odwrotną",
+                "op6": "Transpozycja - zamienia wiersze z kolumnami",
+                "op7": "Układ równań - rozwiązuje system Ax = B",
+                "methods": "Metody rozwiązywania:",
+                "method1": "Cramer - wzory Cramera (tylko dla macierzy kwadratowych)",
+                "method2": "Gauss - eliminacja Gaussa",
+                "method3": "Gauss-Jordan - eliminacja Gaussa-Jordana",  
+                "method4": "Macierz odwrotna - A⁻¹ × B"
+            },
+            "shortcuts": {
+                "title": "Skróty klawiszowe",
+                "tab": "Tab - Przełącz między macierzami A i B",
+                "enter": "Enter - Oblicz wynik",
+                "escape": "Escape - Wyczyść macierze",
+                "ctrl1": "Ctrl+1 - Przełącz na macierz A",
+                "ctrl2": "Ctrl+2 - Przełącz na macierz B",
+                "ctrlEnter": "Ctrl+Enter - Zmień rozmiar macierzy",
+                "arrows": "Strzałki - Nawigacja między polami"
+            }
+        },
+        "userProfile": {
+            "title": "Profil użytkownika",
+            "edit": "Edytuj profil",
+            "favorites": "Ulubione obliczenia",
+            "settings": "Ustawienia",
+            "password": "Zmień hasło",
+            "activity": "Ostatnia aktywność",
+            "calculations": "Obliczenia",
+            "saved": "Zapisane",
+            "favoritesCount": "Ulubione",
+            "sections": {
+                "statistics": "Statystyki",
+                "quickActions": "Szybkie akcje",
+                "recentActivity": "Ostatnia aktywność",
+                "achievements": "Osiągnięcia"
+            },
+            "stats": {
+                "completedCourses": "Ukończone kursy",
+                "studyTime": "Czas nauki",
+                "achievements": "Osiągnięcia",
+                "averageGrades": "Średnia ocen"
+            },
+            "actions": {
+                "title": "Szybkie akcje",
+                "editProfile": "Edytuj profil",
+                "detailedStats": "Szczegółowe Statystyki",
+                "detailedStatsDesc": "Zobacz pełny raport swojego postępu",
+                "activityDesc": "Przeglądaj swoją historię nauki",
+                "achievementsDesc": "Zobacz pełną listę swoich sukcesów",
+                "settingsDesc": "Personalizuj swoje dane i preferencje"
+            },
+            "modals": {
+                "stats": {
+                    "title": "Szczegółowe Statystyki"
+                },
+                "activity": {
+                    "title": "Ostatnia Aktywność"
+                },
+                "achievements": {
+                    "title": "Wszystkie Osiągnięcia"
+                },
+                "editProfile": {
+                    "title": "Edytuj Profil",
+                    "personalInfo": "Informacje osobiste",
+                    "name": "Imię i nazwisko",
+                    "email": "Adres email",
+                    "preferences": "Preferencje",
+                    "darkMode": "Tryb ciemny",
+                    "language": "Język",
+                    "role": "Rola",
+                    "roles": {
+                        "student": "Student",
+                        "teacher": "Nauczyciel",
+                        "researcher": "Badacz",
+                        "developer": "Programista"
+                    },
+                    "avatar": "Zdjęcie profilowe",
+                    "uploadAvatar": "Prześlij nowe zdjęcie",
+                    "removeAvatar": "Usuń zdjęcie",
+                    "save": "Zapisz zmiany",
+                    "cancel": "Anuluj"
+                }
+            },
+            "form": {
+                "userName": "Nazwa użytkownika",
+                "email": "Email",
+                "role": "Rola",
+                "emailNotifications": "Powiadomienia email",
+                "darkMode": "Tryb ciemny",
+                "saveChanges": "Zapisz zmiany",
+                "cancel": "Anuluj"
+            },
+            "roles": {
+                "student": "Student",
+                "teacher": "Nauczyciel",
+                "administrator": "Administrator"
+            },
+            "notifications": {
+                "profileUpdated": "Profil został zaktualizowany pomyślnie!",
+                "noChanges": "Nie wykryto żadnych zmian.",
+                "passwordChanged": "Hasło zostało zmienione pomyślnie!",
+                "avatarUpdated": "Zdjęcie profilowe zostało zaktualizowane!",
+                "avatarRemoved": "Zdjęcie profilowe zostało usunięte!",
+                "error": "Wystąpił błąd. Spróbuj ponownie.",
+                "invalidFile": "Wybierz poprawny plik obrazu.",
+                "fileTooLarge": "Rozmiar pliku musi być mniejszy niż 5MB.",
+                "nameRequired": "Nazwa użytkownika jest wymagana!",
+                "emailInvalid": "Wprowadź poprawny adres email!"
+            },
+            "settings": {
+                "title": "Ustawienia",
+                "general": "Ogólne",
+                "appearance": "Wygląd",
+                "notifications": "Powiadomienia",
+                "account": "Konto",
+                "privacy": "Prywatność",
+                "language": "Język aplikacji",
+                "theme": "Motyw",
+                "darkMode": "Tryb ciemny",
+                "lightMode": "Tryb jasny",
+                "autoMode": "Automatyczny",
+                "fontSize": "Rozmiar czcionki",
+                "fontSizes": {
+                    "small": "Mały",
+                    "medium": "Średni", 
+                    "large": "Duży"
+                },
+                "animations": "Animacje",
+                "enableAnimations": "Włącz animacje",
+                "reducedMotion": "Ograniczone animacje",
+                "emailNotifications": "Powiadomienia email",
+                "pushNotifications": "Powiadomienia push",
+                "soundNotifications": "Dźwięki powiadomień",
+                "changePassword": "Zmień hasło",
+                "deleteAccount": "Usuń konto",
+                "exportData": "Eksportuj dane",
+                "importData": "Importuj dane",
+                "save": "Zapisz ustawienia",
+                "cancel": "Anuluj",
+                "reset": "Przywróć domyślne"
+            }
+        },
+        "dashboard": {
+            "menu": "Menu",
+            "navigation": "Nawigacja", 
+            "settings": "Ustawienia",
+            "applications": "Aplikacje",
+            "home": "Strona główna",
+            "profile": "Profil",
+            "help": "Pomoc",
+            "darkMode": "Tryb ciemny",
+            "lightMode": "Tryb jasny",
+            "language": "Język",
+            "back": "Wstecz"
+        },
+        "sidebar": {
+            "navigation": "Nawigacja",
+            "home": "Strona główna",
+            "apps": "Aplikacje",
+            "leapYear": "Rok przestępny",
+            "matrixCalc": "Kalkulator macierzy",
+            "settings": "Ustawienia",
+            "preferences": "Preferencje",
+            "darkMode": "Tryb ciemny",
+            "language": "Język",
+            "help": "Pomoc",
+            "about": "O aplikacji",
+            "instructions": "Instrukcja",
+            "login": "Zaloguj się",
+            "logout": "Wyloguj się",
+            "guest": "Gość",
+            "online": "Online",
+            "notLoggedIn": "Niezalogowany"
+        }
+    },
+    "en": {
+        "title": "EduVerse 360",
+        "choose_app": "Choose application",
+        "home": "Home",
+        "applications": "Applications",
+        "help": "Help",
+        "about": "About",
+        "instructions": "Instructions",
+        "welcome": {
+            "title": "Welcome to EduVerse 360",
+            "subtitle": "Discover tools for mathematical calculations",
+            "start_hint": "Click any key or mouse to continue"
+        },
+        "auth": {
+            "login": "Log in",
+            "register": "Register",
+            "logout": "Log out",
+            "email": "Email",
+            "password": "Password",
+            "confirmPassword": "Confirm Password",
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "loginSuccess": "Login successful!",
+            "registerSuccess": "Registration successful! Welcome to EduVerse 360!",
+            "invalidCredentials": "Invalid email or password!",
+            "passwordMismatch": "Passwords do not match!",
+            "userExists": "User with this email already exists!",
+            "welcome": "Welcome to EduVerse 360!"
+        },
+        "leapYear": {
+            "title": "Leap Year Investigator",
+            "prompt": "Enter year:",
+            "button": "Check",
+            "history": "History:",
+            "emptyHistory": "No history",
+            "error": "Enter a valid integer year.",
+            "yes": "It {verb} a leap year",
+            "no": "It is not {verb} a leap year",
+            "verbs": {"past": "was", "present": "is", "future": "will be"},
+            "help": {
+                "title": "Help - Leap Year",
+                "description": "A leap year is a year with 366 days instead of the usual 365. Every fourth calendar year is a leap year.",
+                "rules": "Leap year rules:",
+                "rule1": "A year divisible by 4 is a leap year",
+                "rule2": "HOWEVER, a year divisible by 100 is NOT a leap year",
+                "rule3": "HOWEVER, a year divisible by 400 IS a leap year",
+                "examples": "Examples:",
+                "example1": "2024 - leap year (divisible by 4)",
+                "example2": "1900 - not a leap year (divisible by 100, but not by 400)",
+                "example3": "2000 - leap year (divisible by 400)",
+                "shortcuts": "Keyboard shortcuts:",
+                "shortcut1": "Enter - Calculate year",
+                "shortcut2": "Escape - Clear field",
+                "shortcut3": "Tab - Switch to history"
+            },
+            "shortcuts": {
+                "title": "Keyboard Shortcuts",
+                "enter": "Enter - Calculate year",
+                "escape": "Escape - Clear field",
+                "tab": "Tab - Switch to history",
+                "upDown": "↑/↓ - Browse history"
+            }
+        },
+        "matrixCalc": {
+            "resizeBtn": "Resize",
+            "acceptBtn": "Accept",
+            "title": "Matrix Calculator",
+            "rows": "Rows:",
+            "cols": "Columns:",
+            "operation": "Operation:",
+            "compute": "Compute",
+            "clear": "Clear",
+            "matrix_a": "Matrix A",
+            "matrix_b": "Matrix B",
+            "result_label": "Result",
+            "solve": "Solve",
+            "default_result": "Result will appear here",
+            "method_label": "Method:",
+            "operations": {
+                "add": "Addition",
+                "sub": "Subtraction",
+                "mul": "Multiplication",
+                "det": "Determinant",
+                "inv": "Inverse",
+                "trans": "Transpose",
+                "solve": "Solve"
+            },
+            "methods": {
+                "cramer": "Cramer",
+                "gauss": "Gaussian elimination",
+                "gauss_jordan": "Gauss-Jordan",
+                "inverse": "Inverse matrix"
+            },
+            "errors": {
+                "same_dim": "Matrices must have the same dimensions for {op}.",
+                "mul_dim": "Columns of A must equal rows of B.",
+                "square": "Matrix must be square for this operation.",
+                "singular": "Matrix is singular – cannot invert.",
+                "invalid": "Invalid number at (row {r}, col {c}).",
+                "solve_dim": "Matrix B must be a vector (1 column) for equation system.",
+                "size_invalid": "Invalid matrix size. Please enter values between 1 and 10.",
+                "resize_failed": "Failed to resize matrix."
+            },
+            "resize_dialog": {
+                "title": "Resize Matrix",
+                "matrix_a": "Matrix A",
+                "matrix_b": "Matrix B",
+                "rows": "Rows:",
+                "cols": "Columns:",
+                "accept": "Accept",
+                "cancel": "Cancel"
+            },
+            "buttons": {
+                "resize": "Resize",
+                "compute": "Compute",
+                "clear": "Clear"
+            },
+            "help": {
+                "title": "Help - Matrix Calculator",
+                "description": "Advanced calculator for matrix operations. Supports basic arithmetic operations and solving systems of equations.",
+                "operations": "Available operations:",
+                "op1": "Addition - adds two matrices of the same dimensions",
+                "op2": "Subtraction - subtracts matrix B from matrix A",
+                "op3": "Multiplication - multiplies matrix A by matrix B",
+                "op4": "Determinant - calculates determinant of square matrix",
+                "op5": "Inverse matrix - finds the inverse matrix",
+                "op6": "Transpose - swaps rows with columns",
+                "op7": "System of equations - solves system Ax = B",
+                "methods": "Solution methods:",
+                "method1": "Cramer - Cramer's rule (square matrices only)",
+                "method2": "Gauss - Gaussian elimination",
+                "method3": "Gauss-Jordan - Gauss-Jordan elimination",
+                "method4": "Inverse matrix - A⁻¹ × B"
+            },
+            "shortcuts": {
+                "title": "Keyboard Shortcuts",
+                "tab": "Tab - Switch between matrices A and B",
+                "enter": "Enter - Calculate result",
+                "escape": "Escape - Clear matrices",
+                "ctrl1": "Ctrl+1 - Switch to matrix A",
+                "ctrl2": "Ctrl+2 - Switch to matrix B",
+                "ctrlEnter": "Ctrl+Enter - Resize matrices",
+                "arrows": "Arrows - Navigate between fields"
+            }
+        },
+        "userProfile": {
+            "title": "User Profile",
+            "edit": "Edit Profile",
+            "favorites": "Favorite Calculations",
+            "settings": "Settings",
+            "password": "Change Password",
+            "activity": "Recent Activity",
+            "calculations": "Calculations",
+            "saved": "Saved",
+            "favoritesCount": "Favorites",
+            "statistics": {
+                "title": "Your Statistics",
+                "totalCalculations": "Total Calculations",
+                "favoriteCalculations": "Favorite Calculations",
+                "completedTasks": "Completed Tasks",
+                "accuracy": "Accuracy Rate"
+            },
+            "actions": {
+                "title": "Quick Actions",
+                "editProfile": "Edit Profile",
+                "viewFavorites": "View Favorites", 
+                "openSettings": "Open Settings",
+                "changePassword": "Change Password",
+                "detailedStats": "Detailed Statistics",
+                "detailedStatsDesc": "View your complete progress report",
+                "activityDesc": "Browse your learning history",
+                "achievementsDesc": "View your complete list of achievements",
+                "settingsDesc": "Customize your data and preferences"
+            },
+            "achievements": {
+                "title": "Achievements",
+                "mathExplorer": "Math Explorer",
+                "accuracyMaster": "Accuracy Master",
+                "speedCalculator": "Speed Calculator"
+            },
+            "modals": {
+                "stats": {
+                    "title": "Detailed Statistics"
+                },
+                "activity": {
+                    "title": "Recent Activity"
+                },
+                "achievements": {
+                    "title": "All Achievements"
+                },
+                "editProfile": {
+                    "title": "Edit Profile",
+                    "personalInfo": "Personal Information",
+                    "name": "Full Name",
+                    "email": "Email Address",
+                    "preferences": "Preferences",
+                    "darkMode": "Dark Mode",
+                    "language": "Language",
+                    "role": "Role",
+                    "roles": {
+                        "student": "Student",
+                        "teacher": "Teacher",
+                        "researcher": "Researcher",
+                        "developer": "Developer"
+                    },
+                    "avatar": "Profile Picture",
+                    "uploadAvatar": "Upload New Avatar",
+                    "removeAvatar": "Remove Avatar",
+                    "save": "Save Changes",
+                    "cancel": "Cancel"
+                },
+                "viewFavorites": {
+                    "title": "Favorite Calculations",
+                    "noFavorites": "No favorite calculations yet",
+                    "clearAll": "Clear All",
+                    "close": "Close"
+                },
+                "changePassword": {
+                    "title": "Change Password",
+                    "currentPassword": "Current Password",
+                    "newPassword": "New Password",
+                    "confirmPassword": "Confirm New Password",
+                    "save": "Change Password",
+                    "cancel": "Cancel"
+                }
+            },
+            "notifications": {
+                "profileUpdated": "Profile updated successfully!",
+                "noChanges": "No changes detected.",
+                "passwordChanged": "Password changed successfully!",
+                "avatarUpdated": "Avatar updated successfully!",
+                "avatarRemoved": "Avatar removed successfully!",
+                "error": "An error occurred. Please try again.",
+                "invalidFile": "Please select a valid image file.",
+                "fileTooLarge": "File size must be less than 5MB."
+            },
+            "settings": {
+                "title": "Settings",
+                "general": "General",
+                "appearance": "Appearance",
+                "notifications": "Notifications",
+                "account": "Account",
+                "privacy": "Privacy",
+                "language": "Application language",
+                "theme": "Theme",
+                "darkMode": "Dark mode",
+                "lightMode": "Light mode",
+                "autoMode": "Automatic",
+                "fontSize": "Font size",
+                "fontSizes": {
+                    "small": "Small",
+                    "medium": "Medium",
+                    "large": "Large"
+                },
+                "animations": "Animations",
+                "enableAnimations": "Enable animations",
+                "reducedMotion": "Reduced animations",
+                "emailNotifications": "Email notifications",
+                "pushNotifications": "Push notifications",
+                "soundNotifications": "Sound notifications",
+                "changePassword": "Change password",
+                "deleteAccount": "Delete account",
+                "exportData": "Export data",
+                "importData": "Import data",
+                "save": "Save settings",
+                "cancel": "Cancel",
+                "reset": "Reset to default"
+            }
+        },
+        "dashboard": {
+            "menu": "Menu",
+            "navigation": "Navigation",
+            "settings": "Settings", 
+            "applications": "Applications",
+            "home": "Home",
+            "profile": "Profile",
+            "help": "Help",
+            "darkMode": "Dark mode",
+            "lightMode": "Light mode",
+            "language": "Language",
+            "back": "Back"
+        },
+        "sidebar": {
+            "navigation": "Navigation",
+            "home": "Home",
+            "apps": "Applications",
+            "leapYear": "Leap Year",
+            "matrixCalc": "Matrix Calculator",
+            "settings": "Settings",
+            "preferences": "Preferences",
+            "darkMode": "Dark Mode",
+            "language": "Language",
+            "help": "Help",
+            "about": "About",
+            "instructions": "Instructions",
+            "login": "Log in",
+            "logout": "Log out",
+            "guest": "Guest",
+            "online": "Online",
+            "notLoggedIn": "Not logged in"
+        }
+    },
+    "de": {
+        "title": "EduVerse 360",
+        "choose_app": "Anwendung wählen",
+        "home": "Startseite",
+        "applications": "Anwendungen",
+        "help": "Hilfe",
+        "about": "Über",
+        "instructions": "Anleitung",
+        "welcome": {
+            "title": "Willkommen bei EduVerse 360",
+            "subtitle": "Entdecken Sie Werkzeuge für mathematische Berechnungen",
+            "start_hint": "Klicken Sie auf eine beliebige Taste oder Maus, um fortzufahren"
+        },
+        "auth": {
+            "login": "Anmelden",
+            "register": "Registrieren",
+            "logout": "Abmelden",
+            "email": "E-Mail",
+            "password": "Passwort",
+            "confirmPassword": "Passwort bestätigen",
+            "firstName": "Vorname",
+            "lastName": "Nachname",
+            "loginSuccess": "Anmeldung erfolgreich!",
+            "registerSuccess": "Registrierung erfolgreich! Willkommen bei EduVerse 360!",
+            "invalidCredentials": "Ungültige E-Mail oder Passwort!",
+            "passwordMismatch": "Passwörter stimmen nicht überein!",
+            "userExists": "Benutzer mit dieser E-Mail existiert bereits!",
+            "welcome": "Willkommen bei EduVerse 360!"
+        },
+        "leapYear": {
+            "title": "Schaltjahr-Untersucher",
+            "prompt": "Jahr eingeben:",
+            "button": "Prüfen",
+            "history": "Verlauf:",
+            "emptyHistory": "Kein Verlauf",
+            "error": "Geben Sie eine gültige Jahreszahl (ganze Zahl) ein.",
+            "yes": "Es {verb} ein Schaltjahr",
+            "no": "Es ist nicht {verb} ein Schaltjahr",
+            "verbs": {"past": "war", "present": "ist", "future": "wird sein"},
+            "help": {
+                "title": "Hilfe - Schaltjahr",
+                "description": "Ein schaltjahr ist ein jahr mit 366 tagen anstatt der üblichen 365. Jedes vierte Kalenderjahr ist ein Schaltjahr.",
+                "rules": "Schaltjahr-Regeln:",
+                "rule1": "Ein durch 4 teilbares Jahr ist ein Schaltjahr",
+                "rule2": "JEDOCH ist ein durch 100 teilbares Jahr KEIN Schaltjahr",
+                "rule3": "JEDOCH ist ein durch 400 teilbares Jahr EIN Schaltjahr",
+                "examples": "Beispiele:",
+                "example1": "2024 - Schaltjahr (durch 4 teilbar)",
+                "example2": "1900 - kein Schaltjahr (durch 100, aber nicht durch 400 teilbar)",
+                "example3": "2000 - Schaltjahr (durch 400 teilbar)",
+                "shortcuts": "Tastenkürzel:",
+                "shortcut1": "Enter - Jahr berechnen",
+                "shortcut2": "Escape - Feld leeren",
+                "shortcut3": "Tab - Zu Verlauf wechseln"
+            },
+            "shortcuts": {
+                "title": "Tastenkürzel",
+                "enter": "Enter - Jahr berechnen",
+                "escape": "Escape - Feld leeren",
+                "tab": "Tab - Zu Verlauf wechseln",
+                "upDown": "↑/↓ - Verlauf durchsuchen"
+            }
+        },
+        "matrixCalc": {
+            "resizeBtn": "Größe ändern",
+            "acceptBtn": "Akzeptieren",
+            "title": "Matrix-Rechner",
+            "rows": "Zeilen:",
+            "cols": "Spalten:",
+            "operation": "Operation:",
+            "compute": "Berechnen",
+            "clear": "Löschen",
+            "matrix_a": "Matrix A",
+            "matrix_b": "Matrix B",
+            "result_label": "Ergebnis",
+            "solve": "Lösen",
+            "default_result": "Ergebnis wird hier erscheinen",
+            "method_label": "methode:",
+            "operations": {
+                "add": "Addition",
+                "sub": "Subtraktion",
+                "mul": "Multiplikation",
+                "det": "Determinante",
+                "inv": "Inverse Matrix",
+                "trans": "Transponierung",
+                "solve": "Gleichungssystem"
+            },
+            "methods": {
+                "cramer": "Cramer",
+                "gauss": "Gaußsches Eliminationsverfahren",
+                "gauss_jordan": "Gauß-Jordan",
+                "inverse": "Inverse Matrix"
+            },
+            "errors": {
+                "same_dim": "Matrizen müssen für {op} die gleichen Dimensionen haben.",
+                "mul_dim": "Die Spalten von A müssen den Zeilen von B entsprechen.",
+                "square": "Die Matrix muss für diese Operation quadratisch sein.",
+                "singular": "Matrix ist singulär – kann nicht invertiert werden.",
+                "invalid": "Ungültige Zahl in (Zeile {r}, Spalte {c}).",
+                "solve_dim": "Matrix B muss für das Gleichungssystem ein Vektor (1 Spalte) sein.",
+                "size_invalid": "Ungültige Matrixgröße. Bitte geben Sie Werte zwischen 1 und 10 ein.",
+                "resize_failed": "Größenänderung der Matrix fehlgeschlagen."
+            },
+            "resize_dialog": {
+                "title": "Matrixgröße ändern",
+                "matrix_a": "Matrix A",
+                "matrix_b": "Matrix B",
+                "rows": "Zeilen:",
+                "cols": "Spalten:",
+                "accept": "Akzeptieren",
+                "cancel": "Abbrechen"
+            },
+            "buttons": {
+                "resize": "Größe ändern",
+                "compute": "Berechnen",
+                "clear": "Löschen"
+            },
+            "help": {
+                "title": "Hilfe - Matrix-Rechner",
+                "description": "Fortgeschrittener Rechner für Matrixoperationen. Unterstützt grundlegende arithmetische Operationen und das Lösen von Gleichungssystemen.",
+                "operations": "Verfügbare Operationen:",
+                "op1": "Addition - addiert zwei Matrizen mit gleichen Dimensionen",
+                "op2": "Subtraktion - subtrahiert Matrix B von Matrix A",
+                "op3": "Multiplikation - multipliziert Matrix A mit Matrix B",
+                "op4": "Determinante - berechnet die Determinante einer quadratischen Matrix",
+                "op5": "Inverse Matrix - findet die inverse Matrix",
+                "op6": "Transposition - vertauscht Zeilen mit Spalten",
+                "op7": "Gleichungssystem - löst das System Ax = B",
+                "methods": "Lösungsmethoden:",
+                "method1": "Cramer - Cramersche Regel (nur quadratische Matrizen)",
+                "method2": "Gauss - Gaußsches Eliminationsverfahren",
+                "method3": "Gauss-Jordan - Gauß-Jordan-Elimination",
+                "method4": "Inverse Matrix - A⁻¹ × B"
+            },
+            "shortcuts": {
+                "title": "Tastenkürzel",
+                "tab": "Tab - Zwischen Matrizen A und B wechseln",
+                "enter": "Enter - Ergebnis berechnen",
+                "escape": "Escape - Matrizen leeren",
+                "ctrl1": "Strg+1 - Zu Matrix A wechseln",
+                "ctrl2": "Strg+2 - Zu Matrix B wechseln",
+                "ctrlEnter": "Strg+Enter - Matrixgröße ändern",
+                "arrows": "Pfeile - Zwischen Feldern navigieren"
+            }
+        },
+        "userProfile": {
+            "title": "Benutzerprofil",
+            "edit": "Profil bearbeiten",
+            "favorites": "Bevorzugte Berechnungen",
+            "settings": "Einstellungen",
+            "password": "Passwort ändern",
+            "activity": "Letzte aktywność",
+            "calculations": "Berechnungen",
+            "saved": "Gespeichert",
+            "favoritesCount": "Favoriten",
+            "settings": {
+                "title": "Einstellungen",
+                "general": "Allgemein",
+                "appearance": "Erscheinungsbild",
+                "notifications": "Benachrichtigungen",
+                "account": "Konto",
+                "privacy": "Datenschutz",
+                "language": "Anwendungssprache",
+                "theme": "Design",
+                "darkMode": "Dunkler Modus",
+                "lightMode": "Heller Modus",
+                "autoMode": "Automatisch",
+                "fontSize": "Schriftgröße",
+                "fontSizes": {
+                    "small": "Klein",
+                    "medium": "Mittel",
+                    "large": "Groß"
+                },
+                "animations": "Animationen",
+                "enableAnimations": "Animationen aktivieren",
+                "reducedMotion": "Reduzierte Animationen",
+                "emailNotifications": "E-Mail-Benachrichtigungen",
+                "pushNotifications": "Push-Benachrichtigungen",
+                "soundNotifications": "Ton-Benachrichtigungen",
+                "changePassword": "Passwort ändern",
+                "deleteAccount": "Konto löschen",
+                "exportData": "Daten exportieren",
+                "importData": "Daten importieren",
+                "save": "Einstellungen speichern",
+                "cancel": "Abbrechen",
+                "reset": "Auf Standard zurücksetzen"
+            }
+        },
+        "dashboard": {
+            "menu": "Menü",
+            "navigation": "Navigation",
+            "settings": "Einstellungen",
+            "applications": "Anwendungen", 
+            "home": "Startseite",
+            "profile": "Profil",
+            "darkMode": "Dunkler Modus",
+            "lightMode": "Heller Modus",
+            "language": "Sprache",
+            "back": "Zurück"
+        }
+    }
+};

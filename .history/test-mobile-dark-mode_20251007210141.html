@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Mobile Dark Mode</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+        }
+        
+        .dashboard-btn {
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+        }
+        
+        body.dark-mode .dashboard-btn {
+            background: #2a2a2a;
+            border-color: #444;
+            color: #f0f0f0;
+        }
+        
+        .log {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 4px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        
+        body.dark-mode .log {
+            background: #2a2a2a;
+            color: #0f0;
+        }
+        
+        .log-entry {
+            margin: 2px 0;
+            padding: 2px 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Mobile Dark Mode</h1>
+    
+    <button class="dashboard-btn" data-action="theme" onclick="toggleDarkMode()">
+        <i class="fas fa-moon" id="themeIcon"></i>
+        <span id="themeText">Tryb ciemny</span>
+    </button>
+    
+    <div>
+        <strong>Status:</strong>
+        <p>darkMode: <span id="darkModeStatus">false</span></p>
+        <p>body.dark-mode: <span id="bodyClassStatus">false</span></p>
+        <p>localStorage: <span id="localStorageStatus">-</span></p>
+    </div>
+    
+    <div class="log" id="log"></div>
+    
+    <script>
+        let darkMode = false;
+        const translations = {
+            pl: {
+                dashboard: {
+                    darkMode: 'Tryb ciemny',
+                    lightMode: 'Tryb jasny'
+                }
+            }
+        };
+        const currentLang = 'pl';
+        
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logDiv.appendChild(entry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        function updateStatus() {
+            document.getElementById('darkModeStatus').textContent = darkMode;
+            document.getElementById('bodyClassStatus').textContent = document.body.classList.contains('dark-mode');
+            document.getElementById('localStorageStatus').textContent = localStorage.getItem('darkMode') || '-';
+        }
+        
+        function toggleDarkMode() {
+            darkMode = !darkMode;
+            log(`toggleDarkMode() called, darkMode is now: ${darkMode}`);
+            
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                log('Added dark-mode class to body');
+            } else {
+                document.body.classList.remove('dark-mode');
+                log('Removed dark-mode class from body');
+            }
+            
+            try {
+                localStorage.setItem('darkMode', darkMode ? '1' : '0');
+                log(`Saved to localStorage: ${darkMode ? '1' : '0'}`);
+            } catch (e) {
+                log(`ERROR saving to localStorage: ${e.message}`);
+            }
+            
+            updateDashboardThemeBtn();
+            updateStatus();
+        }
+        
+        function updateDashboardThemeBtn() {
+            log('updateDashboardThemeBtn() called');
+            
+            if (!translations[currentLang] || !translations[currentLang].dashboard) {
+                log('ERROR: Translations not available');
+                return;
+            }
+            
+            const themeBtn = document.querySelector('.dashboard-btn[data-action="theme"]');
+            log(`Button found: ${!!themeBtn}`);
+            
+            if (themeBtn) {
+                const icon = themeBtn.querySelector('i');
+                const span = themeBtn.querySelector('span');
+                
+                log(`Icon found: ${!!icon}, Span found: ${!!span}`);
+                
+                if (darkMode) {
+                    icon.className = 'fas fa-sun';
+                    span.textContent = translations[currentLang].dashboard.lightMode || 'Tryb jasny';
+                    log('Set to LIGHT MODE icon (sun)');
+                } else {
+                    icon.className = 'fas fa-moon';
+                    span.textContent = translations[currentLang].dashboard.darkMode || 'Tryb ciemny';
+                    log('Set to DARK MODE icon (moon)');
+                }
+            }
+        }
+        
+        // Initialize
+        function initializeTheme() {
+            log('initializeTheme() called');
+            const savedDarkMode = localStorage.getItem('darkMode');
+            log(`Saved dark mode from localStorage: ${savedDarkMode}`);
+            
+            if (savedDarkMode === 'enabled' || savedDarkMode === '1' || savedDarkMode === 'true') {
+                darkMode = true;
+                document.body.classList.add('dark-mode');
+                log('Initialized with dark mode enabled');
+            } else {
+                darkMode = false;
+                document.body.classList.remove('dark-mode');
+                log('Initialized with light mode');
+            }
+            
+            setTimeout(() => {
+                updateDashboardThemeBtn();
+                updateStatus();
+            }, 100);
+        }
+        
+        initializeTheme();
+    </script>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</body>
+</html>

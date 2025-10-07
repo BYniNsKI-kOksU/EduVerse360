@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduVerse 360</title>
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/app-structure.css">
+    <link rel="stylesheet" href="css/responsiveness.css">
+    <link rel="stylesheet" href="css/modern-sidebar.css">
+    <link rel="stylesheet" href="css/welcome-screen.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/new-user-profile.css">
+    <link rel="stylesheet" href="css/user-profile-modals.css">
+    <link rel="stylesheet" href="css/about.css">
+    <link rel="stylesheet" href="css/instructions.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/help-modals.css">
+    <link rel="stylesheet" href="css/matrix-calculator.css">
+    <link rel="stylesheet" href="css/leap-year.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <link rel="stylesheet" href="css/matrix-mode-switch.css">
+    <link rel="stylesheet" href="css/home-screen.css">
+    <link rel="stylesheet" href="css/settings.css">
+    <link rel="stylesheet" href="css/enhanced-responsiveness.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- Poprawiono Font Awesome -->
+</head>
+<body>
+    <canvas id="mathBg"></canvas>
+
+    <!-- Mobile Dashboard -->
+    <div id="mobileDashboard" class="mobile-dashboard hidden">
+        <div class="dashboard-header">
+            <h3>Menu</h3>
+            <button class="dashboard-close-btn">×</button>
+        </div>
+        <div class="dashboard-content">
+            <div class="dashboard-section">
+                <h4>Nawigacja</h4>
+                <button class="dashboard-btn" data-action="home">
+                    <i class="fas fa-home"></i>
+                    <span>Strona główna</span>
+                </button>
+                <button class="dashboard-btn" data-action="profile">
+                    <i class="fas fa-user"></i>
+                    <span>Profil</span>
+                </button>
+            </div>
+            <div class="dashboard-section">
+                <h4>Konto</h4>
+                <button class="dashboard-btn" id="mobileDashboardAuthBtn" data-action="auth">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Zaloguj się</span>
+                </button>
+            </div>
+            <div class="dashboard-section">
+                <h4>Ustawienia</h4>
+                <button class="dashboard-btn" data-action="theme">
+                    <i class="fas fa-moon"></i>
+                    <span>Tryb ciemny</span>
+                </button>
+                <button class="dashboard-btn" data-action="language-menu">
+                    <i class="fas fa-globe"></i>
+                    <span>Język</span>
+                    <i class="fas fa-chevron-right dashboard-arrow"></i>
+                </button>
+            </div>
+            <div class="dashboard-section">
+                <h4 data-translate-key="dashboard.applications">Aplikacje</h4>
+                <button class="dashboard-btn" data-action="leapYear">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Rok przestępny</span>
+                </button>
+                <button class="dashboard-btn" data-action="matrixCalculator" data-app="matrixCalc">
+                    <i class="fas fa-calculator"></i>
+                    <span>Kalkulator macierzy</span>
+                </button>
+            </div>
+            <div class="dashboard-section">
+                <h4 data-translate-key="dashboard.help">Pomoc</h4>
+                <button class="dashboard-btn" data-action="about">
+                    <i class="fas fa-info-circle"></i>
+                    <span>O aplikacji</span>
+                </button>
+                <button class="dashboard-btn" data-action="instructions">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Instrukcja</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Dashboard Toggle -->
+    <button class="mobile-dashboard-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Mobile Bottom Dock Navigation -->
+    <div class="mobile-dock">
+        <button class="dock-btn" data-action="profile" data-tooltip="Profil">
+            <i class="fas fa-user"></i>
+        </button>
+        <button class="dock-btn" data-action="matrixCalculator" data-tooltip="Kalkulator">
+            <i class="fas fa-calculator"></i>
+        </button>
+        <button class="dock-btn dock-home" data-action="home" data-tooltip="Strona główna">
+            <i class="fas fa-home"></i>
+        </button>
+        <button class="dock-btn" data-action="leapYear" data-tooltip="Rok przestępny">
+            <i class="fas fa-calendar-alt"></i>
+        </button>
+        <button class="dock-btn" data-action="menu" data-tooltip="Menu">
+            <i class="fas fa-ellipsis-h"></i>
+        </button>
+    </div>
+
+    <!-- Global Navigation Bar -->
+    <div class="nav-bar">
+        <button class="nav-btn user-btn" id="showUserProfileBtn">
+            <i class="fas fa-user"></i>
+        </button>
+        <button id="themeToggleBtn" class="theme-toggle-btn light">
+            <i class="fas fa-sun icon-sun"></i>
+            <i class="fas fa-moon icon-moon"></i>
+        </button>
+        <div class="lang-container">
+            <div class="lang-btn"></div>
+        </div>
+    </div>
+
+    <!-- Lang menus moved to body level -->
+    <div class="lang-menu nav-lang-menu">
+        <div data-lang="pl">Polski</div>
+        <div data-lang="en">English</div>
+        <div data-lang="de">Deutsch</div>
+    </div>
+    
+    <!-- Language submenu for mobile dashboard -->
+    <div class="dashboard-submenu" id="languageSubmenu">
+        <button class="dashboard-back-btn">
+            <i class="fas fa-arrow-left"></i>
+            <span>Wstecz</span>
+        </button>
+        <button class="dashboard-btn" data-action="language" data-lang="pl">
+            <i class="fas fa-flag"></i>
+            <span>Polski</span>
+        </button>
+        <button class="dashboard-btn" data-action="language" data-lang="en">
+            <i class="fas fa-flag"></i>
+            <span>English</span>
+        </button>
+        <button class="dashboard-btn" data-action="language" data-lang="de">
+            <i class="fas fa-flag"></i>
+            <span>Deutsch</span>
+        </button>
+    </div>
+    
+    <!-- Tooltip for keyboard shortcuts (will be added dynamically) -->
+    <div id="keyboardShortcuts" class="keyboard-shortcuts" style="display: none;">
+        <div class="shortcuts-title">Skróty klawiszowe:</div>
+        <div class="shortcut-item">
+            <span class="shortcut-key">Ctrl + M</span>
+            <span class="shortcut-desc">Przełącz między macierzami</span>
+        </div>
+        <div class="shortcut-item">
+            <span class="shortcut-key">Ctrl + 1</span>
+            <span class="shortcut-desc">Przejdź do macierzy A</span>
+        </div>
+        <div class="shortcut-item">
+            <span class="shortcut-key">Ctrl + 2</span>
+            <span class="shortcut-desc">Przejdź do macierzy B</span>
+        </div>
+        <div class="shortcut-item">
+            <span class="shortcut-key">Ctrl + Enter</span>
+            <span class="shortcut-desc">Oblicz wynik</span>
+        </div>
+    </div>
+
+    <div class="lang-menu welcome-lang-menu">
+        <div data-lang="pl">Polski</div>
+        <div data-lang="en">English</div>
+        <div data-lang="de">Deutsch</div>
+    </div>
+
+
+    <!-- Size menus moved to body level -->
+    <div id="sizeMenuA" class="size-menu">
+        <div class="resize-input-group">
+            <label for="rowsA">Wiersze:</label>
+            <input id="rowsA" type="number" min="1" max="10" value="2" class="size-input">
+        </div>
+        <div class="resize-input-group">
+            <label for="colsA">Kolumny:</label>
+            <input id="colsA" type="number" min="1" max="10" value="2" class="size-input">
+        </div>
+        <div class="size-menu-buttons">
+            <button id="acceptA" class="accept-btn">Akceptuj</button>
+            <button id="cancelA" class="cancel-btn">Anuluj</button>
+        </div>
+    </div>
+    
+    <div id="sizeMenuB" class="size-menu">
+        <div class="resize-input-group">
+            <label for="rowsB">Wiersze:</label>
+            <input id="rowsB" type="number" min="1" max="10" value="2" class="size-input">
+        </div>
+        <div class="resize-input-group">
+            <label for="colsB">Kolumny:</label>
+            <input id="colsB" type="number" min="1" max="10" value="2" class="size-input">
+        </div>
+        <div class="size-menu-buttons">
+            <button id="acceptB" class="accept-btn">Akceptuj</button>
+            <button id="cancelB" class="cancel-btn">Anuluj</button>
+        </div>
+    </div>
+
+    <!-- Welcome Screen -->
+    <div class="welcome-screen">
+        <h1 class="welcome-title"><span>Witaj w EduVerse 360</span></h1>
+        <p class="welcome-subtitle"><span>Odkryj narzędzia do obliczeń matematycznych</span></p>
+        <p class="start-hint">(kliknij dowolny klawisz lub kliknij myszką aby kontynuować)</p>
+        <div class="welcome-lang-btn">
+            <div class="lang-btn-container">
+                <div class="lang-btn"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Home Screen -->
+    <div class="home-screen" style="display: none;">
+        <h1 class="home-title" data-translate-key="choose_app">Wybierz aplikacje</h1>
+        <div class="tiles">
+            <div class="tile" data-app="leapYear">
+                <span class="tile-icon">📆</span>
+                <span class="tile-label">Badacz roku przestępnego</span>
+            </div>
+            <div class="tile" data-app="matrixCalc">
+                <span class="tile-icon">🧮</span>
+                <span class="tile-label">Kalkulator macierzy</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- App Container -->
+    <div class="app-container">
+        <div class="header">
+        </div>
+
+        <!-- Leap Year App -->
+        <div id="leapYearApp" class="app-content">
+            <div class="leap-year-container">
+                <h2 id="leapYearTitle" class="leap-year-title">Badacz roku przestępnego</h2>
+                <div class="input-container">
+                    <label id="yearLabel" class="input-label">Podaj rok:</label>
+                    <input type="number" id="yearInput" class="year-input" inputmode="numeric">
+                </div>
+                <button id="checkBtn" class="check-btn">Oblicz</button>
+                <div id="resultContainer" class="result-container"></div>
+                <div class="history-container">
+                    <div id="historyLabel" class="history-title">Historia:</div>
+                    <div id="historyBox" class="history-box">
+                        <div class="empty-history">Brak historii</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Matrix Calculator App -->
+        <div id="matrixCalcApp" class="app-content">
+            <div class="matrix-container">
+                <h2 id="matrixCalcTitle" class="matrix-Calc-title">Kalkulator Macierzy</h2>
+                <div class="controls" style="display: flex; align-items: center; justify-content: space-between; position: relative;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div class="operation-selector">
+                            <div id="operationLabel" class="operation-label">Operacja:</div>
+                            <button id="operationBtn" class="operation-btn">Dodawanie</button>
+                            <div id="operationMenu" class="operation-menu">
+                                <div class="operation-menu-item" data-op="add">Dodawanie</div>
+                                <div class="operation-menu-item" data-op="sub">Odejmowanie</div>
+                                <div class="operation-menu-item" data-op="mul">Mnożenie</div>
+                                <div class="operation-menu-item" data-op="det">Wyznacznik</div>
+                                <div class="operation-menu-item" data-op="inv">Macierz odwrotna</div>
+                                <div class="operation-menu-item" data-op="trans">Transpozycja</div>
+                                <div class="operation-menu-item" data-op="solve">Układ równań</div>
+                            </div>
+                        </div>
+                        <!-- Pomoc i suwak trybu - pionowo -->
+                        <div id="matrixHelpAndMode" style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
+                            <!-- Przycisk Pomoc jest dynamicznie dodawany przez JS tutaj -->
+                            <div class="matrix-mode-switch-wrapper" style="margin:0;">
+                                <span class="matrix-mode-label">Tryb:</span>
+                                <label class="matrix-mode-switch">
+                                    <input type="checkbox" id="matrixModeSwitch">
+                                    <span class="matrix-mode-slider"></span>
+                                </label>
+                                <span id="matrixModeSwitchText" class="matrix-mode-switch-text">Podstawowy</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="method-selector-wrapper" style="display: none;">
+                        <div class="method-label">Metoda:</div>
+                        <button id="methodBtn" class="method-btn-main">Cramer</button>
+                        <div id="methodSelector" class="method-selector">
+                            <div class="method-menu-item" data-value="value1">Cramer</div>
+                            <div class="method-menu-item" data-value="value2">Eliminacja Gaussa</div>
+                            <div class="method-menu-item" data-value="value3">Gauss-Jordan</div>
+                            <div class="method-menu-item" data-value="value4">Macierz odwrotna</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="computeBtn" class="btn matrix-btn" tabindex="0">Oblicz</button>
+                    <button id="clearBtn" class="btn matrix-btn">Wyczyść</button>
+                </div>
+
+                <div id="matricesContainer" class="matrices-container">
+                    <div id="matrixA" class="matrix-frame">
+                        <button class="resize-icon" onclick="toggleSizeMenu('A')">+
+                        </button>
+                        <div id="matrixATitle" class="matrix-title">Macierz A</div>
+                        <div id="matrixAGrid" class="matrix-grid"></div>
+                    </div>
+                    
+                    <div id="matrixB" class="matrix-frame">
+                        <button class="resize-icon" onclick="toggleSizeMenu('B')">+
+                        </button>
+                        <div id="matrixBTitle" class="matrix-title">Macierz B</div>
+                        <div id="matrixBGrid" class="matrix-grid"></div>
+                    </div>
+                </div>
+                
+                <div id="errorMessage" class="error-message"></div>
+                <div id="resultBox" class="result-container-matrix">
+                    <div class="default-result-text"></div>
+                </div>
+                <div id="solutionBox" class="solution-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="userProfileApp" class="app-content">
+        <div class="modern-user-profile">
+            
+            <!-- Profile Hero Section -->
+            <div class="profile-hero">
+                <div class="profile-avatar-section">
+                    <div class="avatar-wrapper">
+                        <div class="avatar-ring"></div>
+                        <div class="avatar-image">
+                            <div class="avatar-placeholder">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="online-indicator"></div>
+                        </div>
+                        <button class="change-avatar-btn" onclick="userProfileModals.handleAvatarUpload()">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="profile-info">
+                    <h1 class="profile-name">Gość</h1>
+                    <p class="profile-role">Niezalogowany użytkownik</p>
+                    <p class="profile-email">Zaloguj się, aby zobaczyć profil</p>
+                    <div class="profile-level">
+                        <span class="level-badge">Poziom 12</span>
+                        <div class="level-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%"></div>
+                            </div>
+                            <span class="progress-text">750/1000 XP</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Profile Actions -->
+                    <div class="profile-hero-actions">
+                        <button class="profile-hero-btn edit-profile-btn settings-btn" onclick="userProfileModals.openModal('editProfile')">
+                            <i class="fas fa-edit"></i>
+                            <span data-translate-key="userProfile.edit">Edytuj profil</span>
+                        </button>
+                        <button class="profile-hero-btn settings-btn" onclick="settingsSystem.showSettings()">
+                            <i class="fas fa-cog"></i>
+                            <span data-translate-key="userProfile.settings.title">Ustawienia</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Grid -->
+            <div class="stats-section">
+                <h2 class="section-header">
+                    <i class="fas fa-chart-bar"></i>
+                    <span data-translate-key="userProfile.statistics.title">Twoje statystyki</span>
+                </h2>
+                <div class="stats-grid">
+                    <div class="stat-card primary">
+                        <div class="stat-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-number">124</div>
+                            <div class="stat-label" data-translate-key="userProfile.statistics.totalCalculations">Obliczenia</div>
+                            <div class="stat-change positive">+8 w tym tygodniu</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-number">18h</div>
+                            <div class="stat-label">Czas aktywności</div>
+                            <div class="stat-change positive">+3h dziś</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-number">7</div>
+                            <div class="stat-label">Osiągnięcia</div>
+                            <div class="stat-change neutral">2 w tym miesiącu</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-number">23</div>
+                            <div class="stat-label" data-translate-key="userProfile.favoritesCount">Ulubione</div>
+                            <div class="stat-change positive">+5 ostatnio</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="actions-section">
+                <h2 class="section-header">
+                    <i class="fas fa-bolt"></i>
+                    <span data-translate-key="userProfile.actions.title">Szybkie akcje</span>
+                </h2>
+                <div class="actions-grid">
+                    <button class="action-card featured" onclick="userProfileModals.openModal('stats')">
+                        <div class="action-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3 data-translate-key="userProfile.actions.detailedStats">Szczegółowe Statystyki</h3>
+                            <p data-translate-key="userProfile.actions.detailedStatsDesc">Zobacz pełny raport swojego postępu</p>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </button>
+                    
+                    <button class="action-card" onclick="userProfileModals.openModal('activity')">
+                        <div class="action-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3 data-translate-key="userProfile.activity">Ostatnia Aktywność</h3>
+                            <p data-translate-key="userProfile.actions.activityDesc">Przeglądaj swoją historię nauki</p>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </button>
+                    
+                    <button class="action-card" onclick="userProfileModals.openModal('achievements')">
+                        <div class="action-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3 data-translate-key="userProfile.achievements.title">Wszystkie Osiągnięcia</h3>
+                            <p data-translate-key="userProfile.actions.achievementsDesc">Zobacz pełną listę swoich sukcesów</p>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </button>
+                    
+                    <button class="action-card" onclick="userProfileModals.openModal('settings')">
+                        <div class="action-icon">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3 data-translate-key="userProfile.actions.editProfile">Ustawienia Profilu</h3>
+                            <p data-translate-key="userProfile.actions.settingsDesc">Personalizuj swoje dane i preferencje</p>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Activity Timeline -->
+            <div class="timeline-section">
+                <h2 class="section-header">
+                    <i class="fas fa-history"></i>
+                    Ostatnia aktywność
+                </h2>
+                <div class="activity-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot matrix"></div>
+                        <div class="timeline-content">
+                            <div class="activity-header">
+                                <h4>Obliczenie macierzy 3x3</h4>
+                                <span class="activity-time">2 godziny temu</span>
+                            </div>
+                            <p>Wyznacznik macierzy obliczony metodą Sarrusa</p>
+                            <div class="activity-tags">
+                                <span class="tag">Macierze</span>
+                                <span class="tag">Wyznacznik</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot leap-year"></div>
+                        <div class="timeline-content">
+                            <div class="activity-header">
+                                <h4>Sprawdzenie roku przestępnego</h4>
+                                <span class="activity-time">Wczoraj</span>
+                            </div>
+                            <p>Rok 2024 zweryfikowany jako przestępny</p>
+                            <div class="activity-tags">
+                                <span class="tag">Kalendarz</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot achievement"></div>
+                        <div class="timeline-content">
+                            <div class="activity-header">
+                                <h4>Nowe osiągnięcie!</h4>
+                                <span class="activity-time">3 dni temu</span>
+                            </div>
+                            <p>Odblokowano "Mistrz macierzy" - 100 obliczeń</p>
+                            <div class="activity-tags">
+                                <span class="tag achievement">Osiągnięcie</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievement Showcase -->
+            <div class="achievements-section">
+                <h2 class="section-header">
+                    <i class="fas fa-medal"></i>
+                    Osiągnięcia
+                </h2>
+                <div class="achievements-grid">
+                    <div class="achievement-card unlocked">
+                        <div class="achievement-icon">🏆</div>
+                        <div class="achievement-info">
+                            <h3>Pierwszy krok</h3>
+                            <p>Wykonaj pierwsze obliczenie</p>
+                            <span class="unlock-date">Odblokowane 15 marca</span>
+                        </div>
+                    </div>
+                    
+                    <div class="achievement-card unlocked">
+                        <div class="achievement-icon">🧮</div>
+                        <div class="achievement-info">
+                            <h3>Mistrz macierzy</h3>
+                            <p>Wykonaj 100 obliczeń macierzowych</p>
+                            <span class="unlock-date">Odblokowane 3 dni temu</span>
+                        </div>
+                    </div>
+                    
+                    <div class="achievement-card locked">
+                        <div class="achievement-icon">🔥</div>
+                        <div class="achievement-info">
+                            <h3>Seria 7 dni</h3>
+                            <p>Używaj aplikacji przez 7 dni z rzędu</p>
+                            <div class="progress-indicator">
+                                <div class="progress-bar small">
+                                    <div class="progress-fill" style="width: 57%"></div>
+                                </div>
+                                <span>4/7 dni</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="achievement-card locked">
+                        <div class="achievement-icon">⭐</div>
+                        <div class="achievement-info">
+                            <h3>Kolekcjoner</h3>
+                            <p>Zapisz 50 obliczeń w ulubionych</p>
+                            <div class="progress-indicator">
+                                <div class="progress-bar small">
+                                    <div class="progress-fill" style="width: 46%"></div>
+                                </div>
+                                <span>23/50</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inline templates for About / Instructions (loaded by about.js / instructions.js) -->
+    <template id="tpl-about">
+        <div class="about-content-wrapper">
+            <!-- Hero Section -->
+            <section class="about-hero">
+                <h1 class="about-title">EduVerse 360</h1>
+                <div class="about-version">Wersja 2.1.0 Beta</div>
+                <p class="about-subtitle">
+                    Rewolucyjna platforma edukacyjna, która łączy matematykę z nowoczesnymi technologiami, 
+                    tworząc niepowtarzalne doświadczenie nauki w 360 stopniach.
+                </p>
+            </section>
+
+            <!-- Statystyki -->
+            <section class="about-section">
+                <div class="stats-row">
+                    <div class="stat-badge">
+                        <div class="stat-number">50K+</div>
+                        <div class="stat-label">Aktywnych Użytkowników</div>
+                    </div>
+                    <div class="stat-badge">
+                        <div class="stat-number">1M+</div>
+                        <div class="stat-label">Wykonanych Obliczeń</div>
+                    </div>
+                    <div class="stat-badge">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Krajów</div>
+                    </div>
+                    <div class="stat-badge">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Zadowolenia</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Główne Funkcje -->
+            <section class="about-section">
+                <h2 class="section-header">
+                    <i class="fas fa-star"></i>
+                    Główne Funkcje
+                </h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <h3 class="feature-title">Zaawansowany Kalkulator Macierzy</h3>
+                        <p class="feature-description">
+                            Wykonuj złożone operacje na macierzach z precyzją do 15 miejsc dziesiętnych. 
+                            Obsługa macierzy do 10x10 z wizualizacją kroków obliczeniowych w czasie rzeczywistym.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <h3 class="feature-title">Inteligentny System Dat</h3>
+                        <p class="feature-description">
+                            Błyskawiczne sprawdzanie lat przestępnych z uwzględnieniem wszystkich reguł kalendarza 
+                            gregoriańskiego. Idealne dla studentów astronomii i matematyki.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <h3 class="feature-title">Personalny Asystent Nauki</h3>
+                        <p class="feature-description">
+                            Śledź swoje postępy, analizuj słabe punkty, otrzymuj spersonalizowane rekomendacje. 
+                            AI-powered system dostosowuje się do Twojego stylu nauki.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h3 class="feature-title">Gamifikacja Nauki</h3>
+                        <p class="feature-description">
+                            Zdobywaj osiągnięcia, odblokowuj nowe funkcje, rywalizuj z przyjaciółmi. 
+                            Nauka matematyki nigdy nie była tak angażująca i motywująca.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Uniwersalna Dostępność</h3>
+                        <p class="feature-description">
+                            Responsywny design działający na wszystkich urządzeniach. Offline support dzięki PWA. 
+                            Synchronizacja między urządzeniami w chmurze.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3 class="feature-title">Spersonalizowany Interface</h3>
+                        <p class="feature-description">
+                            Tryby jasny/ciemny, personalizowane motywy, dostosowywalne skróty klawiszowe. 
+                            Interfejs który dopasowuje się do Twoich preferencji.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Wizja Przyszłości -->
+            <section class="about-section">
+                <div class="vision-card">
+                    <i class="fas fa-rocket vision-icon"></i>
+                    <h2 class="vision-title">Nasza Wizja Przyszłości</h2>
+                    <p class="vision-description">
+                        EduVerse 360 to więcej niż aplikacja - to ekosystem edukacyjny przyszłości. 
+                        Dążymy do stworzenia platformy, która nie tylko uczy matematyki, ale inspiruje 
+                        do odkrywania piękna nauki i rozwoju krytycznego myślenia.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Nadchodzące Funkcje -->
+            <section class="about-section">
+                <h2 class="section-header">
+                    <i class="fas fa-clock"></i>
+                    Nadchodzące Funkcje
+                </h2>
+                <div class="future-grid">
+                    <div class="future-item">
+                        <div class="future-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="future-text">
+                            <h4 class="future-title">AI Tutor Matematyczny</h4>
+                            <p class="future-description">Personalny asystent AI, który odpowie na pytania i pomoże w rozwiązywaniu problemów</p>
+                        </div>
+                    </div>
+
+                    <div class="future-item">
+                        <div class="future-icon">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <div class="future-text">
+                            <h4 class="future-title">Wizualizacja 3D</h4>
+                            <p class="future-description">Interaktywne modele 3D dla geometrii przestrzennej i algebry liniowej</p>
+                        </div>
+                    </div>
+
+                    <div class="future-item">
+                        <div class="future-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="future-text">
+                            <h4 class="future-title">Współpraca Zespołowa</h4>
+                            <p class="future-description">Współdzielone przestranie robocze dla projektów grupowych i peer learning</p>
+                        </div>
+                    </div>
+
+                    <div class="future-item">
+                        <div class="future-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="future-text">
+                            <h4 class="future-title">Zaawansowane Wykresy</h4>
+                            <p class="future-description">Narzędzia do tworzenia wykresów funkcji, analiza mathematyczna w czasie rzeczywistym</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Zespół -->
+            <section class="about-section">
+                <h2 class="section-header">
+                    <i class="fas fa-heart"></i>
+                    Tworzone z Pasją
+                </h2>
+                <div class="vision-card">
+                    <p class="vision-description">
+                        EduVerse 360 jest tworzone przez zespół pasjonatów matematyki, programistów i edukatorów 
+                        z całego świata. Naszą misją jest demokratyzacja dostępu do wysokiej jakości edukacji 
+                        matematycznej i inspirowanie kolejnego pokolenia naukowców i inżynierów.
+                    </p>
+                </div>
+            </section>
+        </div>
+    </template>
+
+    <template id="tpl-instructions">
+        <div class="instructions-content-wrapper">
+            <section class="instructions-hero">
+                <h1 class="instructions-title">
+                    <i class="fas fa-book-open"></i>
+                    Instrukcje Użytkowania
+                </h1>
+                <p class="instructions-subtitle">
+                    Przewodnik krok po kroku, który pomoże Ci w pełni wykorzystać możliwości EduVerse 360. 
+                    Naucz się korzystać z każdej funkcji i odkryj sekrety efektywnej nauki matematyki.
+                </p>
+            </section>
+
+            <section class="instructions-section">
+                <h2 class="section-header">
+                    <i class="fas fa-play-circle"></i>
+                    Podstawowe Funkcje
+                </h2>
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <h3 class="step-title">Kalkulator Macierzy</h3>
+                        </div>
+                        <p class="step-description">
+                            Wykonuj zaawansowane operacje na macierzach - dodawanie, odejmowanie, mnożenie, 
+                            transpozycja oraz obliczanie wyznacznika i macierzy odwrotnej.
+                        </p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <h3 class="step-title">Sprawdzanie Lat Przestępnych</h3>
+                        </div>
+                        <p class="step-description">
+                            Szybko sprawdź czy podany rok jest rokiem przestępnym. Aplikacja automatycznie 
+                            zastosuje reguły kalendarza gregoriańskiego.
+                        </p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <h3 class="step-title">System Profilu</h3>
+                        </div>
+                        <p class="step-description">
+                            Śledź swoje postępy, przeglądaj statystyki użytkowania, zdobywaj osiągnięcia 
+                            i personalizuj swoje doświadczenie nauki.
+                        </p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-header">
+                            <div class="step-number">4</div>
+                            <h3 class="step-title">Tryby Motywów</h3>
+                        </div>
+                        <p class="step-description">
+                            Przełączaj między trybem jasnym i ciemnym, aby dostosować interfejs do swoich 
+                            preferencji i warunków oświetlenia.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Najczęściej Zadawane Pytania -->
+            <section class="instructions-section">
+                <h2 class="section-header">
+                    <i class="fas fa-question-circle"></i>
+                    Najczęściej Zadawane Pytania
+                </h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            Jak zwiększyć rozmiar macierzy?
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Użyj przycisków "+" i "-" obok wymiarów macierzy. Maksymalny rozmiar to 10x10.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            Czy wyniki są zapisywane automatycznie?
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Tak, wszystkie obliczenia są automatycznie zapisywane w Twojej historii.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            Jak zdobywać osiągnięcia?
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Osiągnięcia odblokowujesz poprzez regularne korzystanie z aplikacji.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </template>
+
+    <!-- Core scripts - loaded immediately -->
+    <script src="js/translations.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/background.js"></script>
+    <script src="js/leapYear.js"></script>
+    <script src="js/matrixCalculator.js"></script>
+    <script src="js/matrix-mode-switch-global.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/modern-sidebar.js"></script>
+    
+    <!-- Feature scripts - loaded dynamically as needed -->
+    <script src="js/help-system.js"></script>
+    <script src="js/user-profile-modals.js"></script>
+    <script src="js/settings-system.js"></script>
+    <script src="js/instructions.js"></script>
+</body>
+</html>
