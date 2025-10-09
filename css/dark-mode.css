@@ -699,3 +699,106 @@ body.dark-mode #settingsContainer .settings-back-btn:hover {
     color: black !important;
     border: none;
 }
+
+/* Mobile Dashboard Dark Mode */
+body.dark-mode .mobile-dashboard {
+    background: rgba(0, 0, 0, 0.85);
+}
+
+body.dark-mode .dashboard-header {
+    border-bottom-color: rgba(255, 255, 255, 0.15);
+}
+
+body.dark-mode .dashboard-header h3 {
+    color: var(--clr-dark-text) !important;
+}
+
+body.dark-mode .dashboard-section h4 {
+    color: var(--clr-dark-muted) !important;
+}
+
+body.dark-mode .dashboard-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+    color: var(--clr-dark-text) !important;
+}
+
+body.dark-mode .dashboard-btn span {
+    color: var(--clr-dark-text) !important;
+}
+
+body.dark-mode .dashboard-btn:hover,
+body.dark-mode .dashboard-btn:active {
+    background: rgba(224, 122, 95, 0.25);
+    border-color: rgba(224, 122, 95, 0.4);
+}
+
+body.dark-mode .dashboard-close-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--clr-dark-text) !important;
+}
+
+body.dark-mode .dashboard-close-btn:hover {
+    background: rgba(224, 122, 95, 0.3);
+}
+
+/* Mobile Dashboard Submenu Dark Mode */
+body.dark-mode .dashboard-submenu {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+body.dark-mode .dashboard-submenu-title {
+    color: var(--clr-dark-text) !important;
+    border-bottom-color: rgba(224, 122, 95, 0.4);
+}
+
+body.dark-mode .dashboard-back-btn {
+    background: rgba(224, 122, 95, 0.25);
+    border-color: rgba(224, 122, 95, 0.5);
+    color: var(--clr-dark-text) !important;
+}
+
+body.dark-mode .dashboard-back-btn span {
+    color: var(--clr-dark-text) !important;
+}
+
+body.dark-mode .dashboard-back-btn:hover,
+body.dark-mode .dashboard-back-btn:active {
+    background: rgba(224, 122, 95, 0.4);
+}
+
+/* Mobile Dock Dark Mode */
+body.dark-mode .mobile-dock {
+    background: rgba(0, 0, 0, 0.7);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .dock-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.15);
+    color: var(--clr-dark-text) !important;
+}
+
+body.dark-mode .dock-btn:hover,
+body.dark-mode .dock-btn.active {
+    background: rgba(224, 122, 95, 0.3);
+}
+
+body.dark-mode .dock-home {
+    background: linear-gradient(135deg, rgba(224, 122, 95, 0.4), rgba(49, 120, 115, 0.4));
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Mobile Dashboard Toggle Dark Mode */
+body.dark-mode .mobile-dashboard-toggle {
+    background: rgba(224, 122, 95, 0.5);
+    border-color: rgba(224, 122, 95, 0.3);
+    color: var(--clr-dark-text) !important;
+}
+
+body.dark-mode .mobile-dashboard-toggle:hover,
+body.dark-mode .mobile-dashboard-toggle.active {
+    background: rgba(224, 122, 95, 0.7);
+    box-shadow: 0 0 20px rgba(224, 122, 95, 0.5);
+}

@@ -252,7 +252,15 @@ function backToHome() {
 }
  
 document.querySelectorAll('.tile').forEach(tile => {
-    tile.addEventListener('click', function() {
+    // Obsługa click dla desktop
+    tile.addEventListener('click', function(e) {
+        // Sprawdź czy to event z urządzenia mobilnego (touchend)
+        // Jeśli tak, pomiń - zostanie obsłużone przez mobile-touch-handler
+        if (e.pointerType === 'touch' || window.mobileTouchHandler) {
+            // Na mobile będzie obsługiwane przez touch handler
+            return;
+        }
+        
         const app = this.dataset.app;
         currentScreen = "app";
         document.querySelector('.home-screen').style.display = 'none';

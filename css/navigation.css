@@ -465,9 +465,9 @@ body.welcome-active .mobile-dock {
     justify-content: center;
     gap: 12px;
     padding: 10px 18px;
-    background: rgba(239, 115, 80, 0.65);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(239, 115, 80, 0.5);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     border-radius: 25px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     z-index: 1400;
@@ -832,31 +832,43 @@ body:not(.dark-mode) .theme-toggle-btn:hover {
     opacity: 0;
     transform: translateX(100%);
     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    position: fixed; /* Zmienione z absolute na fixed */
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     background: var(--liquid-glass-bg-black);
-    backdrop-filter: blur(20px); /* Teraz blur będzie działał prawidłowo */
+    backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    z-index: 1600; /* Zwiększony z-index żeby być nad dashboard */
+    z-index: 1600;
     padding: 20px;
-    border-radius: 0; /* Usuń border-radius dla pełnego ekranu */
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-submenu-title {
+    color: white;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    padding: 0 0 15px 0;
+    border-bottom: 2px solid rgba(224, 122, 95, 0.3);
+    text-align: center;
 }
 
 .dashboard-submenu.active {
-    display: block;
+    display: flex;
     opacity: 1;
     transform: translateX(0);
 }
 
-.dashboard-back-btn {
+.dashboard-submenu .dashboard-btn {
     width: 100%;
-    padding: 15px 20px;
-    margin-bottom: 20px;
-    background: rgba(255, 0, 0, 0.2);
-    border: 1px solid rgba(255, 0, 0, 0.3);
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 15px;
     color: white;
     font-size: 16px;
@@ -866,12 +878,40 @@ body:not(.dark-mode) .theme-toggle-btn:hover {
     cursor: pointer;
     transition: all 0.3s ease;
     text-align: left;
+    flex-shrink: 0;
 }
 
-.dashboard-back-btn:hover {
-    background: rgba(255, 0, 0, 0.4);
+.dashboard-submenu .dashboard-btn:hover,
+.dashboard-submenu .dashboard-btn:active {
+    background: rgba(224, 122, 95, 0.3);
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(224, 122, 95, 0.2);
+}
+
+.dashboard-back-btn {
+    width: 100%;
+    padding: 18px 20px;
+    margin-bottom: 25px;
+    background: rgba(224, 122, 95, 0.2);
+    border: 2px solid rgba(224, 122, 95, 0.4);
+    border-radius: 15px;
+    color: white;
+    font-size: 17px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    flex-shrink: 0;
+}
+
+.dashboard-back-btn:hover,
+.dashboard-back-btn:active {
+    background: rgba(224, 122, 95, 0.4);
     transform: translateX(-5px);
-    box-shadow: 0 5px 15px rgba(255, 0, 0, 0.2);
+    box-shadow: 0 5px 15px rgba(224, 122, 95, 0.3);
 }
 
 .dashboard-back-btn i {
